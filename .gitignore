@@ -9,3 +9,8 @@ gfx/tags/*
 usermood.php
 faq.php
 gfx/status.php
+
+# Eclipse shit
+.buildpath
+.project
+.settings/
