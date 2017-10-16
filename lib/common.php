@@ -367,7 +367,6 @@ function pageheader($pagetitle = "", $fid = 0) {
           <td class=\"b\" width=\"100%\"><span style=\"float:right\">$feedicons$ssllnk</span>
             <a href=\"./\">Main</a>
           | <a href=\"faq.php\">FAQ</a>
-          " . (has_perm("use-uploader") ? " | <a href=\"./uploader\">Uploader</a>" : "") . "
           | <a href=\"irc.php\">IRC chat</a>
           | <a href=\"memberlist.php\">Memberlist</a>
           | <a href=\"activeusers.php\">Active users</a>
