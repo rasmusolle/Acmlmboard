@@ -288,7 +288,6 @@ if ($act == 'Edit profile') {
 				. setfield('fontsize') . ','
 				. setfield('theme') . ','
 				. setfield('blocklayouts') . ','
-				. ($config['spritesystem'] ? (setfield('blocksprites') . ',') : '')
 				. setfield('emailhide') . ','
 				. setfield('hidesmilies') . ','
 				. setfield('numbargfx') . ','
@@ -306,8 +305,6 @@ if ($act == 'Edit profile') {
 		);
 
 		/* if($loguser[redirtype]==0){ //Classical Redirect
-		  $loguser['blocksprites']=1;
-		  pageheader('Edit profile');
 		  print "<table cellspacing=\"0\" class=\"c1\">
 		  ".        "  <td class=\"b n1\" align=\"center\">
 		  ".        "    Profile changes saved!<br>
@@ -334,7 +331,6 @@ if ($act == 'Edit profile') {
 
 if ($act == 'Preview theme') {
 	/* if($loguser[redirtype]==0){ //Classical Redirect
-	  $loguser['blocksprites']=1;
 	  pageheader('Edit profile');
 	  print "<table cellspacing=\"0\" class=\"c1\">
 	  ".        "  <td class=\"b n1\" align=\"center\">
@@ -478,10 +474,7 @@ if (empty($act)) {
 " . fieldrow('Time format', fieldinput(15, 15, 'timeformat') . ' or preset: ' . fieldselect('presettime', 0, $timelist)) . "
 " . fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything'))) . "
 ";
-	if ($config['spritesystem'])
-		print"
-" . fieldrow('Sprites', fieldoption('blocksprites', $user['blocksprites'], array('Show them', 'Disable sprite layer'))) . "
-";
+
 	print"
 " . fieldrow('Smilies', fieldoption('hidesmilies', $user['hidesmilies'], array('Show smilies', 'Do not show smilies'))) . "
 " . fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email'))) . "

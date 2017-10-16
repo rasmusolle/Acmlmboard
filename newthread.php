@@ -426,7 +426,6 @@ else {
 
 
 /*if($loguser[redirtype]==0){ //Classic
-    $loguser['blocksprites']=1;
     pageheader("New $type",$forum[id]);
     print "$top - Submit
 ".        "<br><br>

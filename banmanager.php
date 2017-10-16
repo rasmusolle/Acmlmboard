@@ -63,7 +63,6 @@ if($_POST[banuser]=="Ban User") {
       $sql->query("UPDATE users SET tempbanned='".($_POST[tempbanned]>0?($_POST[tempbanned]+time()):0)."' WHERE id='$user[id]'");
 
                /*if($loguser[redirtype]==0){ //Classical Redirect
-$loguser['blocksprites']=1;
 pageheader('Ban User');
 print "<form action='banmanager.php?id=$uid' method='post'>
 ".        "<table cellspacing=\"0\" class=\"c1\">
@@ -88,7 +87,6 @@ error("Error", "This user is not a Banned User.<br> <a href=./>Back to main</a> 
       $sql->query("UPDATE users SET tempbanned='0' WHERE id='$user[id]'");
 
               /*if($loguser[redirtype]==0){ //Classical Redirect
-$loguser['blocksprites']=1;
 pageheader('Unban User');
 print "<form action='banmanager.php?id=$uid' method='post'>
 ".        "<table cellspacing=\"0\" class=\"c1\">

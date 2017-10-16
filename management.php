@@ -21,10 +21,6 @@ if (has_perm("edit-post-icons"))
   $mlinks[] = array('url' => "editposticons.php", 'title' => 'Manage post icons');
 if (has_perm('edit-profileext'))
   $mlinks[] = array('url' => "editprofileext.php", 'title' => 'Manage extended profile fields');
-if (has_perm("edit-sprites")) 
-  $mlinks[] = array('url' => "editsprites.php", 'title' => 'Manage sprites');
-if (has_perm("edit-sprites")) 
-  $mlinks[] = array('url' => "editspritecategories.php", 'title' => 'Manage sprite categories');
 if (has_perm("edit-badges")) 
   $mlinks[] = array('url' => "editbadges.php", 'title' => 'Manage badges');
 if (has_perm("edit-groups")) 

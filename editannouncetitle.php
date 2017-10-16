@@ -78,7 +78,6 @@ if(!$act){
     $sql->query("UPDATE threads SET title='$_POST[title]' WHERE id='$thread[id]'");
 
 /*if($loguser[redirtype]==0){ //Classical Redirect
-  $loguser['blocksprites']=1;
   pageheader('Edit announcement title',$thread[forum]);
     print "$top - Submit
 ".        "<br><br>

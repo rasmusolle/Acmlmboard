@@ -71,7 +71,6 @@ VALUES (
 ";
 	} else if ($act == 'Save and finish') {
         /*if($loguser[redirtype]==0){ //Classical Redirect
-       $loguser['blocksprites']=1;
 	pageheader('Post Radar');
 		print "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <td class=\"b n1\" align=\"center\">

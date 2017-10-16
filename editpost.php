@@ -242,7 +242,6 @@ print     "  <tr>
 
     }
 /*if($loguser[redirtype]==0){ //Classical Redirect
-  $loguser['blocksprites']=1;
   pageheader('Edit post',$thread[forum]);
     print "$top - Submit
 ".        "<br><br>
@@ -262,7 +261,7 @@ print     "  <tr>
       noticemsg("Error", "You do not have the permission to do this.");
     } else {
       $sql->query("UPDATE posts SET deleted=".($act=='delete'?1:0)." WHERE id='$pid'");
-  /*$loguser['blocksprites']=1;
+  /*
   pageheader('Edit post',$thread[forum]);
       print "$top - ".($act=='delete'?'Delete':'Undelete')." Post
 ".          "<br><br>

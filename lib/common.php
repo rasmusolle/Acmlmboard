@@ -35,8 +35,7 @@ if ($config['sqlconfig']) {
 
 	$config['memberlistcolorlinks'] = $configsql['memberlistcolorlinks']['intval'];
 	$config['badgesystem'] = $configsql['badgesystem']['intval'];
-	$config['spritesystem'] = $configsql['spritesystem']['intval'];
-
+	
 	$config['extendedprofile'] = $configsql['extendedprofile']['intval'];
 	$config['threadprevnext'] = $configsql['threadprevnext']['intval'];
 
@@ -88,8 +87,6 @@ if (!$log) {
 
 	if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 6.0") !== false)
 		$loguser['theme'] = "minerslament";
-
-	$loguser['blocksprites'] = 1;
 }
 
 $flocalmod = $sql->fetchq("SELECT `uid` FROM `forummods`");
@@ -324,8 +321,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$radar = build_postradar();
 	}
 
-	include("lib/sprites.php");
-
 	if ($log) {
 		$logbar = $loguser;
 		$logbar['showminipic'] = 1;
@@ -464,8 +459,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$userlinks[$ul++] = array('url' => "postradar.php", 'title' => 'Post radar');
 		if (has_perm("view-favorites"))
 			$userlinks[$ul++] = array('url' => "forum.php?fav", 'title' => 'Favorite threads');
-		if (has_perm("view-own-sprites"))
-			$userlinks[$ul++] = array('url' => "sprites.php", 'title' => 'My sprites');
 		if (has_perm("deleted-posts-tracker"))
 			$userlinks[$ul++] = array('url' => "thread.php?deletedposts", 'title' => 'Deleted posts tracker');
 		if (has_perm("update-own-moods"))

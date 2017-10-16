@@ -355,7 +355,6 @@ print       "<br>
 
 	  if($config['ircshopnotice']) sendirc("{irccolor-name}".get_irc_displayname()." {irccolor-base}is now equipped with {irccolor-title}$item[name]{irccolor-base}.");
               /*if($loguser[redirtype]==0){ //Classical Redirect
-  $loguser['blocksprites']=1;
   pageheader('Item shop');
           print
               "<table cellspacing=\"0\" class=\"c1\">
@@ -377,7 +376,6 @@ print       "<br>
                    ."WHERE id=$loguser[id]");
 
               /*if($loguser[redirtype]==0){ //Classical Redirect
-  $loguser['blocksprites']=1;
   pageheader('Item shop');
         print "<table cellspacing=\"0\" class=\"c1\">
 ".            "  <td class=\"b n1\" align=\"center\">

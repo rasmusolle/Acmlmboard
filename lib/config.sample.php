@@ -9,7 +9,6 @@
   $sqlhost='localhost';
   $sqluser='sqlusername';
 
-  $spritesalt='please change me!';
   $pwdsalt='Please change me!';
   $pwdsalt2='Addtional Salt. Please Change me!';
 
@@ -95,8 +94,7 @@
   $config['registrationpuzzle'] = true;
   //The following enables the optional badge system
   $config['badgesystem'] = false; //The badge system allows you to assign graphic 'badges' to users. They can be set to trigger board effects!
-  $config['spritesystem'] = true; //The sprite system allows users to catch graphic 'sprites' on the board. Collect them all!
-  
+
   $config['extendedprofile'] = false; //This feature allows for an unlimited about of profile fields in a user's profile *DO NOT USE EXPEREMENTAL*
 
   $config['threadprevnext'] = false; //Enables a set of links on thread pages that allows you to go to the next or previous 'new' thread.
