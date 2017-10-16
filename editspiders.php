@@ -11,7 +11,7 @@ require("lib/common.php");
   pageheader("Edit Spiders");
 
   $id = $r['id'];
-
+  
   if ($r['action'] == "del") {
     unset($r['action']);
         $bot=$sql->fetchp('SELECT * FROM robots WHERE bot_name=?',array($id));
