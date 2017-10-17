@@ -17,3 +17,7 @@ DELETE FROM `x_perm` WHERE `x_perm`.`id` = 40;
 DELETE FROM `x_perm` WHERE `x_perm`.`id` = 100;
 DELETE FROM `x_perm` WHERE `x_perm`.`id` = 133;
 DELETE FROM `x_perm` WHERE `x_perm`.`id` = 213;
+
+
+--- Post raderr rremoval
+DROP TABLE post_radar;

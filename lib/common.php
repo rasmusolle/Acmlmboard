@@ -318,10 +318,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 	}
 
 	if ($log) {
-		$radar = build_postradar();
-	}
-
-	if ($log) {
 		$logbar = $loguser;
 		$logbar['showminipic'] = 1;
 	}
@@ -455,8 +451,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 	if ($log) {
 		if (has_perm("update-own-profile"))
 			$userlinks[$ul++] = array('url' => "editprofile.php", 'title' => 'Edit profile');
-		if (has_perm("post-radar"))
-			$userlinks[$ul++] = array('url' => "postradar.php", 'title' => 'Post radar');
 		if (has_perm("view-favorites"))
 			$userlinks[$ul++] = array('url' => "forum.php?fav", 'title' => 'Favorite threads');
 		if (has_perm("deleted-posts-tracker"))
@@ -490,15 +484,6 @@ function pageheader($pagetitle = "", $fid = 0) {
                  <input type=\"hidden\" name=\"action\" value=\"logout\">
                  <input type=\"hidden\" name=\"p\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . ">
                </form>";
-	}
-
-	if (!empty($radar)) {
-		print " 
-             <tr>
-               <td class=\"b n1\" align=\"center\" colspan=3>
-                 $radar
-			  </td>
-			</tr>";
 	}
 
 	print "

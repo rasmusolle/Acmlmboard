@@ -86,7 +86,6 @@
 //".       tblinfo('announcements')."
 //".       tblinfo('forumread')."
 //".       tblinfo('userratings')."
-//".       tblinfo('postradar')."
 //".       tblinfo('favorites')."
 
   $users=0;

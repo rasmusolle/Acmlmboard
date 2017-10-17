@@ -16,7 +16,6 @@
   require 'lib/board.php';
   require 'lib/rpg.php';
   require 'lib/graphics.php';
-  require 'lib/post_radar.php';
   require 'lib/badges.php';
   require 'lib/irc.php';
   
