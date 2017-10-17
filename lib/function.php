@@ -13,10 +13,14 @@
   require 'lib/smilies.php';
   require 'lib/post.php';
   require 'lib/syndrome.php';
-  require 'lib/board.php';
   require 'lib/rpg.php';
   require 'lib/graphics.php';
   require 'lib/badges.php';
   require 'lib/irc.php';
   
+  // lib/board.php
+  function feedicon($icon,$para,$text="RSS feed"){
+  	return "<a href='$para'><img src='$icon' border='0' style='margin-right:5px' title='$text'></a>"
+  	."<link rel='alternate' type='application/rss+xml' title='$text' href='$para'>";
+  }
 ?>
