@@ -63,8 +63,6 @@
 ".        "    <td class=\"b\">".($user[lastpost]?cdate($dateformat,$user[lastpost]):'-')."</td>
 ".(has_perm('view-user-urls')?        
           "    <td class=\"b\" align=\"left\"><span style='float:right'>".sslicon($user[ssl],$user[id])."</span".($user[url]?"><a href=$user[url]>".str_replace(array("%20", "_")," ",$user[url])."</a>":'>-').($user['ipbanned'] ? " (IP banned)":"")."</td>":'')."
-".(has_perm("view-post-ips")?
-          "    <td class=\"b\">".flagip($user[ip])."</td>":'')."
 ".        "    <td class=\"b\">$user[posts]</td>
 ";
   }
