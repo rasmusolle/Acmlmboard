@@ -44,7 +44,7 @@
                       ."WHERE p.id=$pid AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce>=1))");
 
   if (!$thread) $pid = 0;
-if($act!="Submit"){ //Classical Redirect
+if($act!="Submit"){
   echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
 }
   $toolbar= posttoolbar();
@@ -241,19 +241,9 @@ print     "  <tr>
     sendirc("{irccolor-base}Post edited by {irccolor-name}".get_irc_displayname()."{irccolor-url} ({irccolor-title}$thread[ftitle]{irccolor-url}: {irccolor-name}$thread[title]{irccolor-url} ({irccolor-base}\x02\x02$thread[id]{irccolor-url})){irccolor-base} - {irccolor-url}{boardurl}?p=$pid{irccolor-base}",$chan);
 
     }
-/*if($loguser[redirtype]==0){ //Classical Redirect
-  pageheader('Edit post',$thread[forum]);
-    print "$top - Submit
-".        "<br><br>
-".        "<table cellspacing=\"0\" class=\"c1\">
-".        "  <td class=\"b n1\" align=\"center\">
-".        "    Post edited!<br>
-".        "    ".redirect("thread.php?pid=$pid#$pid",htmlval($thread[title]))."
-".        "</table>
-";
-} else { //Modern redirect*/
+
   redirect("thread.php?pid=$pid#edit","-1");
-//}
+
   }elseif($act=='delete' ||$act=='undelete'){
     if(!(can_delete_forum_posts($thread[forum]))) {
   pageheader('Edit post',$thread[forum]);

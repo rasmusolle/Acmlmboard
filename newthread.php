@@ -425,19 +425,8 @@ else {
 }
 
 
-/*if($loguser[redirtype]==0){ //Classic
-    pageheader("New $type",$forum[id]);
-    print "$top - Submit
-".        "<br><br>
-".        "<table cellspacing=\"0\" class=\"c1\">
-".        "  <td class=\"b n1\" align=\"center\">
-".        "  $bonus
-".        "    ".redirect($viewlink,"the $type")."
-".        "</table>
-";
-} else { //Modern*/
+
   redirect($viewlink,$c);
-//}
   }
 
   pagefooter();

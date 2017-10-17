@@ -354,18 +354,8 @@ print       "<br>
                      ."WHERE id=$loguser[id]");
 
 	  if($config['ircshopnotice']) sendirc("{irccolor-name}".get_irc_displayname()." {irccolor-base}is now equipped with {irccolor-title}$item[name]{irccolor-base}.");
-              /*if($loguser[redirtype]==0){ //Classical Redirect
-  pageheader('Item shop');
-          print
-              "<table cellspacing=\"0\" class=\"c1\">
-".            "  <td class=\"b n1\" align=\"center\">
-".            "    The $item[name] has been bought and equipped!<br>
-".            "    ".redirect('shop.php','the shop')."
-".            "</table>
-";
-             } else { //Modern redirect*/
+
                   redirect("shop.php",-2);
-             //}
         }
       break;
       case 'sell':
@@ -375,17 +365,8 @@ print       "<br>
                    ."SET eq$cat=0, spent=spent-$pitem[coins]*0.6 "
                    ."WHERE id=$loguser[id]");
 
-              /*if($loguser[redirtype]==0){ //Classical Redirect
-  pageheader('Item shop');
-        print "<table cellspacing=\"0\" class=\"c1\">
-".            "  <td class=\"b n1\" align=\"center\">
-".            "    The $pitem[name] has been unequipped and sold.<br>
-".            "    ".redirect('shop.php','the shop')."
-".            "</table>
-";
-             } else { //Modern redirect*/
                   redirect("shop.php",-1);
-             //}
+
       break;
       default:
     }

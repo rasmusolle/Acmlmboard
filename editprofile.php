@@ -230,7 +230,7 @@ if ($act == 'Edit profile') {
 					. " WHERE `id` = $user[id]"
 			);
 
-		  $banreason = ””;
+			$banreason = ””;
 		  if($_POST['title']) $banreason = "`title` = 'Banned permanently: {$_POST['title']}', ";
 		  else $banreason = "`title` = 'Banned permanently', ";
 
@@ -304,16 +304,8 @@ if ($act == 'Edit profile') {
 				. "WHERE `id`=$user[id]"
 		);
 
-		/* if($loguser[redirtype]==0){ //Classical Redirect
-		  print "<table cellspacing=\"0\" class=\"c1\">
-		  ".        "  <td class=\"b n1\" align=\"center\">
-		  ".        "    Profile changes saved!<br>
-		  ".        "    ".redirect("profile.php?id=$user[id]",'the updated profile')."
-		  ".        "</table>
-		  ";
-		  } else { //Modern redirect */
 		redirect("profile.php?id=$user[id]", "Profile was edited successfully.");
-		//}
+
 		if ($config['log'] >= '1')
 			$sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'" . $_SERVER['REMOTE_ADDR'] . "','$loguser[id]','ACTION: " . addslashes("user edit " . $targetuserid) . "')");
 
@@ -330,17 +322,7 @@ if ($act == 'Edit profile') {
 }
 
 if ($act == 'Preview theme') {
-	/* if($loguser[redirtype]==0){ //Classical Redirect
-	  pageheader('Edit profile');
-	  print "<table cellspacing=\"0\" class=\"c1\">
-	  ".        "  <td class=\"b n1\" align=\"center\">
-	  ".        "    The theme will be previewed<br>
-	  ".        "    ".redirect("/?theme=$_POST[theme]",'the theme preview')."
-	  ".        "</table>
-	  ";
-	  } else { //Modern redirect */
 	redirect("/index.php?theme={$_POST['theme']}", 0);
-	//}
 	die(pagefooter());
 }
 

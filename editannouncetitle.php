@@ -76,20 +76,7 @@ if(!$act){
 ";
   }elseif($act=='Submit'){
     $sql->query("UPDATE threads SET title='$_POST[title]' WHERE id='$thread[id]'");
-
-/*if($loguser[redirtype]==0){ //Classical Redirect
-  pageheader('Edit announcement title',$thread[forum]);
-    print "$top - Submit
-".        "<br><br>
-".        "<table cellspacing=\"0\" class=\"c1\">
-".        "  <td class=\"b n1\" align=\"center\">
-".        "    Announcement title edited!<br>
-".        "    ".redirect("thread.php?pid=$pid#$pid",htmlval($thread[title]))."
-".        "</table>
-";
-} else { //Modern redirect*/
-  redirect("thread.php?pid=$pid#edit","-1");
-//}
+    redirect("thread.php?pid=$pid#edit","-1");
   }
 
   pagefooter();

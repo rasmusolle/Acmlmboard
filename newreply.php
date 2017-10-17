@@ -287,19 +287,7 @@ if ($err) {
 
 	sendirc("{irccolor-base}New reply by {irccolor-name}" . get_irc_displayname() . "{irccolor-url} ({irccolor-title}$thread[ftitle]{irccolor-url}: {irccolor-name}$thread[title]{irccolor-url} ({irccolor-base}\x02\x02$tid{irccolor-url}) ({irccolor-base}+$c{irccolor-url})){irccolor-base} - {irccolor-url}{boardurl}?p=$pid{irccolor-base}", $chan);
 
-	/* if($loguser[redirtype]==0){ //Classical Redirect
-	  pageheader('New reply',$thread[forum]);
-	  print "$top - Submit
-	  ".        "<br><br>
-	  ".        "<table cellspacing=\"0\" class=\"c1\">
-	  ".        "  <td class=\"b n1\" align=\"center\">
-	  ".        "    Posted! (Gained $c bonus coins)<br>
-	  ".        "    ".redirect("thread.php?pid=$pid#$pid",htmlval($thread[title]))."
-	  ".        "</table>
-	  ";
-	  } else { //Modern redirect */
 	redirect("thread.php?pid=$pid#$pid", $c);
-//}
 }
 
 if ($act != 'Submit' && !$err && can_view_forum($thread)) {
