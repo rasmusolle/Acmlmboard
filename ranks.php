@@ -77,17 +77,6 @@ if($_COOKIE['pstbon']==1){
      $sql->prepare("DELETE FROM ranksets WHERE id=?",array($getrankset));
      redirect("ranks.php", 3); }
 
-
-   if (has_perm("view-allranks") || has_perm("edit-ranks"))
-    {
-     $linktoggle = "1\">View";
-    if ($_GET['viewall'] == 1)
-     {
-      $blockunknown = false;
-      $linktoggle = "0\">Hide";
-     }
-     $linkviewall = " | <a href=\"ranks.php?rankset=$getrankset&viewall=$linktoggle All Hidden</a>";
-    }
     $editlinks = "";
    if (has_perm("edit-ranks"))
     {
@@ -174,7 +163,7 @@ print "<form action='ranks.php?action=editrankset&rankset=$getrankset' method='p
                      <td class=\"b n1\" width=\"50%\">Rank Set</td>
                    </tr>
                    <tr class=\"n1\">
-                     <td class=\"b n1\">$rankselection$inaclnk$linkviewall$editlinks</td>
+                     <td class=\"b n1\">$rankselection$inaclnk$editlinks</td>
                    </tr>
                  </table>
                </td>
