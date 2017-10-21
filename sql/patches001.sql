@@ -21,3 +21,10 @@ DELETE FROM `x_perm` WHERE `x_perm`.`id` = 213;
 
 --- Post raderr rremoval
 DROP TABLE post_radar;
+
+
+--- Kirby and Zelda rankset removals.
+DELETE FROM `ranksets` WHERE `ranksets`.`id` = 2;
+DELETE FROM `ranks` WHERE `ranks`.`rs` = 2;
+DELETE FROM `ranksets` WHERE `ranksets`.`id` = 3;
+DELETE FROM `ranks` WHERE `ranks`.`rs` = 3;
