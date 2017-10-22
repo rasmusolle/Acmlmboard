@@ -34,12 +34,11 @@ switch($action) {
 			$response_data['result'] = 'error';
 			$response_data['message'] = 'No users found';
 		}
-		break;
-		
+	break;	
 	default:
 		$response_data['result'] = 'error';
 		$response_data['message'] = 'Invalid action specified.';
-		break;
+	break;
 }
 
 header('Content-type: application/json');
