@@ -1,7 +1,7 @@
 <?php
 
-require 'lib/function.php';
-require 'lib/login.php';
+require('lib/function.php');
+require('lib/login.php');
 
 $ret = -1;
 if ($log) {
@@ -22,4 +22,5 @@ if ($log) {
 	}
 }
 echo $ret;
+
 ?>
