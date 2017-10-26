@@ -26,8 +26,7 @@ function ipmatch($mask, $ip) {
 	$pos = strpos($mask, "*");
 	if ($pos === false) {
 		$pos = strlen($mask);
-		if (strlen($ip) > $pos)
-			return false;
+		if (strlen($ip) > $pos) return false;
 	}
 	$mask = substr($mask, 0, strpos($mask, "*"));
 	if ($mask == substr($ip, 0, $pos))
@@ -41,15 +40,13 @@ function unpacklcookie($pass) {
 	$p1 = explode(".", $pa[0]);
 	$p2 = explode(".", $_SERVER['REMOTE_ADDR']);
 	if (!strlen($pa[2]) && (!($p1[0] == $p2[0] && $p1[1] == $p2[1]))) {
-		// old-style lcookie, no /16 match
 		return "";
 	} else if (!strlen($pa[2])) {
 		return $pa[1];
 	}
 	$i = 2;
 	while (strlen($pa[$i])) {
-		if (ipmatch($pa[$i], $_SERVER['REMOTE_ADDR']))
-			return $pa[1];
+		if (ipmatch($pa[$i], $_SERVER['REMOTE_ADDR'])) return $pa[1];
 		++$i;
 	}
 	return "";

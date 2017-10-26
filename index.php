@@ -160,7 +160,6 @@ while ($forum = $sql->fetch($forums)) {
 			$modstring.=userlink($mod) . ", ";
 	if ($modstring)
 		$modstring = "<br>(moderated by: " . substr($modstring, 0, -2) . ")";
-//    else $modstring="<p>&nbsp;</p>";
 	print
 			"  <tr align=\"center\">
 " . "    <td class=\"b n1\">$status</td>

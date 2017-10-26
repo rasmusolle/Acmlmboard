@@ -3,12 +3,12 @@
 
 require("lib/common.php");
 
-  $r = request_variables(array('id', 'uid', 'action','act'));
-  $pagebar = array();
-  checknumeric($r['id']);
-  checknumeric($r['uid']);
+$r = request_variables(array('id', 'uid', 'action','act'));
+$pagebar = array();
+checknumeric($r['id']);
+checknumeric($r['uid']);
 
-  pageheader("Assign Secondary Groups");
+pageheader("Assign Secondary Groups");
 
   if(!has_perm('assign-secondary-groups')) { noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>"); pagefooter(); die(); }
   if($r['action'] == "edit") noperm(); // Poormans bypass - Needs to be properly retooled

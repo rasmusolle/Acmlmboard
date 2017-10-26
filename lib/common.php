@@ -65,7 +65,7 @@ if ($a['intval']) {
 	//lock down
 	if (has_perm('bypass-lockdown'))
 		print "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
-	else { //Everyone else gets the wonderful lockdown page.
+	else {
 		include "lib/locked.php";
 		die();
 	}
