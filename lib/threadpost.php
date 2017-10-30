@@ -27,11 +27,14 @@ function threadpost($post, $type, $pthread = '') {
 	
 	$exp = calcexp($post['uposts'], (ctime() - $post['uregdate']) / 86400);
 
+	$post['head'] = '';
 	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);
 	$post['uhead'] = str_replace("<!--", "&lt;!--", $post['uhead']);
 
-	$post['text'] = $post['head'] . $post['text'] . $signsep[$loguser['signsep']] . $post['sign'];
-
+	if (isset($post['sign']))
+		$post['text'] = $post['head'] . $post['text'] . $signsep[$loguser['signsep']] . $post['sign'];
+	else
+		$post['text'] = $post['head'] . $post['text'];
 	//This allows config level enable or disable of syndromes.
 	if ($syndromenable == 1)
 		$actsyn = @$sql->result($sql->query("SELECT COUNT(*) num FROM posts WHERE user=" . $post['uid'] . " AND date>" . (ctime() - 86400)), 0, 0);
@@ -55,7 +58,7 @@ function threadpost($post, $type, $pthread = '') {
 	//if($post[nolayout]) {
 	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts), per-post ($post[nolayout]) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
-	$isBlocked = $blocklayouts[$post['uid']] || $post['nolayout'] || $loguser['blocklayouts'];
+	$isBlocked = $post['nolayout'] || $loguser['blocklayouts'];
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
 	//}
@@ -103,7 +106,7 @@ function threadpost($post, $type, $pthread = '') {
 				$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
 
 			// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
-			if ($post['isannounce']) {
+			if (isset($post['isannounce'])) {
 				$postheaderrow = "<tr class=\"h\">
                <td class=\"b\" colspan=2>" . $post['ttitle'] . "</td>
              </tr>
@@ -116,7 +119,7 @@ function threadpost($post, $type, $pthread = '') {
 			if (can_edit_post($post) && $post['id'])
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-			if (can_edit_post($post) && $post['id'] && $post['isannounce'])
+			if (can_edit_post($post) && $post['id'] && isset($post['isannounce']))
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editannouncetitle.php?pid=$post[id]\">Edit Title</a>";
 
 			if ($post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))

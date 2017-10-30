@@ -748,11 +748,11 @@ print "$modlinks
 " . "$poll
 ";
 while ($post = $sql->fetch($posts)) {
-	if ($post['fid']) {
+	if (isset($post['fid'])) {
 		if (!can_view_forum(array('id' => $post['fid'], 'private' => $post['fprivate'])))
 			continue;
 	}
-	if ($uid || $timeval) {
+	if (isset($uid) || $timeval) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
 	}
@@ -764,12 +764,14 @@ while ($post = $sql->fetch($posts)) {
 	if (can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 	
-	if ($post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
-		print $rdmsg;
+	if (isset($_REQUEST['pid'])) {
+		if ($post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
+			print $rdmsg;
+		}
 	}
 
 	print "<br>
-" . threadpost($post, 0, $pthread);
+" . threadpost($post, 0);
 }
 
 
