@@ -167,6 +167,7 @@ function rendernewstatus($type, $newcount = '0') {
 	$status = "<div style='line-height:75%;padding: 0;'><img src=\"$imagepath$statusimg\" alt=\"$text\"><br/>";
 	if ($newcount > '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
+			$imgstrings = '';
 			$image = $newcount[$i];
 			$imgstrings.="<img src='$imagepath" . $image . ".png' alt='" . $newcount[$i] . "'/>";
 		}
