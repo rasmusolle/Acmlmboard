@@ -5,7 +5,7 @@ pageheader('Active users');
 if (isset($_GET['time'])) {
 	$time = $_GET['time'];
 } else {
-	$time = $_GET['time'];
+	$time = 86400;
 }
   
 checknumeric($time);
@@ -41,7 +41,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	print "<tr class=\"$tr\" align=\"center\">
 	".      "<td class=\"b\">$i.</td>
 	".      "<td class=\"b\" align=\"left\">".userlink($user)."</td>
-	".      "<td class=\"b\">".cdate($dateformat,$user[regdate])."</td>
+	".      "<td class=\"b\">".cdate($dateformat,$user['regdate'])."</td>
 	".      "<td class=\"b\"><b>$user[num]</b></td>
 	".      "<td class=\"b\">$user[posts]</b></td>";
     $j++;
