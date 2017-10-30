@@ -346,7 +346,7 @@ function pageheader($pagetitle = "", $fid = 0) {
       <link href=\"lib/prettify/sunburst.css\" type=\"text/css\" rel=\"stylesheet\" />
       <script type=\"text/javascript\" src=\"lib/prettify/prettify.js\"></script>
       </head>
-      <body style=\"font-size:$loguser[fontsize]%\" onload=\"prettyPrint()\">$dongs
+      <body style=\"font-size:$loguser[fontsize]%\" onload=\"prettyPrint()\">
       <table cellspacing=\"0\" class=\"c1\">
         <tr class=\"nt n2\" align=\"center\">
         <td class=\"b n1\" align=\"center\" colspan=\"3\">$boardlogo</td>
