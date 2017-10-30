@@ -179,21 +179,16 @@ $post['nolayout'] = 0;
 $post['nosmilies'] = 0;
 $post['thread'] = -1;
 
-$post['text'] = "[quote=\"Emuz\" id=\"2\"]<a href=\"/#fakelink\">[b]The[/b] sample link.</a> [quote=\"Acmlm\" id=\"1\"][quote=\"Shroomy\"]Sample nested quote.[/quote][spoiler]Sample spoiler, but I guess I ruined that for you hehe[/spoiler][/quote]^Sample [u]sarcasm[/u][/quote]
-How about some code: 
-[code]<?php
-if (\$whateverthislongstupidvariable == \$anotherstupidlylongnamedvariable) //Scrydan was here.... 
-{
-   print \"Sample code.\"; #oops you just missed him!
-}
-?>[/code]
-[i]Sample[/i] message.";
-
-/* "[quote=nobody in particular]".
-  "[quote=somebody else](<a href=http://en.wikipedia.org/wiki/Example>sample</a> quote)".
-  "[quote=William Shakespeare]".
-  "<a href=http://en.wikipedia.org/wiki/Bracket>(</a>sample quote<a href=http://en.wikipedia.org/wiki/Bracket>)</a>[/quote][/quote]".
-  "(sample <a href=http://en.wikipedia.org/wiki/Quote>quote</a>)[/quote](sample <a href=http://en.wikipedia.org/wiki/Text>text</a>)"; */
+$post['text'] = "[b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.
+				[quote=Needle][quote=Coiny]Hey Needy![/quote]Don't call me Needy![/quote]
+				[code]if (1 == 1) {
+					echo \"The world isn't broken.\";
+				} else {
+					echo \"Something is very wrong.\";
+				}[/code]
+				Sample IRC quote: [irc]<Needle> I ship it like FedEx![/irc]
+				[url=http://bfdi.tv]Test Link. I wonder what anime this links to?[/url]
+				";
 
 foreach ($user as $field => $val) {
 	$post['u' . $field] = $val;
