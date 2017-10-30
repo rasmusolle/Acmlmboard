@@ -13,7 +13,7 @@ $network = "irc.changeme.invalid";
 		<td class="b n2" align="center">
 			Please download an IRC client to join.<br>
 			<a href="https://hexchat.github.io">How about HexChat?</a><br>
-			When you've downloaded it, please connect to <?php print $channel; ?> at <?php echo $network; ?>
+			When you've downloaded it, connect to <?php print $channel; ?> at <?php echo $network; ?>
 		</td>
 	</tr>
 </table>
