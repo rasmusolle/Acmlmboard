@@ -12,12 +12,12 @@ a:link, a:visited, a:active, a:hover {
 	font-weight: bold;
 }
 body {
-	background-color: #000000;
+	background-color: #808080;
 	font-family: Consolas, Arial, sans-serif;
 }
 body, table {
 	color: #28DF10;
-	font-size: 11px;
+	font-size: 1em;
 }
 table.c1, table.c2 {
   width: 100%;

@@ -678,14 +678,8 @@ function pageheader($pagetitle = "", $fid = 0) {
 function pagestats() {
 	global $start, $sql;
 	$time = usectime() - $start;
-	print "<br>
-           <table cellspacing=\"0\" class=\"c2\">
-             <td class=\"b n1\">
-               <center>
-                 " . sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
-                 MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>
-               </center>
-           </table>";
+	print sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
+          MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }
 
 function miscbar() {
@@ -717,20 +711,21 @@ function error($name, $msg) {
 function pagefooter() {
 	//Used for Affiliates, buttons, links, and navigational tools -Emuz
 	global  $abversion, $abdate, $boardprog;
-	//pagestats();
 
-	echo "<br>
-	<table cellspacing=\"0\" class=\"c2\">
-		<tr align=\"center\">
-			<td class=\"b n2\" align=\"center\"><a href=\"https://bitbucket.org/acmlmboard/acmlmboard-2\" title=\"Acmlmboard 2\"><img src=\"img/poweredbyacmlm.PNG\"></a><br />
-				Acmlmboard v$abversion ($abdate)<br />
-				&copy; 2005-2015 $boardprog
+	?><br>
+	<table class="c2">
+		<tr>
+			<td class="left b n2">
+  				<span style="float:right; text-align:right;">
+  					<?php pagestats(); ?>
+				</span>
+				<a href="http://github.com/rasmusolle/acmlmboard"><img src="img/poweredbyacmlm.png" title="Acmlmboard 2" style="float:left; margin-right:4px;"></a>
+				Acmlmboard v<?php echo $abversion . ' (' . $abdate . ')'; ?><br>
+				&copy; 2005-2015 <?php echo $boardprog; ?>
 			</td>
 		</tr>
-	</table>";
-	
-	pagestats();
-	//miscbar();
+	</table>
+	<?php
 }
 
 ?>
