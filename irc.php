@@ -6,7 +6,7 @@ $channel = "#changeme";
 $network = "irc.changeme.invalid";
 
 ?>
-<table cellspacing="0" class="c1">
+<table class="c1">
 	<tr class="h">
 		<td class="b h">IRC</td>
 	<tr>
@@ -18,7 +18,7 @@ $network = "irc.changeme.invalid";
 	</tr>
 </table>
 <br>
-<table cellspacing="0" class="c1">
+<table class="c1">
 	<tr class="h">
 		<td class="b h">Quick Help - Commands</td>
 	<tr>
