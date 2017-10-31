@@ -370,6 +370,7 @@ if ($viewmode == "thread") {
 			. "LEFT JOIN categories c ON c.id=f.cat "
 			. "WHERE p.date>$mintime "
 	);
+	echo 'e';
 } elseif (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log) {
 
 	pageheader("Deleted Posts Tracker");
@@ -778,7 +779,7 @@ while ($post = $sql->fetch($posts)) {
 print "$pagelist$pagebr
 " . "<br>";
 
-if ($thread['id'] && can_create_forum_post($faccess) && !$thread['closed']) {
+if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
 	$toolbar = posttoolbar();
 
