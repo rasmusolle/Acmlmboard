@@ -153,13 +153,6 @@ CREATE TABLE `dailystats` (
   `views` int(11) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `dailystats`
---
-
-INSERT INTO `dailystats` (`date`, `users`, `threads`, `posts`, `views`) VALUES
-('10-14-17', 1, 0, 0, 35);
-
 -- --------------------------------------------------------
 
 --
@@ -321,13 +314,6 @@ CREATE TABLE `guests` (
   `lastforum` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `guests`
---
-
-INSERT INTO `guests` (`date`, `ip`, `url`, `ipbanned`, `useragent`, `bot`, `lastforum`) VALUES
-(1507998199, '127.0.0.1', '/Acmlmboard/index.php', 0, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -338,15 +324,6 @@ CREATE TABLE `hourlyviews` (
   `hour` mediumint(9) NOT NULL,
   `views` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `hourlyviews`
---
-
-INSERT INTO `hourlyviews` (`hour`, `views`) VALUES
-(418886, 3),
-(418887, 23),
-(418888, 9);
 
 -- --------------------------------------------------------
 
@@ -490,14 +467,14 @@ CREATE TABLE `misc` (
 --
 
 INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
-('views', 35, '', '0'),
+('views', 0, '', '0'),
 ('maxpostsday', 0, '', '0'),
 ('maxpostsdaydate', 0, '', '0'),
 ('maxpostshour', 0, '', '0'),
 ('maxpostshourdate', 0, '', '0'),
-('maxusers', 1, '', '0'),
-('maxusersdate', 1507998183, '', '0'),
-('maxuserstext', 0, '<a href="profile.php?id=1"><span  style=\'color:#AA3C3C;\'>admin</span></a>', '0'),
+('maxusers', 0, '', '0'),
+('maxusersdate', 0, '', '0'),
+('maxuserstext', 0, '', '0'),
 ('botviews', 0, '', '0'),
 ('lockdown', 0, '', '0'),
 ('attention', 0, '', '0'),
@@ -1192,47 +1169,6 @@ CREATE TABLE `ref` (
   `userid` int(11) NOT NULL,
   `ipaddr` varchar(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `ref`
---
-
-INSERT INTO `ref` (`time`, `urlfrom`, `urlto`, `userid`, `ipaddr`) VALUES
-(1507992264, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507992265, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507993126, 'http://127.0.0.1/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507993258, 'http://127.0.0.1/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507993362, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/login.php', 0, '127.0.0.1'),
-(1507993365, 'http://127.0.0.1/Acmlmboard/login.php', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507993366, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/faq.php', 0, '127.0.0.1'),
-(1507993381, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507993848, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507994025, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507994168, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507994170, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/activeusers.php', 0, '127.0.0.1'),
-(1507994174, 'http://127.0.0.1/Acmlmboard/activeusers.php', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507994195, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/register.php', 0, '127.0.0.1'),
-(1507994239, 'http://127.0.0.1/Acmlmboard/register.php', '/Acmlmboard/register.php', 0, '127.0.0.1'),
-(1507994275, 'http://127.0.0.1/Acmlmboard/register.php', '/Acmlmboard/register.php', 0, '127.0.0.1'),
-(1507994275, 'http://127.0.0.1/Acmlmboard/register.php', '/Acmlmboard/login.php', 0, '127.0.0.1'),
-(1507994278, 'http://127.0.0.1/Acmlmboard/login.php', '/Acmlmboard/index.php', 0, '127.0.0.1'),
-(1507994284, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/profile.php?id=', 0, '127.0.0.1'),
-(1507994286, 'http://127.0.0.1/Acmlmboard/profile.php?id=', '/Acmlmboard/login.php', 0, '127.0.0.1'),
-(1507994310, 'http://127.0.0.1/Acmlmboard/login.php', '/Acmlmboard/login.php', 0, '127.0.0.1'),
-(1507994311, 'http://127.0.0.1/Acmlmboard/login.php', '/Acmlmboard/index.php', 1, '127.0.0.1'),
-(1507994319, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/editprofile.php', 1, '127.0.0.1'),
-(1507995185, 'http://127.0.0.1/Acmlmboard/editprofile.php', '/Acmlmboard/index.php', 1, '127.0.0.1'),
-(1507996511, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/faq.php', 1, '127.0.0.1'),
-(1507996549, 'http://127.0.0.1/Acmlmboard/faq.php', '/Acmlmboard/index.php', 1, '127.0.0.1'),
-(1507998183, 'http://127.0.0.1/Acmlmboard/faq.php', '/Acmlmboard/index.php', 1, '127.0.0.1'),
-(1507998186, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/profile.php?id=1', 1, '127.0.0.1'),
-(1507998188, 'http://127.0.0.1/Acmlmboard/profile.php?id=1', '/Acmlmboard/index.php', 1, '127.0.0.1'),
-(1507998191, 'http://127.0.0.1/Acmlmboard/', '/Acmlmboard/faq.php', 1, '127.0.0.1'),
-(1507998192, 'http://127.0.0.1/Acmlmboard/faq.php', '/Acmlmboard/irc.php', 1, '127.0.0.1'),
-(1507998193, 'http://127.0.0.1/Acmlmboard/irc.php', '/Acmlmboard/memberlist.php', 1, '127.0.0.1'),
-(1507998194, 'http://127.0.0.1/Acmlmboard/memberlist.php', '/Acmlmboard/activeusers.php', 1, '127.0.0.1'),
-(1507998199, 'http://127.0.0.1/Acmlmboard/activeusers.php', '/Acmlmboard/login.php', 1, '127.0.0.1'),
-(1507998199, 'http://127.0.0.1/Acmlmboard/activeusers.php', '/Acmlmboard/index.php', 0, '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -2025,13 +1961,6 @@ CREATE TABLE `users` (
   `posttoolbar` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `users`
---
-
-INSERT INTO `users` (`id`, `name`, `displayname`, `pass`, `posts`, `threads`, `regdate`, `lastpost`, `lastview`, `lastforum`, `ip`, `ipfwd`, `url`, `ipbanned`, `pmblocked`, `tempbanned`, `canreport`, `renamethread`, `sex`, `power`, `tzoff`, `dateformat`, `timeformat`, `ppp`, `tpp`, `longpages`, `fontsize`, `theme`, `birth`, `rankset`, `title`, `realname`, `location`, `email`, `homeurl`, `homename`, `usepic`, `head`, `sign`, `signsep`, `bio`, `minipic`, `etc`, `group_id`, `nick_color`, `enablecolor`, `hidden`, `blocklayouts`, `blocksprites`, `hidesmilies`, `timezone`, `hidequickreply`, `adinfo`, `redirtype`, `emailhide`, `showlevelbar`, `numbargfx`, `posttoolbar`) VALUES
-(1, 'admin', '', '66170fc2be0bd636035a8f674dcf3886', 0, 0, 1507994275, 0, 1507998199, 0, '127.0.0.1', '', '/Acmlmboard/login.php', 0, 0, 0, 1, 1, 2, 0, 0, 'm-d-y', 'h:i A', 20, 20, 0, 70, 'abxd', '-1', 1, '', '', '', '', '', '', 0, '', '', 0, '', '', 0, 6, '', 0, 0, 0, 0, 0, 'UTC', 0, '', 0, 0, 0, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -2055,13 +1984,6 @@ CREATE TABLE `usersrpg` (
   `hp` mediumint(8) NOT NULL DEFAULT '0',
   `mp` mediumint(8) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `usersrpg`
---
-
-INSERT INTO `usersrpg` (`id`, `spent`, `gcoins`, `eq1`, `eq2`, `eq3`, `eq4`, `eq5`, `eq6`, `lastact`, `room`, `side`, `ready`, `hp`, `mp`) VALUES
-(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2120,47 +2042,6 @@ CREATE TABLE `views` (
   `user` mediumint(9) NOT NULL,
   `time` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `views`
---
-
-INSERT INTO `views` (`view`, `user`, `time`) VALUES
-(1, 0, 1507992264),
-(2, 0, 1507992265),
-(3, 0, 1507993126),
-(4, 0, 1507993258),
-(5, 0, 1507993362),
-(6, 0, 1507993365),
-(7, 0, 1507993366),
-(8, 0, 1507993381),
-(9, 0, 1507993848),
-(10, 0, 1507994025),
-(11, 0, 1507994168),
-(12, 0, 1507994170),
-(13, 0, 1507994174),
-(14, 0, 1507994195),
-(15, 0, 1507994239),
-(16, 0, 1507994275),
-(17, 0, 1507994275),
-(18, 0, 1507994278),
-(19, 0, 1507994284),
-(20, 0, 1507994286),
-(21, 0, 1507994310),
-(22, 1, 1507994311),
-(23, 1, 1507994319),
-(24, 1, 1507995185),
-(25, 1, 1507996511),
-(26, 1, 1507996549),
-(27, 1, 1507998183),
-(28, 1, 1507998186),
-(29, 1, 1507998188),
-(30, 1, 1507998191),
-(31, 1, 1507998192),
-(32, 1, 1507998193),
-(33, 1, 1507998194),
-(34, 1, 1507998199),
-(35, 0, 1507998199);
 
 -- --------------------------------------------------------
 
@@ -2862,7 +2743,7 @@ ALTER TABLE `timezones`
 -- AUTO_INCREMENT för tabell `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT för tabell `user_badges`
 --
