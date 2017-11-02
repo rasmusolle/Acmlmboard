@@ -1,6 +1,4 @@
 -- Random shit episode 001
--- Featuring:
--- - Sprite removal
 
 -- sPrItE rEmOvAl
 DROP TABLE spritecateg;
@@ -28,3 +26,11 @@ DELETE FROM `ranksets` WHERE `ranksets`.`id` = 2;
 DELETE FROM `ranks` WHERE `ranks`.`rs` = 2;
 DELETE FROM `ranksets` WHERE `ranksets`.`id` = 3;
 DELETE FROM `ranks` WHERE `ranks`.`rs` = 3;
+
+
+-- Remove IRC reporting.
+DROP TABLE annoucenickprefix;
+DROP TABLE announcechans;
+ALTER TABLE `forums` DROP `announcechan_id`;
+ALTER TABLE `group` DROP `char`;
+ALTER TABLE `group` DROP `irc_color`;

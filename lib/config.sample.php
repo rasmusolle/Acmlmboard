@@ -112,30 +112,6 @@
   $config['alwaysshowlvlbar'] = false; //Enable this to always show the exp bar. This allows you to use it without having to have the rest of the system.
   $config['rpglvlbarwidth'] = 96; // Set the size of the exp bar. Acmlmboard 1.x has a default of 56. 
 
-  //This section configures the board's interaction with an IRC bot.
-  //You will need to build an interface to your board (see send_to_ircbot() below)
-  $config['enableirc'] = false; //Enable to send messages to IRC 
-  $config['ircbase'] = "http://".$config['address']."".$config['path'];
-  $config['staffchan'] = '#staffchangoeshere PASSWORD';
-  $config['pubchan'] = '#pubchangoeshere PASSWORD';
-  $config['ircnickprefix'] = true; //Use an IRC prefix when sending messages to the IRC channel.
-  $config['ircnickcolor'] = false; //Use the nick color for the whole nick on IRC.
-  $config['ircnicksex'] = false; //Use a Color to reflect each user's Sex Color. N/A Defaults nothing.
-
-//IRC Color Defines. Color code numbers, and color names work here.
-  $irccolor['base'] = "grey"; //default color for the irc output.
-  $irccolor['name'] = "lt_green"; //used most often for usernames and other things that need emphasis.
-  $irccolor['title'] = "orange"; // used for thread titles
-  $irccolor['url'] = "green"; //used for URLs and for some accents
-
-  $irccolor['yes'] = "green"; //used where you want a clear color for yes/on/good/etc
-  $irccolor['no'] = "red"; //used where you want a clear color for no/off/bad/etc
-  $irccolor['male'] = "lt_blue"; //Male Nick Color
-  $irccolor['female'] = "pink"; //Female Nick Color
-
-//IRC Message Definitions
-  $config['ircshopnotice'] = false; //enables the option to print on your main irc channel anytime someone equips an item
-
 //The following are optional values you can change to personalize your board
   $config['atnname']  = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
 
@@ -163,12 +139,4 @@
   "Value2",
   );
   $spaturand  = array_rand($spatulas);
-
-  function send_to_ircbot($text,$chan){
-    /* While the board does some pre-processing, there is no standard for reporting to IRC from Acmlmboard. This
-     * function revives an IRC formatted string (currently includes colors, bold, underline etc) and an output 
-     * channel. $chan also includes any channel passwords and this may soon be passed separately. */
-	 
-   //provide code for post reporting here
-  }
 ?>

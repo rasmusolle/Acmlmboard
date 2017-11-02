@@ -282,11 +282,6 @@ if ($err) {
 	$c = rand(100, 500);
 	$sql->query("UPDATE `usersrpg` SET `spent` = `spent` - '$c' WHERE `id` = '$userid'");
 
-	$chan = $sql->resultp("SELECT a.chan FROM forums f LEFT JOIN announcechans a ON f.announcechan_id=a.id WHERE f.id=?", array($thread['forum']));
-
-
-	sendirc("{irccolor-base}New reply by {irccolor-name}" . get_irc_displayname() . "{irccolor-url} ({irccolor-title}$thread[ftitle]{irccolor-url}: {irccolor-name}$thread[title]{irccolor-url} ({irccolor-base}\x02\x02$tid{irccolor-url}) ({irccolor-base}+$c{irccolor-url})){irccolor-base} - {irccolor-url}{boardurl}?p=$pid{irccolor-base}", $chan);
-
 	redirect("thread.php?pid=$pid#$pid", $c);
 }
 

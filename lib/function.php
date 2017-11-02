@@ -16,7 +16,6 @@
   require 'lib/rpg.php';
   require 'lib/graphics.php';
   require 'lib/badges.php';
-  require 'lib/irc.php';
   
   // lib/board.php
   function feedicon($icon,$para,$text="RSS feed"){

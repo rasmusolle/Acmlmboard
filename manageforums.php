@@ -89,7 +89,6 @@ else if ($_POST['saveforum'])
 	$private = $_POST['private'] ? 1:0;
 	$trash = $_POST['trash'] ? 1:0;
 	$readonly = $_POST['readonly'] ? 1:0;
-	$announcechan_id = (int)$_POST['announcechan_id'];
 	
 	if (!trim($title))
 		$error = 'Please enter a title for the forum.';
@@ -101,8 +100,8 @@ else if ($_POST['saveforum'])
 			if (!$fid) $fid = 0;
 			$fid++;
 			
-			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly,announcechan_id) VALUES (?,?,?,?,?,?,?,?,?)", 
-				array($fid, $cat, $title, $descr, $ord, $private, $trash, $readonly, $announcechan_id));
+			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?,?)", 
+				array($fid, $cat, $title, $descr, $ord, $private, $trash, $readonly));
 		}
 		else
 		{
@@ -110,8 +109,8 @@ else if ($_POST['saveforum'])
 			if (!$sql->resultp("SELECT COUNT(*) FROM forums WHERE id=?",array($fid)))
 				die(header('Location: manageforums.php'));
 			
-			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=?, announcechan_id=? WHERE id=?", 
-				array($cat, $title, $descr, $ord, $private, $trash, $readonly, $announcechan_id, $fid));
+			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=? WHERE id=?", 
+				array($cat, $title, $descr, $ord, $private, $trash, $readonly, $fid));
 		}
 		
 		// save localmods
@@ -184,47 +183,6 @@ else if ($_POST['delforum'])
 	deleteperms('forums', $fid);
 	die(header('Location: manageforums.php'));
 }
-else if ($_POST['savechan'])
-{
-	// save new/existing channel
-	
-	$chanid = $_GET['chanid'];
-	$channame = stripslashes($_POST['channame']);
-	
-	if (!trim($channame))
-		$error = 'Please enter a name for the channel.';
-	else
-	{
-		if ($chanid == 'new')
-		{
-			$chanid = $sql->resultq("SELECT MAX(id) FROM announcechans");
-			if (!$chanid) $chanid = 0;
-			$chanid++;
-			
-			$sql->prepare("INSERT INTO announcechans (id,chan) VALUES (?,?)", array($chanid, $channame));
-		}
-		else
-		{
-			$chanid = (int)$chanid;
-			if (!$sql->resultp("SELECT COUNT(*) FROM announcechans WHERE id=?",array($chanid)))
-				die(header('Location: manageforums.php'));
-			
-			$sql->prepare("UPDATE announcechans SET chan=? WHERE id=?", array($channame, $chanid));
-		}
-		
-		die(header('Location: manageforums.php?chanid='.$chanid));
-	}
-}
-else if ($_POST['delchan'])
-{
-	// delete channel
-	
-	$chanid = (int)$_GET['chanid'];
-        $sql->prepare("UPDATE forums SET announcechan_id=? WHERE announcechan_id=?", array('0', $chanid));
-	$sql->prepare("DELETE FROM announcechans WHERE id=?",array($chanid));
-	
-	die(header('Location: manageforums.php'));
-}
 
 
 pageheader('Forum management');
@@ -293,7 +251,7 @@ else if ($fid = $_GET['fid'])
 	
 	if ($fid == 'new')
 	{
-		$forum = array('id' => 0, 'cat' => 1, 'title' => '', 'descr' => '', 'ord' => 0, 'private' => 0, 'trash' => 0, 'readonly' => 0, 'announcechan_id' => 0);
+		$forum = array('id' => 0, 'cat' => 1, 'title' => '', 'descr' => '', 'ord' => 0, 'private' => 0, 'trash' => 0, 'readonly' => 0);
 	}
 	else
 	{
@@ -306,12 +264,6 @@ else if ($fid = $_GET['fid'])
 	while ($cat = $sql->fetch($qcats))
 		$cats[$cat['id']] = $cat['title'];
 	$catlist = fieldselect('cat', $forum['cat'], $cats);
-	
-	$qchans = $sql->query("SELECT id,chan FROM announcechans ORDER BY id");
-	$chans = array(0 => 'Default');
-	while ($chan = $sql->fetch($qchans))
-		$chans[$chan['id']] = $chan['chan'];
-	$chanlist = fieldselect('announcechan_id', $forum['announcechan_id'], $chans);
 	
 	print 	"<form action=\"\" method=\"POST\">
 ".			"	<table cellspacing=\"0\" class=\"c1\">
@@ -331,10 +283,6 @@ else if ($fid = $_GET['fid'])
 ".			"		<tr>
 ".			"			<td class=\"b n1\" align=\"center\">Display order:</td>
 ".			"			<td class=\"b n2\"><input type=\"text\" name=\"ord\" value=\"{$forum['ord']}\" size=4 maxlength=10></td>
-".			"		</tr>
-".			"		<tr>
-".			"			<td class=\"b n1\" align=\"center\">Report to IRC channel:<br><small>Leave this to default if you don't use IRC reporting.</small></td>
-".			"			<td class=\"b n2\">{$chanlist}</td>
 ".			"		</tr>
 ".			"		<tr>
 ".			"			<td class=\"b n1\" align=\"center\">&nbsp;</td>
@@ -422,40 +370,6 @@ else if ($fid = $_GET['fid'])
 	print 	"</form>
 ";
 }
-else if ($chanid = $_GET['chanid'])
-{
-	// channel editor
-	
-	if ($chanid == 'new')
-	{
-		$chan = array('id' => 0, 'chan' => '');
-	}
-	else
-	{
-		$chanid = (int)$chanid;
-		$chan = $sql->fetchp("SELECT * FROM announcechans WHERE id=?",array($chanid));
-	}
-	
-	print 	"<form action=\"\" method=\"POST\">
-".			"	<table cellspacing=\"0\" class=\"c1\">
-".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>".($chanid=='new' ? 'Create':'Edit')." channel</td></tr>
-".			"		<tr>
-".			"			<td class=\"b n1\" align=\"center\">Name:</td>
-".			"			<td class=\"b n2\"><input type=\"text\" name=\"channame\" value=\"".htmlspecialchars($chan['chan'])."\" size=50 maxlength=500></td>
-".			"		</tr>
-".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>&nbsp;</td></tr>
-".			"		<tr>
-".			"			<td class=\"b n1\" align=\"center\">&nbsp;</td>
-".			"			<td class=\"b n2\">
-".			"				<input type=\"submit\" class=\"submit\" name=\"savechan\" value=\"Save channel\"> ".($chanid=='new' ? '':"
-".			"				<input type=\"submit\" class=\"submit\" name=\"delchan\" value=\"Delete channel\" onclick=\"if (!confirm('Really delete this channel?')) return false;\"> ")."
-".			"				<button type=\"button\" class=\"submit\" id=\"back\" onclick=\"window.location='manageforums.php';\">Back</button>
-".			"			</td>
-".			"		</tr>
-".			"	</table>
-".                      "</form>
-";
-}
 else
 {
 	// main page -- category/forum listing
@@ -469,11 +383,6 @@ else
 	$forums = array();
 	while ($forum = $sql->fetch($qforums))
 		$forums[$forum['id']] = $forum;
-
-	$qchans = $sql->query("SELECT id,chan FROM announcechans ORDER BY id");
-	$chans = array();
-	while ($chan = $sql->fetch($qchans))
-		$chans[$chan['id']] = $chan;
 	
 	$catlist = ''; $c = 1;
 	foreach ($cats as $cat)
@@ -502,7 +411,7 @@ else
 	}
 	
 	print 	"<table cellspacing=\"0\" style=\"width:100%;\"><tr>
-".			"	<td class=\"b\" style=\"width:33.33%; vertical-align:top; padding-right:0.5em;\">
+".			"	<td class=\"b\" style=\"width:50%; vertical-align:top; padding-right:0.5em;\">
 ".			"		<table cellspacing=\"0\" class=\"c1\">
 ".			"			<tr class=\"h\"><td class=\"b h\">Categories</td></tr>
 ".			"			$catlist
@@ -510,20 +419,12 @@ else
 ".			"			<tr><td class=\"b n1\"><a href=\"?cid=new\">New category</a></td></tr>
 ".			"		</table>
 ".			"	</td>
-".			"	<td class=\"b\" style=\"width:33.33%; vertical-align:top; padding-left:0.5em; padding-right:0.5em;\">
+".			"	<td class=\"b\" style=\"width:50%; vertical-align:top; padding-left:0.5em; padding-right:0.5em;\">
 ".			"		<table cellspacing=\"0\" class=\"c1\">
 ".			"			<tr class=\"h\"><td class=\"b h\">Forums</td></tr>
 ".			"			$forumlist
 ".			"			<tr class=\"h\"><td class=\"b h\">&nbsp;</td></tr>
 ".			"			<tr><td class=\"b n1\"><a href=\"?fid=new\">New forum</a></td></tr>
-".			"		</table>
-".			"	</td>
-".			"	<td class=\"b\" style=\"width:33.33%; vertical-align:top; padding-left:0.5em;\">
-".			"		<table cellspacing=\"0\" class=\"c1\">
-".			"			<tr class=\"h\"><td class=\"b h\">Channels</td></tr>
-".			"			$chanlist
-".			"			<tr class=\"h\"><td class=\"b h\">&nbsp;</td></tr>
-".			"			<tr><td class=\"b n1\"><a href=\"?chanid=new\">New channel</a></td></tr>
 ".			"		</table>
 ".			"	</td>
 ".			"</tr></table>

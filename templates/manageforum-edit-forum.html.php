@@ -21,12 +21,6 @@
 			<td class="b n2"><?php tpl_input_text('ord', $tpl_vars['ord'], 4, 10); ?></td>
 		</tr>
 		<tr>
-			<td class="b n1" align="center">Report to IRC channel:<br><small>Leave this to default if you don't use IRC reporting.</small></td>
-			<td class="b n2">
-				<?php echo $tpl_vars['channel_list']; ?>
-			</td>
-		</tr>
-		<tr>
 			<td class="b n1" align="center">&nbsp;</td>
 			<td class="b n2">
 				<?php

@@ -368,10 +368,7 @@ if (!has_perm('use-item-shop')) {
 				$pitem = $sql->fetchq("SELECT coins FROM items WHERE id=" . $user['eq' . $item['cat']]);
 				$pitem['coins'] = intval($pitem['coins']); // fixes the problem if no prior item had been equipped/$pitem[coins] is empty for whatever reason [blackhole89]
 				$sql->query("UPDATE usersrpg " . "SET eq$item[cat]=$id, spent=spent-$pitem[coins]*0.6+$item[coins] " . "WHERE id=$loguser[id]");
-				
-				if ($config['ircshopnotice'])
-					sendirc("{irccolor-name}" . get_irc_displayname() . " {irccolor-base}is now equipped with {irccolor-title}$item[name]{irccolor-base}.");
-				
+
 				redirect("shop.php", - 2);
 			}
 		break;
