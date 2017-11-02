@@ -88,7 +88,7 @@ function rendernewstatus($type, $newcount = '0') {
 	if ($statusimageset != '')
 		$imagepath = $statusimageset;
 	else
-		$imagepath = "../img/status/";
+		$imagepath = "img/status/";
 
 	switch ($type) {
 		case "n":
@@ -169,10 +169,10 @@ function rendernewstatus($type, $newcount = '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
 			$imgstrings = '';
 			$image = $newcount[$i];
-			$imgstrings.="<img src='$imagepath" . $image . ".png' alt='" . $newcount[$i] . "'/>";
+			$imgstrings .= "<img src='$imagepath" . $image . ".png' alt='" . $newcount[$i] . "'/>";
 		}
 	}
-	$status.=$imgstrings . "</div>";
+	$status .= (isset($imgstrings) ? $imgstrings : '') . "</div>";
 
 	return $status;
 }
