@@ -3,7 +3,7 @@
 require 'lib/common.php';
 
 $rdmsg = "";
-if ($_COOKIE['pstbon']) {
+if (isset($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
 	$rdmsg = "<script language=\"javascript\">
 	function dismiss()
@@ -19,7 +19,7 @@ if ($_COOKIE['pstbon']) {
 	}
 }
 
-$act = $_POST['action'];
+$act = (isset($_POST['action']) ? $_POST['action'] : 'needle');
 if ($act == 'Login') {
 	if ($userid = checkuser($_POST['name'], md5($pwdsalt2 . $_POST['pass'] . $pwdsalt))) {
 		setcookie('user', $userid, 2147483647);
@@ -36,10 +36,8 @@ if ($act == 'Login') {
 }
 
 pageheader('Login');
-if ($_COOKIE['pstbon']) {
-	print $rdmsg;
-}
-if ($err)
+if (isset($_COOKIE['pstbon'])) { print $rdmsg; }
+if (isset($err))
 	noticemsg("Error", $err);
 print "<table cellspacing=\"0\" class=\"c1\">
 <form action=login.php method=post>
