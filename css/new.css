@@ -3,25 +3,26 @@ New (RasmusOlle)
 
 */
 
-A:link		{color:#FFC040}
-A:visited	{color:#C09030}
-A:active	{color:#FFEA60}
-A:hover		{color:#FFFFFF}
+A:link {color:#FFC040}
+A:visited {color:#C09030}
+A:active {color:#FFEA60}
+A:hover	{color:#FFFFFF}
 
-A:link,A:visited,A:active,A:hover{
-  text-decoration:none;
-  font-weight:bold;
+A:link,A:visited,A:active,A:hover {
+	text-decoration:none;
+	font-weight:bold;
 }
 
-body{
-  background: #040420;
-  color: white;
-  font-family: verdana, geneva, sans-serif;
+body {
+	background: #040420;
+	color: white;
+	font-family: verdana, geneva, sans-serif;
 }
 
 table{
   color: white;
   font-size: 1em;
+  border-spacing: 0;
 }
 
 table.c1{
@@ -39,13 +40,13 @@ table.c2{
 tr.h{
   background: #636594;
   text-align: center;
-  font-size: 0.9em;
+  font-size: 1em;
   font-weight: bold;
   color: #DDDDDD;
 }
 
 tr.c{
-  background: url(../img/backc2.png) #3945BD;
+  background: #464FB0;
   text-align: center;
   font-size: 0.9em;
   color: #EEEEEE;
@@ -69,19 +70,19 @@ td.h{
 }
 
 tr.n1,td.n1{
-  background: url(../img/back2t1.png) #303678;
+  background: #303678;
 }
 
 tr.n2,td.n2{
-  background: url(../img/back2t2.png) #24285C;
+  background: #24285C;
 }
 
 tr.n3,td.n3{
-  background: url(../img/back2t3.png) #1F224F;
+  background: #1F224F;
 }
 
 .sfont{
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 textarea,input,select,button{
