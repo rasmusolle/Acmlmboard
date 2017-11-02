@@ -348,7 +348,7 @@ function pageheader($pagetitle = "", $fid = 0) {
           <td class=\"b\" width=\"100%\"><span style=\"float:right\">$feedicons$ssllnk</span>
             <a href=\"./\">Main</a>
           | <a href=\"faq.php\">FAQ</a>
-          | <a href=\"irc.php\">IRC chat</a>
+          | <a href=\"irc.php\">IRC</a>
           | <a href=\"memberlist.php\">Memberlist</a>
           | <a href=\"activeusers.php\">Active users</a>
           | <a href=\"thread.php?time=86400\">Latest posts</a>
@@ -619,15 +619,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 		if ($numbots > 0) {
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
-
-		/*
-		  $numguests  = $sql->resultq("SELECT count(*) FROM `guests` WHERE `lastforum`='$fid' AND `bot`='0' AND `date` > '".(ctime()-300)."'");
-		  if($numguests)
-		  $onuserlist.=" | $numguests guest".($numguests != 1 ? "s": "");
-		  $numbots=$sql->resultq("SELECT count(*) FROM `guests` WHERE `lastforum`='$fid' AND `bot`='1' AND date > '".(ctime()-300)."'");
-		  if($numbots)
-		  $onuserlist.=" | $numbots bot".($numbots != 1 ? "s": "");
-		 */
 
 		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (ctime() - 86400) . "'");
 		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (ctime() - 86400) . "'");
