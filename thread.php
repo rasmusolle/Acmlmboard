@@ -73,25 +73,19 @@ if ($ppp < 0 || $ppp > 1000000000000000) {
 if (isset($_REQUEST['id'])) {
 	$tid = (int)$_REQUEST['id'];
 	$viewmode = "thread";
-	
 } elseif (isset($_GET['user'])) {
 	$uid = (int)$_GET['user'];
 	$viewmode = "user";
-	
 } elseif (isset($_GET['time'])) {
 	$timeval = (int)$_GET['time'];
 	$viewmode = "time";
-	
 } elseif (isset($_GET['announce'])) {
 	$announcefid = (int)$_GET['announce'];
 	$viewmode = "announce";
-	
 } elseif (isset($_GET['deletedposts'])) {
 	$viewmode = "deletedposts";
-	
 } elseif (isset($_GET['alldeletedposts'])) {
 	$viewmode = "alldeletedposts";
-	
 }
 // "link" support (i.e., thread.php?pid=999whatever)
 elseif (isset($_GET['pid'])) {
@@ -350,7 +344,6 @@ if ($viewmode == "thread") {
 
 	pageheader('Latest posts');
 
-
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 			. "FROM posts p "
 			. "LEFT JOIN poststext pt ON p.id=pt.id "
@@ -370,7 +363,6 @@ if ($viewmode == "thread") {
 			. "LEFT JOIN categories c ON c.id=f.cat "
 			. "WHERE p.date>$mintime "
 	);
-	echo 'e';
 } elseif (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log) {
 
 	pageheader("Deleted Posts Tracker");
@@ -555,7 +547,7 @@ if ($viewmode == "thread") {
 
 
 $modlinks = '<br>';
-if ($tid &&
+if (isset($tid) &&
 		(can_edit_forum_threads($thread['forum']) ||
 		($loguser['id'] == $thread['user'] && !$thread['closed'] && has_perm('rename-own-thread')))) {
 	$link = "<a href=javascript:submitmod";
@@ -746,8 +738,7 @@ if ($timeval) {
 
 print "$modlinks
 " . "$pagelist
-" . "$poll
-";
+" . (isset($poll) ? $poll : '');
 while ($post = $sql->fetch($posts)) {
 	if (isset($post['fid'])) {
 		if (!can_view_forum(array('id' => $post['fid'], 'private' => $post['fprivate'])))
@@ -770,7 +761,7 @@ while ($post = $sql->fetch($posts)) {
 			print $rdmsg;
 		}
 	}
-
+	echo 'hey';
 	print "<br>
 " . threadpost($post, 0);
 }
