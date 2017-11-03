@@ -2,15 +2,14 @@
 New (RasmusOlle)
 
 */
+A:link    {color: #FFC040}
+A:visited {color: #FFC040}
+A:active  {color: #FFEA60}
+A:hover   {color: #FFFFFF}
 
-A:link {color:#FFC040}
-A:visited {color:#C09030}
-A:active {color:#FFEA60}
-A:hover	{color:#FFFFFF}
-
-A:link,A:visited,A:active,A:hover {
-	text-decoration:none;
-	font-weight:bold;
+A:link, A:visited, A:active, A:hover {
+	text-decoration: none;
+	font-weight: bold;
 }
 
 body {
@@ -19,105 +18,105 @@ body {
 	font-family: verdana, geneva, sans-serif;
 }
 
-table{
-  color: white;
-  font-size: 1em;
-  border-spacing: 0;
+table {
+	color: white;
+	font-size: 1em;
 }
 
-table.c1{
-  width: 100%;
-  background: black;
-  border: #666699 1px solid;
+table.c1 {
+	width: 100%;
+	background: black;
+	border: #666699 1px solid;
 }
 
-table.c2{
-  width: 100%;
-  background: black;
-  border: #333355 1px solid;
+table.c2 {
+	width: 100%;
+	background: black;
+	border: #333355 1px solid;
 }
 
-tr.h{
-  background: #636594;
-  text-align: center;
-  font-size: 1em;
-  font-weight: bold;
-  color: #DDDDDD;
+tr.h {
+	background: #636594;
+	text-align: center;
+	font-size: 1em;
+	font-weight: bold;
+	color: #DDDDDD;
 }
 
-tr.c{
-  background: #464FB0;
-  text-align: center;
-  font-size: 0.9em;
-  color: #EEEEEE;
+tr.c {
+	background: #464FB0;
+	text-align: center;
+	font-size: 0.9em;
+	color: #EEEEEE;
 }
 
-td.b{
-  border-left: #000000 1px solid;
-  border-top:  #000000 1px solid;
-  padding: 1px;
+td.b {
+	border-left: #000000 1px solid;
+	border-top: #000000 1px solid;
+	padding: 1px;
 }
 
-td.nb{
-  border: 0px none;
-  padding: 1px;
+td.nb {
+	border: 0px none;
+	padding: 1px;
 }
 
-td.h{
-  border-left: 0;
-  border-right: 0;
-  padding: 1px;
+td.h {
+	border-left: 0;
+	border-right: 0;
+	padding: 1px;
 }
 
-tr.n1,td.n1{
-  background: #303678;
+tr.n1, td.n1 {
+	background: #303678;
 }
 
-tr.n2,td.n2{
-  background: #24285C;
+tr.n2, td.n2 {
+	background: #24285C;
 }
 
-tr.n3,td.n3{
-  background: #1F224F;
+tr.n3, td.n3 {
+	background: #1F224F;
 }
 
-.sfont{
-  font-size: 0.9em;
+.sfont {
+	font-size: 0.9em;
 }
 
-textarea,input,select,button{
-  border:    #7777DD ridge 2px;
-  background:#000000;
-  color:     #FFFFFF;
-  font: 1em verdana;
+textarea, input, select, button {
+	border: #7777DD ridge 2px;
+	background: #000000;
+	color: #FFFFFF;
+	font: 1em verdana;
 }
 
-.radio{
-  border: none;
-  background: none;
-  color: #DDDDDD;
-  font: 1em verdana;
+.radio {
+	border: none;
+	background: none;
+	color: #DDDDDD;
+	font: 1em verdana;
 }
 
-.submit{
-  border: #FFD040 ridge 2px;
-  color: #FFD040;
-  font-weight: bold;
+.submit {
+	border: #FFD040 ridge 2px;
+	color: #FFD040;
+	font-weight: bold;
 }
 
-ins{
-  background: url(../img/back2t1.png);
-  border: 1px #3050A0 dashed;
-  text-decoration: none;
-  color: #40FF30;
+ins {
+	background: url(../img/back2t1.png);
+	border: 1px #3050A0 dashed;
+	text-decoration: none;
+	color: #40FF30;
 }
 
-del{
-  background: url(../img/back2t3.png);
-  border: 1px #001030 dashed;
-  text-decoration: none;
-  color: #FF4000;
+del {
+	background: url(../img/back2t3.png);
+	border: 1px #001030 dashed;
+	text-decoration: none;
+	color: #FF4000;
 }
+
 
 .nc0x{color:#888888} .nc1x{color:#888888} .nc2x{color:#888888}
 .nc00{color:#97ACEF} .nc10{color:#F185C9} .nc20{color:#7C60B0}
