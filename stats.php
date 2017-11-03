@@ -30,7 +30,7 @@ foreach($fields as $field)
 	$$field = $sql->resultq("SELECT intval FROM misc WHERE field='$field'");
 $maxuserstext = $sql->resultq('SELECT txtval FROM misc WHERE field="maxuserstext"');
 
-print "<table cellspacing=\"0\" class=\"c1\">
+echo "<table cellspacing=\"0\" class=\"c1\">
 ".      "  <tr class=\"h\">
 ".      "    <td class=\"b h\" width=180>Records</td>
 ".      "    <td class=\"b h\">&nbsp;</td>
@@ -100,7 +100,7 @@ while ($day = $sql->fetch($stats)) {
 	$threads = $day['threads'];
 	$views = $day['views'];
 }
-print "</table>";
+echo "</table>";
 
 pagefooter();
 ?>

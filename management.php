@@ -33,7 +33,7 @@ $mlinkstext = '';
 foreach ($mlinks as $l)
 	$mlinkstext .= ($mlinkstext?' ':'')."<a href=\"{$l['url']}\"</a><input type=\"submit\" class=\"submit\" name=action value='{$l['title']}'></a>";
 
-print "<table cellspacing=\"0\" class=\"c1\">
+echo "<table cellspacing=\"0\" class=\"c1\">
 ".    "  <tr class=\"h\"><td class=\"b\">Board management tools
 ".    "  <tr><td class=\"b n1\" align=\"center\">
 ".    "    <br>

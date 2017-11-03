@@ -4,7 +4,7 @@
 
     $a=$sql->query("SELECT users.* FROM mood,users WHERE users.id=mood.user GROUP BY users.id ORDER BY users.id ASC");
 
-    print "Mood avatars:
+    echo "Mood avatars:
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" width=30>ID</td>
@@ -14,7 +14,7 @@
 
     for($i=1;$m=$sql->fetch($a);$i++){
       $tr = ($i % 2 ? 'n2' :'n3');
-      print
+      echo
           "<tr class=\"$tr\" align=\"center\">
 ".        "    <td class=\"b\">$m[id].</td>
 ".        "    <td class=\"b\" align=\"left\">".userlink($m)."</td>
@@ -23,7 +23,7 @@
       $b=$sql->query("SELECT * FROM mood WHERE user=$m[id]");
       while($n=$sql->fetch($b)) echo "<a href=\"usermood.php?a=e&i=$n[id]&uid=$n[user]\"</a><img src='gfx/userpic.php?id=$n[user]_$n[id]' title='$n[label]'></a>";
     }
-    print "</table>
+    echo "</table>
 ";
 //  }
   pagefooter();

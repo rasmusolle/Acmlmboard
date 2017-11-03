@@ -99,12 +99,12 @@ if (!has_perm('use-item-shop')) {
 " . "    <td class=\"b n1\" align=\"center\"><a href=shop.php?action=desc&id=" . $eq["eq$shop[id]"] . ">" . $items[$eq["eq$shop[id]"]]['name'] . "</a></td>
 ";
 			pageheader('Item shop');
-			print "<img src=gfx/status.php?u=$loguser[id]>
+			echo "<img src=gfx/status.php?u=$loguser[id]>
 ";
 			if (isset($_COOKIE['pstbon'])) {
-				print $rdmsg;
+				echo $rdmsg;
 			}
-			print "<br>
+			echo "<br>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\">Shop</td>
@@ -117,7 +117,7 @@ if (!has_perm('use-item-shop')) {
 			checknumeric($_GET[id]);
 			$item = $sql->fetchq("SELECT * FROM items WHERE id='$_GET[id]' union select * from items where id='-1'");
 			pageheader('Item shop');
-			print "<style>
+			echo "<style>
 " . "   .disabled {color:#888888}
 " . "   .higher   {color:#abaffe}
 " . "   .equal    {color:#ffea60}
@@ -156,7 +156,7 @@ if (!has_perm('use-item-shop')) {
 " . "    <td class=\"b n1\" align=\"center\" width=6%>$stat[$i]</td>
 ";
 			}
-			print "<form action='shop.php?action=save&id=$item[id]' method='post'><table cellspacing=\"0\" class=\"c1\">
+			echo "<form action='shop.php?action=save&id=$item[id]' method='post'><table cellspacing=\"0\" class=\"c1\">
 " . "  <td class=\"b n1\" align=\"center\"><a href=shop.php>Return to shop list</a>
 " . "</table> <br>
 " . "<img src=gfx/status.php?u=$loguser[id]><br>
@@ -218,7 +218,7 @@ if (!has_perm('use-item-shop')) {
 " . "    <td class=\"b n1\" align=\"center\" width=6%>$stat[$i]</td>
 ";
 			}
-			print "<table cellspacing=\"0\" class=\"c1\">
+			echo "<table cellspacing=\"0\" class=\"c1\">
 " . "  <td class=\"b n1\" align=\"center\"><a href=shop.php>Return to shop list</a>
 " . "</table> <br>
 " . "<img src=gfx/status.php?u=".$loguser['id']."><br>
@@ -245,7 +245,7 @@ if (!has_perm('use-item-shop')) {
 				$edit = " | <a href='shop.php?action=edit&id=-1&cat=$cat'>Add new item</a>";
 			
 			pageheader('Item shop');
-			print "<script>
+			echo "<script>
 " . "  function preview(user,item,cat,name){
 " . "    document.getElementById('prev').src='gfx/status.php?u='+user+'&it='+item+'&ct='+cat+'&'+Math.random();
 " . "    document.getElementById('pr').innerHTML='Equipped with<br>'+name+'<br>---------->';
@@ -285,7 +285,7 @@ if (!has_perm('use-item-shop')) {
 			
 			$items = $sql->query('SELECT * FROM items ' . "WHERE (cat=$cat OR cat=0) AND `hidden` <= $seehidden " . 'ORDER BY type,coins');
 			
-			print "<table cellspacing=\"0\" class=\"c1\">
+			echo "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" width=100>Commands</td>
 " . "    <td class=\"b n2\" width=1 rowspan=10000>&nbsp;</td>
@@ -345,7 +345,7 @@ if (!has_perm('use-item-shop')) {
 " . "    <td class=\"b n2 align=\"center\" $cl'>$st</td>";
 				}
 				
-				print "  <tr$color>
+				echo "  <tr$color>
 " . "    <td class=\"b n2\" align=\"center\">$comm</td>
 " . "    <td class=\"b n1\"><b><a href=shop.php?action=desc&id=".$item['id'].">".$item['name']."</a></b></td>
 " . "$atrlist
@@ -353,7 +353,7 @@ if (!has_perm('use-item-shop')) {
 " . "    <td class=\"b n1\" align=\"right\">".$item['coins2']."</td>
 ";
 			}
-			print "</table>
+			echo "</table>
 ";
 		break;
 		case 'buy':

@@ -27,7 +27,7 @@
 	  // fuck this shit
 	  
       pageheader('IP banned');
-      print
+      echo
           "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"n2\">
 ".        "    <td class=\"b n1\" align=\"center\">
@@ -42,7 +42,7 @@
       if(!strstr($_SERVER['PHP_SELF'],"login.php"))
       {
         pageheader('IP restricted');
-        print
+        echo
           "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"n2\">
 ".        "    <td class=\"b n1\" align=\"center\">

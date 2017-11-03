@@ -129,7 +129,7 @@ if ($pid) {
 
 if ($err) {
 	pageheader('New reply', $thread['forum']);
-	print "$top - Error";
+	echo "$top - Error";
 	noticemsg("Error", $err);
 } elseif ($act == 'Preview' || !$act) {
 	if ($act == 'Preview') {
@@ -177,7 +177,7 @@ if ($err) {
 
 	if ($act == 'Preview') {
 		pageheader('New reply', $thread['forum']);
-		print "$top - Preview
+		echo "$top - Preview
 " . "<br>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
@@ -188,11 +188,11 @@ if ($err) {
 ";
 	} else {
 		pageheader('New reply', $thread['forum']);
-		print "$top 
+		echo "$top 
 " . "<br><br> 
 ";
 	}
-	print
+	echo
 			"<table cellspacing=\"0\" class=\"c1\"> 
 " . " <form action=newreply.php method=post>
 " . "  <tr class=\"h\">
@@ -200,7 +200,7 @@ if ($err) {
 " . $valid . "
 ";
 	if (!$log && !$act)
-		print "  <tr>
+		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\">Username:</td>
 " . "    <td class=\"b n2\"><input type=\"text\" name=name size=25 maxlength=25></td>
 " . "  <tr>
@@ -208,11 +208,11 @@ if ($err) {
 " . "    <td class=\"b n2\"><input type=\"password\" name=pass size=13 maxlength=32></td>
 ";
 	if ($loguser['posttoolbar'] != 1)
-		print "  <tr>
+		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-	print "  <tr>
+	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Reply:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=10 cols=80>" . htmlval($post[text]) . "</textarea></td>
 " . "  <tr class=\"n1\">
@@ -220,27 +220,27 @@ if ($err) {
 " . "    <td class=\"b\">
 ";
 	if ($log || (!$log && $act == 'Preview'))
-		print "      <input type=\"hidden\" name=name value=\"" . htmlval(stripslashes($_POST[name])) . "\">
+		echo "      <input type=\"hidden\" name=name value=\"" . htmlval(stripslashes($_POST[name])) . "\">
 " . "      <input type=\"hidden\" name=passenc value=\"$pass\">
 ";
-	print "      <input type=\"hidden\" name=tid value=$tid>
+	echo "      <input type=\"hidden\" name=tid value=$tid>
 " . "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
 " . "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
 ";
 	if ($log || (!$log && $act == 'Preview'))
-		print   // 2009-07 Sukasa: Newreply mood selector, just in the place I put it in mine
+		echo   // 2009-07 Sukasa: Newreply mood selector, just in the place I put it in mine
 				"      <select name=mid>" . $post[moodlist] . " 
 ";
-	print "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . ($post[nolayout] ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
+	echo "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . ($post[nolayout] ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
 " . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . ($post[nosmilies] ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
 ";
 	if (can_edit_forum_threads($thread[forum]))
-		print "     " . (!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 " . ($post[close] ? "checked" : "") . "><label for=close>Close thread</label>" : "") . "
+		echo "     " . (!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 " . ($post[close] ? "checked" : "") . "><label for=close>Close thread</label>" : "") . "
                  " . (!$thread[sticky] ? "<input type=\"checkbox\" name=stick id=stick value=1 " . ($post[stick] ? "checked" : "") . "><label for=stick>Stick thread</label>" : "") . "
                  " . ($thread[closed] ? "<input type=\"checkbox\" name=open id=open value=1 " . ($post[open] ? "checked" : "") . "><label for=open>Open thread</label>" : "") . "
                  " . ($thread[sticky] ? "<input type=\"checkbox\" name=unstick id=unstick value=1 " . ($post[unstick] ? "checked" : "") . "><label for=unstick>Unstick thread</label>" : "") . "
 ";
-	print "    </td>
+	echo "    </td>
 " . " </form>
 " . "</table>
 ";
@@ -286,7 +286,7 @@ if ($err) {
 }
 
 if ($act != 'Submit' && !$err && can_view_forum($thread)) {
-	print "<br>
+	echo "<br>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Thread preview
@@ -294,11 +294,11 @@ if ($act != 'Submit' && !$err && can_view_forum($thread)) {
 ";
 	while ($post = $sql->fetch($posts)) {
 		$exp = calcexp($post['uposts'], ctime() - $post['uregdate']);
-		print threadpost($post, 1);
+		echo threadpost($post, 1);
 	}
 
 	if ($thread['replies'] >= $loguser['ppp']) {
-		print "<br>
+		echo "<br>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr>
 " . "    <td class=\"b n1\">The full thread can be viewed <a href=thread.php?id=$tid>here</a>.

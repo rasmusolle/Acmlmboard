@@ -64,7 +64,7 @@ $a = $sql->fetchq("SELECT `intval`,`txtval` FROM `misc` WHERE `field`='lockdown'
 if ($a['intval']) {
 	//lock down
 	if (has_perm('bypass-lockdown'))
-		print "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
+		echo "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
 	else {
 		include "lib/locked.php";
 		die();
@@ -264,7 +264,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 	$logofile, $url, $config, $feedicons, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2;
 
 	if (ini_get("register_globals")) {
-		print "<span style=\"color: red;\"> Warning: register_globals is enabled.</style>";
+		echo "<span style=\"color: red;\"> Warning: register_globals is enabled.</style>";
 	}
 	// this is the only common.php location where we reliably know $fid.
 	if ($log) {
@@ -322,7 +322,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$logbar['showminipic'] = 1;
 	}
 
-	print "<!DOCTYPE html>
+	echo "<!DOCTYPE html>
       <html>
       <head>
       <title>$pagetitle$boardtitle</title>
@@ -415,7 +415,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		}
 	}
 	if (!empty($pmsgbox)) {
-		print $pmsgbox;
+		echo $pmsgbox;
 	}
 
 	//mark forum read
@@ -461,22 +461,22 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	foreach ($userlinks as $k => $v) {
 		if ($c > 0) {
-			print " | ";
+			echo " | ";
 		}
-		print "<a href=\"{$v['url']}\">{$v['title']}</a>";
+		echo "<a href=\"{$v['url']}\">{$v['title']}</a>";
 		$c++;
 	}
 
-	print "</td>";
+	echo "</td>";
 	if($log) {
 		// no point in generating logout form if they aren't logged in.
-		print "<form action=\"login.php\" method=\"post\" name=\"logout\">
+		echo "<form action=\"login.php\" method=\"post\" name=\"logout\">
                  <input type=\"hidden\" name=\"action\" value=\"logout\">
                  <input type=\"hidden\" name=\"p\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . ">
                </form>";
 	}
 
-	print "
+	echo "
 			</table>
 			<br>";
 
@@ -521,7 +521,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
 
-		print "<table cellspacing=\"0\" class=\"c1\">
+		echo "<table cellspacing=\"0\" class=\"c1\">
                <tr class=\"n1\">
                <td class=\"b n1\" align=\"center\">$onuserlist
               </td>
@@ -623,7 +623,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (ctime() - 86400) . "'");
 		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (ctime() - 86400) . "'");
 
-		print "
+		echo "
 	     <table cellspacing=\"0\" class=\"c1\">$birthdaybox
            <tr>
              <td class=\"b n1\">
@@ -651,7 +651,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		 </table>";
 		
 		if(!empty($oldpmsgbox)) {
-			print"<br>\n$oldpmsgbox";
+			echo"<br>\n$oldpmsgbox";
 		}
 	}
 }
@@ -659,17 +659,17 @@ function pageheader($pagetitle = "", $fid = 0) {
 function pagestats() {
 	global $start, $sql;
 	$time = usectime() - $start;
-	print sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
+	echo sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
           MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }
 
 function miscbar() {
 		//pagestats();
-	print "<br><table cellspacing=\"0\" class=\"c2\"><tr align=\"center\"><td class=\"b n2\" align=\"left\"><center><img src=\"img/poweredbyacmlm.PNG\"></table>";
+	echo "<br><table cellspacing=\"0\" class=\"c2\"><tr align=\"center\"><td class=\"b n2\" align=\"left\"><center><img src=\"img/poweredbyacmlm.PNG\"></table>";
 }
 
 function noticemsg($name, $msg) {
-	print "<table cellspacing=\"0\" class=\"c1\">
+	echo "<table cellspacing=\"0\" class=\"c1\">
 " . " <tr class=\"h\">
 " . "  <td class=\"b h\" align=\"center\">$name
 " . " <tr>
@@ -683,7 +683,7 @@ function noticemsg($name, $msg) {
 function error($name, $msg) {
 	global $abversion, $abdate, $boardprog;
 	pageheader('Error');
-	print "<br>";
+	echo "<br>";
 	noticemsg($name, $msg);
 	pagefooter();
 	die();

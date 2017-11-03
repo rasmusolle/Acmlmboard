@@ -48,7 +48,7 @@
     $wday = intval(date('w', $mtstamp));
     
     pageheader('Forum Rankings');
-    print "<table cellspacing=\"0\" width=\"100%\">
+    echo "<table cellspacing=\"0\" width=\"100%\">
 ".        "    <tr>
 ".        "        <td class=\"b\" align=\"center\" colspan=7 style=\"font-size:200%\">$monthnames[$month] $year</td>
 ".        "    </tr>
@@ -56,23 +56,23 @@
 ";
 
     for ($w = 0; $w < 7; $w++) {//days of the week
-        print "        <td class=\"b h\" width=\"14%\">$daynames[$w]</td>\n";
+        echo "        <td class=\"b h\" width=\"14%\">$daynames[$w]</td>\n";
     }
     
-    print "    </tr>
+    echo "    </tr>
 ".        "    <tr style=\"height:80\">\n";
 
     for ($w = 0; $w < $wday; $w++) {//unused cells in the first week
-        print "<td class=\"b\"></td>";
+        echo "<td class=\"b\"></td>";
     }
 
     for ($mday = 1; $mday <= $mdays; $mday++, $wday++) {//main day cells
         if ($wday > 6) {  //week wrap around
             $wday = 0;
-            print "</tr><tr style=\"height:80\">\n";
+            echo "</tr><tr style=\"height:80\">\n";
         }
         $l = ($mday == $day) ? 'b n1' : 'b n2';
-        print "<td class=\"$l\" align=\"left\" width=\"14%\" valign=\"top\"><a href=\"frank.php?d=$mday&m=$month&y=$year\">$mday</a>";
+        echo "<td class=\"$l\" align=\"left\" width=\"14%\" valign=\"top\"><a href=\"frank.php?d=$mday&m=$month&y=$year\">$mday</a>";
 //Query by-day here.
   $dstr=strtotime($mday.' '.$monthnames[$month].' '.$year);
   $query='SELECT posts,regdate,'.userfields().',SUM(num) num FROM ('
@@ -88,7 +88,7 @@
   $users=$sql->query($query);
   $pqry=@$sql->result($sql->query("SELECT count(*) FROM posts WHERE date>".($dstr-(dtime($dstr)%86400))." AND date<".($dstr-(dtime($dstr)%86400-86400))),0,0);
 
-            print " -- <i>Total Posts: $pqry</i><table>";
+            echo " -- <i>Total Posts: $pqry</i><table>";
  $q=1; $p=-1;
   for($i=1;$user=$sql->fetch($users);$i++){
     if($user[num]!=$p) $q=$i;
@@ -97,44 +97,44 @@
 	$uid=$user[id];
 	$points[$uid]=$points[$uid]+$kcspoints[$q];
     }
-    print
+    echo
 	"<tr><td>$q</td><td>".userlink($user)."</td><td>$user[num]</td></tr>";
     $p=$user[num];
   }
 }
-        print "</table></td>\n";
+        echo "</table></td>\n";
         
     }
     
     for (;$wday <= 6; $wday++) { //unused cells in the last week
-        print "<td class=\"b\"></td>";
+        echo "<td class=\"b\"></td>";
     }
     
-    print "    </tr>
+    echo "    </tr>
 ".        "    <tr>
 ".        "        <td class=\"b\" align=\"center\" colspan=7> Month:";
     
     for ($i = 1; $i <= 12; $i++) {//month links
         if ($i == $month) {
-            print " $i\n";
+            echo " $i\n";
         } else {
-            print " <a href=\"frank.php?m=$i&amp;y=$year\">$i</a>\n";
+            echo " <a href=\"frank.php?m=$i&amp;y=$year\">$i</a>\n";
         }
     }
     
-    print "             | Year:\n";
+    echo "             | Year:\n";
     
     for ($i = $year-2; $i <= $year+2; $i++) {//year links
         if ($i == $year) {
-            print " $i\n";
+            echo " $i\n";
         } else if ($i < -1000000000000000000 || $i > 1000000000000000000) {
-            print " \n";
+            echo " \n";
         } else {
-            print " <a href=\"frank.php?m=$month&amp;y=$i\">$i</a>\n";
+            echo " <a href=\"frank.php?m=$month&amp;y=$i\">$i</a>\n";
         }
     }
     
-    print "        </td>
+    echo "        </td>
 ".        "    </tr>
 ".         "</table>";
 
@@ -153,7 +153,7 @@
 	.') inter GROUP BY id ORDER BY num DESC';
   $users=$sql->query($query);
   $pqry=@$sql->result($sql->query("SELECT count(*) FROM posts WHERE date>".($dstr-(dtime($dstr)%86400))." AND date<".($dstr-(dtime($dstr)%86400-86400))),0,0);
-	print "<table cellspacing=\"0\" width=\"100%\">
+	echo "<table cellspacing=\"0\" width=\"100%\">
 ".        "    <tr class=\"h\">
 ".        "        <td class=\"b\" align=\"center\" colspan=2>KCS Report for $monthnames[$month] $year</td>
 ".        "    </tr>
@@ -168,12 +168,12 @@ $report=strtoupper($monthnames[$month])." $day<hr style=\"width: 100px; margin-l
     $usr=$user[id];
     $dpur[$usr]=$kcspoints[$q];
     $report.="<tr><td>$q</td><td>[user=$usr]</td><td>$user[num]</td></tr>";
-    print "<tr><td>$q</td><td>".userlink($user)."</td><td>$user[num]</td></tr>";
+    echo "<tr><td>$q</td><td>".userlink($user)."</td><td>$user[num]</td></tr>";
     $p=$user[num];
   }
 }
 $report.="</table><br><br>Daily Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
-print "</table><br><br>Daily Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
+echo "</table><br><br>Daily Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
 //Daily Points
 if($dpur){
 arsort($dpur);
@@ -182,13 +182,13 @@ foreach($dpur as $usr => $pnts){
 	if($pnts<$t) $r=$q;
     	$mpur = $sql->fetch($sql->query("SELECT ".userfields()." FROM users WHERE id=$usr"));
 	$report.="<tr><td>$r</td><td>[user=$usr]</td><td>$pnts</td></tr>";
-	print "<tr><td>$r</td><td>".userlink($mpur)."</td><td>$pnts</td></tr>";
+	echo "<tr><td>$r</td><td>".userlink($mpur)."</td><td>$pnts</td></tr>";
 	$q++; $t=$pnts;
 }
 }
 //Monthly Points
 $report.="</table><br><br>Monthly Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
-print "</table><br><br>Monthly Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
+echo "</table><br><br>Monthly Points<hr style=\"width: 100px; margin-left: 0px;\" class=\"acsrankings".$loguser['id']."\"><table cellspacing=0 class=\"acsrankings".$loguser['id']."\">";
 if($points){
 arsort($points);
 $r=0; $q=1; $t=9999;
@@ -196,13 +196,13 @@ foreach($points as $usr => $pnts){
 	if($pnts<$t) $r=$q;
     	$mpur = $sql->fetch($sql->query("SELECT ".userfields()." FROM users WHERE id=$usr"));
 	$report.="<tr><td>$r</td><td>[user=$usr]</td><td>$pnts</td></tr>";
-	print "<tr><td>$r</td><td>".userlink($mpur)."</td><td>$pnts $ico</td></tr>";
+	echo "<tr><td>$r</td><td>".userlink($mpur)."</td><td>$pnts $ico</td></tr>";
 	$t=$pnts;
 	$q++;
 }
 }
     $report.="</table>";
-  print   "</table></td><td class=\"b n1\" align=\"left\" style=\"width: 50%\" valign=\"top\">
+  echo   "</table></td><td class=\"b n1\" align=\"left\" style=\"width: 50%\" valign=\"top\">
 ".        "<textarea style=\"width: 100%; height: 400px;\" readonly=\"readonly\">$report</textarea></td>
 ".        "    </tr>
 ".         "</table>";

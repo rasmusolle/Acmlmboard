@@ -49,7 +49,7 @@
 // dumb hackery: should make another field specifically to say "this is a PM!" and make it display "Reply" instead of the crummy way I do it now
     $pmsgs[id]=0; // go away, "Link" link
 
-    print "$topbot
+    echo "$topbot
 ".         threadpost($pmsgs,0)."
 ".        "$topbot
 ";

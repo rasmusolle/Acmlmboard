@@ -629,7 +629,7 @@ if (isset($tid) &&
 	$renamefield .= "<input type=\"button\" class=\"submit\" value=\"Cancel\" onclick=\"hidethreadedit(); return false;\">";
 	$renamefield = addcslashes($renamefield, "'"); //because of javascript, single quotes will gum up the works
 
-	print "<script language=\"javascript\">
+	echo "<script language=\"javascript\">
 function trashConfirm(e) {
     if(confirm(\"Are you sure you want to trash this thread?\"));
     else {
@@ -717,26 +717,26 @@ function trashConfirm(e) {
 ";
 }
 
-print "$topbot$userbar";
+echo "$topbot$userbar";
 if (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log && $thread['replies'] == 0) {
-	print "<br><br><br>";
+	echo "<br><br><br>";
 	noticemsg("Notice", "You have no deleted posts.");
 }
 if (has_perm('track-deleted-posts') && has_perm('deleted-posts-tracker') && $viewmode == "alldeletedposts" && $log && $thread['replies'] == 0) {
-	print "<br><br><br>";
+	echo "<br><br><br>";
 	noticemsg("Notice", "There are no deleted posts on the board.");
 }
 
 if ($timeval) {
-	print "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
+	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
           <a href=forum.php?time=$timeval>By Threads</a> | By Posts</a></div><br>";
-	print '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
+	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
 			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
 			. "</div>";
 }
 
 
-print "$modlinks
+echo "$modlinks
 " . "$pagelist
 " . (isset($poll) ? $poll : '');
 while ($post = $sql->fetch($posts)) {
@@ -758,16 +758,16 @@ while ($post = $sql->fetch($posts)) {
 	
 	if (isset($_REQUEST['pid'])) {
 		if ($post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
-			print $rdmsg;
+			echo $rdmsg;
 		}
 	}
 	echo 'hey';
-	print "<br>
+	echo "<br>
 " . threadpost($post, 0);
 }
 
 
-print "$pagelist$pagebr
+echo "$pagelist$pagebr
 " . "<br>";
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
@@ -776,7 +776,7 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 
 	//lol so hacky please organise this into the right place soon.
 
-	print "<script language=javascript>
+	echo "<script language=javascript>
         function updatequickreplystatus(ishidden)
         {
           x = new XMLHttpRequest();
@@ -813,29 +813,29 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	}
 
 	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {
-		print $rdmsg;
+		echo $rdmsg;
 	}
-	print "
+	echo "
 " . "
 " . "<table cellspacing=\"0\" class=\"c1\" name=quickreply id=quickreply>
 " . " <form action=newreply.php method=post>
 " . "  <tr class=\"h\" onclick='togglequickreply();' style='cursor: pointer'>
 " . "    <td class=\"b h\" colspan=2>Warp Whistle Reply</a></td>
 ";
-	print "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
+	echo "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
 " . "  <input type=\"hidden\" name=passenc value=\"" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . "\">
 ";
-	print "  <tr $quickreplydisplay >
+	echo "  <tr $quickreplydisplay >
 ";
 	if ($loguser['posttoolbar'] != 1)
-		print "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
+		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr class='toolbar'>$toolbar</table>
 ";
 	
 	// TODO: WHERE IS QUOTE TEXT??
 	if(!isset($quotetext)) $quotetext = '';
 	
-	print "  <tr $quickreplydisplay >
+	echo "  <tr $quickreplydisplay >
 " . "    <td class=\"b n1\" align=\"center\" width=120>Reply:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=8 cols=80>$quotetext</textarea></td>
 " . "  <tr class=\"n1\" $quickreplydisplay >
@@ -850,17 +850,17 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 " . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . ($post['nosmilies'] ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
 ";
 	if (can_edit_forum_threads($thread['forum']))
-		print "     <input type=\"checkbox\" name=close id=close value=1 ><label for=close>Close thread</label>
+		echo "     <input type=\"checkbox\" name=close id=close value=1 ><label for=close>Close thread</label>
                 " . (!$thread['sticky'] ? "<input type=\"checkbox\" name=stick id=stick value=1><label for=stick>Stick thread</label>" : "") . "
                 " . ($thread['sticky'] ? "<input type=\"checkbox\" name=unstick id=unstick value=1><label for=unstick>Unstick thread</label>" : "") . "
 ";
-	print "    </td>
+	echo "    </td>
 " . " </form>
 " . "</table><br>
 ";
 }
 
-print "$userbar$topbot";
+echo "$userbar$topbot";
 
 pagefooter();
 ?>

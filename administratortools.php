@@ -84,7 +84,7 @@ $alwaysshowlvlbar = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="al
 $rpglvlbarwidth = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="rpglvlbarwidth"');
 $atnname = $sql->resultq('SELECT `txtval` FROM `misc` WHERE `field`="atnname"');
 
-print "<form action='administratortools.php' method='post' enctype='multipart/form-data'>
+echo "<form action='administratortools.php' method='post' enctype='multipart/form-data'>
 " . " <table cellspacing=\"0\" class=\"c1\">
 " .
 		catheader('Administrator tools') . "

@@ -67,7 +67,7 @@ foreach ($contributors as $contributor => $contribution) {
 }
 unset($programmer, $gitcontributor, $contributor, $contribution);
 
-print "
+echo "
            <table cellspacing=\"0\" class=\"c1\">
            <tr class=\"h\"><td class=\"b h\">Board Credits</td></tr>
            <tr><td class=\"b n1\">&nbsp;Acmlmboard 2 started back in 2005 by Acmlm as a cleaner rewrite for the original AB1.

@@ -95,26 +95,26 @@ if($act=="Submit" && $post['text']==$_POST[message]){
   if($err){
 if($loguser[redirtype]==1 && $act=="Submit"){ pageheader('Edit post',$thread[forum]); }
   pageheader('Edit post',$thread[forum]);
-    print "$top - Error";
+    echo "$top - Error";
     noticemsg("Error", $err);
   }elseif(!$act){
   pageheader('Edit post',$thread[forum]);
-    print "$top
+    echo "$top
 ".        "<br><br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        " <form action=editpost.php method=post>
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Edit Post</td>
 ";
-    print "  <input type=\"hidden\" name=name value=\"".htmlval($loguser[name])."\">
+    echo "  <input type=\"hidden\" name=name value=\"".htmlval($loguser[name])."\">
 ".        "  <input type=\"hidden\" name=passenc value=\"$pass\">
 ";
     if($loguser[posttoolbar]!=1)
-    print "  <tr>
+    echo "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
 ".        "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=20 cols=80>$quotetext</textarea></td>
 ".        "  <tr class=\"n1\">
@@ -128,12 +128,12 @@ print     "  <tr>
 ".        "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 ".($post[nosmilies]?"checked":"")."><label for=nosmilies>Disable smilies</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
-    print "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($_POST[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
+    echo "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($_POST[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
                  ".(!$thread[sticky] ? "<input type=\"checkbox\" name=stick id=stick value=1 ".($_POST[stick]?"checked":"")."><label for=stick>Stick thread</label>" : "")."
                  ".($thread[closed] ? "<input type=\"checkbox\" name=open id=open value=1 ".($_POST[open]?"checked":"")."><label for=open>Open thread</label>" : "")."
                  ".($thread[sticky] ? "<input type=\"checkbox\" name=unstick id=unstick value=1 ".($_POST[unstick]?"checked":"")."><label for=unstick>Unstick thread</label>" : "")."
 ";
-    print "    </td>
+    echo "    </td>
 ".        " </form>
 ".        "</table>
 ";
@@ -156,7 +156,7 @@ print     "  <tr>
     $post[ulastpost]=ctime();
 
   pageheader('Edit post',$thread[forum]);
-    print "$top - Preview
+    echo "$top - Preview
 ".        "<br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"h\">
@@ -170,11 +170,11 @@ print     "  <tr>
 ".        "    <td class=\"b h\" colspan=2>Post</td>
 ";
      if($loguser[posttoolbar]!=1)
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
 ".        "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=10 cols=80>".htmlval($_POST[message])."</textarea></td>
 ".        "  <tr class=\"n1\">
@@ -190,12 +190,12 @@ print     "  <tr>
 ".        "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 ".($post[nosmilies]?"checked":"")."><label for=nosmilies>Disable smilies</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
-    print "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($post[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
+    echo "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($post[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
                  ".(!$thread[sticky] ? "<input type=\"checkbox\" name=stick id=stick value=1 ".($post[stick]?"checked":"")."><label for=stick>Stick thread</label>" : "")."
                  ".($thread[closed] ? "<input type=\"checkbox\" name=open id=open value=1 ".($post[open]?"checked":"")."><label for=open>Open thread</label>" : "")."
                  ".($thread[sticky] ? "<input type=\"checkbox\" name=unstick id=unstick value=1 ".($post[unstick]?"checked":"")."><label for=unstick>Unstick thread</label>" : "")."
 ";
-    print "    </td>
+    echo "    </td>
 ".        " </form>
 ".        "</table>
 ";
@@ -232,13 +232,13 @@ print     "  <tr>
   }elseif($act=='delete' ||$act=='undelete'){
     if(!(can_delete_forum_posts($thread[forum]))) {
   pageheader('Edit post',$thread[forum]);
-      print "$top - Error";
+      echo "$top - Error";
       noticemsg("Error", "You do not have the permission to do this.");
     } else {
       $sql->query("UPDATE posts SET deleted=".($act=='delete'?1:0)." WHERE id='$pid'");
   /*
   pageheader('Edit post',$thread[forum]);
-      print "$top - ".($act=='delete'?'Delete':'Undelete')." Post
+      echo "$top - ".($act=='delete'?'Delete':'Undelete')." Post
 ".          "<br><br>
 ".          "<table cellspacing=\"0\" class=\"c1\">
 ".          "  <td class=\"b n1\" align=\"center\">
@@ -261,7 +261,7 @@ print     "  <tr>
                       ."  AND ISNULL(pt2.id) "
                       .'ORDER BY p.id DESC '
                       ."LIMIT $loguser[ppp]");
-    print "<br>
+    echo "<br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Thread preview
@@ -269,11 +269,11 @@ print     "  <tr>
 ";
     while($post=$sql->fetch($posts)){
       $exp=calcexp($post[uposts],ctime()-$post[uregdate]);
-      print threadpost($post,1);
+      echo threadpost($post,1);
     }
 
     if($thread[replies]>=$loguser[ppp]){
-    print "<br>
+    echo "<br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr>
 ".        "    <td class=\"b n1\">The full thread can be viewed <a href=thread.php?id=$thread[id]>here</a>.

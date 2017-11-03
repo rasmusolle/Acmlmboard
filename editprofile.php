@@ -61,7 +61,7 @@ global $user, $userrpg;
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
 if (!$user) {
-	print "<table cellspacing=\"0\" class=\"c1\">
+	echo "<table cellspacing=\"0\" class=\"c1\">
              <td class=\"b n1\" align=\"center\">
                This user doesn't exist!<br>
                <a href=./>Back to main</a>
@@ -377,7 +377,7 @@ if (empty($act)) {
 " . "      <input type=\"text\" name=nick_color class=color value=" . $user['nick_color'] . "><input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>
 " . "    ";
 
-	print "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'>
+	echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'>
 " . " <table cellspacing=\"0\" class=\"c1\">
 " .
 			catheader('Login information') . "
@@ -387,13 +387,13 @@ if (empty($act)) {
 ";
 
 	if (has_perm("edit-users"))
-		print
+		echo
 				catheader('Administrative bells and whistles') . "
 " . fieldrow('Group', fieldselect('group_id', $user['group_id'], $listgroup)) . "
 " . (($user['tempbanned'] > 0) ? fieldrow('Ban Information', '<input type=checkbox name=permaban value=1 id=permaban><label for=permaban>Make ban permanent</label>') : "" ) . "
 ";
 
-	print
+	echo
 			catheader('Appearance') . "
 " . fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist())) . "
 " . ((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "") . "
@@ -403,7 +403,7 @@ if (empty($act)) {
 ";
 
 	if (has_perm("edit-users"))
-		print catheader('RPG Stats') . "
+		echo catheader('RPG Stats') . "
   " . fieldrow('Coins', fieldinputrpg(9, 7, 'GP')) . "
   " . fieldrow('Frog Coins', fieldinputrpg(9, 7, 'gcoins')) . "
   " . fieldrow('Weapon', itemselect('eq1', $userrpgdata['eq1'], 1)) . "
@@ -414,7 +414,7 @@ if (empty($act)) {
   " . fieldrow('Accessory', itemselect('eq6', $userrpgdata['eq6'], 6)) . "
   ";
 
-	print
+	echo
 			catheader('Personal information') . "
 " . fieldrow('Sex', fieldoption('sex', $user['sex'], $listsex)) . "
 " . fieldrow('Real name', fieldinput(40, 60, 'realname')) . "
@@ -442,11 +442,11 @@ if (empty($act)) {
 
 		$qallfields = $sql->query("SELECT * FROM `profileext`");
 		while ($allfieldsgquery = $sql->fetch($qallfields)) {
-			print fieldrow($allfieldsgquery['title'] . "<br /><small>" . $allfieldsgquery['description'] . " (IE: <b>" . $allfieldsgquery['example'] . "</b>)</small>", fieldinputprofile(40, 200, $allfieldsgquery['id'], $userprof));
+			echo fieldrow($allfieldsgquery['title'] . "<br /><small>" . $allfieldsgquery['description'] . " (IE: <b>" . $allfieldsgquery['example'] . "</b>)</small>", fieldinputprofile(40, 200, $allfieldsgquery['id'], $userprof));
 		}
 	}
 	//Implemented the show-online perm. - SquidEmpress
-	print"
+	echo"
 " .
 			catheader('Options') . "
 " . fieldrow('Theme', fieldselect('theme', $user['theme'], themelist())) . "
@@ -460,22 +460,22 @@ if (empty($act)) {
 " . fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything'))) . "
 ";
 
-	print"
+	echo"
 " . fieldrow('Smilies', fieldoption('hidesmilies', $user['hidesmilies'], array('Show smilies', 'Do not show smilies'))) . "
 " . fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email'))) . "
 ";
 	if ($user['id'] == $loguser['id'] && has_perm("show-online") || has_perm("edit-user-show-online")) // i think this should have been double equals.
-		print"
+		echo"
 " . fieldrow('Hide from Online Views', fieldoption('hidden', $user['hidden'], array('Show me online', 'Never show me online'))) . "
 ";
-	print"
+	echo"
 " . fieldrow('AB1.x Number and Bar Graphics', fieldoption('numbargfx', $user['numbargfx'], array('Show them in AB1.x themes', 'Never show them in AB1.x themes'))) . "
 ";
 	if ($config['alwaysshowlvlbar'])
-		print"
+		echo"
 " . fieldrow('EXP level bars', fieldoption('showlevelbar', $user['showlevelbar'], array('Show EXP bars', 'Disable EXP bars'))) . "
 ";
-	print"
+	echo"
 " . fieldrow('Posting Toolbar', fieldoption('posttoolbar', $user['posttoolbar'], array('Show Toolbar', 'Hide Toolbar'))) . "
 " .
 			catheader('&nbsp;') . "

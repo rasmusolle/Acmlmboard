@@ -39,10 +39,10 @@ if (!has_perm('edit-attentions-box')) {
 
 	$pageheadtxt = "Edit " . $config['atnname'];
 	pageheader($pageheadtxt);
-	//print $previewattn."<br />";
-	print $mockboardlogo;
+	//echo $previewattn."<br />";
+	echo $mockboardlogo;
 
-	print "<form action=\"editattn.php\" method=\"post\">
+	echo "<form action=\"editattn.php\" method=\"post\">
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\">

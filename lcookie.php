@@ -14,7 +14,7 @@ if ($action == "update") {
 " . "      <a href=''>Go back</a> or <a href='index.php'>give up</a>.";
 
 	if ($err) {
-		print "<a href=./>Main</a> - Error";
+		echo "<a href=./>Main</a> - Error";
 		noticemsg("Error", $err);
 		pagefooter();
 		die();
@@ -47,7 +47,7 @@ for ($i = 2; $i < count($dsegments);  $i++) {
 }
 $data.="</table><br>";
 
-print "$data
+echo "$data
 " . "<form action='lcookie.php' method='post'><input type=\"hidden\" name='action' value='update'>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">

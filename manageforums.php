@@ -14,7 +14,7 @@ if ($_GET['ajax'])
 	{
 		$user = $sql->fetchp("SELECT ".userfields()." FROM users WHERE name=? OR displayname=?",array($_GET['user'],$_GET['user']));
 		if (!$user) die();
-		print $user['id'].'|'.localmodRow($user);
+		echo $user['id'].'|'.localmodRow($user);
 	}
 	else if ($ajax == 'renderTag')
 	{
@@ -23,7 +23,7 @@ if ($_GET['ajax'])
 	else if ($ajax == 'tagRow')
 	{
 		if (!trim($_GET['text']) || !trim($_GET['tag']) || !trim($_GET['color'])) die();
-		print tagRow($_GET['text'], $_GET['tag'], null, (int)$_GET['bit'], $_GET['color']);
+		echo tagRow($_GET['text'], $_GET['tag'], null, (int)$_GET['bit'], $_GET['color']);
 	}
 	
 	die();
@@ -212,7 +212,7 @@ if ($cid = $_GET['cid'])
 		$cat = $sql->fetchp("SELECT * FROM categories WHERE id=?",array($cid));
 	}
 	
-	print 	"<form action=\"\" method=\"POST\">
+	echo 	"<form action=\"\" method=\"POST\">
 ".			"	<table cellspacing=\"0\" class=\"c1\">
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>".($cid=='new' ? 'Create':'Edit')." category</td></tr>
 ".			"		<tr>
@@ -242,7 +242,7 @@ if ($cid = $_GET['cid'])
 	
 	permtable('categories', $cid);
 		
-	print 	"</form>
+	echo 	"</form>
 ";
 }
 else if ($fid = $_GET['fid'])
@@ -265,7 +265,7 @@ else if ($fid = $_GET['fid'])
 		$cats[$cat['id']] = $cat['title'];
 	$catlist = fieldselect('cat', $forum['cat'], $cats);
 	
-	print 	"<form action=\"\" method=\"POST\">
+	echo 	"<form action=\"\" method=\"POST\">
 ".			"	<table cellspacing=\"0\" class=\"c1\">
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>".($fid=='new' ? 'Create':'Edit')." forum</td></tr>
 ".			"		<tr>
@@ -309,7 +309,7 @@ else if ($fid = $_GET['fid'])
 
 	// localmods
 	
-	print 	"	<br>
+	echo 	"	<br>
 ".			"	<table cellspacing=\"0\" class=\"c1\">
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>Moderators</td></tr>
 ".			"		<tr class=\"c\"><td class=\"b c\">Add a moderator</td><td class=\"b c\">Current moderators</td></tr>
@@ -323,9 +323,9 @@ else if ($fid = $_GET['fid'])
 	
 	$qmods = $sql->prepare("SELECT ".userfields('u')." FROM forummods f LEFT JOIN users u ON u.id=f.uid WHERE f.fid=?",array($fid));
 	while ($mod = $sql->fetch($qmods))
-		print "<div>".localmodRow($mod)."</div>";
+		echo "<div>".localmodRow($mod)."</div>";
 		
-	print 	"			</td>
+	echo 	"			</td>
 ".			"		</tr>
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>&nbsp;</td></tr>
 ".			"		<tr>
@@ -339,7 +339,7 @@ else if ($fid = $_GET['fid'])
 	
 	// tags
 
-	print 	"	<table cellspacing=\"0\" class=\"c1\">
+	echo 	"	<table cellspacing=\"0\" class=\"c1\">
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>Thread tags</td></tr>
 ".			"		<tr class=\"c\"><td class=\"b c\">Add a tag</td><td class=\"b c\">Current tags</td></tr>
 ".			"		<tr class=\"n2\">
@@ -354,9 +354,9 @@ else if ($fid = $_GET['fid'])
 
 	$qtags = $sql->prepare("SELECT * FROM tags WHERE fid=?",array($fid));
 	while ($tag = $sql->fetch($qtags))
-		print "<div>".tagRow($tag['name'], $tag['tag'], $fid, $tag['bit'], $tag['color'])."</div>";
+		echo "<div>".tagRow($tag['name'], $tag['tag'], $fid, $tag['bit'], $tag['color'])."</div>";
 	
-	print 	"			</td>
+	echo 	"			</td>
 ".			"		</tr>
 ".			"		<tr class=\"h\"><td class=\"b h\" colspan=2>&nbsp;</td></tr>
 ".			"		<tr>
@@ -367,7 +367,7 @@ else if ($fid = $_GET['fid'])
 ".			"	</table>
 ";
 	
-	print 	"</form>
+	echo 	"</form>
 ";
 }
 else
@@ -410,7 +410,7 @@ else
 		$c = ($c==1) ? 2:1;
 	}
 	
-	print 	"<table cellspacing=\"0\" style=\"width:100%;\"><tr>
+	echo 	"<table cellspacing=\"0\" style=\"width:100%;\"><tr>
 ".			"	<td class=\"b\" style=\"width:50%; vertical-align:top; padding-right:0.5em;\">
 ".			"		<table cellspacing=\"0\" class=\"c1\">
 ".			"			<tr class=\"h\"><td class=\"b h\">Categories</td></tr>
@@ -477,7 +477,7 @@ function permtable($bind, $id)
 	while ($perm = $sql->fetch($qpermdata))
 		$permdata[$perm['x_id']][$perm['perm_id']] = !$perm['revoke'];
 		
-	print 	"<table cellspacing=\"0\" class=\"c1\">
+	echo 	"<table cellspacing=\"0\" class=\"c1\">
 ".			"	<tr class=\"h\"><td class=\"b h\">Group</td><td class=\"b h\" colspan=2>Permissions</td></tr>
 ";
 	
@@ -512,7 +512,7 @@ function permtable($bind, $id)
 			$permlist .= "<label><input type=\"checkbox\" name=\"perm[{$gid}][{$pid}]\" value=1 class=\"perm_{$gid}\"{$check}> {$ptitle}</label> ";
 		}
 		
-		print 	"	{$L['TR'.$c]}>
+		echo 	"	{$L['TR'.$c]}>
 ".				"		<td class=\"b\" style=\"width:200px;\"><span style=\"white-space:nowrap;\">".str_repeat('&nbsp; &nbsp; ', $group['indent']).$gtitle."</span></td>
 ".				"		<td class=\"b\" style=\"width:100px;\">{$inherit}</td>
 ".				"		<td class=\"b\">{$permlist}</td>
@@ -525,7 +525,7 @@ function permtable($bind, $id)
 		$c = ($c==1) ? 2:1;
 	}
 	
-	print 	"	{$L['TR'.$c]}>
+	echo 	"	{$L['TR'.$c]}>
 ".			"		<td class=\"b\">&nbsp;</td>
 ".			"		<td class=\"b\" colspan=2>
 ".			"			<input type=\"submit\" class=\"submit\" name=\"save".($bind=='forums' ? 'forum':'cat')."\" value=\"Save ".($bind=='forums' ? 'forum':'category')."\">

@@ -112,7 +112,7 @@ RenderPageBar($pagebar);
   
 if (isset($_GET['unban']))
 {
-print "<form action='banmanager.php?id=$uid' method='post' enctype='multipart/form-data'> 
+echo "<form action='banmanager.php?id=$uid' method='post' enctype='multipart/form-data'> 
 ".    "<table cellspacing=\"0\" class=\"c1\">
 ".    "  <tr class=\"h\"><td class=\"b\">Unban User
 ".    "  <tr><td class=\"b n1\" align=\"center\">
@@ -125,7 +125,7 @@ print "<form action='banmanager.php?id=$uid' method='post' enctype='multipart/fo
 }
 else
 {
-print "<form action='banmanager.php?id=$uid' method='post' enctype='multipart/form-data'> 
+echo "<form action='banmanager.php?id=$uid' method='post' enctype='multipart/form-data'> 
 ".    "<table cellspacing=\"0\" class=\"c1\">
 ".
         catheader('Ban User')."

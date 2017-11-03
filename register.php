@@ -14,7 +14,7 @@ if ($regdis['intval'] == 1) {
 	else 
 		$reason = "Registration is currently disabled.";
 
-	print "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
+	echo "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
 	".         "  <tr class=\"h\">
 	".         "    <td class=\"b h\" colspan=2>Registration is disabled</td>
 	".         "  <tr>
@@ -36,7 +36,7 @@ if (isProxy()) {
 	else 
 		$reason = "Security Check Failure";
 
-	print "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
+	echo "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
 		".         "  <tr class=\"h\">
 		".         "    <td class=\"b h\" colspan=2>Registration is denied</td>
 		".         "  <tr>
@@ -150,7 +150,7 @@ if($act == 'Register'){
 
     $cap=encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));
  if(!empty($err)) noticemsg("Error", $err);
-  print "<table cellspacing=\"0\" class=\"c1\">
+  echo "<table cellspacing=\"0\" class=\"c1\">
 ".         " <form action=register.php method=post>
 ".         "  <tr class=\"h\">
 ".         "    <td class=\"b h\" colspan=2>Register</td>
@@ -170,12 +170,12 @@ if($act == 'Register'){
 ".           fieldrow('Timezone'      ,fieldselect('timezone','UTC',$listtimezones))."
 ";
     if($config['registrationpuzzle'])
-    print     
+    echo     
            "  <tr>
 ".         "    <td class=\"b n1\" align=\"center\" width=120>$puzzle</td>
 ".         "    <td class=\"b n2\"><input type=\"text\" name=puzzle size=13 maxlength=6></td>
 ";
-    print
+    echo
            "  <tr class=\"n1\">
 ".         "    <td class=\"b\">&nbsp;</td>
 ".         "    <td class=\"b\"><input type=\"submit\" class=\"submit\" name=action value=Register></td>

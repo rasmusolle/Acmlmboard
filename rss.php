@@ -6,7 +6,7 @@
 
   if(isssl()) $config[base]=$config[sslbase];
 
-  print "<?xml version=\"1.0\"?>
+  echo "<?xml version=\"1.0\"?>
 ".      "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
 ".      "  <channel>
 ".      "    <title>$boardtitle</title>
@@ -41,7 +41,7 @@
                       ."ORDER BY p.id DESC "
                       ."LIMIT 20");
     $p=$sql->fetch($posts);
-    print "    <link>$config[base]$config[path]</link>
+    echo "    <link>$config[base]$config[path]</link>
 ".        "    <description>Latest posts in \"$p[ttitle]\"</description>
 ".        "    <image>
 ".        "      <url>$config[base]$config[path]theme/abII.png</url>
@@ -59,7 +59,7 @@
       if(strlen($p[text])>48) $ptext.=" (...)";
       //Whitespace feels awkward within <description></description> but i'm not sure what to change it to, feel free to change this blackhole89!
       //And yes, that is how you do HTML in RSS. :)
-      print "    <item>
+      echo "    <item>
 ".          "      <title>".date("[$loguser[timeformat]]",$p[date])." by $p[u2name]: $ptext</title>
 ".          "      <description>Post by &lt;a href=\"$config[base]$config[path]profile.php?id=$p[u2id]\"&gt;$p[u2name]&lt;/a&gt;, ".
                      "thread by &lt;a href=\"$config[base]$config[path]profile.php?id=$p[u1id]\"&gt;$p[u1name]&lt;/a&gt; ".
@@ -81,7 +81,7 @@
                         ."ORDER BY t.lastdate DESC "
                         ."LIMIT 20");
     $t=$sql->fetch($threads);
-    print "    <link>$config[base]$config[path]</link>
+    echo "    <link>$config[base]$config[path]</link>
 ".        "    <description>The latest active threads of $t[ftitle]</description>
 ".        "    <image>
 ".        "      <url>$config[base]$config[path]theme/abII.png</url>
@@ -93,7 +93,7 @@
     do {
       //Whitespace feels awkward within <description></description> but i'm not sure what to change it to, feel free to change this blackhole89!
       //And yes, that is how you do HTML in RSS. :)
-      print "    <item>
+      echo "    <item>
 ".          "      <title>$t[title] - ".date("[$loguser[timeformat]]",$t[lastdate])." by $t[u2name]</title>
 ".          "      <description>Last post by &lt;a href=\"$config[base]$config[path]profile.php?id=$t[u2id]\"&gt;$t[u2name]&lt;/a&gt;, ".
                      "thread by &lt;a href=\"$config[base]$config[path]profile.php?id=$t[u1id]\"&gt;$t[u1name]&lt;/a&gt;</description>
@@ -116,7 +116,7 @@
                         ."ORDER BY t.lastdate DESC "
                         ."LIMIT 20");
     $t=$sql->fetch($threads);
-    print "    <link>$config[base]$config[path]</link>
+    echo "    <link>$config[base]$config[path]</link>
 ".        "    <description>The latest active threads of $boardtitle</description>
 ".        "    <image>
 ".        "      <url>$config[base]$config[path]theme/abII.png</url>
@@ -128,7 +128,7 @@
     do {
       //Whitespace feels awkward within <description></description> but i'm not sure what to change it to, feel free to change this blackhole89!
       //And yes, that is how you do HTML in RSS. :)
-      print "    <item>
+      echo "    <item>
 ".          "      <title>$t[title] - ".date("[$loguser[timeformat]]",$t[lastdate])." by $t[u2name]</title>
 ".          "      <description>Last post by &lt;a href=\"$config[base]$config[path]profile.php?id=$t[u2id]\"&gt;$t[u2name]&lt;/a&gt;, ".
                      "thread by &lt;a href=\"$config[base]$config[path]profile.php?id=$t[u1id]\"&gt;$t[u1name]&lt;/a&gt; ".
@@ -140,7 +140,7 @@
 ";
     } while($t=$sql->fetch($threads));
  }
-  print "  </channel>
+  echo "  </channel>
 ".      "</rss>
 ";
   

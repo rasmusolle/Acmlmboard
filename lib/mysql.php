@@ -26,7 +26,7 @@ class mysql {
 
 	function query($query) {
 		if ($this->debug_mode && isset($_GET['sqldebug']))
-			print "{$this->queries} $query<br>";
+			echo "{$this->queries} $query<br>";
 
 		$start = usectime();
 		if (($res = $this->db->query($query)) !== FALSE) {
@@ -37,7 +37,7 @@ class mysql {
 				$this->rowst += $this->db->affected_rows;
 			}
 		} else {
-			print $this->error();
+			echo $this->error();
 		}
 
 		$this->time+=usectime() - $start;

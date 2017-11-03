@@ -56,7 +56,7 @@ else if (!can_edit_post(array('user'=>$thread['puser'], 'tforum' => $thread['for
   $post=$sql->fetch($res);
 if(!$act){
   pageheader('Edit announcement title',$thread[forum]);
-    print "$top
+    echo "$top
 ".        "<br><br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        " <form action=editannouncetitle.php method=post>

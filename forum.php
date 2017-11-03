@@ -46,7 +46,7 @@ if ($fid = $_GET['id']) {
 		if (!$isIgnored && $loguser['id'] != 0) {
 			$sql->query("insert into ignoredforums values (" . $loguser['id'] . ", " . $fid . ")");
 			$isIgnored = true;
-			print
+			echo
 					"<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"n2\">
 " . "    <td class=\"b n1\" align=\"center\">
@@ -58,7 +58,7 @@ if ($fid = $_GET['id']) {
 		if ($isIgnored) {
 			$sql->query("delete from ignoredforums where uid=" . $loguser['id'] . " and fid=" . $fid);
 			$isIgnored = false;
-			print
+			echo
 					"<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"n2\">
 " . "    <td class=\"b n1\" align=\"center\">
@@ -230,15 +230,15 @@ if ($forum['threads'] <= $loguser['tpp']) {
 	$fpagebr = '<br>';
 }
 
-print $topbot;
+echo $topbot;
 if ($time) {
-	print "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
+	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
           By Threads | <a href=thread.php?time=$time>By Posts</a></div><br>";
-	print '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
+	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
 			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
 			. "</div>";
 }
-print "<br>
+echo "<br>
 " . "<table cellspacing=\"0\" class=\"c1\">";
 
 if ($fid) {
@@ -247,7 +247,7 @@ if ($fid) {
 	echo announcement_row($fid, 3, 4);
 }
 
-print "
+echo "
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" width=17>&nbsp;</td>
 " . "    <td class=\"b h\" width=17>&nbsp;</td>
@@ -317,7 +317,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		$tr = ($i % 2 ? 'n2' : 'n3');
 
 	if (!$thread['sticky'] && $lsticky)
-		print
+		echo
 				"  <tr class=\"c\">
 " . "    <td class=\"b\" colspan=" . ($showforum ? 8 : 7) . " style='font-size:1px'>&nbsp;</td>
 ";
@@ -342,7 +342,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		}
 	}
 
-	print "<tr class=\"$tr\" align=\"center\">
+	echo "<tr class=\"$tr\" align=\"center\">
 " . "    <td class=\"b n1\">$status</td>
 " . "    <td class=\"b\">$icon</td>
 " . ($showforum ?
@@ -354,7 +354,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 " . "    <td class=\"b\"><nobr>" . cdate($dateformat, $thread['lastdate']) . "</nobr><br><font class=sfont>by&nbsp;" . userlink($thread, 'u2', $config['forumminipic']) . "&nbsp;<a href='thread.php?pid=$thread[lastid]#$thread[lastid]'>&raquo;</a></font></td>
 ";
 }
-print "</table>
+echo "</table>
 " . "$fpagelist$fpagebr
 " . "$topbot
 ";

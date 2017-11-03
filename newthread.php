@@ -136,7 +136,7 @@ $iconlist .= "      <input type=\"radio\" class=\"radio\" name=iconid value=0 ch
 
 if (isset($err)) {
 	pageheader("New $type", $forum[id]);
-	print "$top - Error";
+	echo "$top - Error";
 	noticemsg("Error", $err);
 } elseif (!$act) {
 	if ($ispoll) {
@@ -156,7 +156,7 @@ if (isset($err)) {
 ";
 	}
 	pageheader("New $type", $forum['id']);
-	print "$top
+	echo "$top
 " . "<br><br>
 " . "<form action=newthread.php?ispoll=$ispoll method=post>
 " . " <table cellspacing=\"0\" class=\"c1\">
@@ -164,7 +164,7 @@ if (isset($err)) {
 " . "    <td class=\"b h\" colspan=2>$typecap</td>
 ";
 	if (! $log)
-		print "  <tr>
+		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\">Username:</td>
 " . "    <td class=\"b n2\"><input type=\"text\" name=name size=25 maxlength=25></td>
 " . "  <tr>
@@ -172,10 +172,10 @@ if (isset($err)) {
 " . "    <td class=\"b n2\"><input type=\"password\" name=pass size=13 maxlength=32></td>
 ";
 	else
-		print "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
+		echo "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
 " . "  <input type=\"hidden\" name=passenc value=\"" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . "\">
 ";
-	print "  <tr>
+	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\">$typecap title:</td>
 " . "    <td class=\"b n2\"><input type=\"text\" name=title size=100 maxlength=100></td>
 " . "  <tr>
@@ -187,11 +187,11 @@ if (isset($err)) {
 " . (isset($pollin) ? $pollin : 'Needle') . "
 ";
 	if ($loguser['posttoolbar'] != 1)
-		print "  <tr>
+		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-	print "  <tr>
+	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=20 cols=80></textarea></td>
 " . "  <tr class=\"n1\">
@@ -203,17 +203,17 @@ if (isset($err)) {
 " . "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
 ";
 	if ($log)
-		print // 2009-07 Sukasa: Newthread mood selector, just in the place I put it in mine
+		echo // 2009-07 Sukasa: Newthread mood selector, just in the place I put it in mine
 "      <select name=mid>" . moodlist() . "
 ";
-	print "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . (isset($_POST['nolayout']) ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
+	echo "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . (isset($_POST['nolayout']) ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
 " . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . (isset($_POST['nosmilies']) ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
 ";
 	if (can_edit_forum_threads($fid) && ! $announce)
-		print "     <input type=\"checkbox\" name=close id=close value=1 " . ($_POST['close'] ? "checked" : "") . "><label for=close>Close thread</label>
+		echo "     <input type=\"checkbox\" name=close id=close value=1 " . ($_POST['close'] ? "checked" : "") . "><label for=close>Close thread</label>
 " . "      <input type=\"checkbox\" name=stick id=stick value=1 " . ($_POST[stick] ? "checked" : "") . "><label for=stick>Stick thread</label>
 ";
-	print "    </td>
+	echo "    </td>
 " . " </table>
 " . "</form>
 ";
@@ -272,7 +272,7 @@ if (isset($err)) {
 	}
 	
 	pageheader("New $type", $forum['id']);
-	print "$top - Preview
+	echo "$top - Preview
 " . "".(isset($pollprev) ? $pollprev : '')."<br>
 " . "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
@@ -293,11 +293,11 @@ if (isset($err)) {
 " . $pollin . "
 ";
 	if ($loguser[posttoolbar] != 1)
-		print "  <tr>
+		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-	print "  <tr>
+	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=10 cols=80>" . htmlval($_POST[message]) . "</textarea></td>
 " . "  <tr class=\"n1\">
@@ -315,10 +315,10 @@ if (isset($err)) {
 " . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . ($post[nosmilies] ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
 ";
 	if (can_edit_forum_threads($fid) && ! $announce)
-		print "     <input type=\"checkbox\" name=close id=close value=1 " . ($post[close] ? "checked" : "") . "><label for=close>Close thread</label>
+		echo "     <input type=\"checkbox\" name=close id=close value=1 " . ($post[close] ? "checked" : "") . "><label for=close>Close thread</label>
 " . "      <input type=\"checkbox\" name=stick id=stick value=1 " . ($post[stick] ? "checked" : "") . "><label for=stick>Stick thread</label>
 ";
-	print "    </td>
+	echo "    </td>
 " . " </table>
 " . "</form>
 ";

@@ -108,11 +108,11 @@ if($_COOKIE['pstbon']==-1){
     $fpagelist.='</div>';
   }
 
-  print "$topbot
+  echo "$topbot
 ".      "<br>
 ";
-    if($_COOKIE['pstbon']){ print $rdmsg;}
-print   "<table cellspacing=\"0\" class=\"c1\">
+    if($_COOKIE['pstbon']){ echo $rdmsg;}
+echo   "<table cellspacing=\"0\" class=\"c1\">
 ".      "  <tr class=\"h\">
 ".      "    <td class=\"b h\" width=17>&nbsp;</td>
 ".      "    <td class=\"b h\" width=17>&nbsp;</td>
@@ -129,7 +129,7 @@ print   "<table cellspacing=\"0\" class=\"c1\">
       $pmsg[title]='(untitled)';
 
     $tr = ($i % 2 ? 'n2' :'n3');
-    print "<tr class=\"$tr\" align=\"center\">
+    echo "<tr class=\"$tr\" align=\"center\">
 ".        "    <td class=\"b n2\"><a href=private.php?action=del&id=$pmsg[id]&showdel=$showdel&view=$_GET[view]><img src=img/delete.png></a></td>
 ".        "    <td class=\"b n1\">$status</td>
 ".        "    <td class=\"b\" align=\"left\"><a href=showprivate.php?id=$pmsg[id]>".forcewrap(htmlval($pmsg[title]))."</a></td>
@@ -137,7 +137,7 @@ print   "<table cellspacing=\"0\" class=\"c1\">
 ".        "    <td class=\"b\"><nobr>".cdate($dateformat,$pmsg['date'])."</nobr></td>
 ";
   }
-  print "</table>
+  echo "</table>
 ".      "$fpagelist
 ".      "$topbot
 ";

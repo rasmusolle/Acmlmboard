@@ -8,7 +8,7 @@ pageheader("Search");
 $showforum=1;
 
 $HARBL="<table class=harbl";
-print "<style>.harbl{width:100%;border-collapse:collapse;padding:0}.lame{border-right:1px solid black;border-top:1px solid black}.superlame{border-right:1px solid black;border-top:1px solid black;border-bottom:1px solid black}.bblone{border-bottom:1px solid black}form{margin:0}optgroup{font-style:normal}</style>
+echo "<style>.harbl{width:100%;border-collapse:collapse;padding:0}.lame{border-right:1px solid black;border-top:1px solid black}.superlame{border-right:1px solid black;border-top:1px solid black;border-bottom:1px solid black}.bblone{border-bottom:1px solid black}form{margin:0}optgroup{font-style:normal}</style>
 <script>
 var lit='search';
 function field(show) {
@@ -46,7 +46,7 @@ while($forum=$sql->fetch($forums)){
 }
 $fsel.="</select>";
 
-print "<table cellspacing=\"0\" class=\"c1\">
+echo "<table cellspacing=\"0\" class=\"c1\">
 ".    "  <tr class=\"h\">
 " .   "    <td class=\"b h\">Search</td>
 "  .  "  <tr>
@@ -70,14 +70,14 @@ print "<table cellspacing=\"0\" class=\"c1\">
 
 
 
-print "      </div></td></table>
+echo "      </div></td></table>
 "    ."      </form>
 "   . "    </td>
 "  .  "</table>";
 
 if($_GET[action] == "Search") {
 if(strlen($_GET[q]) > 3) {
-	print "<br>
+	echo "<br>
 ".        "<div id=pleasewait>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"h\">
@@ -131,7 +131,7 @@ if($_GET[w] == 1) {
 	}
   }
   $dastring = trim(substr($dastring, strlen($defbool)));
-//  print $dastring;
+//  echo $dastring;
   $fieldlist='';
   $ufields=array('id','name','posts','regdate','lastpost','lastview','location','sex','group_id','rankset','title','usepic','head','sign');
   foreach($ufields as $field)
@@ -161,7 +161,7 @@ if($_GET[w] == 1) {
     $pthread[id]=$post[tid];
     $pthread[title]=$post[ttitle];
     $post[text]=preg_replace($boldify,"<b>\\0</b>",$post[text]); 
-    print "<br>
+    echo "<br>
 ".         threadpost($post,0,$pthread);
   }
 }
@@ -236,7 +236,7 @@ else {
                                ."WHERE $dastring "
                    ."AND f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm()." "
 );
-  print "<br>
+  echo "<br>
 ".      "<table cellspacing=\"0\" class=\"c1\">
 ".      "  <tr class=\"h\">
 ".      "    <td class=\"b h\" width=17>&nbsp;</td>
@@ -287,13 +287,13 @@ else {
       $tr = ($i % 2 ? 'n2' :'n3');
 
     if(!$thread['sticky'] && $lsticky)
-      print
+      echo
           "  <tr class=\"c\">
 ".        "    <td class=\"b\" colspan=".($showforum?8:7)." style='font-size:1px'>&nbsp;</td>
 ";
     $lsticky=$thread['sticky'];
 
-    print "<tr class=\$tr\" align=\"center\">
+    echo "<tr class=\$tr\" align=\"center\">
 ".        "    <td class=\"b n1\">$status</td>
 ".        "    <td class=\"b\">$icon</td>
 ".($showforum?
@@ -317,13 +317,13 @@ else {
         $fpagelist.=" <a href=search.php?q=".urlencode($_GET[q])."&action=Search&w=0&f=0&t=&p=&page=$p>$p</a>";
   }
 
-  print "</table>
+  echo "</table>
 ".      "$fpagelist
 ";
 
 
 }
-print "</div>
+echo "</div>
 ".    "<script>document.getElementById('pleasewait').style.display='none';document.getElementById('youwaited').style.display='block';</script>";
   }
 }

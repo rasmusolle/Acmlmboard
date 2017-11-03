@@ -34,7 +34,7 @@
                     ."AND bot=1 "
                     ."ORDER BY date DESC");
 
-  print "<table cellspacing=\"0\" width=100%>
+  echo "<table cellspacing=\"0\" width=100%>
 ".      "  <td class=\"nb\">Online users during the last ".timeunits2($time).":</table>
 ".      '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">
 '.       timelink(60).'|'.timelink(300).'|'.timelink(900).'|'.timelink(3600).'|'.timelink(86400)."</div>
@@ -56,7 +56,7 @@
       $user[ssl]=1;
     }
     $tr = ($i % 2 ? 'n2' :'n3');
-    print "<tr class=\$tr\" align=\"center\">
+    echo "<tr class=\$tr\" align=\"center\">
 ".        "    <td class=\"b n1\">$i.</td>
 ".        "    <td class=\"b\" align=\"left\">". ($user[hidden] ? '('.userlink($user).')' : userlink($user))."</td>
 ".        "    <td class=\"b\">".cdate($loguser[timeformat],$user[lastview])."</td>
@@ -66,7 +66,7 @@
 ".        "    <td class=\"b\">$user[posts]</td>
 ";
   }
-  print "</table>
+  echo "</table>
 ".      "<br>
 ".      "<table cellspacing=\"0\" width=100%>
 ".      "  <td class=\"nb\">Guests:</table>
@@ -85,7 +85,7 @@
       $guest[ssl]=1;
     }
     $tr = ($i % 2 ? 'n2' :'n3');
-    print "<tr class=\$tr\" align=\"center\">
+    echo "<tr class=\$tr\" align=\"center\">
 ".        "    <td class=\"b n1\">$i.</td>
 ".        "    <td class=\"b\" align=\"left\"><span title=\"". htmlspecialchars($guest['useragent']) ."\" style=white-space:nowrap>". htmlspecialchars(substr($guest['useragent'], 0, 65)) ."</span></td>
 ".        "    <td class=\"b\">".cdate($loguser[timeformat],$guest[date])."</td>
@@ -94,11 +94,11 @@
           "    <td class=\"b\">".flagip($guest[ip])."</td>":'')."
 ";
   }
-  print "</table>
+  echo "</table>
 ";
 
   
-  print "</table>
+  echo "</table>
 ".      "<br>
 ".      "<table cellspacing=\"0\" width=100%>
 ".      "  <td class=\"nb\">Bots:</table>
@@ -117,7 +117,7 @@
       $guest[ssl]=1;
     }
     $tr = ($i % 2 ? 'n2' :'n3');
-    print "<tr class=\"$tr\" align=\"center\">
+    echo "<tr class=\"$tr\" align=\"center\">
 ".        "    <td class=\"b n1\">$i.</td>
 ".        "    <td class=\"b\" align=\"left\"><span title=\"". htmlspecialchars($guest['useragent']) ."\" style=white-space:nowrap>". htmlspecialchars(substr($guest['useragent'], 0, 50)) ."</span></td>
 ".        "    <td class=\"b\">".cdate($loguser['timeformat'],$guest['date'])."</td>
@@ -126,7 +126,7 @@
           "    <td class=\"b\">".flagip($guest['ip'])."</td>":'')."
 ";
   }
-  print "</table>
+  echo "</table>
 ";
 
   

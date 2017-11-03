@@ -122,7 +122,7 @@ if (isset($_GET['rankset'])) {
 
 if ($_GET['action'] == 'addrankset' && has_perm('"edit-ranks')) {
 	pageheader("Rankset Listing");
-	print "<form action='ranks.php?action=addrankset' method='post' enctype='multipart/form-data'>
+	echo "<form action='ranks.php?action=addrankset' method='post' enctype='multipart/form-data'>
 " . " <table cellspacing=\"0\" class=\"c1\">
 " . catheader('New Rankset') . "
 " . "  <tr class=\"c\">
@@ -163,9 +163,9 @@ if ($_GET['action'] == 'editrankset' && has_perm('"edit-ranks')) {
 
 pageheader("Rankset Listing");
 if ($_COOKIE['pstbon']) {
-	print $rdmsg;
+	echo $rdmsg;
 }
-print "<table cellspacing=\"0\">
+echo "<table cellspacing=\"0\">
              <tr>
                <td>
                  <table cellspacing=\"0\" class=\"c1\">
@@ -220,7 +220,7 @@ while ($rank = $sql->fetch($ranks)) {
 	if (isset($rank['image'])) {
 		$rankimage .= "<img src=\"img/ranksets/$rank[dirname]/$rank[image]\">";
 	}
-	print "
+	echo "
              <tr>
                <td class=\"b n1\">" . (($usercount - $idlecount) || $blockunknown == false ? "$rank[str]" : "???") . "</td>
                <td class=\"b n2\" align=\"center\">" . (($usercount - $idlecount) || $blockunknown == false ? "$neededposts" : "???") . "</td>
@@ -231,6 +231,6 @@ while ($rank = $sql->fetch($ranks)) {
 	unset($rankimage, $usersonthisrank);
 	$i++;
 }
-print "</table>";
+echo "</table>";
 pagefooter();
 ?>

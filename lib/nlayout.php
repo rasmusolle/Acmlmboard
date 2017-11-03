@@ -33,8 +33,8 @@ function urlcreate($url, $query) {
 function RenderTable($data, $headers) {
 	$zebra = 0;
 
-	print "<table cellspacing=\"0\" class=\"c1\">\n";
-	print "\t<tr class=\"h\">\n";
+	echo "<table cellspacing=\"0\" class=\"c1\">\n";
+	echo "\t<tr class=\"h\">\n";
 	foreach ($headers as $headerID => $headerCell) {
 		if (isset($headerCell['hidden']) && $headerCell['hidden'])
 			continue;
@@ -44,11 +44,11 @@ function RenderTable($data, $headers) {
 		else
 			$width = "";
 
-		print "\t\t<td class=\"b h\"" . $width . ">" . $headerCell['caption'] . "</td>\n";
+		echo "\t\t<td class=\"b h\"" . $width . ">" . $headerCell['caption'] . "</td>\n";
 	}
-	print "\t</tr>\n";
+	echo "\t</tr>\n";
 	foreach ($data as $dataCell) {
-		print "\t<tr>\n";
+		echo "\t<tr>\n";
 		foreach ($dataCell as $id => $value) {
 			if (isset($headers[$id]['hidden']) && $headers[$id]['hidden'])
 				continue;
@@ -59,12 +59,12 @@ function RenderTable($data, $headers) {
 				$color = $headers[$id]['color'];
 			if (isset($headers[$id]['align']))
 				$align = " style=\"text-align: " . $headers[$id]['align'] . "\"";
-			print "\t\t<td class=\"b n" . $color . "\"" . $align . ">" . $value . "</td>\n";
+			echo "\t\t<td class=\"b n" . $color . "\"" . $align . ">" . $value . "</td>\n";
 		}
-		print "\t</tr>\n";
+		echo "\t</tr>\n";
 		$zebra = ($zebra + 1) % 2;
 	}
-	print "</table>\n";
+	echo "</table>\n";
 }
 
 //[KAWA] i LoVe AlL oF yOu MoThErFuCkErS :o)

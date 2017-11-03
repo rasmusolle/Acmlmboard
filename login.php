@@ -28,7 +28,7 @@ if ($act == 'Login') {
 	} else {
 		$err = "Invalid username or password, cannot log in.";
 	}
-	$print = "  <td class=\"b n1\" align=\"center\">$print</td>";
+	$echo = "  <td class=\"b n1\" align=\"center\">$echo</td>";
 } elseif ($act == 'logout') {
 	setcookie('user', 0);
 	setcookie('pass', '');
@@ -36,10 +36,10 @@ if ($act == 'Login') {
 }
 
 pageheader('Login');
-if (isset($_COOKIE['pstbon'])) { print $rdmsg; }
+if (isset($_COOKIE['pstbon'])) { echo $rdmsg; }
 if (isset($err))
 	noticemsg("Error", $err);
-print "<table cellspacing=\"0\" class=\"c1\">
+echo "<table cellspacing=\"0\" class=\"c1\">
 <form action=login.php method=post>
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Login</td>

@@ -95,9 +95,9 @@ $forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.priva
 		. "ORDER BY c.ord,c.id,f.ord,f.id");
 $cat = -1;
 if (isset($_COOKIE['pstbon'])) {
-	print $rdmsg;
+	echo $rdmsg;
 }
-print "
+echo "
 " . "<table cellspacing=\"0\" class=\"c1\">";
 
 echo announcement_row(0, 2, 3);
@@ -122,7 +122,7 @@ while ($forum = $sql->fetch($forums)) {
 
 	if ($forum['cat'] != $cat) {
 		$cat = $forum['cat'];
-		print "  <tr class=\"c\">
+		echo "  <tr class=\"c\">
 " . "    <td class=\"b\" colspan=5>" . ($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])) . "</td>
 ";
 	}
@@ -160,7 +160,7 @@ while ($forum = $sql->fetch($forums)) {
 			$modstring.=userlink($mod) . ", ";
 	if ($modstring)
 		$modstring = "<br>(moderated by: " . substr($modstring, 0, -2) . ")";
-	print
+	echo
 			"  <tr align=\"center\">
 " . "    <td class=\"b n1\">$status</td>
 " . "    <td class=\"b n2\" align=\"left\">
@@ -172,7 +172,7 @@ while ($forum = $sql->fetch($forums)) {
 " . "    <td class=\"b n2\">$lastpost</td>
 ";
 }
-print "</table>
+echo "</table>
 ";
 pagefooter();
 ?>

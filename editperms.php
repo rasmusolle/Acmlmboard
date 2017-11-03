@@ -132,7 +132,7 @@
   RenderPageBar($pagebar);
   
   // um yeah, plain <form> here. I would use the layout functions but those aren't flexible enough for what I want :/ -- Mega-Mario
-  print
+  echo
 	"<form action=\"\" method=\"POST\">
 ";
 
@@ -176,7 +176,7 @@
   $data = array(array('c0' => $field));
   RenderTable($data, $header);
   
-  print
+  echo
 	"</form>
 ".	"<br>
 ";

@@ -108,7 +108,7 @@ if ($config['memberlistcolorlinks']) {
 	$spancolor = "";
 }
 
-print "<table cellspacing=\"0\" class=\"c1\">
+echo "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>$num user" . ($num > 1 ? 's' : '') . " found.</td>
 " . "  <tr>
@@ -133,30 +133,30 @@ print "<table cellspacing=\"0\" class=\"c1\">
 
 if ($config['perusercolor']) {
 	if ($customnc == '1')
-		print "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, '0', $displayn) . "Regular</a> |
+		echo "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, '0', $displayn) . "Regular</a> |
   ";
 	else
-		print "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, '1', $displayn) . "Custom</a> |
+		echo "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, '1', $displayn) . "Custom</a> |
   ";
 }
 
-print "      " . mlink($sort, '', $pow, $ppp, $page, $mini, $orderby, $customnc, $displayn) . "All</a>";
+echo "      " . mlink($sort, '', $pow, $ppp, $page, $mini, $orderby, $customnc, $displayn) . "All</a>";
 
 //Added the sort by displayname feature - SquidEmpress
 if ($config['displayname'])
-	print "  <tr>
+	echo "  <tr>
 " . "    <td class=\"b n1\">Displayname:</td>
 " . "    <td class=\"b n2\" align=\"center\">
 " . "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, $customnc, '0') . "Regular</a> |
 " . "      " . mlink($sort, $sex, $pow, $ppp, $page, $mini, $orderby, $customnc, '1') . "Displayname</a>";
 
-print "  <tr>
+echo "  <tr>
 " . "    <td class=\"b n1\">Image:</td>
 " . "    <td class=\"b n2\" align=\"center\">
 " . "      " . mlink($sort, $sex, $pow, $ppp, $page, '0', $orderby, $customnc, $displayn) . "Avatars</a> |
 " . "      " . mlink($sort, $sex, $pow, $ppp, $page, '1', $orderby, $customnc, $displayn) . "Minipics</a>";
 
-print "  <tr>
+echo "  <tr>
 " . "    <td class=\"b n1\">Group:</td>
 " . "    <td class=\"b n2\" align=\"center\">";
 $c = 0;
@@ -214,7 +214,7 @@ for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 
 RenderTable($data, $headers);
 
-print "<br>
+echo "<br>
 " . "$pagelist
 " . "<br>
 ";

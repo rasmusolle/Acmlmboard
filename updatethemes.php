@@ -4,7 +4,7 @@ require("lib/common.php");
 pageheader();
 
 
-print "Scanning for new themes...<br>";
+echo "Scanning for new themes...<br>";
 
 $files = scandir("css");
 sort($files);
@@ -18,7 +18,7 @@ foreach($files as $f)
 	{
 		$n = $matches[1];
 		$d = substr($matches[2], 0, -2);
-		//print "Got a hit on ".$f."! Its name is \"$n\", description \"$d\".<br>";
+		//echo "Got a hit on ".$f."! Its name is \"$n\", description \"$d\".<br>";
 		$f2 = str_replace(".css", "", str_replace(".php", "", $f));
 		if($d != "")
 			$newlist[] = array($n, $f2, $d);
@@ -29,7 +29,7 @@ foreach($files as $f)
 
 file_put_contents("themes_serial.txt", serialize($newlist));
 
-print "We now have ".count($newlist)." themes.";
+echo "We now have ".count($newlist)." themes.";
 
 pagefooter();
 

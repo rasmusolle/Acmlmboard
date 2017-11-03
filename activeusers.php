@@ -19,7 +19,7 @@ $query='SELECT '.userfields('u').',u.posts,u.regdate,COUNT(*) num '
 	.'GROUP BY u.id ORDER BY num DESC';
 $users=$sql->query($query);
 
-print 'Active users during the last '.timeunits2($time).":
+echo 'Active users during the last '.timeunits2($time).":
 ".      "<br>
 ".       timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000)."
 ".      "<table cellspacing=\"0\" class=\"c1\">
@@ -38,7 +38,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	$post_total += $user['num'];
 	$post_overall += $user['posts'];
 	$tr = ($i % 2 ? 'n2': 'n3');
-	print "<tr class=\"$tr\" align=\"center\">
+	echo "<tr class=\"$tr\" align=\"center\">
 	".      "<td class=\"b\">$i.</td>
 	".      "<td class=\"b\" align=\"left\">".userlink($user)."</td>
 	".      "<td class=\"b\">".cdate($dateformat,$user['regdate'])."</td>
@@ -46,7 +46,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	".      "<td class=\"b\">$user[posts]</b></td>";
     $j++;
 }
-  print "<tr class=\"h\"><td class=\"b h\" colspan=5>Totals</td></tr>
+  echo "<tr class=\"h\"><td class=\"b h\" colspan=5>Totals</td></tr>
 ".		"<tr class=\"$tr\" align=\"center\">
 ".      "    <td class=\"b\"><b>$j.</b></td>
 ".      "    <td class=\"b\" align=\"left\"></td>
@@ -54,7 +54,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 ".      "    <td class=\"b\"><b>$post_total</b></td>
 ".      "    <td class=\"b\"><b>$post_overall</b></td>
 ";
-  print "</table>
+  echo "</table>
 ";
 
 pagefooter();

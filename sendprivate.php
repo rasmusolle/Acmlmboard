@@ -19,7 +19,7 @@
   if (!has_perm('create-pms')) error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 
   if($err){
-    print "$top - Error
+    echo "$top - Error
 ".        "<br><br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <td class=\"b n1\" align=\"center\">
@@ -48,7 +48,7 @@
       $userto=$_POST[userto];
 
   pageheader('Send private message');
-    print "$top
+    echo "$top
 ".        "<br><br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        " <form action=sendprivate.php method=post>
@@ -62,11 +62,11 @@
 ".        "    <td class=\"b n2\"><input type=\"text\" name=title size=80 maxlength=255 value=\"".htmlval($title)."\"></td>
 ";
      if($loguser[posttoolbar]!=1)  
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\">Message:</td>
 ".        "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=20 cols=80>".htmlval($quotetext)."</textarea></td>
 ".        "  <tr class=\"n1\">
@@ -97,7 +97,7 @@ print     "  <tr>
     $post[ulastpost]=ctime();
 
   pageheader('Send private message');
-    print "$top - Preview
+    echo "$top - Preview
 ".        "<br>
 ".        "<table cellspacing=\"0\" class=\"c1\">
 ".        "  <tr class=\"h\">
@@ -117,11 +117,11 @@ print     "  <tr>
 ".        "    <td class=\"b n2\"><input type=\"text\" name=title size=80 maxlength=255 value=\"".htmlval($_POST[title])."\"></td>
 ";
      if($loguser[posttoolbar]!=1)  
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
 ";
-print     "  <tr>
+echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Message:</td>
 ".        "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=10 cols=80>".htmlval($_POST[message])."</textarea></td>
 ".        "  <tr class=\"n1\">
@@ -182,7 +182,7 @@ print     "  <tr>
   }
 
   pageheader('Send private message');
-    print "$top - Error";
+    echo "$top - Error";
     noticemsg("Error", $msg);
 
   }

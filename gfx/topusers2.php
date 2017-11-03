@@ -10,8 +10,6 @@
 	$startdate	= floor((ctime() - (6 * 60 * 60)) / 86400) * 86400 + (6 * 60 * 60);
 	$enddate		= $startdate + 86400;
 
-//	print ctime() . " / $startdate / $enddate";
-
 	$users	= $sql -> query("SELECT COUNT(*) as `cnt`, `u`.`name`, `u`.`posts` ".
 							"FROM `posts` `p` ".
 							"LEFT JOIN `users` `u` ON `p`.`user` = `u`.`id` ".
@@ -36,7 +34,6 @@
  $c[bar][5]=ImageColorAllocate($img,173,231,255);
  $c[bar][6]=ImageColorAllocate($img, 57,189,255);
  $c[bar][7]=ImageColorAllocate($img, 75,222, 75);
-// ImageColorTransparent($img,0);
 
    $c[gridline]  =ImageColorAllocateAlpha($img, 200,110,100, 100);
    $c[alternate]  =ImageColorAllocateAlpha($img,   0,  0,  0, 110);
@@ -44,9 +41,6 @@
 
  box(0,1,64,23); //44*8=352
 
-// $fontY=fontc(255,250,240, 255,240, 80,  0, 0, 0);
-// $fontR=fontc(255,230,220, 240,160,150,  0, 0, 0);
-// $fontG=fontc(190,255,190,  60,220, 60,  0, 0, 0);
  $fontB=fontc(160,240,255, 120,190,240,  0, 0, 0);
  $fontR=fontc(255,235,200, 255,210,160,  0, 0, 0);
  $fontW=fontc(255,255,255, 210,210,210,  0, 0, 0);
@@ -60,16 +54,6 @@
  box(42,0,21,3); //44*8=352
  twrite($fontW, 43,  1, 0,"Today");
 
-/* $sc[1]=   1;
- $sc[2]=  10;
- $sc[3]=  40;
- $sc[4]= 100;
- $sc[5]= 200;
- $sc[6]= 300;
- $sc[7]= 400;
- $sc[8]=99999999;
-*/
-
  // more dramatic, better for lower post ranges
  // doubtful it'll ever go over 100 scale (you'd need 35.2k posts for that anyway)
  $sc[ 1]=       0.1;
@@ -81,10 +65,6 @@
  $sc[ 7]=      50;
  $sc[ 8]=99999999;
 
-// for($s=1;($topposts/$sc[$s])>176;$s++);
-// if(!$sc[$s]) $sc[$s]=1;
-
-// imageline($img, 328, 0, 328, 255, $c[bar][7]);
 
  for ($i = 4; $i <= 23; $i += 2) {
 	 imagefilledrectangle($img, 8, $i * 8, 504, $i * 8 + 7, $c[alternate]);
@@ -122,22 +102,16 @@
 	 for($s2=1;($maxd/$sc[$s2])>120;$s2++);
      if(!$sc[$s2]) $sc[$s2]=1;
 
-//	print "$maxp / $maxd";
  $i	= -1;
 
- foreach($userdat as $i => $user) {    // ($i=1;$user=$sql->fetch($users);$i++){
-//	$i++;
+ foreach($userdat as $i => $user) {
 	$name	= $user['name'];
 	$posts	= $user['posts'];
 	$daily	= $user['cnt'];
 	$vline	= $i + 3;
 
-//	print_r($user);
-
-//	print $i ."-";
    twrite($fontR,  1,$vline    , 0,substr($name,0,12));
    twrite($fontW, 13,$vline    , 5,$posts);
-//   twrite($fontG, 13,$vline + 1, 5,$daily);
 
    twrite($fontW, 42,$vline, 5,$daily);
 
