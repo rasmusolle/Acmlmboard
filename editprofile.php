@@ -106,7 +106,7 @@ if ($act == 'Edit profile') {
 			}
 		}
 	}
-	if ($_POST['minipicdel'])
+	if (isset($_POST['minipicdel']))
 		$minipic = "\"\"";
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
@@ -117,7 +117,7 @@ if ($act == 'Edit profile') {
 		} else
 			$usepic = "usepic+1";
 	}
-	if ($_POST['picturedel'])
+	if (isset($_POST['picturedel']))
 		$usepic = 0;
 
 	//check for table breach
@@ -140,7 +140,10 @@ if ($act == 'Edit profile') {
 	$pass = $_POST['pass'];
 	if (!strlen($_POST['pass2']))
 		$pass = "";
-	$tztotal = $_POST['tzoffH'] * 3600 + $_POST['tzoffM'] * 60 * ($_POST['tzoffH'] < 0 ? -1 : 1);
+	if (isset($tztotal))
+		$tztotal = $_POST['tzoffH'] * 3600 + $_POST['tzoffM'] * 60 * ($_POST['tzoffH'] < 0 ? -1 : 1);
+	else
+		$tztotal = -1;
 	//Validate birthday values.
 	if (!$_POST['birthM'] || !$_POST['birthD']) //Reject if any are missing.
 		$birthday = -1;
