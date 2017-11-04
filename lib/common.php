@@ -173,8 +173,7 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	if (($views + 100) % 1000000 <= 200) {
 		$sql->query("INSERT INTO `views` SET `view`=$views, `user`='$loguser[id]', `time`='" . ctime() . "'");
 		if (($views + 10) % 1000000 <= 20) {
-			if (!$bot)
-				sendirc("{irccolor-base}View {irccolor-title}$views{irccolor-base} by " . ($log ? "{irccolor-name}" . get_irc_displayname() . "" : "{irccolor-name}$userip") . "{irccolor-base}");
+
 		}
 	}
 
