@@ -15,7 +15,7 @@
     $user=$sql->fetchq("SELECT ".userfields()." FROM users WHERE id=$id");
     if($user[id]) {
       
-      $print="<a href=./>Main</a> - Posts by user ".($user[displayname]?$user[displayname]:$user[name])."<br><br>
+      $echo="<a href=./>Main</a> - Posts by user ".($user[displayname]?$user[displayname]:$user[name])."<br><br>
 ".           "<table cellspacing=\"0\" class=\"c1\">
 ".           "  <tr class=\"h\">
 ".           "    <td class=\"b h\">ID
@@ -35,14 +35,14 @@
       while($post=$sql->fetch($p)) {
         if(!(can_view_forum($post))) $tlink="<i>(Restricted forum)</i>";
         else $tlink="<a href=thread.php?pid=$post[pid]#$post[pid]>$post[title]</a>";
-        $print.="<tr class=\"".(($i=!$i)?"n3":"n2").">
+        $echo.="<tr class=\"".(($i=!$i)?"n3":"n2").">
 ".              "  <td class=\"b\" align=\"center\">$post[pid]
 ".              "  <td class=\"b\" align=\"center\">#$post[num]
 ".              "  <td class=\"b\" align=\"center\">".cdate($dateformat,$post[date])."
 ".              "  <td class=\"b\">$tlink
 ".              "</tr>";
       }
-      $print.="</table>";
+      $echo.="</table>";
 
       if($numposts<=$loguser[tpp])
         $fpagelist='<br>';
@@ -56,14 +56,14 @@
       }
 
     } else {
-      $print="<table cellspacing=\"0\" class=\"c1\">
+      $echo="<table cellspacing=\"0\" class=\"c1\">
 ".           "  <tr class=\"n2\">
 ".           "    <td class=\"b n1\" align=\"center\">
 ".           "      This user does not exist.
 ".           "</table>";
     }
   } else {
-    $print="<table cellspacing=\"0\" class=\"c1\">
+    $echo="<table cellspacing=\"0\" class=\"c1\">
 ".         "  <tr class=\"n2\">
 ".         "    <td class=\"b n1\" align=\"center\">
 ".         "      You must specify a user ID.
@@ -78,7 +78,7 @@ if(!$time) $time=86400;
   $u=$sql->fetchq("SELECT ".userfields()." FROM users WHERE id=$id");
   $username=($u[displayname]?$u[displayname]:$u[name]);
   if($time<999999999) $during=' during the last '.timeunits2($time);
-  $print= "Posts by $username in threads$during:
+  $echo= "Posts by $username in threads$during:
 ".      "<br>
 ".       timelink1(3600).'|'.timelink1(86400).'|'.timelink1(604800).'|'.timelink1(2592000)."
 ".           "<table cellspacing=\"0\" class=\"c1\">
@@ -90,22 +90,22 @@ if(!$time) $time=86400;
 ".      "  </tr>
   ";
   for($i=1;$t=$sql->fetch($posters);$i++){
-    $print.= "
+    $echo.= "
 	<tr>
 ".	"<td class=\"b\" align=\"center\">$i</td>
 ".	"<td class=\"b\" align=left>
     ";
     if(!(can_view_forum($t)))
-	$print.= "<i>(Restricted forum)</i>";
-    else $print.= "<a href=thread.php?id=$t[id]>$t[title]</a>";
-    $print.= "
+	$echo.= "<i>(Restricted forum)</i>";
+    else $echo.= "<a href=thread.php?id=$t[id]>$t[title]</a>";
+    $echo.= "
 	</td>
 ".	"<td class=\"b\" align=\"center\">$t[cnt]</td>
 ".     "<td class=\"b\" align=\"center\">".($t[replies]+1)."</td>
 ".     "  </tr>
     ";
   }
-      $print.="</table>";
+      $echo.="</table>";
             $fpagelist="";
   }
   
@@ -121,7 +121,7 @@ if(!$time) $time=86400;
   $posters=$sql->query("SELECT forums.*,COUNT(posts.id) AS cnt FROM forums,threads,posts WHERE $useridquery posts.thread=threads.id AND threads.forum=forums.id AND posts.date>".(ctime()-$time).' AND threads.announce=0 GROUP BY forums.id ORDER BY cnt DESC');
   $userposts=$sql->query("SELECT id FROM posts WHERE $useridquery date>".(ctime()-$time).'');
   if($time<999999999) $during=' during the last '.timeunits2($time);
-  $print= "Posts $by$username in forums$during:
+  $echo= "Posts $by$username in forums$during:
 ".      "<br>
 ".       timelink2(3600).'|'.timelink2(86400).'|'.timelink2(604800).'|'.timelink2(2592000)."
 ".           "<table cellspacing=\"0\" class=\"c1\">
@@ -133,10 +133,10 @@ if(!$time) $time=86400;
 ".      "  </tr>
   ";
   for($i=1;$f=$sql->fetch($posters);$i++){
-      if($i>1) $print.= '<tr>';
+      if($i>1) $echo.= '<tr>';
 	if(!(can_view_forum($f))) $link="<i>(Restricted forum)</i>";
 	else $link="<a href=forum.php?id=$f[id]>$f[title]</a>";
-      $print.= "
+      $echo.= "
 ".	"<td class=\"b\" align=\"center\">$i</td>
 ".	"<td class=\"b\">$link</td>
 ".	"<td class=\"b\" align=\"center\">$f[cnt]</td>
@@ -144,7 +144,7 @@ if(!$time) $time=86400;
 ".      "  </tr>
       ";
   }
-      $print.="</table>";
+      $echo.="</table>";
             $fpagelist="";
   }
   
@@ -158,7 +158,7 @@ if(!$time) $time=86400;
   }else $from=' on the board';
   $posts=$sql->query("SELECT count(*) AS cnt, FROM_UNIXTIME(date,'%k') AS hour FROM posts WHERE ".($id?"user=$id AND ":'')."date>$time GROUP BY hour");
   if($posttime<999999999) $during=' during the last '.timeunits2($posttime);
-  $print= "Posts$from by time of day$during:
+  $echo= "Posts$from by time of day$during:
 ".      "<br>
 ".       timelink3(3600).'|'.timelink3(86400).'|'.timelink3(604800).'|'.timelink3(2592000)."
 ".           "<table cellspacing=\"0\" class=\"c1\">
@@ -170,15 +170,15 @@ if(!$time) $time=86400;
   while($h=$sql->fetch($posts)) $postshour[$h[hour]]=$h[cnt];
   for($i=0;$i<24;$i++) if($postshour[$i]>$max) $max=$postshour[$i];
   for($i=0;$i<24;$i++){
-    if($i) $print.= '<tr>';
+    if($i) $echo.= '<tr>';
     $bar="<img src=gfx/rpg/bar-on.png width=".(@floor($postshour[$i]/$max*10000)/100).'% height=8>';
-    $print.= "
+    $echo.= "
 ".	"<td class=\"b n2\">$i</td>
 ".	"<td class=\"b n2\">$postshour[$i]</td>
 ".	"<td class=\"b n2\" width=100%>$bar</td>
     ";
   }
-      $print.="</table>";
+      $echo.="</table>";
             $fpagelist="";
     }
 
@@ -196,7 +196,7 @@ if(!$time) $time=86400;
   else {
   pageheader("Posts by user $user[name]");
   }
-  echo $print.$fpagelist."<br>";
+  echo $echo.$fpagelist."<br>";
   pagefooter();
   
  function timelink1($timex){

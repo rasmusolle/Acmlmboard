@@ -172,9 +172,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 
 	if (($views + 100) % 1000000 <= 200) {
 		$sql->query("INSERT INTO `views` SET `view`=$views, `user`='$loguser[id]', `time`='" . ctime() . "'");
-		if (($views + 10) % 1000000 <= 20) {
-
-		}
 	}
 
 	$count = $sql->fetchq("	SELECT
