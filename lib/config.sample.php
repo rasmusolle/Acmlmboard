@@ -24,7 +24,7 @@
   $defaultlogo="theme/abII.png";// Replace with the logo of your choice. Note: This is used if a theme doesn't have it's own logo. It is replaced per theme depending on the theme used.
   $boardlogo="<img style='border: 0px' src='$defaultlogo' title=\"$boardtitle\">"; // This defines the logo. Recommended you leave this the default.
   $favicon="theme/fav.png";// Replace with your favicon of choice
-  $defaulttheme="dailycycle2";// Select the default theme to be used. This will also be showed to users who are not logged in.
+  $defaulttheme="new";// Select the default theme to be used. This will also be showed to users who are not logged in.
   $defaultfontsize=70;// Overall font scale of the board. Default is 70%
   $homepageurl="http://something/"; // This defines the link for the header image.
 
