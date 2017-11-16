@@ -10,7 +10,6 @@ if (!has_perm('edit-attentions-box')) {
 	pageheader('Nothing here.');
 	noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 } else {
-
 	if ($action == "Submit") {
 		$sql->query("UPDATE misc SET txtval='" . $_POST['txtval'] . "' WHERE field='attention'");
 	}
