@@ -359,7 +359,7 @@ function userdisp($user, $u = '', $usemini = '') {
 	if ($user[$u . 'displayname'] && $config['displayname'])
 		$n = $user[$u . 'displayname'];
 
-	if (!empty($user[$u . 'minipic']) && $user['showminipic']) {
+	if (!empty($user[$u . 'minipic']) && isset($user['showminipic'])) {
 		$minipic = "<img style='vertical-align:text-bottom' src='" . $user[$u . 'minipic'] . "' border=0> ";
 	} else {
 		$minipic = "";
