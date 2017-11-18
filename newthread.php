@@ -323,11 +323,11 @@ if (isset($err)) {
 " . "</form>
 ";
 } elseif ($act == 'Submit') {
-	if (! ($iconurl = $_POST[iconurl]))
-		$iconurl = $sql->resultq("SELECT url FROM posticons WHERE id=" . (int) $_POST[iconid]);
+	if (! ($iconurl = $_POST['iconurl']))
+		$iconurl = $sql->resultq("SELECT url FROM posticons WHERE id=" . (int) $_POST['iconid']);
 	
-	checknumeric($_POST[nolayout]);
-	checknumeric($_POST[nosmilies]);
+	checknumeric($_POST['nolayout']);
+	checknumeric($_POST['nosmilies']);
 	if (can_edit_forum_threads($fid)) {
 		checknumeric($_POST['close']);
 		checknumeric($_POST['stick']);
@@ -345,14 +345,14 @@ if (isset($err)) {
 	$iconurl = addslashes($iconurl);
 	
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
-	$user[posts]++;
+	$user['posts']++;
 	
 	$tagsum = 0;
 	for ($i = 0; $i < 32; ++ $i)
-		if ($_POST["tag$i"])
+		if (isset($_POST["tag$i"]))
 			$tagsum |= (1 << $i);
 	
-	$mid = (isset($_POST[mid]) ? (int) $_POST[mid] : - 1);
+	$mid = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1);
 	if ($announce) {
 		$modclose = $announce;
 	}
