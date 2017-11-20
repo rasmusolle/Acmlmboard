@@ -370,7 +370,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$unreadpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `unread`=1 AND `del_to`='0'");
 		$totalpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `del_to`='0'");
 
-
 		if ($unreadpms) {
 			$status = rendernewstatus("n");
 			$unreadpms = " ($unreadpms new)";
@@ -378,28 +377,8 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$status = "";
 			$unreadpms = "";
 		}
-		//Starts code for the classic PM box.
-		if ($config['classicpms'] && has_perm('view-own-pms')) {
-			if ($totalpms > 0)
-				$lastmsg = "<br>
-" . "      <font class=sfont><a href=showprivate.php?id=$pmsgs[id]>Last message</a> from " . userlink($pmsgs, 'u') . ' on ' . cdate($dateformat, $pmsgs[date]) . '.</font>';
-			else
-				$lastmsg = '';
 
-			$oldpmsgbox = "<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>Private Messages</td>
-" . "  <tr>
-" . "    <td class=\"b n1\" width=17>$status</td>
-" . "    <td class=\"b n2\">
-" . "      <a href=private.php>Private messages</a> -- You have $totalpms private message" . ($totalpms != 1 ? 's' : '') . "$unreadpms.$lastmsg
-" . "  </table>
-" . "  <br>
-";
-		} else
-			$oldpmsgbox = '';
-
-		if (!$config['disablemodernpms'] && has_perm('view-own-pms')) {
+		if (has_perm('view-own-pms')) {
 			if ($unreadpms) {
 				$pmimage = "gfx/pm.png";
 			} else {
@@ -643,10 +622,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 			 </td>
 		   </tr>
 		 </table>";
-		
-		if(!empty($oldpmsgbox)) {
-			echo"<br>\n$oldpmsgbox";
-		}
 	}
 }
 

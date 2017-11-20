@@ -118,11 +118,6 @@
 //The following enables the classic style forum tags. This will possibly be replaced/in addition to user variable
   $config['classictags'] = false;
   
-  //These two settings allow you to choose how user will be notfied about PMs. The "classic" Index table method, the "modern" Icon style, or Both
-  //Note: You must have one or both enabled for you to have any PM info displayed to the user.
-  $config['classicpms'] = false; //Enables the classic table style PM notification
-  $config['disablemodernpms'] = false;//**DISABLES** the modern style system. The modern style is the supported method for PM notification.
-
   // these are fallback settings
   $config['trashid'] = $trashid;
   $config['boardtitle'] = $boardtitle;
