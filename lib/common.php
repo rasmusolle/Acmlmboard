@@ -405,7 +405,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			} else {
 				$pmimage = "gfx/pm-off.png";
 			}
-			$pmsgbox = "<a href=\"private.php\"><img src=\"$pmimage\" border=\"0\" alt=\"Private messages\" title=\"Private message\"></a> $unreadpms | ";
+			$pmsgbox = '<a href="private.php"><img src="' . $pmimage . '" width="16" height="9" alt="Private messages" title="Private message"></a> ' . $unreadpms . ' | ';
 		} else {
 			$pmsgbox = "";
 		}
@@ -684,9 +684,7 @@ function error($name, $msg) {
 }
 
 function pagefooter() {
-	//Used for Affiliates, buttons, links, and navigational tools -Emuz
-	global  $abversion, $abdate, $boardprog;
-
+	global $abversion, $abdate, $boardprog;
 	?><br>
 	<table class="c2">
 		<tr>
