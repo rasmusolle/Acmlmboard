@@ -34,3 +34,10 @@ DROP TABLE announcechans;
 ALTER TABLE `forums` DROP `announcechan_id`;
 ALTER TABLE `group` DROP `char`;
 ALTER TABLE `group` DROP `irc_color`;
+
+
+-- Deleted Posts Tracker
+DELETE FROM `perm` WHERE `perm`.`id` = 'deleted-posts-tracker';
+DELETE FROM `perm` WHERE `perm`.`id` = 'track-deleted-posts';
+DELETE FROM `x_perm` WHERE `x_perm`.`id` = 316;
+DELETE FROM `x_perm` WHERE `x_perm`.`id` = 317;

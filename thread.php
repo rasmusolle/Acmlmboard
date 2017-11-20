@@ -44,16 +44,6 @@ function timelink($time) {
 
 loadsmilies();
 
-if (has_perm('track-deleted-posts')) {
-	$deletedposts = "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
-" . "       Your Deleted Posts</a> | <a href=thread.php?alldeletedposts>General Deleted Posts</a></div>";
-	$alldeletedposts = "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
-" . "       <a href=thread.php?deletedposts>Your Deleted Posts</a> | General Deleted Posts</a></div>";
-} else {
-	$deletedposts = "";
-	$deletedposts = "";
-}
-
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0 || $page > 1000000000000000) {
 	error("Error", "Invalid page number");
@@ -82,10 +72,6 @@ if (isset($_REQUEST['id'])) {
 } elseif (isset($_GET['announce'])) {
 	$announcefid = (int)$_GET['announce'];
 	$viewmode = "announce";
-} elseif (isset($_GET['deletedposts'])) {
-	$viewmode = "deletedposts";
-} elseif (isset($_GET['alldeletedposts'])) {
-	$viewmode = "alldeletedposts";
 }
 // "link" support (i.e., thread.php?pid=999whatever)
 elseif (isset($_GET['pid'])) {
@@ -357,48 +343,6 @@ if ($viewmode == "thread") {
 			. "LEFT JOIN categories c ON c.id=f.cat "
 			. "WHERE p.date>$mintime "
 	);
-} elseif (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log) {
-
-	pageheader("Deleted Posts Tracker");
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum "
-			. "FROM posts p "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.user=$loguser[id] AND p.deleted=1 AND ISNULL(pt2.id) "
-			. "ORDER BY p.id "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
-
-	$thread['replies'] = $sql->resultq("SELECT count(*) "
-			. "FROM posts p "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.user=$loguser[id] AND p.deleted=1 ");
-} elseif (has_perm('track-deleted-posts') && has_perm('deleted-posts-tracker') && $viewmode == "alldeletedposts" && $log) {
-
-	pageheader("Deleted Posts Tracker");
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum "
-			. "FROM posts p "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.deleted=1 AND ISNULL(pt2.id) "
-			. "ORDER BY p.id "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
-
-	$thread[replies] = $sql->resultq("SELECT count(*) "
-			. "FROM posts p "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.deleted=1 ");
 } else
 	pageheader();
 
@@ -519,18 +463,6 @@ if ($viewmode == "thread") {
 } elseif ($viewmode == "time") {
 	$topbot = "<table cellspacing=\"0\" width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
-" . "</table>
-";
-} elseif (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log) {
-	$topbot = "<table cellspacing=\"0\" width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Deleted Posts Tracker</td>
-" . "<td class=\"nb\" align=\"right\">$deletedposts
-" . "</table>
-";
-} elseif (has_perm('track-deleted-posts') && has_perm('deleted-posts-tracker') && $viewmode == "alldeletedposts" && $log) {
-	$topbot = "<table cellspacing=\"0\" width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Deleted Posts Tracker</td>
-" . "<td class=\"nb\" align=\"right\">$alldeletedposts
 " . "</table>
 ";
 } else {
@@ -712,14 +644,6 @@ function trashConfirm(e) {
 }
 
 echo "$topbot$userbar";
-if (has_perm('deleted-posts-tracker') && $viewmode == "deletedposts" && $log && $thread['replies'] == 0) {
-	echo "<br><br><br>";
-	noticemsg("Notice", "You have no deleted posts.");
-}
-if (has_perm('track-deleted-posts') && has_perm('deleted-posts-tracker') && $viewmode == "alldeletedposts" && $log && $thread['replies'] == 0) {
-	echo "<br><br><br>";
-	noticemsg("Notice", "There are no deleted posts on the board.");
-}
 
 if ($timeval) {
 	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
