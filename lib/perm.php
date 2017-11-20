@@ -179,7 +179,7 @@ function can_view_cat($cat) {
 
 function can_edit_post($post) {
   global $loguser;
-  if ($post['user'] == $loguser['id'] && has_perm('update-own-post')) return true;
+  if (isset($post['user']) && $post['user'] == $loguser['id'] && has_perm('update-own-post')) return true;
   else if (has_perm('update-post')) return true;
   else if (can_edit_forum_posts($post['tforum'])) return true;
 

@@ -716,6 +716,7 @@ CREATE TABLE `pmsgs` (
   `date` int(11) NOT NULL DEFAULT '0',
   `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
+  `nosmilies` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `userto` mediumint(9) UNSIGNED NOT NULL,
   `userfrom` mediumint(9) UNSIGNED NOT NULL,

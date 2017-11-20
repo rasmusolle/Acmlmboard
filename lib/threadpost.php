@@ -62,8 +62,8 @@ function threadpost($post, $type, $pthread = '') {
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
 	//}
-	//post has been deleted, display placeholder
-	if ($post['deleted']) {
+	
+	if (isset($post['deleted']) && $post['deleted']) {
 		$postlinks = "";
 		if (can_edit_forum_posts(getforumbythread($post['thread']))) {
 			$postlinks.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&rev=$post[revision]#$post[id]\">Peek</a> | ";
@@ -94,15 +94,18 @@ function threadpost($post, $type, $pthread = '') {
 			$postlinks = '';
 			$revisionstr = '';
 			
+			// Lazy hacks :3
+			if (!isset($post['id'])) $post['id'] = 0;
+			
 			if ($pthread)
 				$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
 
-			if ($post['id'])
+			if (isset($post['id']) && $post['id'])
 				$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
 
 				
 //2007-03-08 blackhole89
-			if ($post['revision'] >= 2)
+			if (isset($post['revision']) && $post['revision'] >= 2)
 				$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
 
 			// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
@@ -111,7 +114,7 @@ function threadpost($post, $type, $pthread = '') {
                <td class=\"b\" colspan=2>" . $post['ttitle'] . "</td>
              </tr>
             ";
-			} else if ($post['thread'] && $loguser['id'] != 0) {
+			} else if (isset($post['thread']) && $loguser['id'] != 0) {
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
 			}
 
@@ -131,7 +134,7 @@ function threadpost($post, $type, $pthread = '') {
 			if (has_perm('view-post-ips'))
 				$postlinks.=($postlinks ? ' | ' : '') . "IP: $post[ip]";
 
-			if (can_view_forum_post_history(getforumbythread($post['thread'])) && $post['maxrevision'] > 1) {
+			if (isset($post['thread']) && can_view_forum_post_history(getforumbythread($post['thread'])) && $post['maxrevision'] > 1) {
 				$revisionstr.=" | Go to revision: ";
 				for ($i = 1; $i <= $post['maxrevision'];  ++$i)
 					$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
