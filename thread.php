@@ -679,7 +679,6 @@ while ($post = $sql->fetch($posts)) {
 			echo $rdmsg;
 		}
 	}
-	echo 'hey';
 	echo "<br>
 " . threadpost($post, 0);
 }
