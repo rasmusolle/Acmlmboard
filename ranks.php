@@ -100,8 +100,8 @@ $ranks = $sql->query("SELECT * FROM `ranks` `r` LEFT JOIN `ranksets` `rs` ON `rs
 while ($rank = $sql->fetch($allranks)) {
 	if ($rank['rs'] == $getrankset)
 		$rankposts[] = $rank['p'];
-	if (! $rankselection)
-		$rankselection .= "<a href=\"ranks.php?rankset=$rank[id]\">$rank[name]</a>";
+	if (!isset($rankselection))
+		$rankselection = "<a href=\"ranks.php?rankset=$rank[id]\">$rank[name]</a>";
 	else {
 		if ($usedranks[$rank['rs']] != true)
 			$rankselection .= " | <a href=\"ranks.php?rankset=$rank[id]\">$rank[name]</a>";
@@ -162,31 +162,33 @@ if ($_GET['action'] == 'editrankset' && has_perm('"edit-ranks')) {
 }
 
 pageheader("Rankset Listing");
-if ($_COOKIE['pstbon']) {
+if (isset($_COOKIE['pstbon'])) {
 	echo $rdmsg;
 }
-echo "<table cellspacing=\"0\">
-             <tr>
-               <td>
-                 <table cellspacing=\"0\" class=\"c1\">
-                   <tr class=\"h\">
-                     <td class=\"b n1\" width=\"50%\">Rank Set</td>
-                   </tr>
-                   <tr class=\"n1\">
-                     <td class=\"b n1\">$rankselection$inaclnk$editlinks</td>
-                   </tr>
-                 </table>
-               </td>
-             </tr>
-           </table><br>
-           <table cellspacing=\"0\" class=\"c1\">
-            <tr class=\"h\">
-               <td class=\"b\" width=\"150px\">Rank</td>
-               <td class=\"b\" width=\"50px\">Posts</td>
-               <td class=\"b\" width=\"100px\">Users On Rank</td>
-               <td class=\"b\">Users On Rank</td>
-             </tr>";
-
+?>
+<table>
+	<tr>
+		<td>
+			<table class="c1">
+				<tr class="h">
+					<td class="b n1" width="50%">Rank Set</td>
+				</tr>
+				<tr class="n1">
+					<td class="bn1"><?php echo "$rankselection$inaclnk$editlinks"; ?></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br>
+<table class="c1">
+	<tr class="h">
+		<td class="b" width="150px">Rank</td>
+		<td class="b" width="50px">Posts</td>
+		<td class="b" width="100px">Users On Rank</td>
+		<td class="b">Users On Rank</td>
+	</tr>
+<?php
 $i = 1;
 
 while ($rank = $sql->fetch($ranks)) {
@@ -203,7 +205,6 @@ while ($rank = $sql->fetch($ranks)) {
 		}
 		if (($postcount >= $neededposts) && ($postcount < $nextneededposts)) {
 			if (isset($_GET['showinactive']) || $user['lastview'] > (time() - (86400 * $inactivedays))) {
-				
 				$usersonthisrank = '';
 				if ($usersonthisrank)
 					$usersonthisrank .= ", ";
@@ -220,13 +221,20 @@ while ($rank = $sql->fetch($ranks)) {
 	if (isset($rank['image'])) {
 		$rankimage .= "<img src=\"img/ranksets/$rank[dirname]/$rank[image]\">";
 	}
-	echo "
-             <tr>
-               <td class=\"b n1\">" . (($usercount - $idlecount) || $blockunknown == false ? "$rank[str]" : "???") . "</td>
-               <td class=\"b n2\" align=\"center\">" . (($usercount - $idlecount) || $blockunknown == false ? "$neededposts" : "???") . "</td>
-               <td class=\"b n2\" align=\"center\">$usercount</td>
-               <td class=\"b n1\" align=\"center\">" . (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : "") . "</td>
-             </tr>";
+	?>
+	<tr>
+		<td class="b n1">
+			<?php echo (($usercount - $idlecount) || $blockunknown == false ? "$rank[str]" : "???"); ?>
+		</td>
+		<td class="b n2" align="center">
+			<?php echo (($usercount - $idlecount) || $blockunknown == false ? "$neededposts" : "???"); ?>
+		</td>
+		<td class="b n2" align="center">$usercount</td>
+		<td class="b n1" align="center">
+			<?php echo (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : ""); ?>
+		</td>
+	</tr>
+	<?php
 	
 	unset($rankimage, $usersonthisrank);
 	$i++;
