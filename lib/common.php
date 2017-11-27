@@ -494,13 +494,13 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
 
-		echo "<table cellspacing=\"0\" class=\"c1\">
-               <tr class=\"n1\">
-               <td class=\"b n1\" align=\"center\">$onuserlist
-              </td>
-              </tr>
-			 </table>
-			 <br>";
+		?>
+		<table class="c1">
+			<tr class="n1">
+				<td class="b n1" align="center">$onuserlist</td>
+			</tr>
+		</table><br>
+		<?php
 	} else if ($showonusers) {
 		//[KAWA] Copypastadaption from ABXD, with added activity limiter.
 		$birthdaylimit = 86400 * $inactivedays;
@@ -596,32 +596,31 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (ctime() - 86400) . "'");
 		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (ctime() - 86400) . "'");
 
-		echo "
-	     <table cellspacing=\"0\" class=\"c1\">$birthdaybox
-           <tr>
-             <td class=\"b n1\">
-               <table cellspacing=\"0\" width=\"100%\">
-                 <tr>
-                   <td class=\"nb\" width=\"250\"></td>
-                   <td class=\"nb\" align=\"center\">
-                     <span class=\"white-space:nowrap\"> <!--This was <nobr>, note: find class instead of this-->
-                       $count[t] threads and $count[p] posts total | 
-                       $count[d] new posts today, $count[h] last hour.<br>
-                       $activeusers active users and $activethreads active threads during the last day.<br> 
-                     </span>
-                   </td>
-                   <td class=\"nb\" align=\"right\" width=\"250\">
-                    $count[u] registered users<br>
-                    Newest: " . userlink($lastuser) . "
-                   </td>
-                 </tr>
-               </table>
-           <tr>
-             <td class=\"b n2\" align=\"center\">
-               $onuserlist
-			 </td>
-		   </tr>
-		 </table>";
+		?>
+		<table class="c1">
+			<?php echo $birthdaybox; ?>
+			<tr>
+				<td class="b n1">
+					<table width="100%">
+						<tr>
+							<td class="nb" width="250"></td>
+							<td class="nb" align="center"><span class="white-space:nowrap">
+									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total | <?php echo $count['d']; ?> new posts
+									today, <?php echo $count['h']; ?> last hour.<br> <?php echo $activeusers; ?> active users and
+									<?php echo $activethreads; ?> active threads during the last day.<br>
+							</span></td>
+							<td class="nb" align="right" width="250">
+								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="b n2" align="center"><?php echo $onuserlist; ?></td>
+			</tr>
+		</table>
+		<?php
 	}
 }
 
@@ -632,21 +631,17 @@ function pagestats() {
           MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }
 
-function miscbar() {
-		//pagestats();
-	echo "<br><table cellspacing=\"0\" class=\"c2\"><tr align=\"center\"><td class=\"b n2\" align=\"left\"><center><img src=\"img/poweredbyacmlm.PNG\"></table>";
-}
-
 function noticemsg($name, $msg) {
-	echo "<table cellspacing=\"0\" class=\"c1\">
-" . " <tr class=\"h\">
-" . "  <td class=\"b h\" align=\"center\">$name
-" . " <tr>
-" . "  <td class=\"b n1\" align=\"center\">
-" . "    $msg
-" . "</table>
-" . "<br>
-";
+	?>
+	<table class="c1">
+		<tr class="h">
+			<td class="b h" align="center">$name</td>
+		</tr>
+		<tr>
+			<td class="b n1" align="center">$msg</td>
+		</tr>
+	</table><br>
+	<?php
 }
 
 function error($name, $msg) {
