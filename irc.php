@@ -1,10 +1,6 @@
 <?php
 require 'lib/common.php';
 pageheader();
-
-$channel = "#changeme";
-$network = "irc.changeme.invalid";
-
 ?>
 <table class="c1">
 	<tr class="h">
@@ -13,7 +9,7 @@ $network = "irc.changeme.invalid";
 		<td class="b n2" align="center">
 			Please download an IRC client to join.<br>
 			<a href="https://hexchat.github.io">How about HexChat?</a><br>
-			When you've downloaded it, connect to <?php echo $channel; ?> at <?php echo $network; ?>
+			When you've downloaded it, connect to <?php echo $config['channel']; ?> at <?php echo $config['network']; ?>
 		</td>
 	</tr>
 </table>
