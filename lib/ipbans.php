@@ -18,7 +18,7 @@
     //a ban appears to be present. check for type
     //and restrict user's access if necessary
     $i=$sql->fetch($r);
-    if($i[hard])
+    if($i['hard'])
     {
       //hard IP ban; always restrict access fully
 

@@ -211,6 +211,8 @@ if (is_file("css/" . $theme . ".css")) {
 	$themefile = $theme . ".css";
 }
 
+
+
 if ($config['override_logo'] && !has_special_perm("bypass-logo-override")) //Config override for the logo file
 	$logofile = $config[override_logo];
 elseif (is_file("theme/" . $theme . "/logo.png"))
@@ -317,7 +319,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$logbar = $loguser;
 		$logbar['showminipic'] = 1;
 	}
-
+	
 	echo "<!DOCTYPE html>
       <html>
       <head>
@@ -442,11 +444,10 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	echo "</td>";
 	if($log) {
-		// no point in generating logout form if they aren't logged in.
-		echo "<form action=\"login.php\" method=\"post\" name=\"logout\">
-                 <input type=\"hidden\" name=\"action\" value=\"logout\">
-                 <input type=\"hidden\" name=\"p\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . ">
-               </form>";
+		?><form action="login.php" method="post" name="logout">
+			<input type="hidden" name="action" value="logout">
+			<input type="hidden" name="p" value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
+		</form><?php
 	}
 
 	echo "
@@ -497,7 +498,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		?>
 		<table class="c1">
 			<tr class="n1">
-				<td class="b n1" align="center">$onuserlist</td>
+				<td class="b n1" align="center"><?php echo $onuserlist; ?>/td>
 			</tr>
 		</table><br>
 		<?php
@@ -635,10 +636,10 @@ function noticemsg($name, $msg) {
 	?>
 	<table class="c1">
 		<tr class="h">
-			<td class="b h" align="center">$name</td>
+			<td class="b h" align="center"><?php echo $name; ?></td>
 		</tr>
 		<tr>
-			<td class="b n1" align="center">$msg</td>
+			<td class="b n1" align="center"><?php echo $msg; ?></td>
 		</tr>
 	</table><br>
 	<?php

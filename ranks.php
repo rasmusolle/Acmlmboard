@@ -122,18 +122,23 @@ if (isset($_GET['rankset'])) {
 
 if ($_GET['action'] == 'addrankset' && has_perm('"edit-ranks')) {
 	pageheader("Rankset Listing");
-	echo "<form action='ranks.php?action=addrankset' method='post' enctype='multipart/form-data'>
-" . " <table cellspacing=\"0\" class=\"c1\">
-" . catheader('New Rankset') . "
-" . "  <tr class=\"c\">
-" . "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">Name:</td>
-" . "      <td class=\"b n2\"><input type=\"text\" name='newname' size='40' maxlength='255' class='right'></td>
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b\">&nbsp;</td>
-" . "    <td class=\"b\"><input type=\"submit\" class=\"submit\" name=action value='Submit'></td>
-" . " </table>
-";
+	?>
+	<form action='ranks.php?action=addrankset' method='post' enctype='multipart/form-data'>
+		<table class="c1">
+			<?php echo catheader('New Rankset'); ?>
+			<tr class="c">
+				<tr>
+					<td class="b n1" align="center">Name:</td>
+					<td class="b n2"><input type="text" name='newname' size='40' maxlength='255' class='right'></td>
+				</tr>
+			</tr>
+			<tr class="n1">
+				<td class="b">&nbsp;</td>
+				<td class="b"><input type="submit" class="submit" name=action value='Submit'></td>
+			</tr>
+		</table>
+	</form>
+	<?php
 	pagefooter();
 	die();
 }
@@ -156,6 +161,7 @@ if ($_GET['action'] == 'editrankset' && has_perm('"edit-ranks')) {
 				</tr>
 			</tr>
 		</table>
+	</form>
 	<?php
 	pagefooter();
 	die();
@@ -229,7 +235,7 @@ while ($rank = $sql->fetch($ranks)) {
 		<td class="b n2" align="center">
 			<?php echo (($usercount - $idlecount) || $blockunknown == false ? "$neededposts" : "???"); ?>
 		</td>
-		<td class="b n2" align="center">$usercount</td>
+		<td class="b n2" align="center"><?php echo $usercount; ?></td>
 		<td class="b n1" align="center">
 			<?php echo (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : ""); ?>
 		</td>
