@@ -107,7 +107,7 @@ if ($loguser['tpp'] < 1)
 	$loguser['tpp'] = 20;
 
 //2007-02-19 blackhole89 - needs to be here because it requires loguser data
-require "lib/ipbans.php";
+
 
 //Unban users whose tempbans have expired. - SquidEmpress
 $defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
@@ -219,6 +219,8 @@ elseif (is_file("theme/" . $theme . "/logo.png"))
 	$logofile = "theme/" . $theme . "/logo.png";
 else
 	$logofile = $defaultlogo;
+
+require "lib/ipbans.php";
 
 $rpgimageset = '';
 
@@ -498,7 +500,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		?>
 		<table class="c1">
 			<tr class="n1">
-				<td class="b n1" align="center"><?php echo $onuserlist; ?>/td>
+				<td class="b n1" align="center"><?php echo $onuserlist; ?></td>
 			</tr>
 		</table><br>
 		<?php
