@@ -26,6 +26,6 @@ pageheader();
 			<br><kbd>/part [#channel]</kbd> - leaves a channel
 			<br><kbd>/quit [message]</kbd> - disconnects from the server
 		</td>
-	</tr>     
+	</tr>
 </table>
 <?php pagefooter(); ?>
