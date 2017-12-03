@@ -298,12 +298,12 @@ if ($act != 'Submit' && !$err && can_view_forum($thread)) {
 	}
 
 	if ($thread['replies'] >= $loguser['ppp']) {
-		echo "<br>
-" . "<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr>
-" . "    <td class=\"b n1\">The full thread can be viewed <a href=thread.php?id=$tid>here</a>.
-" . "</table>
-";
+		?><br>
+		<table cellspacing="0" class="c1">
+			<tr>
+				<td class="b n1">The full thread can be viewed <a href=thread.php?id=$tid>here</a>.
+		</table>
+		<?php
 	}
 }
 
