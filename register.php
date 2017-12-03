@@ -1,72 +1,73 @@
 <?php
-//  if(strcmp("Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)",$_SERVER['HTTP_USER_AGENT'])==0)
-//  die("You fail");
-//	header("Location: http://board.acmlm.org/register.php");
-//	die("Anonymous does not succeed.");
+
 require 'lib/common.php';
 
 $regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field='regdisable'");
 if ($regdis['intval'] == 1) {
 	pageheader('Register');
 
-	if($regdis['txtval'] != "")
+	if ($regdis['txtval'] != "")
 		$reason = $regdis['txtval'];
 	else 
 		$reason = "Registration is currently disabled.";
 
-	echo "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
-	".         "  <tr class=\"h\">
-	".         "    <td class=\"b h\" colspan=2>Registration is disabled</td>
-	".         "  <tr>
-	".         "    <td class=\"b n1\" align=\"center\" width=120>$reason For more information please read the board announcements or visit us on <a href=irc.php>IRC</a><br/>
-	".           "  <a href=./>Back to main</a></td></td>
-	".      "</table>
-	";
+	?>
+	<table class="c1">
+		<tr class="h"><td class="b h" colspan="2">Registration is disabled</td></tr>
+		<tr>
+			<td class="b n1" align="center" width="120">
+				<?php echo $reason; ?> For more information please read the board announcements
+				or visit us on <a href="irc.php">IRC</a>
+			</td>
+		</tr>
+	</table>
+	<?php
 	pagefooter();
 	die();
 }
 
 
-$boardemailaddress=$sql->resultq("SELECT `emailaddress` FROM `misc` WHERE `field`='boardemail'");
+$boardemailaddress = $sql->resultq("SELECT `emailaddress` FROM `misc` WHERE `field`='boardemail'");
 if (isProxy()) {
 	pageheader('Register');
 
-	if($regdis['txtval'] != "") 
+	if ($regdis['txtval'] != "") 
 		$reason = $regdis['txtval'];
 	else 
 		$reason = "Security Check Failure";
 
-	echo "<table cellspacing=\"0\" class=\"c1\"><td class=\"b n1\" align=\"center\">
-		".         "  <tr class=\"h\">
-		".         "    <td class=\"b h\" colspan=2>Registration is denied</td>
-		".         "  <tr>
-		".         "    <td class=\"b n1\" align=\"center\" width=120>Our site has detected your IP is either a proxy, or listed as a known spammer. If you feel this is in error contact the board admins at ".($boardemailaddress).".</a></td></td>
-		".      "</table>
-		";
+	?>
+	<table class="c1">
+		<tr class="h"><td class="b h" colspan="2">Registration is denied</td></tr>
+		<tr>
+			<td class="b n1" align="center" width="120">
+				Our site has detected your IP is either a proxy, or listed as a known spammer.
+				If you feel this is in error contact the board admins at <?php echo $boardemailaddress; ?></a>
+			</td>
+		</tr>
+	</table>
+	<?php
 
 	pagefooter();
 	die();
 }
 
-//[KAWA] Replacing the CAPTCHA with a simple plain-English mathematics puzzle, as discussed with Emuz.
-//Moved to config.php for easy edit. -Emuz
-
 function randstr($l) {
-	$str="";
-	$chars="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$+/~";
+	$str = "";
+	$chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$+/~";
 	for($i = 0; $i < $l; ++$i)
 		$str .= $chars[rand(0, strlen($chars)-1)];
 	return $str;
 }
 
-$act = isset($_POST['action']) ? $_POST['action'] : '';
-if($act == 'Register'){
-	$name=trim(stripslashes($_POST['name']));
+$act = (isset($_POST['action']) ? $_POST['action'] : '');
+if ($act == 'Register') {
+	$name = trim(stripslashes($_POST['name']));
 
-	$cname=str_replace(array(' ',"\xC2\xA0"),'',$name);
-	$cname=strtolower($cname);
+	$cname = str_replace(array(' ',"\xC2\xA0"),'',$name);
+	$cname = strtolower($cname);
 
-	$dupe=$sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", array($cname,$cname));
+	$dupe = $sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", array($cname,$cname));
 	
 	$sex = (int)$_POST['sex'];
 	if ($sex < 0 || $sex > 2) $sex = 1;
@@ -74,27 +75,25 @@ if($act == 'Register'){
 	$timezone = $_POST['timezone'];
 
 	$err = '';
-	if($dupe)
+	if ($dupe)
 		$err = 'This username is already taken, please choose another.';
-	elseif($name=='' || $cname=='')
+	elseif ($name == '' || $cname == '')
 		$err = 'The username must not be empty, please choose one.';
-	elseif(($sql->resultq("SELECT COUNT(*) FROM `users` WHERE `ip` = '". $_SERVER['REMOTE_ADDR'] ."'")) >= 3)
-		$err = 'Too many users with this IP address.';
-	elseif(strlen($_POST['pass']) < 4)
+	elseif (strlen($_POST['pass']) < 4)
 		$err = 'Your password must be at least 4 characters long.';
-	elseif($_POST['pass'] != $_POST['pass2'])
+	elseif ($_POST['pass'] != $_POST['pass2'])
 		$err = "The two passwords you entered don't match.";
-	elseif($config['registrationpuzzle'] && $_POST['puzzle'] != $puzzleAnswer)
+	elseif ($config['registrationpuzzle'] && $_POST['puzzle'] != $puzzleAnswer)
 		$err = "You are either a bot or very bad at simple mathematics.";
 
-	if(empty($err)){
+	if (empty($err)) {
 		$name = $sql->escape($name);
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
 		$query_string = sprintf("INSERT INTO users (name,pass,regdate,lastview,ip,sex,timezone,fontsize,theme) VALUES ('%s', '%s', %d, %d, '%s', %d, '%s', %d, '%s');",
 		$name, $salted_password, ctime(), ctime(), $userip, $sex, $timezone, $defaultfontsize, $defaulttheme);
 		$res = $sql->query($query_string);
 		if ($res) {
-			$id=$sql->insertid();
+			$id = $sql->insertid();
 			$sql->query("INSERT INTO usersrpg (id) VALUES ($id)");
 
 			$ugid = 0;
@@ -114,74 +113,74 @@ if($act == 'Register'){
 
 			/* count matches for IP and hash */
 			//hash
-			$a=$sql->fetchq("SELECT COUNT(*) as c FROM users WHERE pass='".md5($pwdsalt2.$_POST[pass].$pwdsalt)."'");
-			$m_hash=$a['c']-1;
+			$a = $sql->fetchq("SELECT COUNT(*) as c FROM users WHERE pass='".md5($pwdsalt2.$_POST[pass].$pwdsalt)."'");
+			$m_hash = $a['c']-1;
 			//split the IP
-			$ipparts=explode(".",$userip);
+			$ipparts = explode(".",$userip);
 			// /32 matches
-			$a=$sql->fetchq("SELECT count(*) as c FROM users WHERE ip='$userip'");
-			$m_ip32=$a['c']-1;
+			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip='$userip'");
+			$m_ip32 = $a['c']-1;
 			// /24
-			$a=$sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].$ipparts[2].%'");
-			$m_ip24=$a['c']-1;
+			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].$ipparts[2].%'");
+			$m_ip24 = $a['c']-1;
 			// /16
-			$a=$sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].%'");
-			$m_ip16=$a['c']-1;
+			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].%'");
+			$m_ip16 = $a['c']-1;
 
 			//fancy colouring (if matches exist, make it red); references to make foreach not operate on copies
 			$clist = array(&$m_hash, &$m_ip32, &$m_ip24, &$m_ip16);
 			foreach($clist as &$c)
-				if($c>0) $c="{irccolor-no}$c"; else $c="{irccolor-yes}$c";
+				if($c>0) $c = "{irccolor-no}$c"; else $c="{irccolor-yes}$c";
 
 			redirect('login.php',-1);
 		} else {
-			$err="Registration failed: ".$sql->error();
+			$err = "Registration failed: ".$sql->error();
 		}
 	}
 }
 
-  pageheader('Register');
-     $listsex=array('Male','Female','N/A');
-      $alltz = $sql->query("SELECT name FROM `timezones`"); 
+pageheader('Register');
+$listsex = array('Male','Female','N/A');
+$alltz = $sql->query("SELECT name FROM `timezones`"); 
 
-      $listtimezones = array();
-      while ($tz = $sql->fetch($alltz)) {
-        $listtimezones[$tz['name']] = $tz['name'];
-      }
+$listtimezones = array();
+while ($tz = $sql->fetch($alltz)) {
+	$listtimezones[$tz['name']] = $tz['name'];
+}
 
-    $cap=encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));
- if(!empty($err)) noticemsg("Error", $err);
-  echo "<table cellspacing=\"0\" class=\"c1\">
-".         " <form action=register.php method=post>
-".         "  <tr class=\"h\">
-".         "    <td class=\"b h\" colspan=2>Register</td>
-".         "  <tr>
-".         "    <td class=\"b n1\" align=\"center\" width=120>&nbsp;</td>
-".         "    <td class=\"b n2\"><font class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</font>
-".         "  <tr>
-".         "    <td class=\"b n1\" align=\"center\" width=120>Username:</td>
-".         "    <td class=\"b n2\"><input type=\"text\" name=name size=25 maxlength=25></td>
-".         "  <tr>
-".         "    <td class=\"b n1\" align=\"center\">Password:</td>
-".         "    <td class=\"b n2\"><input type=\"password\" name=pass size=13 maxlength=32></td>
-".         "  <tr>
-".         "    <td class=\"b n1\" align=\"center\">Password (again):</td>
-".         "    <td class=\"b n2\"><input type=\"password\" name=pass2 size=13 maxlength=32></td>
-".           fieldrow('Sex'             ,fieldoption('sex',2,$listsex))."
-".           fieldrow('Timezone'      ,fieldselect('timezone','UTC',$listtimezones))."
-";
-    if($config['registrationpuzzle'])
-    echo     
-           "  <tr>
-".         "    <td class=\"b n1\" align=\"center\" width=120>$puzzle</td>
-".         "    <td class=\"b n2\"><input type=\"text\" name=puzzle size=13 maxlength=6></td>
-";
-    echo
-           "  <tr class=\"n1\">
-".         "    <td class=\"b\">&nbsp;</td>
-".         "    <td class=\"b\"><input type=\"submit\" class=\"submit\" name=action value=Register></td>
-".         " </form>
-".      "</table>
-";
-  pagefooter();
+$cap = encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));
+if(!empty($err)) noticemsg("Error", $err);
 ?>
+<table class="c1">
+	<form action="register.php" method="post">
+		<tr class="h">
+			<td class="b h" colspan="2">Register</td>
+		</tr><tr>
+			<td class="b n1" align="center" width=120>Username:</td>
+			<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
+		</tr><tr>
+			<td class="b n1" align="center">Password:</td>
+			<td class="b n2"><input type="password" name=pass size=13 maxlength=32></td>
+		</tr><tr>
+			<td class="b n1" align="center">Password (again):</td>
+			<td class="b n2"><input type="password" name=pass2 size=13 maxlength=32></td>
+		</tr>
+		<?php
+		echo fieldrow('Sex',fieldoption('sex',2,$listsex));
+		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
+		if ($config['registrationpuzzle']) { ?>
+			<tr>
+				<td class="b n1" align="center" width="120"><?php echo $puzzle; ?></td>
+				<td class="b n2"><input type="text" name="puzzle" size="13" maxlength="20"></td>
+			</tr>
+		<?php } ?>
+		<tr class="n1">
+			<td class="b">&nbsp;</td>
+			<td class="b">
+				<input type="submit" class="submit" name="action" value="Register">
+				<font class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</font>
+			</td>
+		</tr>
+	</form>
+</table>
+<?php pagefooter(); ?>
