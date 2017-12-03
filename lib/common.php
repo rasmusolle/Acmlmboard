@@ -6,7 +6,7 @@ header("Content-type: text/html; charset=utf-8");
 //[Scrydan] Added these three variables to make editing quicker.
 $boardprog = "Acmlm, Emuz, <a href='credits.php'>et al</a>.";
 $abdate = "7/13/2015";
-$abversion = "2.5.3<i>pre</i> <span style=\"color: #BCDE9A; font-style: italic;\">Development</span>";
+$abversion = "2.5.3<i>pre</i> <span style=\"color: #BCDE9A; font-style: italic; font-size:8pt;\">Development</span>";
 
 if ($config['sqlconfig']) {
 
@@ -445,7 +445,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 	}
 
 	echo "</td>";
-	if($log) {
+	if ($log) {
 		?><form action="login.php" method="post" name="logout">
 			<input type="hidden" name="action" value="logout">
 			<input type="hidden" name="p" value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
@@ -606,13 +606,13 @@ function pageheader($pagetitle = "", $fid = 0) {
 				<td class="b n1">
 					<table width="100%">
 						<tr>
-							<td class="nb" width="250"></td>
+							<td class="nb" width="125"></td>
 							<td class="nb" align="center"><span class="white-space:nowrap">
 									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total | <?php echo $count['d']; ?> new posts
 									today, <?php echo $count['h']; ?> last hour.<br> <?php echo $activeusers; ?> active users and
 									<?php echo $activethreads; ?> active threads during the last day.<br>
 							</span></td>
-							<td class="nb" align="right" width="250">
+							<td class="nb" align="right" width="125">
 								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
 							</td>
 						</tr>

@@ -5,12 +5,18 @@ loadsmilies();
 
 pageheader("Search");
 
-$showforum=1;
+$showforum = 1;
 
-$HARBL="<table class=harbl";
-echo "<style>.harbl{width:100%;border-collapse:collapse;padding:0}.lame{border-right:1px solid black;border-top:1px solid black}.superlame{border-right:1px solid black;border-top:1px solid black;border-bottom:1px solid black}.bblone{border-bottom:1px solid black}form{margin:0}optgroup{font-style:normal}</style>
+$HARBL = "<table class=harbl";
+?>
+<style>
+.harbl {width:100%;border-collapse:collapse;padding:0}
+.lame {border-right:1px solid black;border-top:1px solid black}
+.superlame {border-right:1px solid black;border-top:1px solid black;border-bottom:1px solid black}
+.bblone {border-bottom:1px solid black}form{margin:0}optgroup{font-style:normal}
+</style>
 <script>
-var lit='search';
+var lit = 'search';
 function field(show) {
 	document.getElementById(lit+'btn').className='n2 superlame';
 	document.getElementById(lit+'div').style.display='none';
@@ -18,33 +24,34 @@ function field(show) {
 	document.getElementById(show+'div').style.display='block';
 	lit=show;
 }
-</script>";
+</script>
+<?php
 
-$categs=$sql->query("SELECT * "
+$categs = $sql->query("SELECT * "
                    ."FROM categories "
                    ."WHERE id IN ".cats_with_view_perm()." "
                    ."ORDER BY ord");
-while($c=$sql->fetch($categs))
-  $categ[$c[id]]=$c;
-$forums=$sql->query("SELECT f.* "
+while ($c = $sql->fetch($categs))
+  $categ[$c['id']] = $c;
+$forums = $sql->query("SELECT f.* "
                    ."FROM forums f "
                    ."LEFT JOIN categories c ON c.id=f.cat "
                    ."WHERE f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm()." "
                    ."ORDER BY c.ord,ord");
 
-$cat=-1;
-$fsel="<select name=f><option value=0>Any</option>";
+$cat = -1;
+$fsel = "<select name=f><option value=0>Any</option>";
 
-while($forum=$sql->fetch($forums)){
-  if($forum[cat]!=$cat){
-    $cat=$forum[cat];
-    $fsel.="<optgroup label='".($categ[$cat][title])."'>";
+while ($forum = $sql->fetch($forums)) {
+  if ($forum['cat']!=$cat) {
+    $cat = $forum['cat'];
+    $fsel .= "<optgroup label='".($categ[$cat]['title'])."'>";
   }
-  $sel="";
-  if($_GET[f]==$forum[id]) $sel=" selected";
-  $fsel.="<option value=$forum[id]$sel>$forum[title]</option>";
+  $sel = "";
+  if ($_GET['f'] == $forum['id']) $sel = " selected";
+  $fsel .= "<option value=".$forum['id']."$sel>".$forum['title']."</option>";
 }
-$fsel.="</select>";
+$fsel .= "</select>";
 
 echo "<table cellspacing=\"0\" class=\"c1\">
 ".    "  <tr class=\"h\">
@@ -67,7 +74,43 @@ echo "<table cellspacing=\"0\" class=\"c1\">
 " .   "      <tr><td><td><input type=\"submit\" class=\"submit\" name=action value=Search>
 "  .  "      </table></div>
 "   . "      <div id=emptydiv style=display:none>";
-
+/*<table cellspacing="0" class="c1">
+	<tr class="h"><td class="b h">Search</td></tr>
+	<tr>
+		<td class="b n1" style="padding:10" height="150" valign="top">
+			<form action="search.php" method="get">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+							<table cellpadding=0 cellspacing=0 style=cursor:default;width:100%><tr>
+								<td width=15 class=bblone>&nbsp;</td>
+								<td width=60 class=lame style='border-left:1px solid black' align=center id=searchbtn onclick=field('search')>
+									<b>Search</b>
+								</td>
+								<td width=60 class='n2 superlame' align=center id=filterbtn onclick=field('filter')>
+									<b>Filters</b>
+								</td>
+								<td width=60 class='n2 superlame' align=center id=emptybtn onclick=field('empty')>
+									<b>Harbl</b>
+								</td>
+								<td class=bblone>&nbsp;</td>
+							</tr></table>
+						</td>
+					</tr>
+					<tr>
+						<td style='padding:3;border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black'>
+						<div id=searchdiv><?php echo $HARBL; ?>>
+							<tr><td>Search for:&nbsp;<td><input type="text" name=q size=40 value="<?php echo htmlspecialchars(stripslashes($_GET['q']), ENT_QUOTES) ?>"><td>&nbsp;<input type=\"submit\" class=\"submit\" name=action value=Search></td>
+<tr><td><td>in:&nbsp;<input type=\"radio\" class=\"radio\" name=w value=0 id=threadtitle".(($_GET[w]==0)?" checked":"")."><label for=threadtitle>&nbsp;thread title</label>&nbsp;<input type=\"radio\" class=\"radio\" name=w value=1 id=posttext".(($_GET[w]==1)?" checked":"")."><label for=posttext>&nbsp;post text</label><td>
+</table></div>
+<div id=filterdiv style=display:none>$HARBL>
+<tr><td>Forum:&nbsp;<td>$fsel
+<tr><td>Thread creator:&nbsp;<td><input type=\"text\" name=t value='".htmlspecialchars(stripslashes($_GET[t]), ENT_QUOTES)."'>
+<tr><td>Post creator:&nbsp;<td><input type=\"text\" name=p value='".htmlspecialchars(stripslashes($_GET[p]), ENT_QUOTES)."'>
+<tr><td> <td><font class='sfont'>% acts as a generic wildcard.</font>
+<tr><td><td><input type=\"submit\" class=\"submit\" name=action value=Search>
+</table></div>
+<div id=emptydiv style=display:none>";*/
 
 
 echo "      </div></td></table>
