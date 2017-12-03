@@ -33,3 +33,7 @@ function syndrome($num) {
 		$syn = "<i><font color=$syn</font></i>";
 	return $syn;
 }
+
+function syndromeprint($num) {
+	echo syndrome($num);
+}
