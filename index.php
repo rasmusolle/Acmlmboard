@@ -28,21 +28,6 @@ if (isset($_GET['a'])) {
 $showonusers = 1;
 require 'lib/common.php';
 
-$rdmsg = "";
-if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] == -1) {
-	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<script language=\"javascript\">
-	function dismiss()
-	{
-		document.getElementById(\"postmes\").style['display'] = \"none\";
-	}
-</script>
-	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table cellspacing=\"0\" class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
-	$rdmsg.="Post Radar saved!<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">Post Radar has been saved successfully.</td></tr></table></div>";
-}
-
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 //mark forum read
@@ -94,9 +79,7 @@ $forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.priva
 		. " WHERE announce=0 "
 		. "ORDER BY c.ord,c.id,f.ord,f.id");
 $cat = -1;
-if (isset($_COOKIE['pstbon'])) {
-	echo $rdmsg;
-}
+
 echo "
 " . "<table cellspacing=\"0\" class=\"c1\">";
 
