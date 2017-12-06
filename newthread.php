@@ -40,7 +40,7 @@ checknumeric($fid);
 if ($announce) {
 	$type = "announcement";
 	$typecap = "Announcement";
-} elseif ($_GET['ispoll']) {
+} elseif (isset($_GET['ispoll']) && $_GET['ispoll'] == 1) {
 	$type = "poll";
 	$typecap = "Poll";
 	$ispoll = 1;
@@ -63,8 +63,10 @@ if ($act != "Submit") {
 	$toolbar = posttoolbar();
 	
 	if ($ispoll) {
-		echo '<script type="text/javascript" src="jscolor/jscolor.js"></script>';
-		echo '<script type="text/javascript" src="polleditor.js"></script>';
+		?>
+		<script type="text/javascript" src="jscolor/jscolor.js"></script>
+		<script type="text/javascript" src="polleditor.js"></script>
+		<?php
 		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="color" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
 	}
 }
@@ -135,88 +137,102 @@ $iconlist .= "      <input type=\"radio\" class=\"radio\" name=iconid value=0 ch
 ";
 
 if (isset($err)) {
-	pageheader("New $type", $forum[id]);
+	pageheader("New $type", $forum['id']);
 	echo "$top - Error";
 	noticemsg("Error", $err);
 } elseif (!$act) {
-	if ($ispoll) {
-		$pollin = "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Poll question:</td>
-" . "  <td class=\"b n2\"><input type=\"text\" name=question size=100 maxlength=100 value=\"" . htmlval($_POST[question]) . "\"></td>
-" . "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Poll choices:</td>
-" . "  <td class=\"b n2\"><div id=\"polloptions\">
-" . "    " . sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)) . "
-" . "    " . sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)) . "
-" . "  </div>
-" . "  <button type=\"button\" class=\"submit\" id=addopt onclick=\"addOption();return false;\">Add choice</button></td>
-" . "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Options:</td>
-" . "  <td class=\"b n2\"><input type=\"checkbox\" name=multivote value=1 id=mv><label for=mv>Allow multiple voting</label> | <input type=\"checkbox\" name=changeable checked value=1 id=ch><label for=ch>Allow changing one's vote</label>
-";
-	}
 	pageheader("New $type", $forum['id']);
-	echo "$top
-" . "<br><br>
-" . "<form action=newthread.php?ispoll=$ispoll method=post>
-" . " <table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>$typecap</td>
-";
-	if (! $log)
-		echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">Username:</td>
-" . "    <td class=\"b n2\"><input type=\"text\" name=name size=25 maxlength=25></td>
-" . "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">Password:</td>
-" . "    <td class=\"b n2\"><input type=\"password\" name=pass size=13 maxlength=32></td>
-";
-	else
-		echo "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
-" . "  <input type=\"hidden\" name=passenc value=\"" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . "\">
-";
-	echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">$typecap title:</td>
-" . "    <td class=\"b n2\"><input type=\"text\" name=title size=100 maxlength=100></td>
-" . "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">$typecap icon:</td>
-" . "    <td class=\"b n2\">
-" . "$iconlist
-" . "    </td>
-" . $tagsin . "
-" . (isset($pollin) ? $pollin : 'Needle') . "
-";
-	if ($loguser['posttoolbar'] != 1)
-		echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-" . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
-";
-	echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
-" . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=20 cols=80></textarea></td>
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b\">&nbsp;</td>
-" . "    <td class=\"b\">
-" . "      <input type=\"hidden\" name=fid value=$fid>
-" . "      <input type=\"hidden\" name=announce value=$announce>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
-";
-	if ($log)
-		echo // 2009-07 Sukasa: Newthread mood selector, just in the place I put it in mine
-"      <select name=mid>" . moodlist() . "
-";
-	echo "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . (isset($_POST['nolayout']) ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
-" . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . (isset($_POST['nosmilies']) ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
-";
-	if (can_edit_forum_threads($fid) && ! $announce)
-		echo "     <input type=\"checkbox\" name=close id=close value=1 " . ($_POST['close'] ? "checked" : "") . "><label for=close>Close thread</label>
-" . "      <input type=\"checkbox\" name=stick id=stick value=1 " . ($_POST[stick] ? "checked" : "") . "><label for=stick>Stick thread</label>
-";
-	echo "    </td>
-" . " </table>
-" . "</form>
-";
+	echo $top;
+	?>
+	<br><br>
+	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
+		<table class="c1">
+			<tr class="h">
+				<td class="b h" colspan="2"><?php echo $typecap; ?></td>
+			</tr>
+			<?php if (!$log) { ?>
+				<tr>
+					<td class="b n1" align="center">Username:</td>
+					<td class="b n2"><input type="text" name="name" size="25" maxlength="25"></td>
+				</tr>
+				<tr>
+					<td class="b n1" align="center">Password:</td>
+					<td class="b n2"><input type="password" name="pass" size=13 maxlength=32></td>
+				</tr>
+			<?php } else { ?>
+				<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
+				<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
+			<?php } ?>
+			<tr>
+				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
+				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
+			</tr>
+			<tr>
+				<td class="b n1" align="center"><?php echo $typecap; ?> icon:</td>
+				<td class="b n2"><?php echo $iconlist; ?></td>
+			</tr>
+			<?php
+			echo $tagsin;
+			if ($ispoll) {
+				?>
+				<tr>
+					<td class="b n1" align="center">Poll question:</td>
+					<td class="b n2"><input type="text" name="question" size="100" maxlength="100" value="<?php echo htmlval(isset($_POST['question']) ? $_POST['question'] : ''); ?>"></td>
+				</tr>
+				<tr>
+					<td class="b n1" align="center">Poll choices:</td>
+					<td class="b n2">
+						<div id="polloptions">
+							<?php echo sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)); ?>
+							<?php echo sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)); ?>
+						</div>
+						<button type="button" class="submit" id="addopt" onclick="addOption();return false;">Add choice</button>
+					</td>
+				</tr>
+				<tr>
+					<td class="b n1" align="center">Options:</td>
+					<td class="b n2">
+						<input type="checkbox" name="multivote" value="1" id="mv">
+						<label for="mv">Allow multiple voting</label> | 
+						<input type="checkbox" name="changeable" checked value="1" id="ch">
+						<label for="ch">Allow changing one's vote</label>
+					</td>
+				</tr>
+				<?php
+			}
+			if ($loguser['posttoolbar'] != 1) { ?>
+				<tr>
+					<td class="b n1" align="center" width=120>Format:</td>
+					<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				</tr>
+			<?php } ?>
+			<tr>
+				<td class="b n1" align="center" width=120>Post:</td>
+				<td class="b n2">
+					<textarea wrap="virtual" name=message id='message' rows=20 cols=80></textarea>
+				</td>
+			</tr>
+			<tr class="n1">
+				<td class="b">&nbsp;</td>
+				<td class="b">
+					<input type="hidden" name="fid" value="<?php echo $fid; ?>">
+					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
+					<input type="submit" class="submit" name="action" value="Submit">
+					<input type="submit" class="submit" name="action" value="Preview">
+					<?php if ($log) { ?>
+						<select name="mid"><?php echo moodlist(); ?></select>
+					<?php } ?>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($_POST['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
+					<input type="checkbox" name=nosmilies id=nosmilies value=1 <?php echo (isset($_POST['nosmilies']) ? "checked" : ""); ?>><label for=nosmilies>Disable smilies</label>
+					<?php if (can_edit_forum_threads($fid) && ! $announce) { ?>
+						<input type="checkbox" name=close id=close value=1 <?php echo (isset($_POST['close']) ? "checked" : ""); ?>><label for=close>Close thread</label>
+						<input type="checkbox" name=stick id=stick value=1 <?php echo (isset($_POST['stick']) ? "checked" : ""); ?>><label for=stick>Stick thread</label>
+					<?php } ?>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
@@ -236,11 +252,11 @@ if (isset($err)) {
 	
 	if ($ispoll) {
 		$_POST['question'] = stripslashes($_POST['question']);
-		$numopts = $_POST[numopts];
+		$numopts = $_POST['numopts'];
 		checknumeric($numopts);
 		$pollprev = "<br><table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"n1\">
-" . "    <td class=\"b n1\" colspan=2>" . htmlval($_POST[question]) . "
+" . "    <td class=\"b n1\" colspan=2>" . htmlval($_POST['question']) . "
 ";
 		$pollin = "<tr>
 " . "  <td class=\"b n1\" align=\"center\">Poll question:</td>
@@ -272,14 +288,74 @@ if (isset($err)) {
 	}
 	
 	pageheader("New $type", $forum['id']);
-	echo "$top - Preview
-" . "".(isset($pollprev) ? $pollprev : '')."<br>
-" . "<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>Post preview
-" . "</table>
-" . threadpost($post, 0) . "
-" . "<br>
+	echo "$top - Preview " . (isset($pollprev) ? $pollprev : '');
+	?><br>
+	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr></table>
+	<?php echo threadpost($post, 0); ?>
+	<br>
+	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
+		<table class="c1">
+			<tr class="h">
+				<td class="b h" colspan=2><?php echo $typecap; ?></td>
+			</tr>
+			<?php if (!$log) { ?>
+				<tr>
+					<td class="b n1" align="center">Username:</td>
+					<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
+				</tr>
+				<tr>
+					<td class="b n1" align="center">Password:</td>
+					<td class="b n2"><input type="password" name=pass size=13 maxlength=32></td>
+				</tr>
+			<?php } else { ?>
+				<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
+				<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
+			<?php } ?>
+			<tr>
+				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
+				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
+			</tr>
+			<tr>
+				<td class="b n1" align="center"><?php echo $typecap; ?> icon:</td>
+				<td class="b n2"><?php echo $iconlist; ?></td>
+			</tr>
+			<?php
+			echo $tagsin . (isset($pollin) ? $pollin : '');
+			if ($loguser['posttoolbar'] != 1) { ?>
+				<tr>
+					<td class="b n1" align="center" width=120>Format:</td>
+					<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				</tr>
+			<?php } ?>
+			<tr>
+				<td class="b n1" align="center" width=120>Post:</td>
+				<td class="b n2">
+					<textarea wrap="virtual" name=message id='message' rows=20 cols=80></textarea>
+				</td>
+			</tr>
+			<tr class="n1">
+				<td class="b">&nbsp;</td>
+				<td class="b">
+					<input type="hidden" name=fid value=<?php echo $fid; ?>>
+					<input type="hidden" name="iconid" value="<?php echo $_POST['iconid']; ?>">
+					<input type="hidden" name="iconurl" value="<?php echo $_POST['iconurl']; ?>">
+					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
+					<input type="submit" class="submit" name="action" value="Submit">
+					<input type="submit" class="submit" name="action" value="Preview">
+					<?php if ($log) { ?>
+						<select name=mid><?php echo moodlist($_POST['mid'], $userid); ?></select>
+					<?php } ?>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($post['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
+					<input type="checkbox" name=nosmilies id=nosmilies value=1 <?php echo (isset($post['nosmilies']) ? "checked" : ""); ?>><label for=nosmilies>Disable smilies</label>
+					<?php if (can_edit_forum_threads($fid) && ! $announce) { ?>
+						<input type="checkbox" name=close id=close value=1 <?php echo ($post['close'] ? "checked" : ""); ?>><label for=close>Close thread</label>
+						<input type="checkbox" name=stick id=stick value=1 <?php echo ($post['stick'] ? "checked" : ""); ?>><label for=stick>Stick thread</label>
+					<?php } ?>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<!--
 " . "<form action=newthread.php?ispoll=$ispoll method=post>
 " . " <table cellspacing=\"0\" class=\"c1\">
 " . "  <tr class=\"h\">
@@ -321,7 +397,7 @@ if (isset($err)) {
 	echo "    </td>
 " . " </table>
 " . "</form>
-";
+";--><?php
 } elseif ($act == 'Submit') {
 	if (! ($iconurl = $_POST['iconurl']))
 		$iconurl = $sql->resultq("SELECT url FROM posticons WHERE id=" . (int) $_POST['iconid']);
