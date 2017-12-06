@@ -29,7 +29,7 @@ if (has_perm("admin-tools-access"))
 //Inspired by Tierage's dashboard.php in Blargboard Plus. - SquidEmpress
 $mlinkstext = '';
 foreach ($mlinks as $l)
-	$mlinkstext .= ($mlinkstext?' ':'').'&nbsp;<a href="' . $l['url'] . '"></a><input type="submit" class="submit" name=action value="' . $l['title'] . '"></a>';
+	$mlinkstext .= ($mlinkstext?' ':'').'&nbsp;<a href="' . $l['url'] . '"><input type="submit" class="submit" name=action value="' . $l['title'] . '"></a></a>';
 
 if ($mlinkstext == '') $mlinkstext = "There's no board management tools you're allowed to use.";
 
