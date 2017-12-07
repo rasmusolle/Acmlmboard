@@ -110,7 +110,7 @@ $post_c = isset($_POST['c']) ? $_POST['c'] : '';
 $act = isset($_POST['action']) ? $_POST['action'] : '';
 
 //Sukasa 2009-14-09: Laid some of the groundwork to allow users to rename their own threads
-if ($tid && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) && (can_edit_forum_threads(getforumbythread($tid)) ||
+if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) && (can_edit_forum_threads(getforumbythread($tid)) ||
 		($loguser['id'] == $threadcreator && $act == "rename" && has_perm('rename-own-thread')))) {
 
 	if ($act == 'stick') {
@@ -391,7 +391,7 @@ if ($viewmode == "thread") {
 		$total = $sql->resultq("SELECT COUNT(DISTINCT v.user) FROM polloptions o, pollvotes v WHERE o.poll=$tid AND v.id=o.id");
 		$mytotal = $log ? $sql->resultq("SELECT COUNT(*) FROM polloptions o, pollvotes v WHERE o.poll=$tid AND v.id=o.id AND v.user='$loguser[id]'") : 0;
 		while ($opt = $sql->fetch($opts)) {
-			$h = $opt[s] ? "*" : "";
+			$h = $opt['s'] ? "*" : "";
 			$cond = $log && (($thread['multivote'] && !$opt['s']) || $thread['changeable'] || !$mytotal);
 			$poll.="<tr class=\"n2\"><td class=\"b n2\">" . ($cond ? ("<a href=thread.php?id=$tid&act=vote&vote=" . urlencode(packsafenumeric($opt['id'])) . ">") : "") . htmlval($opt['option']) . ($cond ? "</a>" : "") . " $h<td class=\"b n3\"><img src=\"gfx/bargraph.php?z=$opt[c]&n=$total&r=$opt[r]&g=$opt[g]&b=$opt[b]\">";
 		}
@@ -465,6 +465,7 @@ if ($viewmode == "thread") {
 " . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
 " . "</table>
 ";
+	$timeval = $_GET['time'];
 } else {
 	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
 	pagefooter();
