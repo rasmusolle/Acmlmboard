@@ -3,7 +3,7 @@ require 'lib/common.php';
 require 'lib/threadpost.php';
 loadsmilies();
 
-$announce = isset($_REQUEST['announce']);
+if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }
 checknumeric($announce);
 
 if (!isset($_POST['action'])) { $_POST['action'] = ''; }
@@ -85,17 +85,17 @@ if ($tagsin != "")
 
 $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
-if (! $forum) {
+if (!$forum) {
 	error("Error", "Forum does not exist. <br> <a href=./>Back to main</a>");
 } 
-else if ($announce && ! can_create_forum_announcements($fid))
+else if ($announce && !can_create_forum_announcements($fid))
 	$err = "    You have no permissions to create announcements in this forum!<br>$forumLink";
 
-else if (! can_create_forum_thread($forum)) {
+else if (!can_create_forum_thread($forum)) {
 	
 	$err = "    You have no permissions to create threads in this forum!<br>$forumlink";
 } 
-else if ($user['lastpost'] > ctime() - 30 && $act == 'Submit' && ! has_perm('ignore-thread-time-limit'))
+else if ($user['lastpost'] > ctime() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
 	$err = "    Don't post threads so fast, wait a little longer.<br>
 " . "    $forumlink";
 
@@ -343,7 +343,7 @@ if (isset($err)) {
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
 					<?php if ($log) { ?>
-						<select name=mid><?php echo moodlist($_POST['mid'], $userid); ?></select>
+						<select name="mid"><?php echo moodlist($_POST['mid'], $userid); ?></select>
 					<?php } ?>
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($post['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 					<input type="checkbox" name=nosmilies id=nosmilies value=1 <?php echo (isset($post['nosmilies']) ? "checked" : ""); ?>><label for=nosmilies>Disable smilies</label>
@@ -413,9 +413,9 @@ if (isset($err)) {
 			$modstick = "1";
 	}
 	
-	if (! $_POST['close'])
+	if (!$_POST['close'])
 		$modclose = "0";
-	if (! $_POST['stick'])
+	if (!$_POST['stick'])
 		$modstick = "0";
 	
 	$iconurl = addslashes($iconurl);
