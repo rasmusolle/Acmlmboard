@@ -83,25 +83,6 @@ function makesvg($match) {
 		return "<object data=\"data:image/svg+xml;base64," . htmlspecialchars(base64_encode($svgin . $svgcode . $svgout)) . "\" type=\"image/svg+xml\" width=\"{$match[1]}\" height=\"{$match[2]}\"></object>";
 }
 
-function makeswf($match) {
-	static $swfid = 0;
-
-	// in case you wonder why there is double html escaping going on:
-	// we first escape the URL attribute, with ENT_QUOTES, to make sure that it doesn't leak out from anything
-	// and then we escape the whole link's onclick attribute so that it doesn't leak out either (this guarantees valid HTML, too)
-	return "<table cellspacing=\"0\"><tr><td class=\"b n3\" width=\"{$match[1]}\" height=\"" . ($match[2] + 4) . "\" style=\"text-align:center\">
-" . "	<div style=\"padding:0px\" id=\"swf" . ( ++$swfid) . "\"></div>
-" . "	<div style=\"font-size:50px\" id=\"swf{$swfid}play\">
-" . "		<a href=\"#\" onclick=\"" . htmlspecialchars("document.getElementById('swf{$swfid}').innerHTML='<embed src=\"" . htmlspecialchars($match[3], ENT_QUOTES) . "\" width=\"{$match[1]}\" height=\"{$match[2]}\"></embed>';document.getElementById('swf{$swfid}stop').style.display='block';document.getElementById('swf{$swfid}play').style.display='none';return false;") . "\">&#x25BA;</a>
-" . "	</div>
-" . "</td>
-" . "<td style=\"vertical-align:bottom\">
-" . "	<div style=\"display:none\" id=\"swf{$swfid}stop\">
-" . "		<a href=\"#\" onclick=\"document.getElementById('swf{$swfid}').innerHTML='';document.getElementById('swf{$swfid}stop').style.display='none';document.getElementById('swf{$swfid}play').style.display='block';return false;\">&#x25A0;</a>
-" . "	</div>
-" . "</td></tr></table>";
-}
-
 function filterstyle($match) {
 	$style = $match[2];
 
@@ -194,9 +175,6 @@ function postfilter($msg, $nosmilies = 0) {
 		$msg = str_replace($config['sslbase'], $config['base'], $msg);
 	}
 
-	//$msg=preg_replace(":reggie:","<img src='img/reggie.jpg'>",$msg); //Reggie? Image file not present in tree
-	// [Mega-Mario] this can cause security issues, and who uses [swf] anyway?
-	//$msg=preg_replace_callback("'\[swf ([0-9]+) ([0-9]+)\](.*?)\[/swf\]'si",'makeswf',$msg);
 	//[KAWA] Youtube tag.
 	$msg = preg_replace("'\[youtube\]([\-0-9_a-zA-Z]*?)\[/youtube\]'si", '<iframe width="420" height="315" src="http://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $msg);
 
