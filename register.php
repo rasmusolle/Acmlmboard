@@ -129,10 +129,18 @@ if ($act == 'Register') {
 
 			//fancy colouring (if matches exist, make it red); references to make foreach not operate on copies
 			$clist = array(&$m_hash, &$m_ip32, &$m_ip24, &$m_ip16);
-			foreach($clist as &$c)
+			foreach($clist as &$c) {
 				if($c>0) $c = "{irccolor-no}$c"; else $c="{irccolor-yes}$c";
+			}
 
-			redirect('login.php',-1);
+			setcookie('user', $id, 2147483647);
+			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
+			
+			?><span style='text-align:center;'>
+				If you aren't redirected, then please <a href="./">go here.</a>
+				<meta http-equiv="refresh" content="1;url=./">
+			</span><?php
+			die();
 		} else {
 			$err = "Registration failed: ".$sql->error();
 		}
