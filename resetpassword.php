@@ -22,7 +22,7 @@ function sendResetEmail($to, $token) {
 function displayResetForm() {
 echo <<<HTML
 	<form action="resetpassword.php?action=reset" method="post">
-		<table cellspacing="0" class="c1">
+		<table class="c1">
 			<tr class="h">
 				<td class="b h" colspan="2">Reset Password</td>
 			</tr>
@@ -47,7 +47,7 @@ function displayChangePasswordForm($token) {
 echo <<<HTML
 	<form action="resetpassword.php?action=change" method="post">
 		<input type="hidden" name="token" value="$token">
-		<table cellspacing="0" class="c1">
+		<table class="c1">
 			<tr class="h">
 				<td class="b h" colspan="2">Reset Password</td>
 			</tr>
