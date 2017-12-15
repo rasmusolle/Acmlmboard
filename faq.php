@@ -78,7 +78,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 </table>
 <br>
 <table class="c1">
-	<tr class="h"><td class="b h"><a name="gpg">General Posting Guidelines:</a></td></tr>
+	<tr class="h"><td class="b h" id="gpg">General Posting Guidelines:</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Posting on a message forum is generally relaxed. There are, however, a few things to keep in mind when posting.
@@ -118,36 +118,36 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<br>If you don't like this place, or cannot deal with decisions or conversations had here, you will be offered no compensation and you will not be given any explanations herewith. This is a free service; so you are not entitled to anything contained herein, nor are you entitled to anything from any other party.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="move">I just made a thread, where did it go?</a></td></tr>
+	<tr class="h"><td class="b h" id="move">I just made a thread, where did it go?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			It was probably moved or deleted by a staff member. If it was deleted, please make sure your thread meets the criteria we have established. If it was moved, look into the other forums and consider why it was moved there. If you have any questions, PM a staff member.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="rude">I feel that a user is being rude to me. What do I do?</a></td></tr>
+	<tr class="h"><td class="b h" id="rude">I feel that a user is being rude to me. What do I do?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Stay cool. Don't further disrupt the thread by responding <b>at all</b> to the rudeness. Let a member of staff know with a link to the offending post(s). Please note that responding to the rudeness is promoting flaming, which is a punishable offense.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="badge">What are badges?</a></td></tr>
+	<tr class="h"><td class="b h" id="badge">What are badges?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Badges are special trinkets that a user gathers through special means. You can acquire them from staff, meeting special requirements, or even find them somewhere. For example; sometimes special contests will be held, with a badge given for those who participate and/or win said competition.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="acs">What is "ACS"?</a></td></tr>
+	<tr class="h"><td class="b h" id="acs">What is "ACS"?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			ACS stands for Acmlm Champion Series. It is an ongoing posting contest which is found in General Chat. All general posting rules apply.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="smile">Are smilies and BBCode supported?</a></td></tr>
+	<tr class="h"><td class="b h" id="smile">Are smilies and BBCode supported?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			There are some smilies here, a chart is below to show what smilies are supported.
 			<br><?php echo $smilietext; ?><br>
-			<a name="tags"></a>Likewise, a selection of BBCode is supported. See the chart below.
+			<span id="tags"></span>Likewise, a selection of BBCode is supported. See the chart below.
 			<table class=table>
 				<tr>
 					<td class="b h">Tag</td>
@@ -222,7 +222,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 	 		</table>
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="irc">What's this IRC thing I keep hearing about?</a></td></tr>
+	<tr class="h"><td class="b h" id="irc">What's this IRC thing I keep hearing about?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			If you have an IRC client like mIRC, you can join a chatroom hosted by the Acmlmboard community.
@@ -230,13 +230,13 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			Connect to the server irc.nolimitzone.com and join the channel. Mibbit is a great client to start with if you don't know what you're doing.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="reg">Can I register more than one account?</a></td></tr>
+	<tr class="h"><td class="b h" id="reg">Can I register more than one account?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			No, you may not. Most uses for a secondary account tend to be to bypass bans. The the most common non-malicious use is to have a different name, and we have another feature will allow this cleanly.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="css">What are we not allowed to do in our custom CSS layouts?</a></td></tr>
+	<tr class="h"><td class="b h" id="css">What are we not allowed to do in our custom CSS layouts?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			While we allow very open and customizable layouts and side bars, we have a few rules that will be strictly enforced. Please read them over and follow them. Loss of post layout privileges will be enacted for those who are repeat offenders. If in doubt ask a member of staff. Staff has discretion in deciding violations.
@@ -250,7 +250,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			</ul>
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="itemshop">Items and the Item Shop</a></td></tr>
+	<tr class="h"><td class="b h" id="itemshop">Items and the Item Shop</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Items are equipment that is part of the RPG stat system. Like in an RPG equipment can boost your stats. However, the RPG stat system is purely cosmetic.
@@ -258,7 +258,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php if ($syndromenable == 1) { ?>
-	<tr class="h"><td class="b h"><a name="syndrome">Acmlmboard Syndromes</a></td></tr>
+	<tr class="h"><td class="b h" id="syndrome">Acmlmboard Syndromes</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			The syndromes are triggered when you reach the amount of posts posted per day listed in the table below.
@@ -279,68 +279,72 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h"><a name="amps">&Tags& (Amp tags)</a></td></tr>
+	<tr class="h"><td class="b h" id="amps">&Tags& (Amp tags)</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
-		amp tags (or &tags&) are tags that allow you to put some of for your profile and RPG stats in a post.
-		They can be incorporated into a layout or used once in a post.
-		<table class="table">
-			<tr><td class="b h">Tag</td><td class="b h">Value</td>
-			<tr><td class="b n1">&postnum&		</td><td class="b n2">Current post count</td>
-			<tr><td class="b n1">&numdays&		</td><td class="b n2">Number of days since registration</td>
-			<tr><td class="b n1">&level&		</td><td class="b n2">Level</td>
-			<tr><td class="b n1">&exp&			</td><td class="b n2">EXP</td>
-			<tr><td class="b n1">&expdone&		</td><td class="b n2">EXP done in the current level</td>
-			<tr><td class="b n1">&expnext&		</td><td class="b n2">Amount of EXP left for next level</td>
-			<tr><td class="b n1">&exppct&		</td><td class="b n2">Percentage of EXP done in the level</td>
-			<tr><td class="b n1">&exppct2&		</td><td class="b n2">Percentage of EXP left in the level</td>
-			<tr><td class="b n1">&expgain&		</td><td class="b n2">EXP gain per post</td>
-			<tr><td class="b n1">&expgaintime&	</td><td class="b n2">Seconds for 1 EXP when idle</td>
-			<tr><td class="b n1">&lvlexp&		</td><td class="b n2">Total EXP amount needed for next level</td>
-			<tr><td class="b n1">&lvllen&		</td><td class="b n2">EXP needed to go through the current level</td>
-			<tr><td class="b n1">&5000&			</td><td class="b n2">Posts left until you have 5000</td>
-			<tr><td class="b n1">&20000&		</td><td class="b n2">Posts left until you have 20000</td>
-			<tr><td class="b n1">&rank&			</td><td class="b n2">Current rank, according to your amount of posts</td>
-			<tr><td class="b n1">&rankname&		</td><td class="b n2">Text only current rank, according to your amount of posts</td>
-			<tr><td class="b n1">&postrank&		</td><td class="b n2">Shows your rank by number of posts</td>
-		</table>
+			amp tags (or &tags&) are tags that allow you to put some of for your profile and RPG stats in a post.
+			They can be incorporated into a layout or used once in a post.
+			<table class="table">
+				<tr><td class="b h">Tag</td><td class="b h">Value</td>
+				<tr><td class="b n1">&postnum&		</td><td class="b n2">Current post count</td>
+				<tr><td class="b n1">&numdays&		</td><td class="b n2">Number of days since registration</td>
+				<tr><td class="b n1">&level&		</td><td class="b n2">Level</td>
+				<tr><td class="b n1">&exp&			</td><td class="b n2">EXP</td>
+				<tr><td class="b n1">&expdone&		</td><td class="b n2">EXP done in the current level</td>
+				<tr><td class="b n1">&expnext&		</td><td class="b n2">Amount of EXP left for next level</td>
+				<tr><td class="b n1">&exppct&		</td><td class="b n2">Percentage of EXP done in the level</td>
+				<tr><td class="b n1">&exppct2&		</td><td class="b n2">Percentage of EXP left in the level</td>
+				<tr><td class="b n1">&expgain&		</td><td class="b n2">EXP gain per post</td>
+				<tr><td class="b n1">&expgaintime&	</td><td class="b n2">Seconds for 1 EXP when idle</td>
+				<tr><td class="b n1">&lvlexp&		</td><td class="b n2">Total EXP amount needed for next level</td>
+				<tr><td class="b n1">&lvllen&		</td><td class="b n2">EXP needed to go through the current level</td>
+				<tr><td class="b n1">&5000&			</td><td class="b n2">Posts left until you have 5000</td>
+				<tr><td class="b n1">&20000&		</td><td class="b n2">Posts left until you have 20000</td>
+				<tr><td class="b n1">&rank&			</td><td class="b n2">Current rank, according to your amount of posts</td>
+				<tr><td class="b n1">&rankname&		</td><td class="b n2">Text only current rank, according to your amount of posts</td>
+				<tr><td class="b n1">&postrank&		</td><td class="b n2">Shows your rank by number of posts</td>
+			</table>
+		</td>
+	</tr>
 	<?php if ($config['displayname'] == true) { ?>
-		<tr class="h"><td class="b h"><a name="dispname">Display Name System</a></td></tr>
-		<tr>
-			<td class="b n1" style="padding:10px!important;">
-				The display name system allows you to have your name displayed as something other than your account's name.
-				For example "Acmlm" might decided he would like to have his name display as "Milly" for a while. With this system he would be allowed to do so without changing his actual login account name.
-				It is forbidden to use this to flame or impersonate other members. Your real login name will be visible on your profile.
-				Misuse of this feature will result in blocking of your ability to use it, and possibly further action if warranted.
+	<tr class="h"><td class="b h" id="dispname">Display Name System</td></tr>
+	<tr>
+		<td class="b n1" style="padding:10px!important;">
+			The display name system allows you to have your name displayed as something other than your account's name.
+			For example "Acmlm" might decided he would like to have his name display as "Milly" for a while. With this system he would be allowed to do so without changing his actual login account name.
+			It is forbidden to use this to flame or impersonate other members. Your real login name will be visible on your profile.
+			Misuse of this feature will result in blocking of your ability to use it, and possibly further action if warranted.
+		</td>
+	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h"><a name="avatar">What are avatars & mood avatars?</a></td></tr>
+	<tr class="h"><td class="b h" id="avatar">What are avatars & mood avatars?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Avatars are a form of display picture which appears beside your posts and in your profile.
 			Likewise, a mood avatar allows you to display a different picture as opposed to the one specified in your profile.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="private">Are private messages supported?</a></td></tr>
+	<tr class="h"><td class="b h" id="private">Are private messages supported?</a></td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Yes. Your private message inbox is represented by an envelope icon which is highlighted green when you have unread messages.
 			Likewise, you may send a user a message from here, or alternatively use "Send Private Message" from the user's profile.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="search">Search Feature</a></td></tr>
+	<tr class="h"><td class="b h" id="search">Search Feature</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			The search feature is used to search the forum posts and threads for whatever you may be looking for.
 			It has the ability to be filtered by forum and user it was posted by.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="calendar">What is the calendar for?</a></td></tr>
+	<tr class="h"><td class="b h" id="calendar">What is the calendar for?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			The calendar lists user birthdays and special board events.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h"><a name="usercols">What do the username colours mean?</a></td></tr>
+	<tr class="h"><td class="b h" id="usercols">What do the username colours mean?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			They reflect the gender setting and group of the user.
