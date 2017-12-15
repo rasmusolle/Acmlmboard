@@ -66,9 +66,9 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
 			<a href="#itemshop">Items and the Item Shop</a><br>
 			<?php if ($syndromenable == 1) echo '<a href="#syndrome">Acmlmboard Syndromes</a><br>'; ?>
-			<a href="#amps">&Tags& (Amp tags)</a><br>
+			<a href="#amps">&amp;Tags&amp; (Amp tags)</a><br>
 			<?php if ($config['displayname'] == true) echo '<a href="#dispname">Display Name System</a><br>'; ?>
-			<a href="#avatar">What are avatars & mood avatars?</a><br>
+			<a href="#avatar">What are avatars &amp; mood avatars?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
 			<a href="#search">Search Feature</a><br>
 			<a href="#calendar">What is the calendar for?</a><br>
@@ -84,13 +84,13 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			Posting on a message forum is generally relaxed. There are, however, a few things to keep in mind when posting.
 			<ul style="list-style-type: decimal;">
 				<li>One word posts. These types of posts generally do not add to the conversation topic and should be avoided at all cost.  Come on, at least form a complete sentence!
-				<li>Trolling/flaming/drama. This behavior is totally unacceptable and will be dealt with accordingly, namely with a warning.  Direct (or even indirect) personal attacks on <b><u><i>any</i></u></b> member of this community for any reason whatsoever will result in immediate action.  Do NOT test us on this.
+				<li>Trolling/flaming/drama. This behavior is totally unacceptable and will be dealt with accordingly, namely with a warning.  Direct (or even indirect) personal attacks on <strong style="text-decoration:underline"><em>any</em></strong> member of this community for any reason whatsoever will result in immediate action.  Do NOT test us on this.
 				<li>Reviving, or "bumping" old threads. If the last post in a thread was a month ago or more, we ask that you do not add another post unless you have something very relevant and interesting to add to the topic.
 				<li>Spamming. Spam is a pretty broad and grey area. Spam can be generalized as multiple posts with no real meaning to the topic or what anyone else is talking about.
 				<li>Staff impersonation and "back seat moderation." Staff impersonation will <b>not</b> be tolerated. Doing so will may result in an instant ban. While you may feel you are helping by telling a fellow member that they need to stop doing something you know is wrong, you may do more harm than good. If you see an issue please report the issue to the staff immediately.
 				<li>Suggestive Material.  Remember that there are others here who enjoy the board experience. Their standards are not necessarily going to be like yours all the time, so please, do not post anything pornographic or otherwise potentially disturbing to other members.
 			</ul>
-			<br><b><u>Procedural</u></b>:
+			<br><b style="text-decoration:underline">Procedural</b>:
 			<br>Acmlmboard follows the "Three Strike Rule". This means if you have been warned twice by staff for whatever reason, your third notice will be a ban and a reason, coupled with a ban length.
 			Each time you are given a "strike", you will receive a PM from a staff member stating so.  This PM will also include a link to the post in question and a reason for the warning.  Your third strike will come with a ban.   Ban lengths are as follows:
 			<br>
@@ -104,17 +104,17 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			</table>
 			<br>Please note that these ban lengths are "soft" and may be changed and/or deviated from by staff at their discretion. Decisions made regarding length will not be negotiable. If you have been banned but not warned, let a member of staff know.
 			<br>
-			<br><b><u>Behavioral</u></b>:
+			<br><b style="text-decoration:underline">Behavioral</b>:
 			<br>Following one rule doesn't mean your post is automatically acceptable. If it is distasteful, repugnant, or offensive, then don't post it.
 			<br>
 			<br>If your post is seen by staff to incite drama, put down others, have negative connotations/bad attitude, or otherwise find fault therein, they have absolute right in deciding what to do with it and with you.
 			<br>
 			<br>IRC is IRC, and the board is the board, and there's a distinct level of separation between the two. However, we acknowledge that they are closely related and will make decisions based on your actions from both mediums of this community. This means if you're prone to being rude on IRC, and then rude on the board, it will most likely be considered when determining disciplinary action.
 			<br>
-			<br><b><u>Codeside</u></b>:
+			<br><b style="text-decoration:underline">Codeside</b>:
 			<br>The use of CSS usage to change your username colour, impersonate being staff, or similar is forbidden. Any alteration to one's username (font, icon etc) fake custom titles, and other additional text in a non-post field are under discretion of the the staff. Likewise, use of CSS that changes the board layout, others' posts or anything outside of your own post is forbidden.
 			<br>
-			<br><b><u>Disclaimer</u></b>:
+			<br><b style="text-decoration:underline">Disclaimer</b>:
 			<br>If you don't like this place, or cannot deal with decisions or conversations had here, you will be offered no compensation and you will not be given any explanations herewith. This is a free service; so you are not entitled to anything contained herein, nor are you entitled to anything from any other party.
 		</td>
 	</tr>
@@ -160,10 +160,10 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 					<td class="b n2"><i>Italic Text</i></td>
 				</tr><tr>
 					<td class="b n1">[u]<i>text</i>[/u]</td>
-					<td class="b n2"><u>Underlined Text</u></td>
+					<td class="b n2" style="text-decoration:underline">Underlined Text</td>
 				</tr><tr>
 					<td class="b n1">[s]<i>text</i>[/s]</td>
-					<td class="b n2"><s>Striked-out Text</s></td>
+					<td class="b n2"><?php echo '<s>Striked-out Text</s>'; ?></td>
 				</tr><tr>
 					<td class="b n1">[red]<i>text</i>[/red]</td>
 					<td class="b n2"><span style="color: #FFC0C0">Red Text</span></td>
@@ -189,7 +189,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 					<td class="b n1">[black]<i>text</i>[/black]</td>
 					<td class="b n2"><span style="color: #000000">Black Text</span></td>
 				</tr><tr>
-					<td class="b n1">[color=<u>hexcolor</u>]<i>text</i>[/color]</td>
+					<td class="b n1">[color=<b>hexcolor</b>]<i>text</i>[/color]</td>
 					<td class="b n2"><span style="color: #BCDE9A">Custom color Text</span></td>
 				</tr><tr>
 					<td class="b n1">[img]<i>URL of image to display</i>[/img]</td>
@@ -279,30 +279,30 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h" id="amps">&Tags& (Amp tags)</td></tr>
+	<tr class="h"><td class="b h" id="amps">&amp;Tags&amp; (Amp tags)</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
-			amp tags (or &tags&) are tags that allow you to put some of for your profile and RPG stats in a post.
+			amp tags (or &amp;tags&amp;) are tags that allow you to put some of for your profile and RPG stats in a post.
 			They can be incorporated into a layout or used once in a post.
 			<table class="table">
 				<tr><td class="b h">Tag</td><td class="b h">Value</td>
-				<tr><td class="b n1">&postnum&		</td><td class="b n2">Current post count</td>
-				<tr><td class="b n1">&numdays&		</td><td class="b n2">Number of days since registration</td>
-				<tr><td class="b n1">&level&		</td><td class="b n2">Level</td>
-				<tr><td class="b n1">&exp&			</td><td class="b n2">EXP</td>
-				<tr><td class="b n1">&expdone&		</td><td class="b n2">EXP done in the current level</td>
-				<tr><td class="b n1">&expnext&		</td><td class="b n2">Amount of EXP left for next level</td>
-				<tr><td class="b n1">&exppct&		</td><td class="b n2">Percentage of EXP done in the level</td>
-				<tr><td class="b n1">&exppct2&		</td><td class="b n2">Percentage of EXP left in the level</td>
-				<tr><td class="b n1">&expgain&		</td><td class="b n2">EXP gain per post</td>
-				<tr><td class="b n1">&expgaintime&	</td><td class="b n2">Seconds for 1 EXP when idle</td>
-				<tr><td class="b n1">&lvlexp&		</td><td class="b n2">Total EXP amount needed for next level</td>
-				<tr><td class="b n1">&lvllen&		</td><td class="b n2">EXP needed to go through the current level</td>
-				<tr><td class="b n1">&5000&			</td><td class="b n2">Posts left until you have 5000</td>
-				<tr><td class="b n1">&20000&		</td><td class="b n2">Posts left until you have 20000</td>
-				<tr><td class="b n1">&rank&			</td><td class="b n2">Current rank, according to your amount of posts</td>
-				<tr><td class="b n1">&rankname&		</td><td class="b n2">Text only current rank, according to your amount of posts</td>
-				<tr><td class="b n1">&postrank&		</td><td class="b n2">Shows your rank by number of posts</td>
+				<tr><td class="b n1">&amp;postnum&amp;		</td><td class="b n2">Current post count</td>
+				<tr><td class="b n1">&amp;numdays&amp;		</td><td class="b n2">Number of days since registration</td>
+				<tr><td class="b n1">&amp;level&amp;		</td><td class="b n2">Level</td>
+				<tr><td class="b n1">&amp;exp&amp;			</td><td class="b n2">EXP</td>
+				<tr><td class="b n1">&amp;expdone&amp;		</td><td class="b n2">EXP done in the current level</td>
+				<tr><td class="b n1">&amp;expnext&amp;		</td><td class="b n2">Amount of EXP left for next level</td>
+				<tr><td class="b n1">&amp;exppct&amp;		</td><td class="b n2">Percentage of EXP done in the level</td>
+				<tr><td class="b n1">&amp;exppct2&amp;		</td><td class="b n2">Percentage of EXP left in the level</td>
+				<tr><td class="b n1">&amp;expgain&amp;		</td><td class="b n2">EXP gain per post</td>
+				<tr><td class="b n1">&amp;expgaintime&amp;	</td><td class="b n2">Seconds for 1 EXP when idle</td>
+				<tr><td class="b n1">&amp;lvlexp&amp;		</td><td class="b n2">Total EXP amount needed for next level</td>
+				<tr><td class="b n1">&amp;lvllen&amp;		</td><td class="b n2">EXP needed to go through the current level</td>
+				<tr><td class="b n1">&amp;5000&amp;			</td><td class="b n2">Posts left until you have 5000</td>
+				<tr><td class="b n1">&amp;20000&amp;		</td><td class="b n2">Posts left until you have 20000</td>
+				<tr><td class="b n1">&amp;rank&amp;			</td><td class="b n2">Current rank, according to your amount of posts</td>
+				<tr><td class="b n1">&amp;rankname&amp;		</td><td class="b n2">Text only current rank, according to your amount of posts</td>
+				<tr><td class="b n1">&amp;postrank&amp;		</td><td class="b n2">Shows your rank by number of posts</td>
 			</table>
 		</td>
 	</tr>
@@ -317,14 +317,14 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h" id="avatar">What are avatars & mood avatars?</td></tr>
+	<tr class="h"><td class="b h" id="avatar">What are avatars &amp; mood avatars?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Avatars are a form of display picture which appears beside your posts and in your profile.
 			Likewise, a mood avatar allows you to display a different picture as opposed to the one specified in your profile.
 		</td>
 	</tr>
-	<tr class="h"><td class="b h" id="private">Are private messages supported?</a></td></tr>
+	<tr class="h"><td class="b h" id="private">Are private messages supported?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Yes. Your private message inbox is represented by an envelope icon which is highlighted green when you have unread messages.
