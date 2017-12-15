@@ -1,5 +1,4 @@
-/*
-META
+/* META
 Desolation
 
 */
@@ -17,8 +16,8 @@ A:link,A:visited,A:active,A:hover{
 body{
   background: url('../theme/desolation/desolation.jpg') #1b1b1b;
   background-attachment: fixed;
-  background-position: bottom left;
-  background-repeat: no-repeat;
+
+  background-repeat: round;
   color: white;
   font-family: verdana, geneva, sans-serif;
 }
