@@ -148,7 +148,7 @@ if ($_GET['action'] == 'editrankset' && has_perm('"edit-ranks')) {
 	$editrankset = $sql->resultq("SELECT `name` FROM `ranksets` WHERE `id`='$getrankset'");
 	?>
 	<form action="ranks.php?action=editrankset&rankset=<?php echo $getrankset; ?>" method="post" enctype="multipart/form-data">
-		<table cellspacing="0" class="c1">
+		<table class="c1">
 			<?php catheader('Edit Rankset') ?>
 			<tr class="c">
 				<tr>

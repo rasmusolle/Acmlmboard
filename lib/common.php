@@ -604,7 +604,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			<?php echo $birthdaybox; ?>
 			<tr>
 				<td class="b n1">
-					<table width="100%">
+					<table style="width:100%">
 						<tr>
 							<td class="nb" width="125"></td>
 							<td class="nb" align="center"><span class="white-space:nowrap">

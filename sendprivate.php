@@ -46,11 +46,11 @@ if (!$act = $_POST['action']) {
 	echo $top;
 	?>
 	<br><br>
-	<table class="c1">
-		<tr class="h">
-			<td class="b h" colspan="2">Send message</td>
-		</tr>
-		<form action="sendprivate.php" method="post">
+	<form action="sendprivate.php" method="post">
+		<table class="c1">
+			<tr class="h">
+				<td class="b h" colspan="2">Send message</td>
+			</tr>
 			<tr>
 				<td class="b n1" align="center" width="120">Send to:</td>
 				<td class="b n2"><input type="text" name="userto" size="25" maxlength=25 value="<?php echo htmlval($userto); ?>"></td>
@@ -72,13 +72,13 @@ if (!$act = $_POST['action']) {
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?php echo moodlist() ?>
-					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?> >Disable post layout
+					<select name="mid"><?php echo moodlist() ?></select>
+					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?>>Disable post layout
 					<input type="checkbox" name="nosmilies" id="nosmilies" value="1" <?php echo (isset($_POST['nosmilies']) ? "checked" : "") ?>>Disable smilies
 				</td>
 			</tr>
-		</form>
-	</table>
+		</table>
+	</form>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);

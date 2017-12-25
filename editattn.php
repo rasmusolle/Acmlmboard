@@ -24,14 +24,14 @@ if (!has_perm('edit-attentions-box')) {
 			<tr class="h"><td class="b h">Edit news box</td></tr>
 			<tr class="n1">
 				<td class="b">
-					<textarea wrap="virtual" name="txtval" rows="8" cols="120"><?php echo $attndata; ?></textarea>
+					<textarea name="txtval" rows="8" cols="120"><?php echo $attndata; ?></textarea>
 				</td>
 			</tr>
 			<tr class="n1">
 				<td class="b n1" align="center">
 					<input type="submit" class="submit" name="action" value="Submit">
 				</td>
-			</tr>	
+			</tr>
 		</table>
 	</form>
 	<?php
