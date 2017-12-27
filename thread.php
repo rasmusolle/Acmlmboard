@@ -745,7 +745,6 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 ";
 	echo "  <tr $quickreplydisplay >
 ";
-	if ($loguser['posttoolbar'] != 1)
 		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr class='toolbar'>$toolbar</table>
 ";

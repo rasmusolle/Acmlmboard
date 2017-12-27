@@ -109,7 +109,7 @@ if($loguser[redirtype]==1 && $act=="Submit"){ pageheader('Edit post',$thread[for
     echo "  <input type=\"hidden\" name=name value=\"".htmlval($loguser[name])."\">
 ".        "  <input type=\"hidden\" name=passenc value=\"$pass\">
 ";
-    if($loguser[posttoolbar]!=1)
+
     echo "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
@@ -169,7 +169,7 @@ echo     "  <tr>
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Post</td>
 ";
-     if($loguser[posttoolbar]!=1)
+
 echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 ".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>

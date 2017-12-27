@@ -198,14 +198,11 @@ if (isset($err)) {
 						<label for="ch">Allow changing one's vote</label>
 					</td>
 				</tr>
-				<?php
-			}
-			if ($loguser['posttoolbar'] != 1) { ?>
-				<tr>
-					<td class="b n1" align="center" width=120>Format:</td>
-					<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
-				</tr>
 			<?php } ?>
+			<tr>
+				<td class="b n1" align="center" width=120>Format:</td>
+				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+			</tr>
 			<tr>
 				<td class="b n1" align="center" width=120>Post:</td>
 				<td class="b n2">
@@ -319,14 +316,11 @@ if (isset($err)) {
 				<td class="b n1" align="center"><?php echo $typecap; ?> icon:</td>
 				<td class="b n2"><?php echo $iconlist; ?></td>
 			</tr>
-			<?php
-			echo $tagsin . (isset($pollin) ? $pollin : '');
-			if ($loguser['posttoolbar'] != 1) { ?>
-				<tr>
-					<td class="b n1" align="center" width=120>Format:</td>
-					<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
-				</tr>
-			<?php } ?>
+			<?php echo $tagsin . (isset($pollin) ? $pollin : ''); ?>
+			<tr>
+				<td class="b n1" align="center" width=120>Format:</td>
+				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+			</tr>
 			<tr>
 				<td class="b n1" align="center" width=120>Post:</td>
 				<td class="b n2">
@@ -368,7 +362,7 @@ if (isset($err)) {
 " . $tagsin . "
 " . $pollin . "
 ";
-	if ($loguser[posttoolbar] != 1)
+
 		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>

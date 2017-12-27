@@ -21,14 +21,14 @@ DELETE FROM `x_perm` WHERE `x_perm`.`id` = 213;
 DROP TABLE post_radar;
 
 
--- Kirby and Zelda rankset removals.
+-- Kirby and Zelda rankset removals
 DELETE FROM `ranksets` WHERE `ranksets`.`id` = 2;
 DELETE FROM `ranks` WHERE `ranks`.`rs` = 2;
 DELETE FROM `ranksets` WHERE `ranksets`.`id` = 3;
 DELETE FROM `ranks` WHERE `ranks`.`rs` = 3;
 
 
--- Remove IRC reporting.
+-- Remove IRC reporting
 DROP TABLE annoucenickprefix;
 DROP TABLE announcechans;
 ALTER TABLE `forums` DROP `announcechan_id`;
@@ -41,3 +41,7 @@ DELETE FROM `perm` WHERE `perm`.`id` = 'deleted-posts-tracker';
 DELETE FROM `perm` WHERE `perm`.`id` = 'track-deleted-posts';
 DELETE FROM `x_perm` WHERE `x_perm`.`id` = 316;
 DELETE FROM `x_perm` WHERE `x_perm`.`id` = 317;
+
+
+-- Remove post toolbar toggle
+ALTER TABLE `users` DROP `posttoolbar`;

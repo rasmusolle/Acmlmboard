@@ -295,7 +295,6 @@ if ($act == 'Edit profile') {
 				. setfield('hidesmilies') . ','
 				. setfield('numbargfx') . ','
 				. ($config['alwaysshowlvlbar'] ? (setfield('showlevelbar') . ',') : '')
-				. setfield('posttoolbar') . ','
 				. (has_perm("show-online") || has_perm("edit-user-show-online") ? (setfield('hidden') . ',') : '')
 				. setfield('timezone') . ','
 				. "tzoff=$tztotal,"
@@ -475,10 +474,7 @@ if (empty($act)) {
 		echo"
 " . fieldrow('EXP level bars', fieldoption('showlevelbar', $user['showlevelbar'], array('Show EXP bars', 'Disable EXP bars'))) . "
 ";
-	echo"
-" . fieldrow('Posting Toolbar', fieldoption('posttoolbar', $user['posttoolbar'], array('Show Toolbar', 'Hide Toolbar'))) . "
-" .
-			catheader('&nbsp;') . "
+	echo catheader('&nbsp;') . "
 " . "  <tr class=\"n1\">
 " . "    <td class=\"b\">&nbsp;</td>
 " . "    <td class=\"b\"><input type=\"submit\" class=\"submit\" name=action value='Edit profile'>

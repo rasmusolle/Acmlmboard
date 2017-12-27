@@ -207,7 +207,7 @@ if ($err) {
 " . "    <td class=\"b n1\" align=\"center\">Password:</td>
 " . "    <td class=\"b n2\"><input type=\"password\" name=pass size=13 maxlength=32></td>
 ";
-	if ($loguser['posttoolbar'] != 1)
+
 		echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
