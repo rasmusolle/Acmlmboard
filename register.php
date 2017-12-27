@@ -42,7 +42,7 @@ if (isProxy()) {
 		<tr>
 			<td class="b n1" align="center" width="120">
 				Our site has detected your IP is either a proxy, or listed as a known spammer.
-				If you feel this is in error contact the board admins at <?php echo $boardemailaddress; ?></a>
+				If you feel this is in error contact the board admins at <?php echo $boardemailaddress; ?>
 			</td>
 		</tr>
 	</table>
@@ -159,8 +159,8 @@ while ($tz = $sql->fetch($alltz)) {
 $cap = encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));
 if(!empty($err)) noticemsg("Error", $err);
 ?>
-<table class="c1">
-	<form action="register.php" method="post">
+<form action="register.php" method="post">
+	<table class="c1">
 		<tr class="h">
 			<td class="b h" colspan="2">Register</td>
 		</tr><tr>
@@ -189,6 +189,6 @@ if(!empty($err)) noticemsg("Error", $err);
 				<font class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</font>
 			</td>
 		</tr>
-	</form>
-</table>
+	</table>
+</form>
 <?php pagefooter(); ?>
