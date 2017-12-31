@@ -25,11 +25,11 @@ Active users during the last <?php echo timeunits2($time); ?>:
 <?php echo timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000); ?>
 <table class="c1">
 	<tr class="h">
-		<td class="b h" width=30>#</td>
+		<td class="b h" width="30">#</td>
 		<td class="b h">Username</td>
-		<td class="b h" width=150>Registered on</td>
-		<td class="b h" width=50>Posts</td>
-		<td class="b h" width=50>Total</td>
+		<td class="b h" width="200">Registered on</td>
+		<td class="b h" width="50">Posts</td>
+		<td class="b h" width="50">Total</td>
 	</tr>
 <?php
 $post_total = 0;
@@ -46,14 +46,14 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b" align="left"><?php echo userlink($user); ?></td>
 		<td class="b"><?php echo cdate($dateformat,$user['regdate']); ?></td>
 		<td class="b"><b><?php echo $user['num']; ?></b></td>
-		<td class="b"><?php echo $user['posts'] ?></b></td>
+		<td class="b"><b><?php echo $user['posts'] ?></b></td>
 	</tr>
 	<?php
     $j++;
 }
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
-	<tr class="$tr" align="center">
+	<tr class="<?php echo $tr; ?>" align="center">
 		<td class="b"><b><?php echo $j; ?>.</b></td>
 		<td class="b"></td>
 		<td class="b"></td>

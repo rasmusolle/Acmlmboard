@@ -22,7 +22,7 @@ pageheader('Login');
 if (isset($err))
 	noticemsg("Error", $err);
 ?>
-<table class="c1"><form action="login.php" method="post">
+<form action="login.php" method="post"><table class="c1">
 <tr class="h"><td class="b h" colspan=2>Login</td></tr>
 <tr>
 	<td class="b n1" align="center" width=120>Username:</td>
@@ -33,5 +33,6 @@ if (isset($err))
 </tr><tr class="n1">
 	<td class="b">&nbsp;</td>
 	<td class="b"><input type="submit" class="submit" name="action" value="Login"></td>
-</tr></form></table>
+</tr>
+</table></form>
 <?php pagefooter(); ?>

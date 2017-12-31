@@ -146,6 +146,10 @@ if (isset($err)) {
 	?>
 	<br><br>
 	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
+		<?php if ($log) { ?>
+		<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
+		<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
+		<?php } ?>
 		<table class="c1">
 			<tr class="h">
 				<td class="b h" colspan="2"><?php echo $typecap; ?></td>
@@ -159,9 +163,6 @@ if (isset($err)) {
 					<td class="b n1" align="center">Password:</td>
 					<td class="b n2"><input type="password" name="pass" size=13 maxlength=32></td>
 				</tr>
-			<?php } else { ?>
-				<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
-				<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
 			<?php } ?>
 			<tr>
 				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
@@ -206,7 +207,7 @@ if (isset($err)) {
 			<tr>
 				<td class="b n1" align="center" width=120>Post:</td>
 				<td class="b n2">
-					<textarea wrap="virtual" name=message id='message' rows=20 cols=80></textarea>
+					<textarea name=message id='message' rows=20 cols=80></textarea>
 				</td>
 			</tr>
 			<tr class="n1">
@@ -324,7 +325,7 @@ if (isset($err)) {
 			<tr>
 				<td class="b n1" align="center" width=120>Post:</td>
 				<td class="b n2">
-					<textarea wrap="virtual" name=message id='message' rows=20 cols=80></textarea>
+					<textarea name=message id='message' rows=20 cols=80></textarea>
 				</td>
 			</tr>
 			<tr class="n1">

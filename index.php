@@ -1,14 +1,5 @@
 <?php
 
-/* index.php ****************************************
-  Changelog
-  Xkeeper     fixed what blackhole89 broke, which was mostly nothing
-  blackhole89 moved mark forum /all forums read here
-  blackhole89 added consideration of minpower for forum/category display
-  Xkeeper     added support for category ordering
- * ************************************************** */
-
-
 if (isset($_GET['p'])) {
 	$p = $_GET['p'];
 	return header("Location:thread.php?pid=$p#$p");
@@ -49,11 +40,9 @@ if ($log && $action == 'markread') {
 		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . ctime() . " FROM forums f");
 	}
 
-	// remove nasty GET strings so that refreshers like me don't mark things read over and over and burp
 	header('Location: index.php');
 }
 
-// Moved pageheader here so that we can do header()s without fucking everything up again
 pageheader();
 
 $categs = $sql->query("SELECT * "
@@ -80,19 +69,17 @@ $forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.priva
 		. "ORDER BY c.ord,c.id,f.ord,f.id");
 $cat = -1;
 
-echo "
-" . "<table cellspacing=\"0\" class=\"c1\">";
-
-echo announcement_row(0, 2, 3);
-
-echo
-"  <tr class=\"h\">
-" . "    <td class=\"b h\" width=17>&nbsp;</td>
-" . "    <td class=\"b h\">Forum</td>
-" . "    <td class=\"b h\" width=50>Threads</td>
-" . "    <td class=\"b h\" width=50>Posts</td>
-" . "    <td class=\"b h\" width=150>Last post</td>
-";
+?>
+<table class="c1">
+	<?php echo announcement_row(0, 2, 3); ?>
+	<tr class="h">
+		<td class="b h" width=17>&nbsp;</td>
+		<td class="b h">Forum</td>
+		<td class="b h" width=50>Threads</td>
+		<td class="b h" width=50>Posts</td>
+		<td class="b h" width=150>Last post</td>
+	</tr>
+<?php
 
 $lmods = array();
 $r = $sql->query("SELECT f.fid, " . userfields('u') . " FROM forummods f LEFT JOIN users u ON u.id=f.uid");
@@ -155,7 +142,6 @@ while ($forum = $sql->fetch($forums)) {
 " . "    <td class=\"b n2\">$lastpost</td>
 ";
 }
-echo "</table>
-";
+echo "</table>";
 pagefooter();
 ?>

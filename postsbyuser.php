@@ -1,15 +1,17 @@
 <?php
-  require 'lib/common.php';
+require 'lib/common.php';
 
-  if($id=$_GET[id])
-    checknumeric($id);
-  else $id=0;
+if ($id == $_GET['id'])
+	checknumeric($id);
+else
+	$id = 0;
 
-  if($page=$_GET[page])
-    checknumeric($page);
-  else $page=1;
+if($page == $_GET['page'])
+	checknumeric($page);
+else
+	$page=1;
   
-  if($page<1) $page=1;
+if($page<1) $page=1;
 
   else if($id) {
     $user=$sql->fetchq("SELECT ".userfields()." FROM users WHERE id=$id");

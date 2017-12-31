@@ -346,6 +346,29 @@ if ($viewmode == "thread") {
 } else
 	pageheader();
 
+if (isset($_GET['time'])) {
+	$mintime = ctime() - $timeval;
+
+	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+		. "FROM posts p "
+		. "LEFT JOIN poststext pt ON p.id=pt.id "
+		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
+		. "LEFT JOIN users u ON p.user=u.id "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.date>$mintime AND ISNULL(pt2.id) "
+		. "ORDER BY p.date DESC "
+		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+
+	$thread['replies'] = $sql->resultq("SELECT count(*) "
+		. "FROM posts p "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.date>$mintime ");
+}
+
 if ($thread['replies'] < $ppp) {
 	$pagelist = '';
 	$pagebr = '';
@@ -654,14 +677,15 @@ if ($timeval) {
 			. "</div>";
 }
 
-
 echo "$modlinks
 " . "$pagelist
 " . (isset($poll) ? $poll : '');
 while ($post = $sql->fetch($posts)) {
+	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {
 		if (!can_view_forum(array('id' => $post['fid'], 'private' => $post['fprivate'])))
 			continue;
+	}
 	}
 	if (isset($uid) || $timeval) {
 		$pthread['id'] = $post['tid'];
@@ -779,5 +803,5 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 
 echo "$userbar$topbot";
 
-pagefooter();
+//pagefooter();
 ?>
