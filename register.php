@@ -138,7 +138,7 @@ if ($act == 'Register') {
 			
 			?><span style='text-align:center;'>
 				If you aren't redirected, then please <a href="./">go here.</a>
-				<meta http-equiv="refresh" content="1;url=./">
+				<?php echo '<meta http-equiv="refresh" content="1;url=./">'; ?>
 			</span><?php
 			die();
 		} else {
