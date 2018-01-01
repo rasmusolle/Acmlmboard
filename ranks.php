@@ -41,6 +41,8 @@ $rankposts = array();
 
 if (!isset($_GET['action'])) 
 	$_GET['action'] = 'needle';
+if (!isset($_POST['action']))
+	$_POST['action'] = 'needle';
 
 if (($_GET['action'] == 'addrankset' || $_GET['action'] == 'editrankset' || $_GET['action'] == 'deleterankset' || $_GET['action'] == 'editranks') && ! has_perm('edit-ranks')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
@@ -126,11 +128,9 @@ if ($_GET['action'] == 'addrankset' && has_perm('"edit-ranks')) {
 	<form action='ranks.php?action=addrankset' method='post' enctype='multipart/form-data'>
 		<table class="c1">
 			<?php echo catheader('New Rankset'); ?>
-			<tr class="c">
-				<tr>
-					<td class="b n1" align="center">Name:</td>
-					<td class="b n2"><input type="text" name='newname' size='40' maxlength='255' class='right'></td>
-				</tr>
+			<tr>
+				<td class="b n1" align="center">Name:</td>
+				<td class="b n2"><input type="text" name='newname' size='40' maxlength='255' class='right'></td>
 			</tr>
 			<tr class="n1">
 				<td class="b">&nbsp;</td>
@@ -149,16 +149,14 @@ if ($_GET['action'] == 'editrankset' && has_perm('"edit-ranks')) {
 	?>
 	<form action="ranks.php?action=editrankset&rankset=<?php echo $getrankset; ?>" method="post" enctype="multipart/form-data">
 		<table class="c1">
-			<?php catheader('Edit Rankset') ?>
-			<tr class="c">
-				<tr>
-					<td class="b n1" align="center">Name:</td>
-					<td class="b n2"><input type="text" name="editname" size="40" maxlength="255" value="<?php echo $editrankset; ?>" class="right"></td>
-				</tr>
-				<tr class="n1">
-					<td class="b">&nbsp;</td>
-					<td class="b"><input type="submit" class="submit" name="action" value="Submit"></td>
-				</tr>
+			<?php echo catheader('Edit Rankset'); ?>
+			<tr>
+				<td class="b n1" align="center">Name:</td>
+				<td class="b n2"><input type="text" name="editname" size="40" maxlength="255" value="<?php echo $editrankset; ?>" class="right"></td>
+			</tr>
+			<tr class="n1">
+				<td class="b">&nbsp;</td>
+				<td class="b"><input type="submit" class="submit" name="action" value="Submit"></td>
 			</tr>
 		</table>
 	</form>
@@ -245,6 +243,6 @@ while ($rank = $sql->fetch($ranks)) {
 	unset($rankimage, $usersonthisrank);
 	$i++;
 }
-echo "</table>";
+?></table><?php
 pagefooter();
 ?>
