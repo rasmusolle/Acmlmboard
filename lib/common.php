@@ -622,7 +622,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			<tr>
 				<td class="b n2" align="center"><?php echo $onuserlist; ?></td>
 			</tr>
-		</table>
+		</table><br>
 		<?php
 	}
 }
