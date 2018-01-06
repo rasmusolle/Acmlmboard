@@ -11,5 +11,5 @@
 /* Cellpadding */
 table.c1, table.c2 { 
     border-spacing: 0px;
-    border-collapse: separate;
+    border-collapse: collapse;
 }

@@ -25,13 +25,13 @@ table {
 table.c1 {
 	width: 100%;
 	background: black;
-	border: #666699 1px solid;
+	border: #000000 1px solid;
 }
 
 table.c2 {
 	width: 100%;
 	background: black;
-	border: #333355 1px solid;
+	border: #000000 1px solid;
 }
 
 tr.h {
@@ -47,8 +47,7 @@ tr.c {
 }
 
 td.b {
-	
-	border-top: #000000 1px solid;
+	border: #000000 1px solid;
 	padding: 1px;
 }
 
