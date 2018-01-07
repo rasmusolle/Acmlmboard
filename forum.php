@@ -347,7 +347,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 " . "    <td class=\"b\">$icon</td>
 " . ($showforum ?
 					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
-" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.gif height=10>" : "") . (($thread['thumbcount']) ? " (" . $thread['thumbcount'] . ") " : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>
+" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . (($thread['thumbcount']) ? " (" . $thread['thumbcount'] . ") " : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>
 " . "    <td class=\"b\">" . userlink($thread, 'u1', $config['startedbyminipic']) . "</td>
 " . "    <td class=\"b\">$thread[replies]</td>
 " . "    <td class=\"b\">$thread[views]</td>

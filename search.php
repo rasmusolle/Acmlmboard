@@ -304,7 +304,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 					<td class="b n1"><?php echo $status; ?></td>
 					<td class="b"><?php echo $icon; ?></td>
 					<?php echo ($showforum ? '<td class="b"><a href="forum.php?id="' . $thread['fid'] . '">' . $thread['ftitle'] . '</a></td>' : ''); ?>
-					<td class="b" align="left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.gif height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
+					<td class="b" align="left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
 					<td class="b"><?php echo userlink($thread,'u1'); ?></td>
 					<td class="b"><?php echo $thread['replies']; ?></td>
 					<td class="b"><?php echo $thread['views']; ?></td>
