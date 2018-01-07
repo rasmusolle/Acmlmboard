@@ -19,10 +19,10 @@ $id = $r['id'];
 if ($r['action'] == "del") {
 	unset($r['action']);
 	$bot = $sql->fetchp('SELECT * FROM robots WHERE bot_name=?',array($id));
-	if (!$bot) $pagebar['message'] = "Unable to delete spider: invalid spider name.";
-	else if ($sql->prepare('DELETE FROM robots WHERE bot_name=?',array($id))) {
+	if (!$bot)
+		$pagebar['message'] = "Unable to delete spider: invalid spider name.";
+	else if ($sql->prepare('DELETE FROM robots WHERE bot_name=?',array($id)))
 		$pagebar['message'] = "Spider successfully deleted.";
-	}
 }
 
 if (empty($r['action'])) {
@@ -91,8 +91,8 @@ if (empty($r['action'])) {
 		$pagebar['title'] = 'New Spider';
 	}
 	RenderPageBar($pagebar);
-	$t['bot_name'] = '';
-	$t['bot_agent'] = '';
+	if (!isset($t['bot_name'])) $t['bot_name'] = '';
+	if (!isset($t['bot_agent'])) $t['bot_agent'] = '';
 	$form = array(
 		'action' => urlcreate('editspiders.php', array(
 			'action' => $r['action'],
