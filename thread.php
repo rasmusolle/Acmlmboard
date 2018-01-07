@@ -194,15 +194,15 @@ if ($viewmode == "thread") {
 		if ($_GET['act'] == "vote" && $log) {
 			$vote = unpacksafenumeric($_GET['vote']);
 			if ($vote > -1) {
-				if ($thread[multivote]) {
-					if ($thread[changeable]) {
+				if ($thread['multivote']) {
+					if ($thread['changeable']) {
 						//changeable multivotes toggle
 						$res = $sql->query("DELETE FROM pollvotes WHERE user='$loguser[id]' AND id='$vote'");
 						if (!$sql->affectedrows())
 							$sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
 					} else
 						$sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
-				} else if ($thread[changeable]) {
+				} else if ($thread['changeable']) {
 					$sql->query("DELETE v FROM pollvotes v LEFT JOIN polloptions o ON o.id=v.id WHERE v.user=$loguser[id] AND o.poll=$tid");
 					$sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
 				} else {
