@@ -92,9 +92,9 @@ while ($forum = $sql->fetch($forums)) {
 
 	if ($forum['cat'] != $cat) {
 		$cat = $forum['cat'];
-		echo "  <tr class=\"c\">
-" . "    <td class=\"b\" colspan=5>" . ($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])) . "</td>
-";
+		?><tr class="c">
+			<td class="b" colspan="5"><?php echo ($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])); ?></td>
+		</tr><?php
 	}
 
 	if ($forum['posts'] > 0 && $forum['lastdate'] > 0)
@@ -130,18 +130,18 @@ while ($forum = $sql->fetch($forums)) {
 			$modstring.=userlink($mod) . ", ";
 	if ($modstring)
 		$modstring = "<br>(moderated by: " . substr($modstring, 0, -2) . ")";
-	echo
-			"  <tr align=\"center\">
-" . "    <td class=\"b n1\">$status</td>
-" . "    <td class=\"b n2\" align=\"left\">
-" . "      " . ($forum['private'] ? '(' : '') . "<a href=\"forum.php?id=$forum[id]\" $ignoreFX>$forum[title]</a>" . ($forum['private'] ? ')' : '') . "<br>
-" . "      <span class=sfont $ignoreFX>" . str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) . "$modstring</span>
-" . "    </td>
-" . "    <td class=\"b n1\">$forum[threads]</td>
-" . "    <td class=\"b n1\">$forum[posts]</td>
-" . "    <td class=\"b n2\">$lastpost</td>
-";
+	?>
+	<tr align="center">
+		<td class="b n1"><?php echo $status; ?></td>
+		<td class="b n2" align="left">
+			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>" <?php echo $ignoreFX; ?>><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
+			<br><span class=sfont <?php echo $ignoreFX; ?>><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) . $modstring; ?></span>
+		</td>
+		<td class="b n1"><?php echo $forum['threads']; ?></td>
+		<td class="b n1"><?php echo $forum['posts']; ?></td>
+		<td class="b n2"><?php echo $lastpost; ?></td>
+	<?php
 }
-echo "</table>";
+?></table><?php
 pagefooter();
 ?>
