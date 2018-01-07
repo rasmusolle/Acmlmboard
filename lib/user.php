@@ -344,7 +344,7 @@ function userdisp($user, $u = '', $usemini = '') {
 	if ($config['nickcolorcss'])
 		$nccss = "class='nc" . $user[$u . 'sex'] . $user[$u . 'group_id'] . "'";
 //Over-ride for custom colours [Gywall]
-	if ($user[$u . 'nick_color'] && $user[$u . 'enablecolor'] && $config[perusercolor]) {
+	if ($config['perusercolor'] && $user[$u . 'nick_color'] && $user[$u . 'enablecolor']) {
 		$nc = $user[$u . 'nick_color'];
 		$nccss = "";
 	} else {
@@ -356,7 +356,7 @@ function userdisp($user, $u = '', $usemini = '') {
 		$nc = randnickcolor();
 
 	$n = $user[$u . 'name'];
-	if ($user[$u . 'displayname'] && $config['displayname'])
+	if ($config['displayname'] && $user[$u . 'displayname'])
 		$n = $user[$u . 'displayname'];
 
 	if (!empty($user[$u . 'minipic']) && isset($user['showminipic'])) {
