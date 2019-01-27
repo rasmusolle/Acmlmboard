@@ -379,10 +379,6 @@ print "<table cellspacing=\"0\" class=\"c1\">
              <tr class=\"h\">
                <td class=\"b n2\"><a href=\"forum.php?user=$user[id]\">View threads</a>
                        | <a href=\"thread.php?user=$user[id]\">Show posts</a>
-                       | <a href=\"postsbyuser.php?id=$user[id]\">List posts</a>
-                       | <a href=\"postsbyuser.php?postsbytime&id=$user[id]\">Posts by time of day</a>
-                       | <a href=\"postsbyuser.php?postsbyforum&id=$user[id]\">Posts by forum</a>
-                       | <a href=\"postsbyuser.php?postsbythread&id=$user[id]\">Posts by thread</a>
                        $blocklayoutlink
                        " . (has_perm('create-pms') ? "| <a href=\"sendprivate.php?uid=" . $user['id'] . "\">Send private message</a>" : "") . "
                        " . (has_perm('view-user-pms') ? "| <a href=\"private.php?id=" . $user['id'] . "\">View private messages</a>" : "") . "
