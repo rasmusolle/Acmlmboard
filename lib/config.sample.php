@@ -89,15 +89,12 @@ $config['topthreads'] = '200'; // Number of threads created to set the goal to.
 $config['threadprevnext'] = false; // Enables links to jump one thread newer/older
 $config['memberlistcolorlinks'] = false; // Toggles the use of more color in memberlist.php. Group links will use respective colors to gender searched.
 $config['registrationpuzzle'] = true;
-// The following enables the optional badge system
-$config['badgesystem'] = false; // The badge system allows you to assign graphic 'badges' to users. They can be set to trigger board effects!
 
 $config['threadprevnext'] = false; // Enables a set of links on thread pages that allows you to go to the next or previous 'new' thread.
 
 $config['rootuseremail'] = false; // Enable the Root Administrator's email to be shown in the No Permission page to a user who can edit other users but not Root Administrators.
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
 $config['perusercolor'] = false; // Enable the use of per-user colors.
-$config['usernamebadgeeffects'] = false; // Allows badges to change username colors Requires badge system.
 $config['useshadownccss'] = false; // Enables use of a CSS class name to all user names (and other elements) that should get a shadow on light color themes
 $config['nickcolorcss'] = false; // Enables use of CSS to define per theme colors via a span id. Note: You may need to customise CSS to fit your board groups.
 

@@ -14,7 +14,6 @@ require 'lib/smilies.php';
 require 'lib/post.php';
 require 'lib/syndrome.php';
 require 'lib/graphics.php';
-require 'lib/badges.php';
  
 // lib/board.php
 function feedicon($icon,$para,$text="RSS feed"){

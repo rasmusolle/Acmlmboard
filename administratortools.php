@@ -27,10 +27,8 @@ if ($action == "Apply changes") {
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['topthreads']) . "' WHERE field='topthreads'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['threadprevnext']) . "' WHERE field='threadprevnext'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['memberlistcolorlinks']) . "' WHERE field='memberlistcolorlinks'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['badgesystem']) . "' WHERE field='badgesystem'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['displayname']) . "' WHERE field='displayname'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['perusercolor']) . "' WHERE field='perusercolor'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['usernamebadgeeffects']) . "' WHERE field='usernamebadgeeffects'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['useshadownccss']) . "' WHERE field='useshadownccss'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['nickcolorcss']) . "' WHERE field='nickcolorcss'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['alwaysshowlvlbar']) . "' WHERE field='alwaysshowlvlbar'");
@@ -66,11 +64,9 @@ $avatardimyint = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="avata
 $topposts = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="topposts"');
 $topthreads = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="topthreads"');
 $memberlistcolorlinks = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="memberlistcolorlinks"');
-$badgesystem = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="badgesystem"');
 $threadprevnext = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="threadprevnext"');
 $displayname = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="displayname"');
 $perusercolor = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="perusercolor"');
-$usernamebadgeeffects = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="usernamebadgeeffects"');
 $useshadownccss = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="useshadownccss"');
 $nickcolorcss = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="nickcolorcss"');
 $atnname = $sql->resultq('SELECT `txtval` FROM `misc` WHERE `field`="atnname"');
@@ -104,11 +100,9 @@ echo "<form action='administratortools.php' method='post' enctype='multipart/for
 " . "    <td class=\"b n1\" align=\"center\">Projected Date Threads:</td>
 " . "      <td class=\"b n2\"><input type=\"text\" name='topthreads' size='7' maxlength='7' value='" . $topthreads . "' class='right'></td>
 " . fieldrow('Memberlist Color Links', fieldoption('memberlistcolorlinks', $memberlistcolorlinks, array('Disable', 'Enable'))) . "
-" . fieldrow('Badge System', fieldoption('badgesystem', $badgesystem, array('Disable', 'Enable'))) . "
 " . fieldrow('Thread Prev Next Links', fieldoption('threadprevnext', $threadprevnext, array('Disable', 'Enable'))) . "
 " . fieldrow('Displaynames', fieldoption('displayname', $displayname, array('Disable', 'Enable'))) . "
 " . fieldrow('Custom Username Colors', fieldoption('perusercolor', $perusercolor, array('Disable', 'Enable'))) . "
-" . fieldrow('Username Badge Effects', fieldoption('usernamebadgeeffects', $usernamebadgeeffects, array('Disable', 'Enable'))) . "
 " . fieldrow('Username Shadow', fieldoption('useshadownccss', $useshadownccss, array('Disable', 'Enable'))) . "
 " . fieldrow('Theme Username Colors', fieldoption('nickcolorcss', $nickcolorcss, array('Disable', 'Enable'))) . "
 " . "    <td class=\"b n1\" align=\"center\">Attention Box Name:</td>

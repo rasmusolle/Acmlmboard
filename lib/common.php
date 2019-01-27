@@ -34,13 +34,11 @@ if ($config['sqlconfig']) {
 	$config['topthreads'] = $configsql['topthreads']['intval'];
 
 	$config['memberlistcolorlinks'] = $configsql['memberlistcolorlinks']['intval'];
-	$config['badgesystem'] = $configsql['badgesystem']['intval'];
-	
+
 	$config['threadprevnext'] = $configsql['threadprevnext']['intval'];
 
 	$config['displayname'] = $configsql['displayname']['intval'];
 	$config['perusercolor'] = $configsql['perusercolor']['intval'];
-	$config['usernamebadgeeffects'] = $configsql['usernamebadgeeffects']['intval'];
 	$config['useshadownccss'] = $configsql['useshadownccss']['intval'];
 	$config['nickcolorcss'] = $configsql['nickcolorcss']['intval'];
 

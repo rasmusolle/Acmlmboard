@@ -183,38 +183,6 @@ foreach ($user as $field => $val) {
 	$post['u' . $field] = $val;
 }
 
-//New Badge List
-$badgelist = "";
-if ($config['badgesystem']) {
-	$q = $sql->query("SELECT * FROM `badges`
-                       RIGHT JOIN `user_badges` ON `badges`.`id` = `user_badges`.`badge_id`
-                       WHERE `user_badges`.`user_id`='$uid' AND `badges`.`image`!= '' ORDER BY `priority` DESC LIMIT 9");
-
-	if (!$sql->numrows($q) == 0) {
-		$badgelist = "
-           <table cellspacing=\"0\" class=\"c1\" width=\"100%\">
-             <tr class=\"h\">
-               <td class=\"b h\" colspan=\"3\">Badges</td></tr>";
-		$numbadges = 0;
-		$badgelist.="<tr>";
-		while ($badge = $sql->fetch($q)) {
-			$badgelist.= "<td class=\"b n2\" align=\"center\"><img src=\"" . htmlval($badge['image']) . "\" alt=\"\" title=\"" . htmlval(str_replace("%%%VAL%%%", $badge['badge_var'], $badge['name'])) . "\" /></td>";
-			$numbadges++;
-			if ($numbadges % 3 == 0)
-				$badgelist .= "</tr><tr>";
-		}
-		while ($numbadges < 9) {
-			$badgelist.= "<td class=\"b n1\" align=\"center\"><img src=\"img/_.png\" width=\"25\" height=\"25\" /></td>";
-			$numbadges++;
-			if ($numbadges % 3 == 0)
-				$badgelist .= "</tr><tr>";
-		}
-		$badgelist.="            <tr class=\"h\">
-               <td class=\"b n1\" align=\"center\" colspan=\"3\"><a href=\"badges.php?uid=" . $uid . "\">(more)</a></td></tr>";
-		$badgelist .= "</table>    <br>";
-	}
-}
-//END badge list
 //More indepth test to not show the link if you can't edit your own perms
 $editpermissions = "";
 if (has_perm('edit-permissions')) {

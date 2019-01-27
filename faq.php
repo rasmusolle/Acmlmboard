@@ -57,7 +57,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#gpg">General Posting Guidelines</a><br>
 			<a href="#move">I just made a thread, where did it go?</a><br>
 			<a href="#rude">I feel that a user is being rude to me. What do I do?</a><br>
-			<a href="#badge">What are badges?</a><br>
 			<a href="#acs">What is "ACS"?</a><br>
 			<a href="#smile">Are smilies and BBCode supported?</a><br>
 			<a href="#tags">Board Specific tags (non-BBcode [tags] and other substitutions)</a><br>
@@ -126,12 +125,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Stay cool. Don't further disrupt the thread by responding <b>at all</b> to the rudeness. Let a member of staff know with a link to the offending post(s). Please note that responding to the rudeness is promoting flaming, which is a punishable offense.
-		</td>
-	</tr>
-	<tr class="h"><td class="b h" id="badge">What are badges?</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			Badges are special trinkets that a user gathers through special means. You can acquire them from staff, meeting special requirements, or even find them somewhere. For example; sometimes special contests will be held, with a badge given for those who participate and/or win said competition.
 		</td>
 	</tr>
 	<tr class="h"><td class="b h" id="acs">What is "ACS"?</td></tr>

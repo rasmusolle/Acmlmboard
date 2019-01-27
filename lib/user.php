@@ -344,23 +344,10 @@ function userdisp($user, $u = '', $usemini = '') {
 		$minipic = "";
 	}
 
-	//Badge username manipulation
-	if ($config['badgesystem'] && $config['usernamebadgeeffects']) {
-		$cssstyle = "color:#$nc;";
+	$userdisname = "$minipic$unclass<span $nccss style='color:#$nc;'>"
+			. str_replace(" ", "&nbsp;", htmlval($n))
+			. '</span>' . $unspanend;
 
-		$result = has_badge_perm("change_username_style", $user[$u . 'id']);
-		if ($result) {
-			$cssstyle .=has_badge_perm("change_username_style", $user[$u . 'id']);
-		}
-
-		$userdisname = "$minipic$unclass<span $nccss style='$cssstyle'>"
-				. str_replace(" ", "&nbsp;", htmlval($n))
-				. '</span>' . $unspanend;
-	} else {
-		$userdisname = "$minipic$unclass<span $nccss style='color:#$nc;'>"
-				. str_replace(" ", "&nbsp;", htmlval($n))
-				. '</span>' . $unspanend;
-	}
 	return $userdisname;
 }
 

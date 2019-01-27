@@ -9,44 +9,6 @@ DROP DATABASE IF EXISTS `acmlmboard`;
 CREATE DATABASE `acmlmboard` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `acmlmboard`;
 
-DROP TABLE IF EXISTS `badgecateg`;
-CREATE TABLE `badgecateg` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `order` tinyint(4) NOT NULL DEFAULT '0',
-  `name` varchar(20) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
-INSERT INTO `badgecateg` (`id`, `order`, `name`, `description`) VALUES
-(1,	1,	'Basic Badge',	'This is a decorative badge assignable only by staff.'),
-(2,	2,	'Shop Badge',	'This badge can be purchased in the Badge Shop'),
-(3,	3,	'Achievement Badge',	'This badge can only be earned. This badge is automatically assigned by the board.');
-
-DROP TABLE IF EXISTS `badges`;
-CREATE TABLE `badges` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `image` varchar(48) NOT NULL,
-  `priority` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `name` varchar(30) NOT NULL DEFAULT '',
-  `desc` varchar(100) NOT NULL DEFAULT '',
-  `inherit` int(11) DEFAULT NULL,
-  `posttext` varchar(10) DEFAULT NULL,
-  `effect` varchar(64) DEFAULT NULL,
-  `effect_variable` varchar(32) DEFAULT NULL,
-  `coins` mediumint(8) DEFAULT NULL,
-  `coins2` mediumint(8) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `priority` (`priority`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-INSERT INTO `badges` (`id`, `image`, `priority`, `type`, `name`, `desc`, `inherit`, `posttext`, `effect`, `effect_variable`, `coins`, `coins2`) VALUES
-(1,	'img/badges/pmbadge.png',	100,	1,	'P! Badge',	'P! Power badge. This is given by Emuz to show thanks.',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL),
-(2,	'img/badges/glasses.png',	50,	1,	'X-Ray Resistance Glasses',	'Ahh hardened for X-Rays? I bet it\'s to see those HTML comments..',	NULL,	NULL,	'show-html-comments',	NULL,	NULL,	NULL),
-(3,	'img/badges/quatloo.png',	15,	1,	'Quatloo Challenge Winner!',	'Given upon completion of some silly challenge of Emuz\'s',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL),
-(4,	'img/badges/1milthview.png',	15,	1,	'Got X,000,000th view',	'Got X,000,000th board view',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL);
-
 DROP TABLE IF EXISTS `blockedlayouts`;
 CREATE TABLE `blockedlayouts` (
   `user` mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -145,8 +107,8 @@ CREATE TABLE `forums` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `readonly`, `announce`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	1,	1,	1548575558,	1,	2,	0,	0,	0,	0,	1,	1,	0),
-(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	1,	1,	1516382831,	1,	1,	1,	1,	1,	1,	1,	1,	0);
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,	0),
+(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
 CREATE TABLE `forumsread` (
@@ -266,7 +228,7 @@ CREATE TABLE `misc` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
-('views',	89,	'',	'0'),
+('views',	152,	'',	'0'),
 ('maxpostsday',	1,	'',	'0'),
 ('maxpostsdaydate',	1516382948,	'',	'0'),
 ('maxpostshour',	1,	'',	'0'),
@@ -333,7 +295,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-all-group',	'Edit All Group Assets',	'',	3,	''),
 ('edit-all-group-member',	'Edit All User Assets',	'',	3,	''),
 ('edit-attentions-box',	'Edit Attentions Box',	'',	3,	''),
-('edit-badges',	'Edit Badges',	'',	3,	''),
 ('edit-calendar-events',	'Edit Calendar Events',	'',	3,	''),
 ('edit-categories',	'Edit Categories',	'',	3,	''),
 ('edit-customusercolors',	'Edit Custom Username Colors',	'',	3,	''),
@@ -352,7 +313,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-smilies',	'Edit Smilies',	'',	3,	''),
 ('edit-spiders',	'Edit Spiders',	'',	3,	''),
 ('edit-titles',	'Edit Titles',	'',	3,	''),
-('edit-user-badges',	'Assign User Badges',	'',	3,	''),
 ('edit-user-customnickcolor',	'Edit User Custom Nick Color',	'',	3,	'users'),
 ('edit-user-displayname',	'Edit User Displayname',	'',	3,	'users'),
 ('edit-user-show-online',	'Edit User Show Online',	'',	3,	''),
@@ -1614,18 +1574,6 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `user_badges`;
-CREATE TABLE `user_badges` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `badge_id` int(11) NOT NULL,
-  `badge_var` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `badge_id` (`badge_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `user_group`;
 CREATE TABLE `user_group` (
   `user_id` int(11) NOT NULL,
@@ -1990,4 +1938,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 13:32:04
+-- 2019-01-27 14:06:51
