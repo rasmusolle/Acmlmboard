@@ -430,20 +430,13 @@ if (isset($err)) {
 			$sql->query("INSERT INTO polloptions (`poll`,`option`,r,g,b) VALUES ($tid,'{$text}'," . (int) $r . "," . (int) $g . "," . (int) $b . ")");
 		}
 	}
-	
-	// bonus shit
-	$c = rand(250, 750);
-	if (! $announce)
-		$sql->query("UPDATE `usersrpg` SET `spent` = `spent` - '$c' WHERE `id` = '$userid'");
-	
+
 	if ($announce) {
 		$viewlink = "thread.php?announce=" . $forum['id'];
 		$shortlink = "a=" . $forum['id'];
-		$bonus = "";
 	} else {
 		$viewlink = "thread.php?id=$tid";
 		$shortlink = "t=$tid";
-		$bonus = "    Posted! (Gained $c bonus coins)<br>";
 	}
 	
 	redirect($viewlink, $c);

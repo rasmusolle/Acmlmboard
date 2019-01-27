@@ -19,7 +19,6 @@ if ($orderby == 'a') $sortby = " ASC";
 else $sortby = " DESC";
 
 $order = 'posts' . $sortby;
-if ($sort == 'exp') $order = 'exp' . $sortby;
 if ($sort == 'name') $order = 'name' . $sortby;
 if ($sort == 'reg') $order = 'regdate' . $sortby;
 
@@ -44,7 +43,7 @@ if (!$config['displayname'])
 if ($displayn == '1')
 	$where.=" AND `displayname` !=''";
 
-$users = $sql->query("SELECT *," . sqlexp() . " FROM users "
+$users = $sql->query("SELECT * FROM users "
 		. "WHERE $where "
 		. "ORDER BY $order "
 		. "LIMIT " . ($page - 1) * $ppp . ",$ppp");
@@ -97,7 +96,6 @@ if ($config['memberlistcolorlinks']) {
 		<td class="b n1" width="60">Sort by:</td>
 		<td class="b n2" align="center">
 			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Posts</a> |
-			<?php echo mlink('exp', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> EXP</a> |
 			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Username</a> |
 			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Registration date</a>
 		</td>
@@ -154,13 +152,9 @@ $headers = array(
 	"name" => array("caption" => "Name"),
 	"reg" => array("caption" => "Registered on", "width" => "130px"),
 	"posts" => array("caption" => "Posts", "width" => "50px"),
-	"lvl" => array("caption" => "Level", "width" => "40px"),
-	"exp" => array("caption" => "EXP", "width" => "80px"),
 );
 $data = array();
 for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
-	$user['exp'] = floor($user['exp']);
-	$user['level'] = calclvl($user['exp']);
 	$picture = ($user['usepic'] ? "<img src=gfx/userpic.php?id=$user[id] width=60 height=60>" : '<img src=img/_.png width=60 height=60>');
 
 	$data[] = array(
@@ -169,8 +163,6 @@ for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 		"name" => userlink($user),
 		"reg" => cdate($dateformat, $user['regdate']),
 		"posts" => $user['posts'],
-		"lvl" => $user['level'],
-		"exp" => $user['exp'],
 	);
 }
 

@@ -33,10 +33,7 @@ if ($action == "Apply changes") {
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['usernamebadgeeffects']) . "' WHERE field='usernamebadgeeffects'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['useshadownccss']) . "' WHERE field='useshadownccss'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['nickcolorcss']) . "' WHERE field='nickcolorcss'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['userpgnum']) . "' WHERE field='userpgnum'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['userpgnumdefault']) . "' WHERE field='userpgnumdefault'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['alwaysshowlvlbar']) . "' WHERE field='alwaysshowlvlbar'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['rpglvlbarwidth']) . "' WHERE field='rpglvlbarwidth'");
 	$sql->query("UPDATE misc SET txtval='" . $sql->escape($_POST['atnname']) . "' WHERE field='atnname'");
 
 	header('Location: administratortools.php?u=1');
@@ -76,10 +73,6 @@ $perusercolor = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="peruse
 $usernamebadgeeffects = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="usernamebadgeeffects"');
 $useshadownccss = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="useshadownccss"');
 $nickcolorcss = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="nickcolorcss"');
-$userpgnum = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="userpgnum"');
-$userpgnumdefault = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="userpgnumdefault"');
-$alwaysshowlvlbar = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="alwaysshowlvlbar"');
-$rpglvlbarwidth = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="rpglvlbarwidth"');
 $atnname = $sql->resultq('SELECT `txtval` FROM `misc` WHERE `field`="atnname"');
 
 echo "<form action='administratortools.php' method='post' enctype='multipart/form-data'>
@@ -118,13 +111,6 @@ echo "<form action='administratortools.php' method='post' enctype='multipart/for
 " . fieldrow('Username Badge Effects', fieldoption('usernamebadgeeffects', $usernamebadgeeffects, array('Disable', 'Enable'))) . "
 " . fieldrow('Username Shadow', fieldoption('useshadownccss', $useshadownccss, array('Disable', 'Enable'))) . "
 " . fieldrow('Theme Username Colors', fieldoption('nickcolorcss', $nickcolorcss, array('Disable', 'Enable'))) . "
-" . fieldrow('AB1.x Num Graphics', fieldoption('userpgnum', $userpgnum, array('Disable', 'Enable'))) . "
-" . fieldrow('All Themes Num Graphics', fieldoption('userpgnumdefault', $userpgnumdefault, array('Disable', 'Enable'))) . "
-" . fieldrow('EXP Level Bars', fieldoption('alwaysshowlvlbar', $alwaysshowlvlbar, array('Disable', 'Enable'))) . "
-" . "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">EXP Bar Size:</td>
-" . "      <td class=\"b n2\"><input type=\"text\" name='rpglvlbarwidth' size='3' maxlength='3' value='" . $rpglvlbarwidth . "' class='right'></td>
-" . "  <tr>
 " . "    <td class=\"b n1\" align=\"center\">Attention Box Name:</td>
 " . "      <td class=\"b n2\"><input type=\"text\" name='atnname' size='40' maxlength='255' value='" . $atnname . "' class='right'></td>
 " . "  <tr class=\"c\">

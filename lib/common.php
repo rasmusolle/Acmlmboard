@@ -44,10 +44,6 @@ if ($config['sqlconfig']) {
 	$config['useshadownccss'] = $configsql['useshadownccss']['intval'];
 	$config['nickcolorcss'] = $configsql['nickcolorcss']['intval'];
 
-	$config['userpgnum'] = $configsql['userpgnum']['intval'];
-	$config['userpgnumdefault'] = $configsql['userpgnumdefault']['intval'];
-	$config['alwaysshowlvlbar'] = $configsql['alwaysshowlvlbar']['intval'];
-	$config['rpglvlbarwidth'] = $configsql['rpglvlbarwidth']['intval'];
 	$config['atnname'] = $configsql['atnname']['txtval'];
 }
 
@@ -221,25 +217,10 @@ else
 
 require "lib/ipbans.php";
 
-$rpgimageset = '';
-
-if ($config['userpgnumdefault'])
-	$rpgimageset = "gfx/rpg/";
-
 $statusimageset = '';
 
-if ($config['userpgnum'] || $config['alwaysshowlvlbar']) {
-	if (is_file("theme/" . $theme . "/rpg/0.png"))
-		$rpgimageset = "theme/" . $theme . "/rpg/";
-}
-
-$statusimageset = '';
-
-/* if($config['userpgnum'] || $config['alwaysshowlvlbar'])
-  { */
 if (is_file("theme/" . $theme . "/status/new.png"))
 	$statusimageset = "theme/" . $theme . "/status/";
-//}
 
 $feedicons = "";
 
@@ -423,8 +404,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$userlinks[$ul++] = array('url' => "forum.php?fav", 'title' => 'Favorite threads');
 		if (has_perm("update-own-moods"))
 			$userlinks[$ul++] = array('url' => "mood.php", 'title' => 'Edit mood avatars');
-		if (has_perm("use-item-shop"))
-			$userlinks[$ul++] = array('url' => "shop.php", 'title' => 'Item shop');
 		if (has_perm("view-acs-calendar"))
 			$userlinks[$ul++] = array('url' => "frank.php", 'title' => 'Rankings');
 		if (has_perm('manage-board'))

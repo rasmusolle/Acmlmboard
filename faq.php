@@ -64,9 +64,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#irc">What's this IRC thing I keep hearing about?</a><br>
 			<a href="#reg">Can I register more than one account?</a><br>
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
-			<a href="#itemshop">Items and the Item Shop</a><br>
 			<?php if ($syndromenable == 1) echo '<a href="#syndrome">Acmlmboard Syndromes</a><br>'; ?>
-			<a href="#amps">&amp;Tags&amp; (Amp tags)</a><br>
 			<?php if ($config['displayname'] == true) echo '<a href="#dispname">Display Name System</a><br>'; ?>
 			<a href="#avatar">What are avatars &amp; mood avatars?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
@@ -250,13 +248,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			</ul>
 		</td>
 	</tr>
-	<tr class="h"><td class="b h" id="itemshop">Items and the Item Shop</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			Items are equipment that is part of the RPG stat system. Like in an RPG equipment can boost your stats. However, the RPG stat system is purely cosmetic.
-			An item shop allows you to use the RPG coins you get from posting to buy items and equipment.
-		</td>
-	</tr>
 	<?php if ($syndromenable == 1) { ?>
 	<tr class="h"><td class="b h" id="syndrome">Acmlmboard Syndromes</td></tr>
 	<tr>
@@ -279,33 +270,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h" id="amps">&amp;Tags&amp; (Amp tags)</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			amp tags (or &amp;tags&amp;) are tags that allow you to put some of for your profile and RPG stats in a post.
-			They can be incorporated into a layout or used once in a post.
-			<table class="table">
-				<tr><td class="b h">Tag</td><td class="b h">Value</td>
-				<tr><td class="b n1">&amp;postnum&amp;		</td><td class="b n2">Current post count</td>
-				<tr><td class="b n1">&amp;numdays&amp;		</td><td class="b n2">Number of days since registration</td>
-				<tr><td class="b n1">&amp;level&amp;		</td><td class="b n2">Level</td>
-				<tr><td class="b n1">&amp;exp&amp;			</td><td class="b n2">EXP</td>
-				<tr><td class="b n1">&amp;expdone&amp;		</td><td class="b n2">EXP done in the current level</td>
-				<tr><td class="b n1">&amp;expnext&amp;		</td><td class="b n2">Amount of EXP left for next level</td>
-				<tr><td class="b n1">&amp;exppct&amp;		</td><td class="b n2">Percentage of EXP done in the level</td>
-				<tr><td class="b n1">&amp;exppct2&amp;		</td><td class="b n2">Percentage of EXP left in the level</td>
-				<tr><td class="b n1">&amp;expgain&amp;		</td><td class="b n2">EXP gain per post</td>
-				<tr><td class="b n1">&amp;expgaintime&amp;	</td><td class="b n2">Seconds for 1 EXP when idle</td>
-				<tr><td class="b n1">&amp;lvlexp&amp;		</td><td class="b n2">Total EXP amount needed for next level</td>
-				<tr><td class="b n1">&amp;lvllen&amp;		</td><td class="b n2">EXP needed to go through the current level</td>
-				<tr><td class="b n1">&amp;5000&amp;			</td><td class="b n2">Posts left until you have 5000</td>
-				<tr><td class="b n1">&amp;20000&amp;		</td><td class="b n2">Posts left until you have 20000</td>
-				<tr><td class="b n1">&amp;rank&amp;			</td><td class="b n2">Current rank, according to your amount of posts</td>
-				<tr><td class="b n1">&amp;rankname&amp;		</td><td class="b n2">Text only current rank, according to your amount of posts</td>
-				<tr><td class="b n1">&amp;postrank&amp;		</td><td class="b n2">Shows your rank by number of posts</td>
-			</table>
-		</td>
-	</tr>
 	<?php if ($config['displayname'] == true) { ?>
 	<tr class="h"><td class="b h" id="dispname">Display Name System</td></tr>
 	<tr>

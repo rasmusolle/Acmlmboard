@@ -48,17 +48,6 @@ $pavg = sprintf("%1.02f", $user['posts'] / $days);
 $tfound = $sql->resultq("SELECT count(*) FROM `threads` WHERE `user`='$uid'");
 $tavg = sprintf('%1.02f', $user['threads'] / $days);
 
-if ($user['posts']) {
-	$exp = calcexp($user['posts'], (ctime() - $user['regdate']) / 86400);
-	$lvl = calclvl($exp);
-	$expleft = calcexpleft($exp);
-	$expstatus = "Level: $lvl<br>EXP: $exp (for next level: $expleft)";
-
-	$pexp = "$expstatus<br>Gain: " . calcexpgainpost($user['posts'], (ctime() - $user['regdate']) / 86400) . " EXP per post, " . calcexpgaintime($user['posts'], (ctime() - $user['regdate']) / 86400) . " seconds to gain 1 EXP when idle";
-} else
-	$pexp = "None";
-
-
 $thread = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `f`.`title` `ftitle`, `t`.`forum`, `f`.`private`
                             FROM `forums` `f`
                             LEFT JOIN `threads` `t` ON `t`.`forum`=`f`.`id`
@@ -193,29 +182,6 @@ $post['text'] = "[b]This[/b] is a [i]sample message.[/i] It shows how [u]your po
 foreach ($user as $field => $val) {
 	$post['u' . $field] = $val;
 }
-
-$shoplist = "
-         <table cellspacing=\"0\" class=\"c1\" width=\"100%\">
-           <tr class=\"h\">
-             <td class=\"b h\" colspan=\"2\">Equipped Items</td></tr>";
-
-$shops = $sql->query('SELECT * FROM itemcateg ORDER BY corder');
-$eq = $sql->fetchq("SELECT * FROM usersrpg WHERE id='$uid'");
-$eqitems = $sql->query("SELECT * FROM items WHERE `id`='$eq[eq1]' OR `id`='$eq[eq2]' OR `id`='$eq[eq3]' OR `id`='$eq[eq4]' OR `id`='$eq[eq5]' OR `id`='$eq[eq6]'");
-
-while ($item = $sql->fetch($eqitems)) {
-	$items[$item['id']] = $item;
-}
-
-while ($shop = $sql->fetch($shops)) {
-	$shoplist.="
-         <tr class=\"sfont\">
-           <td class=\"b n1\" width=\"70\">$shop[name]</td>
-           <td class=\"b n2\"><a href=\"shop.php?action=desc&id=" . $eq['eq' . $shop['id']] . "\">" . $items[$eq['eq' . $shop['id']]]['name'] . "</a></td>
-         </tr>";
-}
-$shoplist.="
-         </table>";
 
 //New Badge List
 $badgelist = "";
@@ -370,9 +336,6 @@ print "    <table cellspacing=\"0\" width=\"100%\">
                    <td class=\"b n1\"><b>Total threads</b></td>
                    <td class=\"b n2\">$user[threads] ($tfound found, $tavg per day)$tprojdate
                  <tr>
-                   <td class=\"b n1\"><b>EXP status</b></td>
-                   <td class=\"b n2\">$pexp
-                 <tr>
                    <td class=\"b n1\"><b>Registered on</b></td>
                    <td class=\"b n2\">" . cdate($dateformat, $user['regdate']) . " (" . timeunits($days * 86400) . " ago)
                  <tr>
@@ -434,18 +397,6 @@ print "<table cellspacing=\"0\" class=\"c1\">
                    <td class=\"b n1\"><b>Bio</b></td>
                    <td class=\"b n2\">" . ($user['bio'] ? postfilter($user['bio']) : "") . "
                </table>
-             </td>
-             <td class=\"nb\" width=\"15\"></td>
-             <td class=\"nb\" width=\"256\" valign=\"top\">
-               <table cellspacing=\"0\" class=\"c1\">
-                 <tr class=\"h\">
-                   <td class=\"b h\" colspan=\"2\">RPG status</td>
-                 <tr>
-                   <td class=\"b n1\"><img src=\"gfx/status.php?u=$uid\">
-               </table>
-               <br>
-           $badgelist
-           $shoplist
              </td>
            </table>
            <br>

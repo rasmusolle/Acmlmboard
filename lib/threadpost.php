@@ -12,21 +12,9 @@ function LoadBlocklayouts() {
 		$blocklayouts[$block['user']] = 1;
 }
 
-function usegfxnums() {
-	global $config, $rpgimageset;
-	if ($rpgimageset == '')
-		return false;
-	elseif (!$config['userpgnum'])
-		return false;
-	else
-		return true;
-}
-
 function threadpost($post, $type, $pthread = '') {
 	global $dateformat, $loguser, $sql, $blocklayouts, $syndromenable, $config, $signsep;
 	
-	$exp = calcexp($post['uposts'], (ctime() - $post['uregdate']) / 86400);
-
 	$post['head'] = '';
 	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);
 	$post['uhead'] = str_replace("<!--", "&lt;!--", $post['uhead']);
@@ -192,30 +180,9 @@ function threadpost($post, $type, $pthread = '') {
 						$grouplink . "
 " . "      " . ((strlen($grouplink)) ? "<br>" : "") . "
 " . "      " . postfilter($post['utitle']);
-				/* This block is used when rendering AB1 style image RPG layouts */
-				if (usegfxnums() && $loguser['numbargfx'] != 1)
-					$text.= "
-" . "      <br>" . rpglabel2img("level", "Level:") . " " . rpgnum2img(calclvl($exp)) . "
-" . "      <br>" . drawrpglevelbar($exp) . "
-" . "      <br>$picture
-" . "      <br>" . rpglabel2img("posts", "Posts:") . " " . rpgnum2img(($post['num'] ? "$post[num]/" : '')) . rpgnum2img($post['uposts']) . "
-" . "      <br>" . rpglabel2img("exp", "EXP:") . " " . rpgnum2img($exp) . "
-" . "      <br>" . rpglabel2img("fornext", "For Next:") . " " . rpgnum2img(calcexpleft($exp)) . "
-" . "      <br>
-" . "      <br>Since: " . cdate('m-d-y', $post[uregdate]) . "
-" . "      $location
-" . "      <br>
-" . "      <br>Last post: $lastpost
-" . "      <br>Last view: " . timeunits(ctime() - $post[ulastview]) . "
-";
 				/* Normal Rendering */
-				else
-					$text.= "      <br>Level: " . calclvl($exp) . "
-" . "      " . ($config['alwaysshowlvlbar'] && $loguser['showlevelbar'] != 1 ? "<br>" . drawrpglevelbar($exp) : "") . "
-" . "      <br>$picture
+				$text.= "      <br>$picture
 " . "      <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
-" . "      <br>EXP: $exp
-" . "      <br>Next: " . calcexpleft($exp) . "
 " . "      <br>
 " . "      <br>Since: " . cdate('m-d-y', $post['uregdate']) . "
 " . "      $location

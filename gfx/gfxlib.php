@@ -6,5 +6,4 @@ require '../lib/auth.php';
 require '../lib/request.php';
 require '../lib/mysql.php';
 require '../lib/database.php';
-require '../lib/rpg.php';
 ?>

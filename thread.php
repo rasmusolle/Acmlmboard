@@ -27,7 +27,7 @@ if (!empty($_COOKIE['pstbon'])) {
 " . "<table cellspacing=\"0\" class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] >= 1) {
 		$rdmsg.="Post Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">Post successful. " . $_COOKIE['pstbon'] . " bonus coins.</td></tr></table></div><br>";
+" . "<tr><td class=\"b n1\" align=\"left\">Post successful.</td></tr></table></div><br>";
 	} else {
 		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
 " . "<tr><td class=\"b n1\" align=\"left\">Post was edited successfully.</td></tr></table></div>";

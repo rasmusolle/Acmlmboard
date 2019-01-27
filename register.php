@@ -94,7 +94,6 @@ if ($act == 'Register') {
 		$res = $sql->query($query_string);
 		if ($res) {
 			$id = $sql->insertid();
-			$sql->query("INSERT INTO usersrpg (id) VALUES ($id)");
 
 			$ugid = 0;
 			// Derp killer

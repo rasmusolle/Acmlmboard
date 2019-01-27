@@ -353,12 +353,6 @@ function fieldinput($avatarsize, $max, $field) {
 //  return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"".htmlval($loguser[$field])."\">";
 }
 
-function fieldinputrpg($avatarsize, $max, $field) {
-	global $userrpg;
-	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $userrpg[$field]) . "\">";
-//  return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"".htmlval($loguser[$field])."\">";
-}
-
 function fieldinputprofile($avatarsize, $max, $field, $userprof) {
 	global $user;
 	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $userprof[$field]) . "\">";
@@ -386,30 +380,6 @@ function fieldselect($field, $checked, $choices) {
 	}
 	$text .= "</select>\n";
 	return $text;
-}
-
-function itemselect($field, $current, $cat) {
-	global $sql;
-
-	$viewhidden = 0;
-
-	if (has_perm('manage-shop-items'))
-		$viewhidden = 1;
-
-	$items = $sql->query("SELECT * FROM items WHERE `cat` = 0 UNION SELECT * FROM items WHERE `cat` = $cat AND `hidden` <= $viewhidden");
-
-	$text = "
-" . "<select name=$field>";
-
-	while ($item = $sql->fetch($items)) {
-		$text.="
-" . "      <option value=\"$item[id]\"";
-		if ($current == $item['id'])
-			$text.=" selected";
-
-		$text.="> $item[name]</option>";
-	}
-	return "$text    ";
 }
 
 function themelist() {

@@ -268,7 +268,6 @@ echo     "  <tr>
 ".        "</table>
 ";
     while($post=$sql->fetch($posts)){
-      $exp=calcexp($post[uposts],ctime()-$post[uregdate]);
       echo threadpost($post,1);
     }
 

@@ -192,23 +192,11 @@ function amptags($post, $s) {
 	global $sql;
 	if (!$post['num'])
 		$post['num'] = $post['uposts'];
-	$exp = calcexp($post['uposts'], (ctime() - $post['uregdate']) / 86400);
 	$s = str_replace("&postnum&", $post['num'], $s);
 	$s = str_replace("&numdays&", floor((time() - $post['uregdate']) / 86400), $s);
 	$s = str_replace("&postcount&", $post['uposts'], $s);
-	$s = str_replace("&level&", $lvl = calclvl($exp), $s);
-	$s = str_replace("&exp&", $exp, $s);
-	$s = str_replace("&expdone&", $edone = ($exp - calclvlexp($lvl)), $s);
-	$s = str_replace("&expnext&", $eleft = calcexpleft($exp), $s);
-	$s = str_replace("&lvlexp&", calclvlexp($lvl + 1), $s);
-	$s = str_replace("&lvllen&", lvlexp($lvl), $s);
-	$s = str_replace("&expgain&", calcexpgainpost($post['uposts'], (ctime() - $post['uregdate']) / 86400), $s);
-	$s = str_replace("&expgaintime&", calcexpgaintime($post['uposts'], (ctime() - $post['uregdate']) / 86400), $s);
-	$s = str_replace("&exppct&", sprintf("%d", $edone * 100 / lvlexp($lvl)), $s);
-	$s = str_replace("&exppct2&", sprintf("%d", $eleft * 100 / lvlexp($lvl)), $s);
 	$s = str_replace("&rank&", $post['ranktext'], $s);
 	$s = str_replace("&rankname&", preg_replace("'<(.*?)>'si", "", $post['ranktext']), $s);
-	$s = str_replace("&lvlbar&", drawrpglevelbar($exp, '166'), $s);
 	$s = str_replace("&mood&", $post['mood'], $s);
 	$s = str_replace("&postrank&", $sql->result($sql->query("SELECT count(*) FROM users WHERE posts>" . $post['uposts']), 0, 0), $s); //Added by request of Acmlm
 	// e modifier is no longer supported... using preg_replace_callback to stop the complaining.

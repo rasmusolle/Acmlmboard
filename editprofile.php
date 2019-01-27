@@ -56,7 +56,7 @@ if ($act == 'Edit profile') {
 }
 
 
-global $user, $userrpg;
+global $user;
 
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
@@ -68,12 +68,6 @@ if (!$user) {
            </table>";
 	die(pagefooter());
 }
-
-$userrpg = getstats($userrpgdata = $sql->fetchq('SELECT u.name, u.posts, u.regdate, r.* '
-		. 'FROM users u '
-		. 'LEFT JOIN usersrpg r ON u.id=r.id '
-		. "WHERE u.id=$user[id]"));
-
 
 if ($act == 'Edit profile') {
 	$error = '';
@@ -205,22 +199,9 @@ if ($act == 'Edit profile') {
 
 	if (!$error) {
 		if (has_perm("edit-users")) {
-			$spent = ($userrpg['GP'] + $userrpgdata['spent']) - $_POST['GP'];
-			$sql->query("UPDATE usersrpg SET "
-					. setfield('eq1') . ","
-					. setfield('eq2') . ","
-					. setfield('eq3') . ","
-					. setfield('eq4') . ","
-					. setfield('eq5') . ","
-					. setfield('eq6') . ","
-					. "`spent` = $spent,"
-					. setfield('gcoins')
-					. " WHERE `id` = $user[id]"
-			);
-
-			$banreason = ””;
-		  if($_POST['title']) $banreason = "`title` = 'Banned permanently: {$_POST['title']}', ";
-		  else $banreason = "`title` = 'Banned permanently', ";
+			$banreason = '';
+			if($_POST['title']) $banreason = "`title` = 'Banned permanently: {$_POST['title']}', ";
+			else $banreason = "`title` = 'Banned permanently', ";
 
 			$sql->query("UPDATE users SET "
 					. ($targetgroup ? "`group_id` = $targetgroup, " : "")
@@ -365,18 +346,6 @@ if (empty($act)) {
 " . (checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) . "
 ";
 
-	if (has_perm("edit-users"))
-		echo catheader('RPG Stats') . "
-  " . fieldrow('Coins', fieldinputrpg(9, 7, 'GP')) . "
-  " . fieldrow('Frog Coins', fieldinputrpg(9, 7, 'gcoins')) . "
-  " . fieldrow('Weapon', itemselect('eq1', $userrpgdata['eq1'], 1)) . "
-  " . fieldrow('Armour', itemselect('eq2', $userrpgdata['eq2'], 2)) . "
-  " . fieldrow('Shield', itemselect('eq3', $userrpgdata['eq3'], 3)) . "
-  " . fieldrow('Helmet', itemselect('eq4', $userrpgdata['eq4'], 4)) . "
-  " . fieldrow('Boots', itemselect('eq5', $userrpgdata['eq5'], 5)) . "
-  " . fieldrow('Accessory', itemselect('eq6', $userrpgdata['eq6'], 6)) . "
-  ";
-
 	echo
 			catheader('Personal information') . "
 " . fieldrow('Sex', fieldoption('sex', $user['sex'], $listsex)) . "
@@ -417,13 +386,7 @@ if (empty($act)) {
 		echo"
 " . fieldrow('Hide from Online Views', fieldoption('hidden', $user['hidden'], array('Show me online', 'Never show me online'))) . "
 ";
-	echo"
-" . fieldrow('AB1.x Number and Bar Graphics', fieldoption('numbargfx', $user['numbargfx'], array('Show them in AB1.x themes', 'Never show them in AB1.x themes'))) . "
-";
-	if ($config['alwaysshowlvlbar'])
-		echo"
-" . fieldrow('EXP level bars', fieldoption('showlevelbar', $user['showlevelbar'], array('Show EXP bars', 'Disable EXP bars'))) . "
-";
+	
 	echo catheader('&nbsp;') . "
 " . "  <tr class=\"n1\">
 " . "    <td class=\"b\">&nbsp;</td>
