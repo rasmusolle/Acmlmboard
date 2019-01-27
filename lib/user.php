@@ -101,7 +101,7 @@ function checkcdisplayname($uid) {
 		return false;
 
 	if ($uid == $loguser['id'] && has_perm('has-displayname')) {
-		if ($loguser['group_id'] != $defaultgroup['id'])
+		if ($loguser['group_id'] != $defaultgroup)
 			return true;
 
 		//Allow a custom displayname after a specific postcount/time.
