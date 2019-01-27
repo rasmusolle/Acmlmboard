@@ -130,8 +130,6 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 		}
 	} elseif ($act == 'move') {
 		editthread($tid, '', $_POST['arg']);
-	} elseif ($act == 'tag') {
-		$action = ',tags=tags^' . (1 << $_POST['arg']);
 	} else {
 		error("Error", "Unknown action.");
 	}
@@ -258,12 +256,6 @@ if ($viewmode == "thread") {
 			. "GROUP BY p.id "
 			. "ORDER BY p.id "
 			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
-
-	//load tags
-	$tags = array();
-	$t = $sql->query("SELECT * FROM tags WHERE fid=$thread[fid]");
-	while ($tt = $sql->fetch($t))
-		$tags[] = $tt;
 }elseif ($viewmode == "user") {
 	$user = $sql->fetchq("SELECT * "
 			. "FROM users "
@@ -493,8 +485,7 @@ if (isset($tid) &&
 			$trash2 = '| ';
 		}
 
-		$retag = sizeof($tags) ? "<a href=javascript:showtbox()>Tag</a> | " : "";
-		$edit = "<a href=javascript:showrbox()>Rename</a> | $retag <a href=javascript:showmove()>Move</a>";
+		$edit = "<a href=javascript:showrbox()>Rename</a> | <a href=javascript:showmove()>Move</a>";
 
 		//KAWA: Made it a dropdown list. The change isn't alone in this file, but it's clear where it starts and ends if you want to put this on 2.1+delta.
 		$r = $sql->query("SELECT c.title ctitle,c.private cprivate,f.id,f.title,f.cat,f.private FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord,c.id,f.ord,f.id");
@@ -525,21 +516,6 @@ if (isset($tid) &&
 		$edit = "<a href=javascript:showrbox()>Rename</a>";
 		$opt = "Thread";
 	}
-	$taglinks = "";
-	for ($i = 0; $i < sizeof($tags);  ++$i) {
-		$t = $tags[$i];
-		if (!($thread['tags'] & (1 << $t['bit'])))
-			$taglinks.="<a href=javascript:submittag('$t[bit]')>$t[tag]</a> ";
-	}
-	$taglinks.="| Remove: ";
-	for ($i = 0; $i < sizeof($tags);  ++$i) {
-		$t = $tags[$i];
-		if ($thread['tags'] & (1 << $t['bit']))
-			$taglinks.="<a href=javascript:submittag('$t[bit]')>$t[tag]</a> ";
-	}
-
-	$taglinks.="<input type=\"button\" class=\"submit\" value=\"Cancel\" onclick=\"hidethreadedit(); return false;\">";
-	$taglinks = addcslashes($taglinks, "'"); //because of javascript, single quotes will gum up the works
 
 	$renamefield = "<input type=\"text\" name=\"title\" id=\"title\" size=60 maxlength=255 value=\"".htmlspecialchars($thread['title'])."\">";
 	$renamefield .= "<input type=\"submit\" class=\"submit\" name=\"submit\" value=\"Rename\" onclick=\"submitmod('rename');\">";
@@ -583,18 +559,9 @@ function trashConfirm(e) {
 " . "        document.mod.arg.value=fid;
 " . "        submitmod('move')
 " . "      }
-" . "      function submittag(bit){
-" . "        document.mod.arg.value=bit;
-" . "        submitmod('tag')
-" . "      }
 " . "      function showrbox(){
 " . "        document.getElementById('moptions').innerHTML='Rename thread:';
 " . "        document.getElementById('mappend').innerHTML='$renamefield';
-" . "        document.getElementById('mappend').style.display = '';
-" . "      }
-" . "      function showtbox(){
-" . "        document.getElementById('moptions').innerHTML='Add:';
-" . "        document.getElementById('mappend').innerHTML='$taglinks';
 " . "        document.getElementById('mappend').style.display = '';
 " . "      }
 " . "      function showmove(){
@@ -770,5 +737,5 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 
 echo "$userbar$topbot";
 
-//pagefooter();
+pagefooter();
 ?>

@@ -70,18 +70,6 @@ if ($act != "Submit") {
 		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="color" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
 	}
 }
-$tagsin = "";
-$t = $sql->query("SELECT * FROM tags WHERE fid=$fid");
-while ($tt = $sql->fetch($t)) {
-	if ($tagsin == "")
-		$tagsin = "<tr>
-" . "  <td class=\"b n1\" align=\"center\">$typecap tags:</td>
-" . "  <td class=\"b n2\">
-";
-	$tagsin .= "<input type='checkbox' name='tag$tt[bit]' id='tag$tt[bit]' value='1' " . ($_POST["tag$tt[bit]"] ? "checked" : "") . "><label for='tag$tt[bit]'>$tt[name]</label> ";
-}
-if ($tagsin != "")
-	$tags .= "</tr>";
 
 $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
@@ -135,7 +123,7 @@ if (isset($err)) {
 	echo $top;
 	?>
 	<br><br>
-	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
+	<form action="newthread.php<?=(isset($ispoll) ? "?ispoll=$ispoll" : "") ?>" method="post">
 		<?php if ($log) { ?>
 		<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
 		<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
@@ -159,8 +147,7 @@ if (isset($err)) {
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
 			<?php
-			echo $tagsin;
-			if ($ispoll) {
+			if (isset($ispoll)) {
 				?>
 				<tr>
 					<td class="b n1" align="center">Poll question:</td>
@@ -300,11 +287,7 @@ if (isset($err)) {
 				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
-			<tr>
-				<td class="b n1" align="center"><?php echo $typecap; ?> icon:</td>
-				<td class="b n2"><?php echo $iconlist; ?></td>
-			</tr>
-			<?php echo $tagsin . (isset($pollin) ? $pollin : ''); ?>
+			<?php echo (isset($pollin) ? $pollin : ''); ?>
 			<tr>
 				<td class="b n1" align="center" width=120>Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
@@ -398,18 +381,13 @@ if (isset($err)) {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
 	
-	$tagsum = 0;
-	for ($i = 0; $i < 32; ++ $i)
-		if (isset($_POST["tag$i"]))
-			$tagsum |= (1 << $i);
-	
 	$mid = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1);
 	if ($announce) {
 		$modclose = $announce;
 	}
 	
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
-	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,tags,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$tagsum,$announce,$modclose,$modstick)");
+	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
 	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout,nosmilies,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,'$_POST[nolayout]','$_POST[nosmilies]',$announce)");
 	$pid = $sql->insertid();

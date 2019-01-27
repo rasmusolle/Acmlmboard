@@ -1,6 +1,4 @@
-<?PHP
-
-require 'lib/TextRenderer.php';
+<?php
 
 /*
 	Basic Acmlmboard2 graphics library.  Includes functions for image upload and vetting, ASCII 7-bit text rendering, etc.

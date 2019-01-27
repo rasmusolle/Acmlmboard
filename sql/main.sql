@@ -967,16 +967,6 @@ CREATE TABLE `spambotlog` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `tags`;
-CREATE TABLE `tags` (
-  `bit` int(8) NOT NULL,
-  `fid` int(10) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `tag` varchar(20) NOT NULL,
-  `color` varchar(6) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `threads`;
 CREATE TABLE `threads` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -990,7 +980,6 @@ CREATE TABLE `threads` (
   `lastdate` int(11) NOT NULL DEFAULT '0',
   `lastuser` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastid` int(11) NOT NULL DEFAULT '0',
-  `tags` int(12) NOT NULL,
   `announce` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -1537,8 +1526,6 @@ CREATE TABLE `users` (
   `adinfo` text NOT NULL,
   `redirtype` int(1) NOT NULL DEFAULT '0',
   `emailhide` int(1) NOT NULL DEFAULT '0',
-  `showlevelbar` int(11) NOT NULL DEFAULT '0',
-  `numbargfx` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -1899,4 +1886,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 15:30:43
+-- 2019-01-27 17:49:54

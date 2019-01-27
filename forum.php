@@ -27,12 +27,6 @@ if ($fid = $_GET['id']) {
 		error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 	}
 
-	//load tags
-	$tags = array();
-	$t = $sql->query("SELECT * FROM tags WHERE fid=$fid");
-	while ($tt = $sql->fetch($t))
-		$tags[] = $tt;
-
 	$feedicons.=feedicon("img/rss2.png", "rss.php?forum=$fid", "RSS feed for this section");
 
 	//append the forum's title to the site title
@@ -275,30 +269,11 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 ";
 	$lsticky = $thread['sticky'];
 
-	$taglist = "";
-	for ($k = 0; $k < sizeof($tags);  ++$k) {
-		$t = $tags[$k];
-		if ($thread['tags'] & (1 << $t['bit'])) {
-			if ($config['classictags']) {
-				list($r, $g, $b) = sscanf($t['color'], "%02X%02X%02X"); //updated to new php syntax, call by reference is now completely removed in PHP
-				if ($r < 128 && $g < 128) {
-					$r+=32;
-					$g+=32;
-				}
-				$t['color2'] = sprintf("%02X%02X%02X", $r, $g, $b);
-				$taglist.=" <span style=\"background-repeat:repeat;background:url('gfx/tpng.php?c=$t[color]&t=105');font-size:7pt;font-family:Small Fonts,sans-serif;padding:1px 1px\">"
-						. "<span style=\"background-repeat:repeat;background:url('gfx/tpng.php?c=$t[color]&t=105');font-size:7pt;font-family:Small Fonts,sans-serif;color:$t[color2];padding:2px 3px\" alt=\"$t[name]\">$t[tag]</span></span>";
-			} else {
-				$taglist.=" <img src=\"./gfx/tags/tag$t[fid]-$t[bit].png\" alt=\"$t[name]\" title=\"$t[name]\" style=\"position: relative; top: 3px;\"/>";
-			}
-		}
-	}
-
 	echo "<tr class=\"$tr\" align=\"center\">
 " . "    <td class=\"b n1\">$status</td>
 " . ($showforum ?
 					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
-" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>
+" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$pagelist</td>
 " . "    <td class=\"b\">" . userlink($thread, 'u1', $config['startedbyminipic']) . "</td>
 " . "    <td class=\"b\">$thread[replies]</td>
 " . "    <td class=\"b\">$thread[views]</td>

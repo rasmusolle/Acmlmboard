@@ -100,9 +100,6 @@ $config['nickcolorcss'] = false; // Enables use of CSS to define per theme color
 
 // The following are optional values you can change to personalize your board
 $config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
-                              
-// The following enables the classic style forum tags. This will possibly be replaced/in addition to user variable
-$config['classictags'] = false;
 
 // these are fallback settings
 $config['trashid'] = $trashid;

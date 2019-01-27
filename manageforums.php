@@ -11,11 +11,6 @@ if (isset($_GET['ajax'])) {
 		$user = $sql->fetchp("SELECT ".userfields()." FROM users WHERE name=? OR displayname=?",array($_GET['user'],$_GET['user']));
 		if (!$user) die();
 		echo $user['id'] . '|' . localmodRow($user);
-	} else if ($ajax == 'renderTag') {
-		renderTag($_GET['text'], null, -1, $_GET['color']);
-	} else if ($ajax == 'tagRow') {
-		if (!trim($_GET['text']) || !trim($_GET['tag']) || !trim($_GET['color'])) die();
-		echo tagRow($_GET['text'], $_GET['tag'], null, (int)$_GET['bit'], $_GET['color']);
 	}
 	die();
 }
@@ -93,31 +88,6 @@ if (isset($_POST['savecat'])) {
 			if (!isset($oldmods[$uid]))
 				$sql->prepare("INSERT INTO forummods (fid,uid) VALUES (?,?)", array($fid, $uid));
 		}
-		// save tags
-		$oldtags = array();
-		$qtags = $sql->prepare("SELECT bit,tag,color FROM tags WHERE fid=?",array($fid));
-		while ($tag = $sql->fetch($qtags))
-			$oldtags[$tag['bit']] = $tag;
-		$newtags = $_POST['tag'];
-		foreach ($oldtags as $rbit=>$blarg) {
-			$bit = (int)$rbit;
-			if (!$newtags[$bit])
-				$sql->prepare("DELETE FROM tags WHERE fid=? AND bit=?", array($fid, $bit));
-		}
-		foreach ($newtags as $rbit=>$rdata) {
-			$bit = (int)$rbit;
-			$data = explode('|', $rdata);
-			$name = rawurldecode($data[0]);
-			$tag = rawurldecode($data[1]);
-			$color = rawurldecode($data[2]);
-			if ($oldtags[$bit])
-				$sql->prepare("UPDATE tags SET name=?, tag=?, color=? WHERE fid=? AND bit=?", array($name, $tag, $color, $fid, $bit));
-			else
-				$sql->prepare("INSERT INTO tags (bit,fid,name,tag,color) VALUES (?,?,?,?,?)", array($bit, $fid, $name, $tag, $color));
-			// create the new tag image if needed
-			if (!$oldtags[$bit] || $oldtags[$bit]['tag'] != $tag || $oldtags[$bit]['color'] != $color)
-				renderTag($tag, $fid, $bit, $color);
-		}
 		saveperms('forums', $fid);
 		die(header('Location: manageforums.php?fid='.$fid));
 	}
@@ -126,7 +96,6 @@ if (isset($_POST['savecat'])) {
 	$fid = (int)$_GET['fid'];
 	$sql->prepare("DELETE FROM forums WHERE id=?",array($fid));
 	$sql->prepare("DELETE FROM forummods WHERE fid=?",array($fid));
-	$sql->prepare("DELETE FROM tags WHERE fid=?",array($fid));
 	deleteperms('forums', $fid);
 	die(header('Location: manageforums.php'));
 }
@@ -236,32 +205,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 					$qmods = $sql->prepare("SELECT ".userfields('u')." FROM forummods f LEFT JOIN users u ON u.id=f.uid WHERE f.fid=?",array($fid));
 					while ($mod = $sql->fetch($qmods))
 						echo "<div>".localmodRow($mod)."</div>";
-					?>
-				</td>
-			</tr>
-			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
-			<tr>
-				<td class="b n2" align="center" colspan="2">
-					<input type="submit" class="submit" name="saveforum" value="Save forum">
-				</td>
-			</tr>
-		</table><br>
-		<table class="c1">
-			<tr class="h"><td class="b h" colspan="2">Thread tags</td></tr>
-			<tr class="c"><td class="b c">Add a tag</td><td class="b c">Current tags</td></tr>
-			<tr class="n2">
-				<td class="b" style="width:50%; vertical-align:top;">
-					Name: <input type="text" name="tag_name" id="tag_name" size="20" maxlength="64"><br>
-					Tag text: <input type="text" name="tag_tag" id="tag_tag" size="10" maxlength="20"><br>
-					Color: <input class="color {pickerFaceColor:'black',pickerBorder:0,pickerInsetColor:'black'}" value="808080" name="tag_color" id="tag_color" size="6" maxlength="6"><br>
-					<button type="button" class="submit" id="newtag" onclick="newTag();">New tag</button>
-					<button type="button" class="submit" id="savetag" onclick="saveTag('{$fid}');">Save tag</button>
-				</td>
-				<td class="b" id="taglist" style="vertical-align:top;">
-					<?php 
-					$qtags = $sql->prepare("SELECT * FROM tags WHERE fid=?",array($fid));
-					while ($tag = $sql->fetch($qtags))
-						echo "<div>".tagRow($tag['name'], $tag['tag'], $fid, $tag['bit'], $tag['color'])."</div>";
 					?>
 				</td>
 			</tr>
@@ -454,48 +397,6 @@ function localmodRow($user) {
 	return "<span style=\"min-width:200px; display:inline-block;\">".userlink($user)."</span>".
 		"<button class=\"submit\" onclick=\"deleteLocalmod(this.parentNode); return false;\">Remove</button>".
 		"<input type=\"hidden\" name=\"localmod[{$user['id']}]\" id=\"localmod_{$user['id']}\" value=1>";
-}
-
-function renderTag($TagText, $ForumID, $TagBit, $TintColour) {
-	$TagTextImage = RenderText($TagText);
-	$Tag = Image::Create($TagTextImage->Size[0] + 11, 16);
-
-	$LeftImage = Image::LoadPNG("./gfx/tagleft.png");
-	$RightImage = Image::LoadPNG("./gfx/tagright.png");
-	$Tag->DrawImageDirect($LeftImage, 0, 0);
-	
-	for ($X = 7; $X < $Tag->Size[0] - 7; $X += 4)
-		$Tag->DrawImageDirect($RightImage, $X, 0);
-
-	$Tag->DrawImageDirect($RightImage, $Tag->Size[0] - 8, 0);
-	$Tag->Colourize(hexdec(substr($TintColour, 0, 2)), hexdec(substr($TintColour, 2, 2)), hexdec(substr($TintColour, 4, 2)), 0xFF);
-
-	$Tag->DrawImageDirect($TagTextImage, 8, 2);
-	
-	if ($ForumID === null)
-		$Tag->OutputPNG();
-	else
-		$Tag->SavePNG("./gfx/tags/tag$ForumID-$TagBit.png");
-
-	$LeftImage->Dispose();
-	$RightImage->Dispose();
-	$Tag->Dispose();
-	$TagTextImage->Dispose();
-}
-
-function tagRow($text, $tag, $fid, $bit, $color) {
-	$tagdata = rawurlencode($text).'|'.rawurlencode($tag).'|'.rawurlencode($color);
-	if ($bit >= 0) $tagdata .= '|'.$bit;
-	
-	$imgfile = "./gfx/tags/tag$fid-$bit.png";
-	if ($fid === null || !file_exists($imgfile))
-		$imgfile = "manageforums.php?ajax=renderTag&amp;text=$tag&amp;color=$color";
-	$imgtag = "<img src=\"{$imgfile}\" alt=\"".htmlspecialchars($tag)."\" style=\"vertical-align:bottom;\">";
-	
-	return "<span style=\"min-width:200px; display:inline-block;\">".htmlspecialchars($text)."&nbsp;{$imgtag}</span>".
-		"<button class=\"submit\" onclick=\"editTag({$bit}); return false;\">Edit</button>".
-		"<button class=\"submit\" onclick=\"deleteTag({$bit},this.parentNode); return false;\">Remove</button>".
-		"<input type=\"hidden\" name=\"tag[{$bit}]\" id=\"tag_{$bit}\" value=\"".htmlspecialchars($tagdata)."\">";
 }
 
 ?>

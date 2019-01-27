@@ -238,7 +238,6 @@ if ($act == 'Edit profile') {
 				. setfield('blocklayouts') . ','
 				. setfield('emailhide') . ','
 				. setfield('hidesmilies') . ','
-				. setfield('numbargfx') . ','
 				. ($config['alwaysshowlvlbar'] ? (setfield('showlevelbar') . ',') : '')
 				. (has_perm("show-online") || has_perm("edit-user-show-online") ? (setfield('hidden') . ',') : '')
 				. setfield('timezone') . ','
