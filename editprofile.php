@@ -155,8 +155,8 @@ if ($act == 'Edit profile') {
 	else
 		$birthday = -1;
 
-	$dateformat = ($_POST['presetdate'] ? $_POST['presetdate'] : $_POST['dateformat']);
-	$timeformat = ($_POST['presettime'] ? $_POST['presettime'] : $_POST['timeformat']);
+	$dateformat = $_POST['dateformat'];
+	$timeformat = $_POST['timeformat'];
 
 	if (has_perm("edit-users")) {
 
@@ -296,14 +296,6 @@ if (empty($act)) {
 		$birthY = $birthday[2];
 	}
 
-	$dateformats = array('', 'm-d-y', 'd-m-y', 'y-m-d', 'Y-m-d', 'm/d/Y', 'd.m.y', 'M j Y', 'D jS M Y');
-	$timeformats = array('', 'h:i A', 'h:i:s A', 'H:i', 'H:i:s');
-
-	foreach ($dateformats as $format)
-		$datelist[$format] = ($format ? $format . ' (' . cdate($format, ctime()) . ')' : '');
-	foreach ($timeformats as $format)
-		$timelist[$format] = ($format ? $format . ' (' . cdate($format, ctime()) . ')' : '');
-
 	$passinput = "<input type=\"password\" name=pass size=13 maxlength=32> / Retype: <input type=\"password\" name=pass2 size=13 maxlength=32>";
 	$birthinput = "
 " . "      Month: <input type=\"text\" name=birthM size=2 maxlength=2 value=$birthM>
@@ -362,25 +354,19 @@ if (empty($act)) {
 " . fieldrow('Email address', fieldinput(40, 60, 'email')) . "
 " . fieldrow('Homepage URL', fieldinput(40, 200, 'homeurl')) . "
 " . fieldrow('Homepage name', fieldinput(40, 60, 'homename'));
-	//Implemented the show-online perm. - SquidEmpress
-	echo"
-" .
-			catheader('Options') . "
-" . fieldrow('Theme', fieldselect('theme', $user['theme'], themelist())) . "
-" . fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones)) . "
-" . fieldrow('Posts per page', fieldinput(3, 3, 'ppp')) . "
-" . fieldrow('Threads per page', fieldinput(3, 3, 'tpp')) . "
-" . fieldrow('Long pagelists', fieldoption('longpages', $user['longpages'], array('Abbreviate as needed', 'Always display in entirety'))) . "
-" . fieldrow('Font size', fieldinput(3, 3, 'fontsize')) . "
-" . fieldrow('Date format', fieldinput(15, 15, 'dateformat') . ' or preset: ' . fieldselect('presetdate', 0, $datelist)) . "
-" . fieldrow('Time format', fieldinput(15, 15, 'timeformat') . ' or preset: ' . fieldselect('presettime', 0, $timelist)) . "
-" . fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything'))) . "
-";
-
-	echo"
-" . fieldrow('Smilies', fieldoption('hidesmilies', $user['hidesmilies'], array('Show smilies', 'Do not show smilies'))) . "
-" . fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email'))) . "
-";
+	
+	echo	catheader('Options')
+ . fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
+ . fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
+ . fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
+ . fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
+ . fieldrow('Long pagelists', fieldoption('longpages', $user['longpages'], array('Abbreviate as needed', 'Always display in entirety')))
+ . fieldrow('Font size', fieldinput(3, 3, 'fontsize'))
+ . fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
+ . fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
+ . fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')))
+ . fieldrow('Smilies', fieldoption('hidesmilies', $user['hidesmilies'], array('Show smilies', 'Do not show smilies')))
+ . fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')));
 	if ($user['id'] == $loguser['id'] && has_perm("show-online") || has_perm("edit-user-show-online")) // i think this should have been double equals.
 		echo"
 " . fieldrow('Hide from Online Views', fieldoption('hidden', $user['hidden'], array('Show me online', 'Never show me online'))) . "
