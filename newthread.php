@@ -126,16 +126,6 @@ if ($act == 'Submit') {
 
 $top = "<a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a> - New $type";
 
-$i = 1;
-$icons = $sql->query('SELECT * FROM posticons ORDER BY id');
-$iconlist = '';
-while ($icon = $sql->fetch($icons))
-	$iconlist .= "      <input type=\"radio\" class=\"radio\" name=iconid value=$i> <img src=$icon[url]>&nbsp; &nbsp;" . (! ($i++ % 10) ? '<br>' : '') . "
-";
-$iconlist .= "      <input type=\"radio\" class=\"radio\" name=iconid value=0 checked> None&nbsp; &nbsp;
-" . "      Custom: <input type=\"text\" name=iconurl size=40 maxlength=100>
-";
-
 if (isset($err)) {
 	pageheader("New $type", $forum['id']);
 	echo "$top - Error";
@@ -167,10 +157,6 @@ if (isset($err)) {
 			<tr>
 				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
-			</tr>
-			<tr>
-				<td class="b n1" align="center"><?php echo $typecap; ?> icon:</td>
-				<td class="b n2"><?php echo $iconlist; ?></td>
 			</tr>
 			<?php
 			echo $tagsin;
@@ -333,8 +319,6 @@ if (isset($err)) {
 				<td class="b">&nbsp;</td>
 				<td class="b">
 					<input type="hidden" name=fid value=<?php echo $fid; ?>>
-					<input type="hidden" name="iconid" value="<?php echo $_POST['iconid']; ?>">
-					<input type="hidden" name="iconurl" value="<?php echo $_POST['iconurl']; ?>">
 					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
@@ -395,9 +379,6 @@ if (isset($err)) {
 " . "</form>
 ";--><?php
 } elseif ($act == 'Submit') {
-	if (! ($iconurl = $_POST['iconurl']))
-		$iconurl = $sql->resultq("SELECT url FROM posticons WHERE id=" . (int) $_POST['iconid']);
-	
 	checknumeric($_POST['nolayout']);
 	checknumeric($_POST['nosmilies']);
 	if (can_edit_forum_threads($fid)) {
@@ -414,8 +395,6 @@ if (isset($err)) {
 	if (!$_POST['stick'])
 		$modstick = "0";
 	
-	$iconurl = addslashes($iconurl);
-	
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
 	
@@ -430,12 +409,12 @@ if (isset($err)) {
 	}
 	
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
-	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,icon,tags,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,'$iconurl',$tagsum,$announce,$modclose,$modstick)");
+	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,tags,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$tagsum,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
 	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout,nosmilies,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,'$_POST[nolayout]','$_POST[nosmilies]',$announce)");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
-	if (! $announce) {
+	if (!$announce) {
 		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
 	}
 	$sql->query("UPDATE threads SET lastid=$pid WHERE id=$tid");
@@ -456,7 +435,6 @@ if (isset($err)) {
 	$c = rand(250, 750);
 	if (! $announce)
 		$sql->query("UPDATE `usersrpg` SET `spent` = `spent` - '$c' WHERE `id` = '$userid'");
-
 	
 	if ($announce) {
 		$viewlink = "thread.php?announce=" . $forum['id'];

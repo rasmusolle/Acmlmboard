@@ -260,7 +260,6 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 			<table class="c1">
 				<tr class="h">
 					<td class="b h" width="17">&nbsp;</td>
-					<td class="b h" width="17">&nbsp;</td>
 					<?php echo ($showforum ? '<td class="b h">Forum</td>' : ''); ?>
 					<td class="b h">Title</td>
 					<td class="b h" width="130">Started by</td>
@@ -289,9 +288,6 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 
 				if (!$thread['title']) $thread['title'] = '�';
 
-				if ($thread['icon']) $icon = '<img src='.$thread['icon'].' height=15>';
-				else $icon = '&nbsp;';
-
 				if ($thread['sticky']) $tr = 'n1';
 				else $tr = ($i % 2 ? 'n2' :'n3');
 
@@ -302,7 +298,6 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 				?>
 				<tr class="<?php echo $tr; ?>" align="center">
 					<td class="b n1"><?php echo $status; ?></td>
-					<td class="b"><?php echo $icon; ?></td>
 					<?php echo ($showforum ? '<td class="b"><a href="forum.php?id="' . $thread['fid'] . '">' . $thread['ftitle'] . '</a></td>' : ''); ?>
 					<td class="b" align="left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
 					<td class="b"><?php echo userlink($thread,'u1'); ?></td>

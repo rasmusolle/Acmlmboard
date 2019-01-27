@@ -1,166 +1,88 @@
--- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
---
--- Värd: 127.0.0.1
--- Tid vid skapande: 14 okt 2017 kl 16:24
--- Serverversion: 5.6.17
--- PHP-version: 7.0.10
+-- Adminer 4.7.1 MySQL dump
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP DATABASE IF EXISTS `acmlmboard`;
+CREATE DATABASE `acmlmboard` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `acmlmboard`;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Databas: `acmlmboard`
---
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `annoucenickprefix`
---
-
-CREATE TABLE `annoucenickprefix` (
-  `group_id` int(16) NOT NULL,
-  `char` varchar(1) NOT NULL,
-  `color` varchar(16) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `annoucenickprefix`
---
-
-INSERT INTO `annoucenickprefix` (`group_id`, `char`, `color`) VALUES
-(6, '~', 'red'),
-(8, '+', 'lt_blue'),
-(3, '%', 'lt_green'),
-(4, '@', 'orange');
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `announcechans`
---
-
-CREATE TABLE `announcechans` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `chan` varchar(128) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `badgecateg`
---
-
+DROP TABLE IF EXISTS `badgecateg`;
 CREATE TABLE `badgecateg` (
-  `id` tinyint(3) UNSIGNED NOT NULL,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `order` tinyint(4) NOT NULL DEFAULT '0',
   `name` varchar(20) NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `badgecateg`
---
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO `badgecateg` (`id`, `order`, `name`, `description`) VALUES
-(1, 1, 'Basic Badge', 'This is a decorative badge assignable only by staff.'),
-(2, 2, 'Shop Badge', 'This badge can be purchased in the Badge Shop'),
-(3, 3, 'Achievement Badge', 'This badge can only be earned. This badge is automatically assigned by the board.');
+(1,	1,	'Basic Badge',	'This is a decorative badge assignable only by staff.'),
+(2,	2,	'Shop Badge',	'This badge can be purchased in the Badge Shop'),
+(3,	3,	'Achievement Badge',	'This badge can only be earned. This badge is automatically assigned by the board.');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `badges`
---
-
+DROP TABLE IF EXISTS `badges`;
 CREATE TABLE `badges` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `image` varchar(48) NOT NULL,
-  `priority` mediumint(4) UNSIGNED NOT NULL DEFAULT '1',
-  `type` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
-  `name` varchar(48) NOT NULL DEFAULT '',
-  `description` varchar(100) NOT NULL DEFAULT '',
+  `priority` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `desc` varchar(100) NOT NULL DEFAULT '',
   `inherit` int(11) DEFAULT NULL,
   `posttext` varchar(10) DEFAULT NULL,
   `effect` varchar(64) DEFAULT NULL,
-  `effect_variable` varchar(128) DEFAULT NULL,
+  `effect_variable` varchar(32) DEFAULT NULL,
   `coins` mediumint(8) DEFAULT NULL,
-  `coins2` mediumint(8) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `coins2` mediumint(8) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `priority` (`priority`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
---
--- Dumpning av Data i tabell `badges`
---
+INSERT INTO `badges` (`id`, `image`, `priority`, `type`, `name`, `desc`, `inherit`, `posttext`, `effect`, `effect_variable`, `coins`, `coins2`) VALUES
+(1,	'img/badges/pmbadge.png',	100,	1,	'P! Badge',	'P! Power badge. This is given by Emuz to show thanks.',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL),
+(2,	'img/badges/glasses.png',	50,	1,	'X-Ray Resistance Glasses',	'Ahh hardened for X-Rays? I bet it\'s to see those HTML comments..',	NULL,	NULL,	'show-html-comments',	NULL,	NULL,	NULL),
+(3,	'img/badges/quatloo.png',	15,	1,	'Quatloo Challenge Winner!',	'Given upon completion of some silly challenge of Emuz\'s',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL),
+(4,	'img/badges/1milthview.png',	15,	1,	'Got X,000,000th view',	'Got X,000,000th board view',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL);
 
-INSERT INTO `badges` (`id`, `image`, `priority`, `type`, `name`, `description`, `inherit`, `posttext`, `effect`, `effect_variable`, `coins`, `coins2`) VALUES
-(1, 'img/badges/pmbadge.png', 100, 1, 'P! Badge', 'P! Power badge. This is given by Emuz to show thanks.', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'img/badges/glasses.png', 50, 1, 'X-Ray Resistance Glasses', 'Ahh hardened for X-Rays? I bet it\'s to see those HTML comments..', NULL, NULL, 'show-html-comments', NULL, NULL, NULL),
-(3, 'img/badges/quatloo.png', 15, 1, 'Quatloo Challenge Winner!', 'Given upon completion of some silly challenge of Emuz\'s', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'img/badges/1milthview.png', 15, 1, 'Got X,000,000th view', 'Got X,000,000th board view', NULL, NULL, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `blockedlayouts`
---
-
+DROP TABLE IF EXISTS `blockedlayouts`;
 CREATE TABLE `blockedlayouts` (
-  `user` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
-  `blockee` mediumint(8) UNSIGNED NOT NULL DEFAULT '0'
+  `user` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `blockee` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  KEY `user` (`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `categories`
---
-
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
-  `id` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `ord` tinyint(4) NOT NULL,
   `minpower` tinyint(4) NOT NULL,
-  `private` int(1) NOT NULL
+  `private` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `categories`
---
-
 INSERT INTO `categories` (`id`, `title`, `ord`, `minpower`, `private`) VALUES
-(1, 'General Forums', 2, 0, 0),
-(2, 'Staff Forums', 0, 1, 1);
+(1,	'General',	2,	0,	0),
+(2,	'Staff Forums',	0,	1,	1);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `dailystats`
---
-
+DROP TABLE IF EXISTS `dailystats`;
 CREATE TABLE `dailystats` (
   `date` char(8) NOT NULL,
   `users` int(11) DEFAULT '0',
   `threads` int(11) DEFAULT '0',
   `posts` int(11) DEFAULT '0',
-  `views` int(11) DEFAULT '0'
+  `views` int(11) DEFAULT '0',
+  PRIMARY KEY (`date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `deletedgroups`
---
-
+DROP TABLE IF EXISTS `deletedgroups`;
 CREATE TABLE `deletedgroups` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   `char` varchar(1) NOT NULL,
   `color` varchar(16) DEFAULT NULL,
@@ -173,102 +95,72 @@ CREATE TABLE `deletedgroups` (
   `sortorder` int(11) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '0',
   `primary` int(1) NOT NULL DEFAULT '0',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT ''
+  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `events`
---
-
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `month` tinyint(4) NOT NULL,
   `day` tinyint(4) NOT NULL,
   `year` smallint(6) NOT NULL,
   `user` mediumint(9) NOT NULL,
   `private` tinyint(4) NOT NULL,
-  `event_title` varchar(32) NOT NULL
+  `event_title` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `forummods`
---
-
+DROP TABLE IF EXISTS `forummods`;
 CREATE TABLE `forummods` (
   `uid` int(12) NOT NULL,
-  `fid` int(12) NOT NULL
+  `fid` int(12) NOT NULL,
+  UNIQUE KEY `uid_2` (`uid`,`fid`),
+  KEY `uid` (`uid`,`fid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `forums`
---
-
+DROP TABLE IF EXISTS `forums`;
 CREATE TABLE `forums` (
   `id` int(5) NOT NULL DEFAULT '0',
-  `cat` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `ord` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `cat` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `ord` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `descr` varchar(255) NOT NULL,
   `threads` mediumint(8) NOT NULL DEFAULT '0',
   `posts` mediumint(8) NOT NULL DEFAULT '0',
   `lastdate` int(11) NOT NULL DEFAULT '0',
-  `lastuser` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `lastuser` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastid` int(11) NOT NULL,
   `minpower` tinyint(4) NOT NULL DEFAULT '-1',
   `minpowerthread` tinyint(4) NOT NULL DEFAULT '0',
   `minpowerreply` tinyint(4) NOT NULL DEFAULT '0',
   `private` int(1) NOT NULL,
   `trash` int(1) NOT NULL,
-  `announcechan_id` int(11) NOT NULL DEFAULT '0',
   `readonly` int(1) NOT NULL DEFAULT '0',
-  `announce` int(1) NOT NULL DEFAULT '0'
+  `announce` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `forums`
---
+INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `readonly`, `announce`) VALUES
+(1,	1,	1,	'General Forum',	'General topics forum',	1,	1,	1548575558,	1,	2,	0,	0,	0,	0,	1,	1,	0),
+(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	1,	1,	1516382831,	1,	1,	1,	1,	1,	1,	1,	1,	0);
 
-INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `announcechan_id`, `readonly`, `announce`) VALUES
-(1, 1, 1, 'General Forum', 'General topics forum', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0),
-(2, 2, 1, 'General Staff Forum', 'Generic Staff Forum					', 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `forumsread`
---
-
+DROP TABLE IF EXISTS `forumsread`;
 CREATE TABLE `forumsread` (
   `uid` mediumint(9) NOT NULL,
   `fid` int(5) NOT NULL,
-  `time` int(11) NOT NULL
+  `time` int(11) NOT NULL,
+  UNIQUE KEY `uid` (`uid`,`fid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `forumsread`
---
 
-INSERT INTO `forumsread` (`uid`, `fid`, `time`) VALUES
-(1, 1, 1507994275),
-(1, 2, 1507994275);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `group`
---
-
+DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `char` varchar(1) CHARACTER SET latin1 NOT NULL,
-  `irc_color` varchar(16) CHARACTER SET latin1 DEFAULT NULL,
   `nc0` varchar(6) NOT NULL,
   `nc1` varchar(6) NOT NULL,
   `nc2` varchar(6) NOT NULL,
@@ -278,32 +170,24 @@ CREATE TABLE `group` (
   `sortorder` int(11) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '0',
   `primary` int(1) NOT NULL DEFAULT '0',
-  `description` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
---
--- Dumpning av Data i tabell `group`
---
+INSERT INTO `group` (`id`, `title`, `nc0`, `nc1`, `nc2`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`, `primary`, `description`) VALUES
+(1,	'Base User',	'',	'',	'',	0,	0,	0,	100,	0,	0,	''),
+(2,	'Normal User',	'97ACEF',	'F185C9',	'7C60B0',	1,	1,	0,	200,	1,	1,	'Normal Registered User'),
+(3,	'Global Moderator',	'AFFABE',	'C762F2',	'47B53C',	8,	0,	0,	600,	1,	1,	''),
+(4,	'Administrator',	'FFEA95',	'C53A9E',	'F0C413',	3,	0,	0,	700,	1,	1,	''),
+(6,	'Root Administrator',	'EE4444',	'E63282',	'AA3C3C',	0,	-1,	0,	800,	1,	1,	''),
+(8,	'Local Moderator',	'D8E8FE',	'FFB3F3',	'EEB9BA',	10,	0,	0,	400,	1,	1,	''),
+(9,	'Banned',	'888888',	'888888',	'888888',	2,	0,	1,	0,	1,	1,	''),
+(10,	'Staff',	'',	'',	'',	2,	0,	0,	300,	0,	0,	''),
+(11,	'Disable PM Activity',	'',	'',	'',	0,	0,	0,	1000,	1,	0,	'Disallows all Private Message activity (viewing, creation, deletion)'),
+(13,	'General Forum Moderation',	'',	'',	'',	0,	0,	0,	450,	1,	0,	'Allows moderation of the General Forum'),
+(15,	'Bot',	'',	'',	'',	1,	0,	0,	50,	0,	0,	'');
 
-INSERT INTO `group` (`id`, `title`, `char`, `irc_color`, `nc0`, `nc1`, `nc2`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`, `primary`, `description`) VALUES
-(1, 'Base User', '', NULL, '', '', '', 0, 0, 0, 100, 0, 0, ''),
-(2, 'Normal User', '', NULL, '97ACEF', 'F185C9', '7C60B0', 1, 1, 0, 200, 1, 1, 'Normal Registered User'),
-(3, 'Global Moderator', '%', 'lt_green', 'AFFABE', 'C762F2', '47B53C', 8, 0, 0, 600, 1, 1, ''),
-(4, 'Administrator', '@', 'orange', 'FFEA95', 'C53A9E', 'F0C413', 3, 0, 0, 700, 1, 1, ''),
-(6, 'Root Administrator', '~', 'red', 'EE4444', 'E63282', 'AA3C3C', 0, -1, 0, 800, 1, 1, ''),
-(8, 'Local Moderator', '+', 'lt_blue', 'D8E8FE', 'FFB3F3', 'EEB9BA', 10, 0, 0, 400, 1, 1, ''),
-(9, 'Banned', '', NULL, '888888', '888888', '888888', 2, 0, 1, 0, 1, 1, ''),
-(10, 'Staff', '', NULL, '', '', '', 2, 0, 0, 300, 0, 0, ''),
-(11, 'Disable PM Activity', '', NULL, '', '', '', 0, 0, 0, 1000, 1, 0, 'Disallows all Private Message activity (viewing, creation, deletion)'),
-(13, 'General Forum Moderation', '', NULL, '', '', '', 0, 0, 0, 450, 1, 0, 'Allows moderation of the General Forum'),
-(15, 'Bot', '', NULL, '', '', '', 1, 0, 0, 50, 0, 0, '');
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `guests`
---
-
+DROP TABLE IF EXISTS `guests`;
 CREATE TABLE `guests` (
   `date` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(15) NOT NULL,
@@ -311,37 +195,27 @@ CREATE TABLE `guests` (
   `ipbanned` tinyint(4) NOT NULL DEFAULT '0',
   `useragent` varchar(255) NOT NULL,
   `bot` int(11) NOT NULL,
-  `lastforum` int(10) NOT NULL
+  `lastforum` int(10) NOT NULL,
+  UNIQUE KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `hourlyviews`
---
-
+DROP TABLE IF EXISTS `hourlyviews`;
 CREATE TABLE `hourlyviews` (
   `hour` mediumint(9) NOT NULL,
-  `views` int(11) NOT NULL
+  `views` int(11) NOT NULL,
+  UNIQUE KEY `hour` (`hour`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `ignoredforums`
---
-
+DROP TABLE IF EXISTS `ignoredforums`;
 CREATE TABLE `ignoredforums` (
   `uid` int(11) NOT NULL,
   `fid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `ip2c`
---
-
+DROP TABLE IF EXISTS `ip2c`;
 CREATE TABLE `ip2c` (
   `ip_from` bigint(12) NOT NULL,
   `ip_to` bigint(12) NOT NULL,
@@ -352,12 +226,8 @@ CREATE TABLE `ip2c` (
   `cname` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `ipbans`
---
-
+DROP TABLE IF EXISTS `ipbans`;
 CREATE TABLE `ipbans` (
   `ipmask` varchar(15) NOT NULL,
   `hard` tinyint(1) NOT NULL,
@@ -366,41 +236,29 @@ CREATE TABLE `ipbans` (
   `reason` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `itemcateg`
---
-
+DROP TABLE IF EXISTS `itemcateg`;
 CREATE TABLE `itemcateg` (
-  `id` tinyint(3) UNSIGNED NOT NULL,
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `corder` tinyint(4) NOT NULL DEFAULT '0',
   `name` varchar(20) NOT NULL,
-  `description` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `itemcateg`
---
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 INSERT INTO `itemcateg` (`id`, `corder`, `name`, `description`) VALUES
-(1, 1, 'Weapons', 'boom boom boom'),
-(2, 2, 'Armor', 'Bling! Well, until I think of a better description to put here, or something ...'),
-(3, 3, 'Shields', 'More bling, or something'),
-(4, 4, 'Helms', 'Bling again, but on the head this time'),
-(5, 5, 'Boots', 'Vroom! But without a motor'),
-(6, 6, 'Accessories', 'Notepad, Paint, Calculator, DOS prompt, Wordpad');
+(1,	1,	'Weapons',	'boom boom boom'),
+(2,	2,	'Armor',	'Bling! Well, until I think of a better description to put here, or something ...'),
+(3,	3,	'Shields',	'More bling, or something'),
+(4,	4,	'Helms',	'Bling again, but on the head this time'),
+(5,	5,	'Boots',	'Vroom! But without a motor'),
+(6,	6,	'Accessories',	'Notepad, Paint, Calculator, DOS prompt, Wordpad');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `items`
---
-
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
-  `id` int(8) NOT NULL,
-  `cat` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `type` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `cat` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(4) unsigned NOT NULL DEFAULT '0',
   `name` varchar(30) NOT NULL,
   `desc` varchar(255) NOT NULL DEFAULT 'No description.',
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
@@ -415,424 +273,473 @@ CREATE TABLE `items` (
   `sLck` smallint(5) NOT NULL DEFAULT '0',
   `sSpd` smallint(5) NOT NULL DEFAULT '0',
   `coins` mediumint(8) NOT NULL DEFAULT '0',
-  `coins2` mediumint(9) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `items`
---
+  `coins2` mediumint(9) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `cat` (`cat`)
+) ENGINE=MyISAM AUTO_INCREMENT=217 DEFAULT CHARSET=latin1;
 
 INSERT INTO `items` (`id`, `cat`, `type`, `name`, `desc`, `hidden`, `stype`, `sHP`, `sMP`, `sAtk`, `sDef`, `sInt`, `sMDf`, `sDex`, `sLck`, `sSpd`, `coins`, `coins2`) VALUES
-(0, 0, 0, 'Nothing', 'Nothing.  At All.', 0, 'aaaaaaaaa', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(0,	0,	0,	'Nothing',	'Nothing.  At All.',	0,	'aaaaaaaaa',	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0),
+(2,	1,	1,	'Kitchen knife',	'Stabbity Stabbity.',	0,	'aaaaaaaaa',	0,	0,	11,	1,	0,	0,	1,	0,	1,	200,	0),
+(1,	1,	1,	'Plastic knife',	'Stabbity Stabbity, but much less painful.',	0,	'aaaaaaaaa',	0,	0,	5,	0,	0,	0,	0,	0,	0,	50,	0),
+(3,	1,	1,	'Butcher knife',	'Now with red paint coating!',	0,	'aaaaaaaaa',	5,	0,	21,	2,	0,	0,	2,	0,	1,	500,	0),
+(4,	1,	1,	'Short sword',	'Gets the Urist McDwarf Seal of Approval!',	0,	'aaaaaaaaa',	13,	-1,	32,	5,	-1,	0,	0,	0,	-1,	1000,	0),
+(5,	1,	1,	'Broad sword',	'Long flat pain.',	0,	'aaaaaaaaa',	21,	-2,	54,	8,	-2,	0,	0,	0,	-1,	4000,	0),
+(7,	1,	1,	'Iron sword',	'Guaranteed to cut almost anything.',	0,	'aaaaaaaaa',	48,	-3,	88,	11,	-3,	0,	-1,	0,	-3,	12000,	0),
+(8,	1,	1,	'Bronze sword',	'THIS! IS! BRONZE!',	0,	'aaaaaaaaa',	65,	-5,	136,	16,	-5,	0,	-2,	0,	-5,	21500,	0),
+(9,	1,	1,	'Silver sword',	'Shiny.',	0,	'aaaaaaaaa',	93,	-8,	182,	34,	-8,	0,	-5,	10,	-8,	46000,	0),
+(10,	1,	1,	'Gold sword',	'Shinier.',	0,	'aaaaaaaaa',	126,	-10,	267,	53,	-5,	5,	-10,	50,	-15,	90000,	0),
+(12,	1,	1,	'Dragon sword',	'You won\'t have any trouble \'dragon\' this one around.',	0,	'aaaaaaaaa',	259,	0,	726,	120,	0,	33,	-38,	80,	-75,	380000,	0),
+(11,	1,	1,	'Crystal sword',	'Refractive goodness',	0,	'aaaaaaaaa',	139,	5,	409,	86,	5,	12,	-12,	65,	-23,	150000,	0),
+(14,	1,	2,	'Short axe',	'Short, stout, and sharp.',	0,	'mmaaaaaam',	105,	95,	66,	5,	-8,	-8,	-11,	0,	92,	2500,	0),
+(15,	1,	2,	'Large axe',	'Bigger.  Sharper.  Meaner.',	0,	'mmaaaaaam',	110,	88,	102,	8,	-21,	-18,	-16,	0,	80,	8000,	0),
+(16,	1,	2,	'Bronze axe',	'I\'d like to place an order for 300, please.',	0,	'mmaaaaaam',	116,	82,	197,	15,	-39,	-36,	-45,	0,	72,	32000,	0),
+(17,	1,	2,	'Silver axe',	'Shiny slicer',	0,	'mmaaaaaam',	119,	79,	302,	25,	-68,	-52,	-71,	5,	69,	66000,	0),
+(18,	1,	2,	'Gold axe',	'Shinier Slicier',	0,	'mmaaaaaam',	136,	75,	487,	46,	-108,	-101,	-126,	12,	55,	120000,	0),
+(20,	1,	2,	'Dragon axe',	'...Is this thing even legal?',	0,	'mmaaaaaam',	152,	67,	1339,	70,	-161,	-150,	-192,	35,	47,	500000,	0),
+(13,	1,	2,	'Wooden axe',	'Not going to cut much with this',	0,	'mmaaaaaam',	102,	98,	35,	2,	-4,	-3,	-5,	0,	95,	600,	0),
+(21,	1,	3,	'Small bow',	'whif whif whif',	0,	'aaaaaaaaa',	0,	0,	19,	0,	0,	0,	5,	0,	3,	400,	0),
+(22,	1,	3,	'Wooden bow',	'Useless.',	0,	'aaaaaaaaa',	0,	0,	33,	0,	1,	0,	9,	0,	5,	1500,	0),
+(23,	1,	3,	'Elven bow',	'Now with 3x firing!',	0,	'aaaaaaaaa',	0,	0,	52,	0,	2,	0,	15,	0,	8,	6000,	0),
+(24,	1,	3,	'Bronze crossbow',	'Heavy.',	0,	'aaaaaaaaa',	0,	0,	121,	0,	5,	0,	26,	0,	13,	20000,	0),
+(25,	1,	3,	'Silver crossbow',	'Shiny Heavy',	0,	'aaaaaaaaa',	0,	0,	166,	0,	11,	0,	39,	10,	18,	48000,	0),
+(26,	1,	3,	'Gold crossbow',	'Shinier Heavier',	0,	'aaaaaaaaa',	0,	0,	238,	0,	20,	0,	61,	25,	32,	100000,	0),
+(27,	1,	3,	'Dragon crossbow',	'OH SHI-',	0,	'aaaaaaaaa',	0,	0,	650,	0,	36,	0,	159,	46,	64,	400000,	0),
+(28,	1,	4,	'Shiny stick',	'It\'s stuck.',	0,	'mmaaaaaaa',	95,	105,	4,	0,	5,	3,	1,	5,	0,	250,	0),
+(29,	1,	4,	'Rainbow stick',	'Multicoloured fun!',	0,	'mmaaaaaaa',	93,	107,	10,	0,	16,	11,	2,	15,	0,	1390,	0),
+(30,	1,	4,	'Wooden staff',	'Ow, my back..',	0,	'mmaaaaaaa',	88,	115,	27,	3,	36,	29,	0,	0,	-2,	5200,	0),
+(31,	1,	4,	'Light staff',	'Yagami?',	0,	'mmaaaaaaa',	85,	121,	67,	5,	77,	59,	0,	0,	-3,	18000,	0),
+(32,	1,	4,	'Sapphire staff',	'Water Magic',	0,	'mmaaaaaaa',	81,	130,	97,	6,	126,	103,	0,	0,	-4,	45000,	0),
+(33,	1,	4,	'Ruby staff',	'Fire Magic',	0,	'mmaaaaaaa',	79,	146,	119,	9,	179,	152,	0,	0,	-6,	95000,	0),
+(34,	1,	4,	'Crystal staff',	'Easily Shattered Magic',	0,	'mmaaaaaaa',	75,	180,	161,	12,	260,	239,	0,	0,	-8,	210000,	0),
+(35,	1,	4,	'Dragon staff',	'Dead Dragon.',	0,	'mmaaaaaaa',	70,	229,	216,	15,	438,	423,	0,	0,	-15,	480000,	0),
+(36,	2,	1,	'Clothes',	'No Please, keep them on.',	0,	'aaaaaaaaa',	0,	0,	0,	3,	0,	0,	0,	0,	0,	45,	0),
+(37,	2,	1,	'Fur coat',	'PETA is going to have a field day with this',	0,	'aaaaaaaaa',	0,	0,	0,	8,	0,	1,	0,	1,	0,	180,	0),
+(38,	2,	1,	'Leather armor',	'Dwarven Sized',	0,	'aaaaaaaaa',	0,	0,	0,	15,	0,	1,	0,	0,	0,	650,	0),
+(39,	2,	1,	'Iron armor',	'Metal. Heavy. Strong.',	0,	'aaaaaaaaa',	0,	0,	0,	56,	0,	2,	-2,	0,	-3,	9500,	0),
+(40,	2,	1,	'Heavy armor',	'Only Stravich could ever wear this.',	0,	'aaaaaaaaa',	0,	0,	0,	152,	-5,	3,	-10,	-5,	-13,	26500,	0),
+(41,	2,	1,	'Stone armor',	'Is this some kind of joke?!',	0,	'aaaaaammm',	0,	0,	-13,	446,	-21,	35,	46,	53,	55,	85000,	0),
+(42,	2,	1,	'Gold armor',	'Perfect for target practice...  and you\'d be the target',	0,	'aaaaaaaaa',	0,	0,	0,	373,	0,	23,	0,	12,	-15,	129000,	0),
+(43,	2,	1,	'Dragon armor',	'..ew.',	0,	'maaaaaaaa',	133,	0,	25,	669,	0,	165,	0,	54,	0,	490000,	0),
+(44,	2,	1,	'Spiked armor',	'DON\'T HIT THIS',	0,	'aaaaaaaaa',	0,	0,	84,	127,	-17,	0,	-5,	0,	-24,	32000,	0),
+(45,	2,	1,	'Copper armor',	'Electrically conductive',	0,	'aaaaaaaaa',	0,	0,	0,	34,	0,	1,	-1,	0,	-1,	2300,	0),
+(46,	2,	1,	'Silver armor',	'Shiny Protection',	0,	'aaaaaaaaa',	0,	0,	0,	247,	0,	14,	0,	5,	-15,	47000,	0),
+(47,	2,	2,	'Light robe',	'Not heavy at all.',	0,	'aaaaaaaaa',	0,	8,	0,	17,	13,	12,	-3,	0,	0,	3500,	0),
+(48,	2,	2,	'Magician robe',	'Magically enhanced for superior casting',	0,	'mmaaaaaaa',	96,	112,	0,	39,	44,	36,	-5,	0,	-1,	15200,	0),
+(49,	2,	2,	'Shining robe',	'MY EYES',	0,	'mmaaaaaaa',	93,	126,	0,	95,	103,	97,	-5,	20,	-2,	39000,	0),
+(50,	2,	2,	'Rainbow robe',	'Straight from the 60\'s',	0,	'mmaaaaama',	95,	138,	0,	167,	182,	176,	0,	200,	0,	109000,	0),
+(51,	2,	1,	'Shell armor',	'100% Pure Red Koopa',	0,	'maaaaamam',	160,	0,	0,	795,	0,	326,	33,	121,	33,	280000,	0),
+(52,	2,	2,	'Crystal robe',	'I would not want to wear this when it shatters',	0,	'mmaaaaaam',	90,	166,	0,	276,	280,	269,	0,	24,	90,	220000,	0),
+(53,	2,	2,	'Dragon robe',	'Dragon Lovers Lament',	0,	'mmaaaaaaa',	83,	202,	5,	363,	380,	376,	0,	46,	0,	480000,	0),
+(54,	3,	1,	'Plastic plate',	'Good for eating off of.  Not so good as a shield.',	0,	'aaaaaaaaa',	0,	0,	0,	2,	0,	0,	0,	0,	0,	40,	0),
+(55,	3,	1,	'Wooden plank',	'I\'m board',	0,	'aaaaaaaaa',	0,	0,	4,	5,	0,	0,	-1,	-1,	-1,	200,	0),
+(56,	3,	1,	'Wood shield',	'Good for defending against a wooden axe.',	0,	'aaaaaaaaa',	0,	0,	2,	12,	0,	0,	-2,	0,	-2,	850,	0),
+(57,	3,	1,	'Iron shield',	'Decent Protecting for a decent price',	0,	'aaaaaaaaa',	0,	0,	7,	43,	0,	0,	-4,	0,	-5,	4800,	0),
+(58,	3,	1,	'Light shield',	'Blindingly good.',	0,	'aaaaaaaaa',	3,	3,	2,	45,	2,	0,	0,	3,	0,	6000,	0),
+(59,	3,	1,	'Spiked shield',	'Also good as a weapon.',	0,	'aaaaaaaaa',	0,	0,	86,	75,	-16,	0,	-8,	-6,	-9,	23000,	0),
+(60,	3,	1,	'Silver shield',	'Shiny Shield',	0,	'aaaaaaaaa',	0,	0,	13,	145,	0,	12,	-5,	8,	-9,	30000,	0),
+(61,	3,	1,	'Gold shield',	'Shinier shield',	0,	'aaaaaaaaa',	0,	0,	20,	263,	0,	34,	-10,	29,	-15,	97000,	0),
+(62,	3,	1,	'Dragon shield',	'Certainly strong enough',	0,	'mmaaaaaaa',	120,	110,	126,	409,	33,	169,	0,	102,	0,	460000,	0),
+(64,	6,	6,	'Goggles',	'THEY DO NOTHING',	0,	'aaaaaaaaa',	0,	0,	0,	0,	0,	0,	0,	0,	0,	25,	0),
+(63,	1,	1,	'Rubber Spatula',	'Flap Flap Smack',	0,	'aaaaaaaaa',	0,	0,	5,	0,	-2,	0,	2,	0,	0,	100,	0),
+(65,	5,	5,	'Steel-toed Flip-flops',	'Click, Click',	0,	'aaaaaaaaa',	0,	0,	0,	5,	0,	0,	0,	0,	-1,	75,	0),
+(-1,	99,	0,	'New Item',	'Desc Here',	0,	'mmaaaaaaa',	100,	100,	0,	0,	0,	0,	0,	0,	0,	0,	0),
+(187,	99,	98,	'Semi-automated IRC bot system+',	'Power! At the distance of merely a few keystrokes, UNLIMITED POWERRRRR!!!!',	0,	'aaaaaaaaa',	1,	2,	256,	64,	256,	128,	16,	-64,	64,	0,	999),
+(76,	1,	5,	'Dagger',	'Short Stabbity',	0,	'aaaaaaaaa',	0,	3,	25,	0,	2,	0,	5,	1,	5,	800,	0),
+(77,	1,	5,	'Dirk',	'Pitt',	0,	'aaaaaaaaa',	0,	10,	49,	0,	7,	0,	13,	2,	13,	3400,	0),
+(78,	1,	5,	'Stilleto',	'...oh...',	0,	'aaaaaaaaa',	0,	27,	77,	0,	19,	0,	28,	4,	28,	10900,	0),
+(81,	1,	5,	'Kris',	'Wicked looking blade there, chap',	0,	'aaaaaaaaa',	100,	100,	200,	50,	50,	0,	40,	0,	40,	44500,	0),
+(80,	1,	5,	'Thief\'s Dagger',	'What, does it grant +4 Sneak or something?',	0,	'aaaaaaaaa',	0,	53,	113,	0,	43,	0,	51,	9,	51,	21300,	0),
+(82,	1,	5,	'Fairy\'s Dagger',	'Fair(l)y good.',	0,	'aaaaaaaaa',	0,	145,	220,	0,	183,	133,	113,	35,	113,	100000,	0),
+(83,	1,	5,	'Demon Fangs',	'Fangs for the memories~',	0,	'aaaaaaaaa',	30,	222,	430,	-30,	233,	0,	127,	15,	127,	220000,	0),
+(84,	1,	5,	'Orichalcon',	'Give that back, Isaac!',	0,	'aaaaaaaaa',	0,	400,	700,	100,	300,	100,	150,	25,	150,	475000,	0),
+(85,	1,	6,	'Short Spear',	'Short.',	0,	'aaaaaaaaa',	0,	0,	40,	0,	0,	0,	0,	0,	0,	1200,	0),
+(86,	1,	6,	'Pike',	'Long.',	0,	'aaaaaaaaa',	0,	0,	73,	0,	0,	0,	0,	0,	0,	4800,	0),
+(87,	1,	6,	'Enchanted Rake',	'Strong.',	0,	'aaaaaaaaa',	10,	10,	190,	10,	10,	10,	10,	10,	10,	33000,	0),
+(88,	1,	6,	'Soldier Spear',	'TONIGHT...',	0,	'aaaaaaaaa',	10,	0,	136,	10,	-5,	-5,	0,	0,	-5,	12000,	0),
+(89,	1,	6,	'Heavy Spear',	'WE DINE...',	0,	'aaaaaaaaa',	0,	0,	323,	0,	0,	0,	0,	0,	-5,	68000,	0),
+(90,	1,	6,	'Gugnir Lance',	'IN HELL!',	0,	'aaaaaaaaa',	0,	0,	707,	0,	0,	0,	0,	0,	-10,	330000,	0),
+(91,	1,	6,	'Holy Longinus',	'Painful',	0,	'aaaaaaaaa',	50,	50,	1000,	50,	0,	50,	0,	0,	0,	600000,	0),
+(92,	1,	7,	'Mumei',	'Sharp',	0,	'maaaaaaaa',	98,	1,	43,	-5,	0,	0,	1,	0,	2,	1100,	0),
+(93,	1,	7,	'Kunishige',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	95,	2,	80,	-12,	0,	0,	2,	0,	5,	3800,	0),
+(94,	1,	7,	'Kotetsu',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	92,	5,	152,	-27,	0,	0,	5,	0,	10,	11500,	0),
+(95,	1,	7,	'Osafune',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	88,	10,	257,	-43,	0,	0,	10,	0,	20,	29800,	0),
+(96,	1,	7,	'Magaroku',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	82,	15,	413,	-72,	0,	0,	20,	0,	40,	57000,	0),
+(97,	1,	7,	'Masamune',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	80,	20,	665,	-38,	0,	0,	40,	0,	80,	125000,	0),
+(98,	1,	7,	'Muramasa',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	82,	25,	878,	-50,	0,	0,	64,	0,	128,	310000,	0),
+(99,	1,	7,	'Amenohabakiri',	'Long, Sharp, Painful',	0,	'maaaaaaaa',	85,	30,	1250,	-100,	0,	100,	100,	0,	200,	550000,	0),
+(100,	99,	99,	'Master\'s Armor',	'',	0,	'mmamaaaaa',	500,	500,	0,	500,	0,	0,	0,	0,	0,	999999,	378),
+(101,	99,	99,	'Master\'s Sword',	'',	0,	'aamaaamam',	0,	0,	500,	0,	0,	0,	500,	0,	500,	999999,	378),
+(102,	99,	99,	'Master\'s Shield',	'',	0,	'aaamamaaa',	0,	0,	0,	500,	0,	500,	0,	0,	0,	999999,	378),
+(108,	99,	98,	'Metallic Ash',	'Yeah.  <i>perfect</i> sense.',	0,	'mmmmmmmmm',	600,	800,	600,	400,	800,	600,	400,	400,	800,	999999,	0),
+(105,	99,	99,	'Master\'s Boots',	'',	0,	'aaaaaammm',	0,	0,	0,	0,	0,	0,	500,	500,	500,	999999,	378),
+(106,	99,	99,	'Master\'s Helm',	'',	0,	'aaamaamaa',	0,	0,	0,	500,	0,	0,	500,	0,	0,	999999,	378),
+(107,	99,	99,	'Master\'s Stylish Timepiece',	'',	0,	'mmmmmmmmm',	500,	500,	500,	500,	500,	500,	500,	500,	500,	999999,	378),
+(109,	99,	98,	'Dimensional Rain Blades',	'',	0,	'aaaaaaaaa',	1000,	2000,	5000,	1000,	2000,	1000,	1000,	1000,	2000,	999999,	0),
+(110,	99,	98,	'Elysian Aura Shield',	'',	0,	'aaaaaaaaa',	1000,	1000,	0,	1000,	0,	1000,	0,	0,	0,	999999,	0),
+(111,	99,	98,	'Demoness Overlord Attire',	'Put your clothes back on, Etna',	0,	'aaaaaaaaa',	0,	0,	0,	2000,	0,	1000,	0,	0,	500,	999999,	0),
+(112,	99,	98,	'Demoness Overlord Crown',	'Etna\'s favorite',	0,	'aaaaaaaaa',	0,	2000,	0,	0,	1000,	1000,	0,	0,	0,	999999,	0),
+(113,	99,	98,	'Demoness Overlord High Heels',	'Etna kicked these at me a few days ago when she got called \'flat-chested\'',	0,	'aaaaaaaaa',	0,	0,	0,	500,	0,	500,	0,	0,	1000,	999999,	0),
+(114,	99,	98,	'Beauty Queen Title Hack',	'',	0,	'aaaaaaaaa',	5000,	5000,	5000,	5000,	5000,	5000,	5000,	5000,	5000,	999999,	0),
+(119,	99,	99,	'Grammar Hammer&trade;',	'',	0,	'mmaaaaaaa',	100,	300,	176,	34,	795,	273,	0,	0,	-50,	999999,	9001),
+(120,	100,	254,	'<b>SUPER CATGIRL BEAM</b>',	'',	0,	'aamaaaaaa',	0,	0,	200,	0,	0,	0,	0,	0,	0,	1337357,	1337357),
+(121,	100,	1,	'GIGANTIC CATGIRL RIDE-ARMOR',	'',	0,	'aaamaaaaa',	0,	0,	0,	200,	0,	0,	0,	0,	0,	1337357,	1337357),
+(123,	4,	99,	'Jedi training helmet',	'Shields from distractive optical sensations (like post layouts) and allows the aspiring forum knight to focus his mind on the actual post contents.',	0,	'aaaaaaaaa',	0,	10,	0,	4,	0,	15,	-5,	0,	0,	991,	0),
+(137,	128,	98,	'Cosplay Fursuit',	'Smells like wet fur.',	0,	'mmaaaaama',	50,	50,	-200,	-200,	-50,	-50,	-50,	1,	-200,	-50,	0),
+(135,	128,	98,	'Catgirl ears',	'So cute they\'re guaranteed to make people go \"KAWAII! ^_^\", or your money back!',	0,	'mmaaaaama',	100,	100,	0,	0,	0,	0,	0,	200,	0,	9987,	0),
+(136,	128,	98,	'Furry tail',	'\"Costume sold separately\"',	0,	'mmaaaaaaa',	100,	100,	0,	0,	-1,	0,	0,	-1,	0,	-1,	0),
+(134,	128,	98,	'Spare Brain',	'A spare brain in a jar, in case your main one dies from too much *chan.',	0,	'mmaamaaaa',	100,	100,	0,	0,	200,	0,	0,	0,	0,	0,	75),
+(133,	128,	98,	'Aleph-null ',	'Able to bore even the highest minds to sleep with maths that make no sense.',	0,	'mmaaaaaaa',	999,	999,	9999,	9999,	9999,	9999,	9999,	9999,	9999,	0,	1024768),
+(132,	128,	98,	'Keg of Booze',	'1.5 bushels of the finest brew. Don\'t drink it all at once, NSNick :P',	0,	'mmaaaaaaa',	400,	400,	151,	151,	-75,	151,	-150,	151,	151,	0,	1510),
+(131,	128,	98,	'401 Beer Mug',	'An empty beer mug.',	0,	'mmaaaaaaa',	100,	100,	0,	401,	0,	401,	0,	0,	0,	0,	401),
+(130,	128,	98,	'Alfa Romeo',	'This car is AWESOME',	0,	'mmaaaaaaa',	100,	100,	0,	0,	0,	0,	1337,	0,	13373,	0,	31337),
+(115,	4,	1,	'Paper Hat',	'Made out of newspaper. Used in elementary school playground games.',	0,	'aaaaaaaaa',	0,	0,	0,	0,	0,	0,	0,	1,	0,	50,	0),
+(116,	4,	1,	'Tinfoil Hat',	'Shields you from government mind control. Also shields you from being regarded as a sane person.',	0,	'aaaaaaaaa',	0,	0,	0,	2,	-1,	1,	0,	0,	0,	460,	0),
+(117,	4,	1,	'Fedora Hat',	'Runs Linux.',	0,	'aaaaaaaaa',	0,	0,	0,	3,	0,	0,	0,	0,	1,	840,	0),
+(118,	4,	1,	'Steel-plated Party Hat',	'The best precaution you can take if you want to party hard.',	0,	'aaaaaaaaa',	0,	0,	4,	7,	0,	1,	0,	2,	0,	3100,	0),
+(126,	5,	6,	'Nuclear Rocket Boots',	'Einstein was right, oh shi-',	0,	'aaamaaaam',	0,	0,	0,	50,	0,	0,	0,	0,	300,	15860,	0),
+(139,	99,	98,	'The Database',	'Don\'t mess with the DB.',	0,	'mammmammm',	1400,	900,	800,	3000,	500,	5000,	500,	500,	500,	999999,	0),
+(140,	99,	98,	'Kasa\'s Sword',	'Because every evil shadowy figure needs a good weapon.',	0,	'mmmaaaaaa',	500,	500,	12000,	6000,	32767,	32767,	32767,	5000,	6000,	999999,	0),
+(138,	99,	98,	'Admin\'s Invincibility',	'You don\'t get this.',	0,	'amamamama',	0,	810,	0,	500,	0,	450,	0,	575,	0,	999999,	0),
+(142,	4,	1,	'Gurren Lagann\'s Helmet',	'Gurren-Lagann\'s helmet: Just make sure you stay away from Viral whilst wearing this.',	0,	'mmaaaaaaa',	150,	100,	0,	0,	0,	0,	0,	0,	0,	12000,	0),
+(143,	4,	1,	'Marisa\'s Hat',	'She stole the precious thing.',	0,	'mmaaaaaaa',	100,	110,	0,	0,	0,	0,	0,	0,	0,	7777,	0),
+(144,	4,	1,	'Matter-Less Hat',	'Super cool hat. Now 100% matter free for those allergic to anything but nothingness.  No idea how it raises MP, but it does.',	0,	'maaaaaaaa',	100,	75,	0,	0,	0,	0,	0,	0,	0,	3975,	0),
+(145,	4,	1,	'Captain Falcon\'s Helmet',	'Lots of speed, but watch out for Goroh!  Oh, and this won\'t give you the punch, either.',	0,	'mmaaaaaam',	100,	100,	0,	0,	0,	0,	0,	0,	200,	4580,	0),
+(146,	4,	1,	'Plumber\'s Hat',	'What the @#$%, you took this off of Acmlm didn\'t you?!',	0,	'mmaaaaaaa',	100,	100,	0,	0,	0,	0,	0,	0,	0,	1985,	0),
+(147,	4,	2,	'Kamina\'s Hatglasses',	'There\'s something you don\'t see every day',	0,	'aaaaaaaaa',	0,	0,	50,	5,	-120,	0,	0,	0,	0,	5510,	0),
+(163,	3,	5,	'Holoshield',	'No idea where the Technology came from, but it\'s a worthwhile investment if you can afford it.',	0,	'maamamaaa',	140,	0,	0,	500,	0,	450,	0,	0,	50,	1025000,	0),
+(148,	1,	5,	'Tsukasa\'s Wand',	'Ludicrous World we live in. Using this item gives you great power, but traps you in the board. You may be able to call upon your guardian for assistance.',	0,	'mmaaaaaaa',	100,	100,	0,	0,	40,	0,	120,	0,	10,	20020,	0),
+(149,	1,	5,	'Abracadabra',	'Generic Wand.  Does magical stuff.  Will not accidentally backfire on you like Ron\'s does.',	0,	'mmaaaaaaa',	100,	116,	0,	0,	60,	0,	0,	0,	0,	7845,	0),
+(150,	1,	5,	'Kamek\'s Wand',	'Useful for enlarging little things so they can devour babies',	0,	'mmaaaaaaa',	100,	180,	0,	0,	200,	0,	0,	0,	0,	23000,	0),
+(151,	1,	5,	'Generification Wand',	'What the hell, this isn\'t even magical!  Increases code complexity, headaches, and attractiveness of alcohol.',	0,	'mmaaaaaaa',	117,	100,	165,	0,	-265,	0,	0,	-5,	0,	15400,	0),
+(152,	99,	98,	'Kasa\'s baseball cap',	'Sporting the latest great design, this cap screams designer.  And it\'s made of woven adamantine, too!',	0,	'maamamaaa',	110,	18000,	6000,	500,	9000,	500,	9000,	9000,	9000,	999999,	0),
+(153,	4,	1,	'Baseball Cap',	'A regular baseball cap, with an unintelligible logo on the back.',	0,	'aaaaaaaaa',	0,	0,	0,	50,	-5,	0,	0,	25,	0,	560,	0),
+(154,	5,	1,	'Rollerskates',	'No brakes, just (bone) breaks.',	0,	'mmaaaaaam',	110,	90,	0,	0,	0,	0,	0,	0,	125,	9850,	0),
+(155,	5,	1,	'Sneakers',	'Squeaky.',	0,	'aaaaaaaam',	0,	0,	50,	0,	0,	0,	160,	0,	98,	12500,	0),
+(156,	5,	1,	'Plumber\'s Boots',	'Boi-oi-oing!',	0,	'aaaaaaaaa',	50,	0,	800,	0,	0,	0,	0,	333,	50,	29850,	0),
+(157,	5,	1,	'Boots ME',	'I heard they were made in a week',	0,	'maaaaaaaa',	110,	0,	0,	0,	-900,	0,	0,	-1000,	0,	50,	0),
+(158,	5,	1,	'Socks',	'Great for DDR, not so great considering the needle you just stepped in',	0,	'aaaaaaaaa',	0,	0,	0,	0,	10,	0,	7,	0,	0,	3400,	0),
+(159,	6,	1,	'Ancient Tome',	'Increases magical ability, but it\'s pretty darned big...',	0,	'aaaaaaaaa',	0,	375,	0,	0,	0,	0,	-225,	0,	0,	12450,	0),
+(160,	6,	1,	'Boom Box',	'For when you <i>really</i> like your music.  Heavy, too.',	0,	'aaaaaaaaa',	25,	0,	65,	0,	-15,	0,	50,	-25,	-50,	23500,	0),
+(161,	6,	1,	'Laptop Computer',	'Because we all like to look at our \"image\" collections on the go.',	0,	'aaaaaaaaa',	0,	0,	0,	0,	50,	0,	0,	5,	0,	17500,	0),
+(162,	6,	1,	'Scouter',	'What does the scouter say about his powerlevel?',	0,	'aaaaaaaaa',	10,	50,	0,	0,	-5,	0,	0,	-20,	0,	9001,	0),
+(164,	1,	1,	'Beamsabre',	'Lightweight and powerful, but very expensive',	0,	'aamaaaaaa',	0,	0,	150,	0,	0,	0,	-5,	0,	20,	1065000,	0),
+(165,	2,	1,	'Cleric\'s robe',	'Sorry, I don\'t think the Geneva Convention covers clerics...',	0,	'aaaaaaaaa',	0,	110,	0,	20,	5,	60,	0,	0,	-20,	57800,	0),
+(166,	2,	1,	'Ragged Cloak',	'Great if you\'re stuck in a desert, out of place in hgih society.',	0,	'aaaaaaaam',	0,	0,	0,	230,	0,	0,	0,	0,	94,	38900,	0),
+(167,	2,	1,	'Biker\'s Leather Jacket',	'Yeah, because you\'re so <i>infinitely</i> tough.',	0,	'aaaaaaamm',	0,	0,	5,	453,	-30,	0,	0,	75,	95,	75800,	0),
+(168,	2,	1,	'Semtex Vest',	'On the plus side, nobody is <i>ever</i> going to come anywhere NEAR you.',	0,	'maaaaaama',	5,	0,	0,	500,	0,	0,	0,	5,	0,	25000,	0),
+(169,	2,	1,	'Ghoulish Rags',	'Complete with ball and chains',	0,	'aaaaaaamm',	0,	0,	0,	156,	0,	0,	0,	66,	33,	14900,	0),
+(170,	5,	1,	'Slippers',	'Warm and Comfy',	0,	'aaaaaaaaa',	0,	0,	5,	0,	0,	0,	10,	0,	-5,	4500,	0),
+(6,	5,	1,	'High-Heels',	'Anklesnappers',	0,	'aaaaaaaaa',	0,	0,	25,	0,	5,	0,	0,	-50,	0,	14890,	0),
+(171,	5,	6,	'Plated Low Boots',	'Fancy futuristic boots, but apart from the price tag they\'re not all that great.',	0,	'aaaaaaaaa',	0,	0,	235,	45,	0,	0,	35,	0,	90,	1078000,	0),
+(172,	3,	1,	'Woven Steel Teardrop',	'A strong, relatively lightweight shield that also folds up into an airplane-friendly carrying bag!',	0,	'aaaaaaaaa',	0,	0,	0,	155,	0,	0,	0,	0,	0,	37500,	0),
+(173,	3,	1,	'Tower Shield',	'Might be strong, but what, you thought you were going somewhere?',	0,	'aaaaaaaaa',	0,	0,	0,	375,	0,	0,	0,	0,	-600,	28950,	0),
+(174,	6,	1,	'Keyboard',	'TAKA TAKA TAKA',	0,	'aaaaaaaaa',	-20,	10,	0,	0,	50,	0,	0,	0,	15,	17500,	0),
+(175,	6,	1,	'Mountain Dew',	'Coding Fuel',	0,	'aaaaaaaaa',	25,	0,	0,	0,	25,	0,	0,	0,	0,	8500,	0),
+(176,	6,	1,	'Booze',	'Hit the Ballmer\'s Peak and you\'ll be a super coder.  Miss it and you\'re not driving yourself home tonight.',	0,	'aaaaaaaaa',	-25,	-25,	0,	-15,	50,	0,	0,	100,	0,	24000,	0),
+(177,	6,	1,	'PHP',	'The language of Champions',	0,	'aaaaaaaaa',	0,	0,	0,	0,	175,	0,	0,	0,	0,	45000,	0),
+(178,	6,	1,	'Carpenter\'s Belt',	'Because sometimes you just want to look busy.',	0,	'aaaaaaaaa',	0,	0,	20,	0,	0,	0,	35,	0,	0,	12500,	0),
+(179,	6,	1,	'Yamaha',	'Because everyone likes to make crappy music!',	0,	'aaaaaaaaa',	0,	0,	0,	0,	15,	0,	0,	0,	-5,	11500,	0),
+(185,	1,	10,	'Crowbar',	'Does that say Black Mesa on the side?',	0,	'aaaaaaaaa',	0,	0,	80,	0,	0,	0,	0,	0,	0,	8500,	0),
+(189,	1,	0,	'Medigun',	'Wait, what happened to <i>hurting</i> your enemies?',	0,	'mmaaaaaam',	100,	100,	0,	0,	30,	0,	0,	0,	80,	64500,	0),
+(214,	4,	0,	'Emuz\'s Sage Hat',	'It\'s Emuz\'s Hat. It breaks the system! ',	1,	'mmaaaaaaa',	32767,	32767,	0,	9001,	9001,	9001,	9001,	9001,	9001,	99999,	9001),
+(215,	1,	0,	'Toukijin',	'It\'s sharp and evil!',	1,	'mmaaaaaaa',	100,	100,	9001,	0,	0,	0,	0,	0,	0,	99999,	9001),
+(216,	4,	0,	'Big Red Pimp Hat',	'Desc Here',	1,	'mmaaaaaaa',	100,	120,	0,	0,	3,	0,	0,	0,	0,	0,	0),
+(201,	5,	0,	'High Jump Boots',	'Sexy Chozo Technology',	0,	'mmmamamaa',	150,	150,	300,	0,	115,	0,	200,	130,	60,	85000,	0),
+(202,	4,	0,	'French Beret',	'Zut alors?!',	0,	'mmaaaaaaa',	100,	100,	0,	5,	2,	0,	0,	50,	0,	4500,	0),
+(203,	4,	0,	'Green Cap',	'Wait up, Bro!',	0,	'mmaaaaaam',	100,	120,	0,	0,	50,	0,	20,	0,	85,	64000,	0),
+(204,	5,	0,	'Spike Stompers',	'I feel sorry for anyone <i>stuck</i> under you',	0,	'mmmmaaaaa',	100,	100,	125,	105,	0,	0,	0,	0,	75,	400,	2),
+(205,	3,	0,	'Wsithengamot',	'Durable, but heavy',	0,	'mmamaaaam',	100,	100,	0,	120,	0,	0,	-150,	0,	85,	15000,	0),
+(208,	1,	0,	'Hyper Beam',	'A weapon wrought from stolen evil.',	0,	'aaaaaaaaa',	0,	0,	32767,	0,	0,	0,	0,	275,	100,	8388607,	558),
+(209,	4,	0,	'Top Hat',	'The ultimate in exquisite fashion.  Sure to improve your confidence and luck with the ladies',	0,	'mmaaaaaaa',	100,	110,	0,	0,	0,	0,	0,	3,	0,	12500,	0),
+(210,	6,	0,	'Cane',	'Nothing quite like it.  Sure to make you look as distinquished and old as you aren\'t.',	0,	'mmaaaaaaa',	100,	100,	15,	0,	0,	0,	0,	0,	5,	12500,	0);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `log`
---
-
+DROP TABLE IF EXISTS `log`;
 CREATE TABLE `log` (
   `t` int(12) NOT NULL,
   `ip` varchar(15) NOT NULL,
   `uid` int(11) NOT NULL,
-  `request` varchar(255) NOT NULL
+  `request` varchar(255) NOT NULL,
+  KEY `t` (`t`),
+  KEY `ip` (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `mcache`
---
-
+DROP TABLE IF EXISTS `mcache`;
 CREATE TABLE `mcache` (
   `hash` varchar(32) NOT NULL,
-  `file` varchar(32) NOT NULL
+  `file` varchar(32) NOT NULL,
+  KEY `hash` (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `misc`
---
-
+DROP TABLE IF EXISTS `misc`;
 CREATE TABLE `misc` (
   `field` varchar(255) NOT NULL,
   `intval` int(11) NOT NULL DEFAULT '0',
   `txtval` text NOT NULL,
-  `emailaddress` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '0'
+  `emailaddress` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  PRIMARY KEY (`field`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `misc`
---
-
 INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
-('views', 0, '', '0'),
-('maxpostsday', 0, '', '0'),
-('maxpostsdaydate', 0, '', '0'),
-('maxpostshour', 0, '', '0'),
-('maxpostshourdate', 0, '', '0'),
-('maxusers', 0, '', '0'),
-('maxusersdate', 0, '', '0'),
-('maxuserstext', 0, '', '0'),
-('botviews', 0, '', '0'),
-('lockdown', 0, '', '0'),
-('attention', 0, '', '0'),
-('regdisable', 0, '', '0'),
-('hacksnews', 0, '', '0'),
-('boardemail', 0, '', '0');
+('views',	0,	'',	'0'),
+('maxpostsday',	1,	'',	'0'),
+('maxpostsdaydate',	1516382948,	'',	'0'),
+('maxpostshour',	1,	'',	'0'),
+('maxpostshourdate',	1516382948,	'',	'0'),
+('maxusers',	1,	'',	'0'),
+('maxusersdate',	1516382699,	'',	'0'),
+('maxuserstext',	0,	'<a href=\"profile.php?id=1\"><span  style=\'color:#AA3C3C;\'>Admin</span></a>',	'0'),
+('botviews',	0,	'',	'0'),
+('lockdown',	0,	'',	'0'),
+('attention',	0,	'',	'0'),
+('regdisable',	0,	'',	'0'),
+('hacksnews',	0,	'',	'0'),
+('boardemail',	0,	'',	'0');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `mood`
---
-
+DROP TABLE IF EXISTS `mood`;
 CREATE TABLE `mood` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `label` varchar(127) NOT NULL DEFAULT '',
   `local` tinyint(1) NOT NULL DEFAULT '0',
-  `url` varchar(255) NOT NULL DEFAULT ''
+  `url` varchar(255) NOT NULL DEFAULT '',
+  UNIQUE KEY `id` (`id`,`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `perm`
---
-
+DROP TABLE IF EXISTS `perm`;
 CREATE TABLE `perm` (
   `id` varchar(64) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `permcat_id` int(11) NOT NULL,
-  `permbind_id` varchar(64) NOT NULL
+  `permbind_id` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumpning av Data i tabell `perm`
---
 
 INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) VALUES
-('admin-tools-access', 'Access to Admin Tools', '', 3, ''),
-('assign-secondary-groups', 'Assign Secondary Groups', '', 3, ''),
-('ban-users', 'Ban Users', '', 3, ''),
-('banned', 'Is Banned', '', 2, ''),
-('block-layout', 'Enable Layout Blocking', 'Enables per-user layout blocking', 3, ''),
-('bypass-lockdown', 'View Board Under Lockdown', '', 3, ''),
-('bypass-logo-override', 'Bypass Logo Overrides', 'Bypasses any board-wide logo locks.', 3, ''),
-('bypass-theme-override', 'Bypass Theme Overrides', 'Bypasses any board-wide theme locks.', 3, ''),
-('can-edit-group', 'Edit Group Assets', '', 3, 'group'),
-('can-edit-group-member', 'Edit User Assets', '', 3, 'group'),
-('capture-sprites', 'Capture Sprites', '', 1, ''),
-('consecutive-posts', 'Consecutive Posts', '', 2, ''),
-('create-all-forums-announcement', 'Create All Forums Announcement', '', 4, ''),
-('create-all-private-forum-posts', 'Create All Private Forum Posts', '', 3, ''),
-('create-all-private-forum-threads', 'Create All Private Forum Threads', '', 3, ''),
-('create-consecutive-forum-post', 'Create Consecutive Forum Post', '', 2, 'forums'),
-('create-forum-announcement', 'Create Forum Announcement', '', 3, 'forums'),
-('create-pms', 'Create PMs', '', 1, ''),
-('create-private-forum-post', 'Create Private Forum Post', '', 2, 'forums'),
-('create-private-forum-thread', 'Create Private Forum Thread', '', 2, 'forums'),
-('create-public-post', 'Create Public Post', '', 4, ''),
-('create-public-thread', 'Create Public Thread', '', 4, ''),
-('delete-forum-post', 'Delete Forum Post', '', 2, 'forums'),
-('delete-forum-thread', 'Delete Forum Thread', '', 2, 'forums'),
-('delete-own-pms', 'Delete Own PMs', '', 1, ''),
-('delete-post', 'Delete Post', '', 2, ''),
-('delete-thread', 'Delete Thread', '', 2, ''),
-('delete-user-pms', 'Delete User PMs', '', 3, ''),
-('deleted-posts-tracker', 'Can Use Deleted Posts Tracker', '', 2, ''),
-('edit-all-group', 'Edit All Group Assets', '', 3, ''),
-('edit-all-group-member', 'Edit All User Assets', '', 3, ''),
-('edit-attentions-box', 'Edit Attentions Box', '', 3, ''),
-('edit-badges', 'Edit Badges', '', 3, ''),
-('edit-calendar-events', 'Edit Calendar Events', '', 3, ''),
-('edit-categories', 'Edit Categories', '', 3, ''),
-('edit-customusercolors', 'Edit Custom Username Colors', '', 3, ''),
-('edit-displaynames', 'Edit Displaynames', '', 3, ''),
-('edit-forum-post', 'Edit Forum Post', '', 2, 'forums'),
-('edit-forum-thread', 'Edit Forum Thread', '', 2, 'forums'),
-('edit-forums', 'Edit Forums', '', 3, ''),
-('edit-groups', 'Edit Groups', '', 3, ''),
-('edit-ip-bans', 'Edit IP Bans', '', 0, ''),
-('edit-moods', 'Edit Moods', '', 3, ''),
-('edit-own-permissions', 'Edit Own Permissions', '', 3, ''),
-('edit-own-title', 'Edit Own Title', '', 3, ''),
-('edit-permissions', 'Edit Permissions', '', 3, ''),
-('edit-post-icons', 'Edit Post Icons', '', 3, ''),
-('edit-profileext', 'Edit Extended Profile Fields', '', 3, ''),
-('edit-ranks', 'Edit Ranks', '', 3, ''),
-('edit-smilies', 'Edit Smilies', '', 3, ''),
-('edit-spiders', 'Edit Spiders', '', 3, ''),
-('edit-sprites', 'Edit Sprites', '', 3, ''),
-('edit-titles', 'Edit Titles', '', 3, ''),
-('edit-user-badges', 'Assign User Badges', '', 3, ''),
-('edit-user-customnickcolor', 'Edit User Custom Nick Color', '', 3, 'users'),
-('edit-user-displayname', 'Edit User Displayname', '', 3, 'users'),
-('edit-user-show-online', 'Edit User Show Online', '', 3, ''),
-('edit-user-title', 'Edit User Title', '', 3, 'users'),
-('edit-users', 'Edit Users', '', 3, ''),
-('has-customusercolor', 'Can Edit Custom Username Color', '', 3, ''),
-('has-displayname', 'Can Use Displayname', '', 3, ''),
-('ignore-thread-time-limit', 'Ignore Thread Time Limit', '', 0, ''),
-('login', 'Login', '', 1, ''),
-('manage-board', 'Administration Management Panel', '', 3, ''),
-('manage-shop-items', 'Manage Shop Items', '', 3, ''),
-('mark-read', 'Mark Read', '', 1, ''),
-('no-restrictions', 'No Restrictions', '', 3, ''),
-('override-closed-all', 'Post in All Closed Threads', '', 2, ''),
-('override-closed-forum', 'Post in Closed Threads in Forum', '', 2, 'forums'),
-('override-closed-thread', 'Post in Closed Thread', '', 2, 'threads'),
-('override-readonly-forums', 'Override Read Only Forums', '', 3, ''),
-('post-offline', 'Post Offline', '', 4, ''),
-('post-radar', 'Post Radar', 'Can use Post Radar', 2, ''),
-('rate-thread', 'Rate Thread', '', 1, ''),
-('register', 'Register', '', 1, ''),
-('rename-own-thread', 'Rename Own Thread', '', 1, ''),
-('show-as-staff', 'Listed Publicly as Staff', '', 3, 'users'),
-('show-online', 'Show Online', '', 1, ''),
-('staff', 'Is Staff', '', 2, ''),
-('track-deleted-posts', 'Can Track All Deleted Posts', '', 2, ''),
-('track-ip-change', 'Track IP Changes in IRC', 'Add this to a group or user to have their IP change reported to the staff channel.', 3, ''),
-('update-extended-profiles', 'Update Extended Profiles', '', 3, ''),
-('update-own-extended-profile', 'Update Own Extended Profile', '', 1, ''),
-('update-own-moods', 'Update Own Moods', '', 1, ''),
-('update-own-post', 'Update Own Post', '', 4, ''),
-('update-own-profile', 'Update Own Profile', '', 1, ''),
-('update-post', 'Update Post', '', 2, ''),
-('update-profiles', 'Update Profiles', '', 3, ''),
-('update-thread', 'Update Thread', '', 2, ''),
-('update-user-extended-profile', 'Update User Extended Profile', '', 3, 'users'),
-('update-user-moods', 'Update User Moods', '', 3, 'users'),
-('update-user-profile', 'Update User Profile', '', 3, 'users'),
-('use-item-shop', 'Use Item Shop', '', 1, ''),
-('use-post-layout', 'Use Post Layout', '', 4, ''),
-('use-test-bed', 'Use Test Bed', '', 3, ''),
-('use-uploader', 'Use Uploader', '', 1, ''),
-('view-acs-calendar', 'View ACS Rankings Calendar', '', 2, ''),
-('view-all-private-categories', 'View All Private Categories', '', 3, ''),
-('view-all-private-forums', 'View All Private Forums', '', 3, ''),
-('view-all-private-posts', 'View All Private Posts', '', 3, ''),
-('view-all-private-threads', 'View All Private Threads', '', 3, ''),
-('view-all-sprites', 'View All Sprites', '', 3, ''),
-('view-allranks', 'Show Hidden Ranks', '', 2, ''),
-('view-errors', 'View PHP Errors', '', 0, ''),
-('view-favorites', 'View Favorite Threads', '', 1, ''),
-('view-forum-post-history', 'View Forum Post History', '', 2, 'forums'),
-('view-hidden-users', 'View Hidden Users', '', 3, ''),
-('view-own-pms', 'View Own PMs', '', 1, ''),
-('view-own-sprites', 'View Own Sprites', '', 1, ''),
-('view-permissions', 'View Permissions', '', 3, ''),
-('view-post-history', 'View Post History', '', 2, ''),
-('view-post-ips', 'View Post IP Addresses', '', 3, ''),
-('view-private-category', 'View Private Category', '', 2, 'categories'),
-('view-private-forum', 'View Private Forum', '', 2, 'forums'),
-('view-private-post', 'View Private Post', '', 2, 'posts'),
-('view-private-thread', 'View Private Thread', '', 2, 'threads'),
-('view-profile-page', 'View Profile Page', '', 1, ''),
-('view-public-categories', 'View Public Categories', '', 1, ''),
-('view-public-forums', 'View Public Forums', '', 1, ''),
-('view-public-posts', 'View Public Posts', '', 1, ''),
-('view-public-threads', 'View Public Threads', '', 1, ''),
-('view-user-pms', 'View User PMs', '', 3, ''),
-('view-user-urls', 'View User URLs', '', 3, '');
+('admin-tools-access',	'Access to Admin Tools',	'',	3,	''),
+('assign-secondary-groups',	'Assign Secondary Groups',	'',	3,	''),
+('ban-users',	'Ban Users',	'',	3,	''),
+('banned',	'Is Banned',	'',	2,	''),
+('block-layout',	'Enable Layout Blocking',	'Enables per-user layout blocking',	3,	''),
+('bypass-lockdown',	'View Board Under Lockdown',	'',	3,	''),
+('bypass-logo-override',	'Bypass Logo Overrides',	'Bypasses any board-wide logo locks.',	3,	''),
+('bypass-theme-override',	'Bypass Theme Overrides',	'Bypasses any board-wide theme locks.',	3,	''),
+('can-edit-group',	'Edit Group Assets',	'',	3,	'group'),
+('can-edit-group-member',	'Edit User Assets',	'',	3,	'group'),
+('consecutive-posts',	'Consecutive Posts',	'',	2,	''),
+('create-all-forums-announcement',	'Create All Forums Announcement',	'',	4,	''),
+('create-all-private-forum-posts',	'Create All Private Forum Posts',	'',	3,	''),
+('create-all-private-forum-threads',	'Create All Private Forum Threads',	'',	3,	''),
+('create-consecutive-forum-post',	'Create Consecutive Forum Post',	'',	2,	'forums'),
+('create-forum-announcement',	'Create Forum Announcement',	'',	3,	'forums'),
+('create-pms',	'Create PMs',	'',	1,	''),
+('create-private-forum-post',	'Create Private Forum Post',	'',	2,	'forums'),
+('create-private-forum-thread',	'Create Private Forum Thread',	'',	2,	'forums'),
+('create-public-post',	'Create Public Post',	'',	4,	''),
+('create-public-thread',	'Create Public Thread',	'',	4,	''),
+('delete-forum-post',	'Delete Forum Post',	'',	2,	'forums'),
+('delete-forum-thread',	'Delete Forum Thread',	'',	2,	'forums'),
+('delete-own-pms',	'Delete Own PMs',	'',	1,	''),
+('delete-post',	'Delete Post',	'',	2,	''),
+('delete-thread',	'Delete Thread',	'',	2,	''),
+('delete-user-pms',	'Delete User PMs',	'',	3,	''),
+('edit-all-group',	'Edit All Group Assets',	'',	3,	''),
+('edit-all-group-member',	'Edit All User Assets',	'',	3,	''),
+('edit-attentions-box',	'Edit Attentions Box',	'',	3,	''),
+('edit-badges',	'Edit Badges',	'',	3,	''),
+('edit-calendar-events',	'Edit Calendar Events',	'',	3,	''),
+('edit-categories',	'Edit Categories',	'',	3,	''),
+('edit-customusercolors',	'Edit Custom Username Colors',	'',	3,	''),
+('edit-displaynames',	'Edit Displaynames',	'',	3,	''),
+('edit-forum-post',	'Edit Forum Post',	'',	2,	'forums'),
+('edit-forum-thread',	'Edit Forum Thread',	'',	2,	'forums'),
+('edit-forums',	'Edit Forums',	'',	3,	''),
+('edit-groups',	'Edit Groups',	'',	3,	''),
+('edit-ip-bans',	'Edit IP Bans',	'',	0,	''),
+('edit-moods',	'Edit Moods',	'',	3,	''),
+('edit-own-permissions',	'Edit Own Permissions',	'',	3,	''),
+('edit-own-title',	'Edit Own Title',	'',	3,	''),
+('edit-permissions',	'Edit Permissions',	'',	3,	''),
+('edit-profileext',	'Edit Extended Profile Fields',	'',	3,	''),
+('edit-ranks',	'Edit Ranks',	'',	3,	''),
+('edit-smilies',	'Edit Smilies',	'',	3,	''),
+('edit-spiders',	'Edit Spiders',	'',	3,	''),
+('edit-titles',	'Edit Titles',	'',	3,	''),
+('edit-user-badges',	'Assign User Badges',	'',	3,	''),
+('edit-user-customnickcolor',	'Edit User Custom Nick Color',	'',	3,	'users'),
+('edit-user-displayname',	'Edit User Displayname',	'',	3,	'users'),
+('edit-user-show-online',	'Edit User Show Online',	'',	3,	''),
+('edit-user-title',	'Edit User Title',	'',	3,	'users'),
+('edit-users',	'Edit Users',	'',	3,	''),
+('has-customusercolor',	'Can Edit Custom Username Color',	'',	3,	''),
+('has-displayname',	'Can Use Displayname',	'',	3,	''),
+('ignore-thread-time-limit',	'Ignore Thread Time Limit',	'',	0,	''),
+('login',	'Login',	'',	1,	''),
+('manage-board',	'Administration Management Panel',	'',	3,	''),
+('manage-shop-items',	'Manage Shop Items',	'',	3,	''),
+('mark-read',	'Mark Read',	'',	1,	''),
+('no-restrictions',	'No Restrictions',	'',	3,	''),
+('override-closed-all',	'Post in All Closed Threads',	'',	2,	''),
+('override-closed-forum',	'Post in Closed Threads in Forum',	'',	2,	'forums'),
+('override-closed-thread',	'Post in Closed Thread',	'',	2,	'threads'),
+('override-readonly-forums',	'Override Read Only Forums',	'',	3,	''),
+('post-offline',	'Post Offline',	'',	4,	''),
+('post-radar',	'Post Radar',	'Can use Post Radar',	2,	''),
+('rate-thread',	'Rate Thread',	'',	1,	''),
+('register',	'Register',	'',	1,	''),
+('rename-own-thread',	'Rename Own Thread',	'',	1,	''),
+('show-as-staff',	'Listed Publicly as Staff',	'',	3,	'users'),
+('show-online',	'Show Online',	'',	1,	''),
+('staff',	'Is Staff',	'',	2,	''),
+('track-ip-change',	'Track IP Changes in IRC',	'Add this to a group or user to have their IP change reported to the staff channel.',	3,	''),
+('update-extended-profiles',	'Update Extended Profiles',	'',	3,	''),
+('update-own-extended-profile',	'Update Own Extended Profile',	'',	1,	''),
+('update-own-moods',	'Update Own Moods',	'',	1,	''),
+('update-own-post',	'Update Own Post',	'',	4,	''),
+('update-own-profile',	'Update Own Profile',	'',	1,	''),
+('update-post',	'Update Post',	'',	2,	''),
+('update-profiles',	'Update Profiles',	'',	3,	''),
+('update-thread',	'Update Thread',	'',	2,	''),
+('update-user-extended-profile',	'Update User Extended Profile',	'',	3,	'users'),
+('update-user-moods',	'Update User Moods',	'',	3,	'users'),
+('update-user-profile',	'Update User Profile',	'',	3,	'users'),
+('use-item-shop',	'Use Item Shop',	'',	1,	''),
+('use-post-layout',	'Use Post Layout',	'',	4,	''),
+('use-test-bed',	'Use Test Bed',	'',	3,	''),
+('use-uploader',	'Use Uploader',	'',	1,	''),
+('view-acs-calendar',	'View ACS Rankings Calendar',	'',	2,	''),
+('view-all-private-categories',	'View All Private Categories',	'',	3,	''),
+('view-all-private-forums',	'View All Private Forums',	'',	3,	''),
+('view-all-private-posts',	'View All Private Posts',	'',	3,	''),
+('view-all-private-threads',	'View All Private Threads',	'',	3,	''),
+('view-allranks',	'Show Hidden Ranks',	'',	2,	''),
+('view-errors',	'View PHP Errors',	'',	0,	''),
+('view-favorites',	'View Favorite Threads',	'',	1,	''),
+('view-forum-post-history',	'View Forum Post History',	'',	2,	'forums'),
+('view-hidden-users',	'View Hidden Users',	'',	3,	''),
+('view-own-pms',	'View Own PMs',	'',	1,	''),
+('view-permissions',	'View Permissions',	'',	3,	''),
+('view-post-history',	'View Post History',	'',	2,	''),
+('view-post-ips',	'View Post IP Addresses',	'',	3,	''),
+('view-private-category',	'View Private Category',	'',	2,	'categories'),
+('view-private-forum',	'View Private Forum',	'',	2,	'forums'),
+('view-private-post',	'View Private Post',	'',	2,	'posts'),
+('view-private-thread',	'View Private Thread',	'',	2,	'threads'),
+('view-profile-page',	'View Profile Page',	'',	1,	''),
+('view-public-categories',	'View Public Categories',	'',	1,	''),
+('view-public-forums',	'View Public Forums',	'',	1,	''),
+('view-public-posts',	'View Public Posts',	'',	1,	''),
+('view-public-threads',	'View Public Threads',	'',	1,	''),
+('view-user-pms',	'View User PMs',	'',	3,	''),
+('view-user-urls',	'View User URLs',	'',	3,	'');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `permbind`
---
-
+DROP TABLE IF EXISTS `permbind`;
 CREATE TABLE `permbind` (
   `id` varchar(64) NOT NULL,
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumpning av Data i tabell `permbind`
---
 
 INSERT INTO `permbind` (`id`, `title`) VALUES
-('categories', 'Category'),
-('forums', 'Forum'),
-('group', 'Group'),
-('posts', 'Post'),
-('threads', 'Thread'),
-('users', 'User');
+('categories',	'Category'),
+('forums',	'Forum'),
+('group',	'Group'),
+('posts',	'Post'),
+('threads',	'Thread'),
+('users',	'User');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `permcat`
---
-
+DROP TABLE IF EXISTS `permcat`;
 CREATE TABLE `permcat` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `sortorder` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumpning av Data i tabell `permcat`
---
+  `sortorder` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 INSERT INTO `permcat` (`id`, `title`, `sortorder`) VALUES
-(1, 'Basic', 100),
-(2, 'Moderator', 200),
-(3, 'Administrative', 300),
-(4, 'Posting', 150);
+(1,	'Basic',	100),
+(2,	'Moderator',	200),
+(3,	'Administrative',	300),
+(4,	'Posting',	150);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `perm_permbind`
---
-
+DROP TABLE IF EXISTS `perm_permbind`;
 CREATE TABLE `perm_permbind` (
   `perm_id` varchar(64) NOT NULL,
   `permbind_id` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumpning av Data i tabell `perm_permbind`
---
-
 INSERT INTO `perm_permbind` (`perm_id`, `permbind_id`) VALUES
-('view-private-category', 'categories'),
-('view-private-forum', 'forums'),
-('view-private-thread', 'threads'),
-('view-private-post', 'posts');
+('view-private-category',	'categories'),
+('view-private-forum',	'forums'),
+('view-private-thread',	'threads'),
+('view-private-post',	'posts');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `pmsgs`
---
-
+DROP TABLE IF EXISTS `pmsgs`;
 CREATE TABLE `pmsgs` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `date` int(11) NOT NULL DEFAULT '0',
   `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
   `nosmilies` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
-  `userto` mediumint(9) UNSIGNED NOT NULL,
-  `userfrom` mediumint(9) UNSIGNED NOT NULL,
+  `userto` mediumint(9) unsigned NOT NULL,
+  `userfrom` mediumint(9) unsigned NOT NULL,
   `unread` tinyint(4) NOT NULL,
   `del_from` tinyint(1) NOT NULL DEFAULT '0',
   `del_to` tinyint(1) NOT NULL DEFAULT '0',
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `pmsgstext`
---
-
+DROP TABLE IF EXISTS `pmsgstext`;
 CREATE TABLE `pmsgstext` (
-  `id` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `text` text NOT NULL
+  `id` int(11) unsigned NOT NULL DEFAULT '0',
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `polloptions`
---
-
+DROP TABLE IF EXISTS `polloptions`;
 CREATE TABLE `polloptions` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `poll` int(11) NOT NULL,
   `option` varchar(255) NOT NULL,
   `r` smallint(3) NOT NULL,
   `g` smallint(3) NOT NULL,
-  `b` smallint(3) NOT NULL
+  `b` smallint(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `poll` (`poll`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `polls`
---
-
+DROP TABLE IF EXISTS `polls`;
 CREATE TABLE `polls` (
   `id` int(11) NOT NULL,
   `question` varchar(255) NOT NULL,
   `multivote` int(1) NOT NULL DEFAULT '0',
-  `changeable` int(1) NOT NULL DEFAULT '0'
+  `changeable` int(1) NOT NULL DEFAULT '0',
+  KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `pollvotes`
---
-
+DROP TABLE IF EXISTS `pollvotes`;
 CREATE TABLE `pollvotes` (
   `id` int(11) NOT NULL,
-  `user` int(11) NOT NULL
+  `user` int(11) NOT NULL,
+  UNIQUE KEY `id_2` (`id`,`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `posticons`
---
-
-CREATE TABLE `posticons` (
-  `id` tinyint(4) UNSIGNED NOT NULL,
-  `url` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `posticons`
---
-
-INSERT INTO `posticons` (`id`, `url`) VALUES
-(1, 'img/icons/icon1.gif'),
-(2, 'img/icons/icon2.gif'),
-(3, 'img/icons/icon3.gif'),
-(4, 'img/icons/icon4.gif'),
-(5, 'img/icons/icon5.gif'),
-(6, 'img/icons/icon6.gif'),
-(7, 'img/icons/icon7.gif'),
-(8, 'img/coin.gif'),
-(9, 'img/coin2.gif'),
-(10, 'img/smilies/baby.gif'),
-(11, 'img/smilies/smile.gif'),
-(12, 'img/smilies/wink.gif'),
-(13, 'img/smilies/biggrin.gif'),
-(14, 'img/smilies/cute.gif'),
-(15, 'img/smilies/glasses.gif'),
-(16, 'img/smilies/mad.gif'),
-(17, 'img/smilies/frown.gif'),
-(18, 'img/smilies/yuck.gif'),
-(19, 'img/smilies/sick.gif'),
-(20, 'img/smilies/wobbly.gif'),
-(21, 'img/smilies/eek.gif'),
-(22, 'img/smilies/blank.gif'),
-(23, 'img/smilies/jawdrop.gif'),
-(24, 'img/smilies/bigeyes.gif'),
-(25, 'img/smilies/tongue.gif'),
-(26, 'img/smilies/vamp.gif'),
-(27, 'img/smilies/dizzy.gif'),
-(28, 'img/smilies/eyeshift.gif'),
-(29, 'img/smilies/shiftleft.gif'),
-(30, 'img/smilies/shiftright.gif');
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `posts`
---
-
+DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `user` mediumint(9) UNSIGNED NOT NULL DEFAULT '0',
-  `thread` mediumint(9) UNSIGNED NOT NULL DEFAULT '0',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `thread` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `date` int(11) NOT NULL DEFAULT '0',
   `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
@@ -840,43 +747,24 @@ CREATE TABLE `posts` (
   `ip` char(15) NOT NULL,
   `num` mediumint(9) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `announce` int(1) NOT NULL
+  `announce` int(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `threadid` (`thread`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `poststext`
---
-
+DROP TABLE IF EXISTS `poststext`;
 CREATE TABLE `poststext` (
-  `id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `id` int(11) unsigned NOT NULL DEFAULT '0',
   `text` text NOT NULL,
   `revision` int(5) NOT NULL DEFAULT '1',
   `date` int(11) NOT NULL,
-  `user` mediumint(9) NOT NULL
+  `user` mediumint(9) NOT NULL,
+  PRIMARY KEY (`id`,`revision`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `post_radar`
---
-
-CREATE TABLE `post_radar` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` mediumint(8) UNSIGNED NOT NULL,
-  `user2_id` mediumint(8) UNSIGNED NOT NULL,
-  `ctime` bigint(20) UNSIGNED NOT NULL,
-  `dtime` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `profileext`
---
-
+DROP TABLE IF EXISTS `profileext`;
 CREATE TABLE `profileext` (
   `id` varchar(64) NOT NULL DEFAULT '',
   `title` varchar(256) NOT NULL DEFAULT '',
@@ -887,282 +775,146 @@ CREATE TABLE `profileext` (
   `validation` varchar(256) NOT NULL DEFAULT '',
   `example` varchar(256) NOT NULL DEFAULT '',
   `extrafield` int(1) NOT NULL DEFAULT '0',
-  `parser` varchar(256) NOT NULL DEFAULT ''
+  `parser` varchar(256) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumpning av Data i tabell `profileext`
---
-
 INSERT INTO `profileext` (`id`, `title`, `sortorder`, `fmt`, `description`, `icon`, `validation`, `example`, `extrafield`, `parser`) VALUES
-('3ds', '3DS Friend Code', 0, '$1-$2-$3', 'Your 3DS Friend Code (hyphens are optional)', '', '([0-9]{4})-?([0-9]{4})-?([0-9]{4})', '1234-5678-9012', 0, ''),
-('aim', 'AIM Screen Name', 0, '$0', 'Your AIM Screen Name (or email)', '', '[A-Za-z.%+-_@]+', 'SmarterChild', 0, 'email'),
-('ds', 'DS Game Friend Code', 0, '$1-$2-$3', 'Your DS Game Friend Code (hyphens are optional)', '', '([0-9]{4})-?([0-9]{4})-?([0-9]{4})', '1234-5678-9012', 1, ''),
-('facebook', 'Facebook', 0, '<a href=http://www.facebook.com/$0>$0</a>', 'Your Facebook ID number or username', '', '[\\.0-9a-zA-Z]+', 'john.smith', 0, ''),
-('gplus', 'Google+', 0, '<a href=http://plus.google.com/$0>$0</a>', 'Your Google+ ID (the long ass number)', '', '[0-9]+', '110393731121066107376', 0, ''),
-('gtalk', 'Google Talk', 0, '$0', 'Your Google Talk email address', '', '[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}', 'eric.schmidt@gmail.com', 0, 'email'),
-('icq', 'ICQ number', 0, '<a href="http://wwp.icq.com/$0#pager">$0 <img src="http://wwp.icq.com/scripts/online.dll?icq=$0&amp;img=5" border=0></a>', 'Your ICQ Number', '', '[0-9]+', '91235781', 0, ''),
-('instagram', 'Instagram', 0, '<a href=http://instagram.com/$0/>$0</a>', 'Your Instagram username (as it appears on a URL)', '', '[_\\.-0-9a-zA-Z]+', 'soviet.russia', 0, ''),
-('jabber', 'Jabber', 0, '$0', 'Your Jabber email address', '', '[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}', 'linus.torvalds@linux.org', 0, 'email'),
-('msn', 'Windows Live! ID', 0, '$0', 'Your Windows Live! ID', '', '[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}', 'bill.gates@hotmail.com', 0, 'email'),
-('nintendoid', 'Nintendo ID', 0, '<a href="https://miiverse.nintendo.net/users/$0">$0</a>', 'Your Nintendo ID', '', '[_\\-0-9a-zA-Z]+', 'mariobros.', 0, ''),
-('psn', 'PSN', 0, '$0', 'Your PlayStation Network username', '', '[0-9a-zA-Z]+', 'sonyrul3s', 0, ''),
-('soundcloud', 'Soundcloud', 0, '<a href=http://soundcloud.com/$0>$0</a>', 'Your Soundcloud username (as it appears on a URL)', '', '[_\\-0-9a-zA-Z]+', 'britney-spears', 0, ''),
-('tumblr', 'Tumblr', 0, '<a href=http://$0.tumblr.com/>$0</a>', 'Your Tumblr username (as it appears on a URL)', '', '[_\\-0-9a-zA-Z]+', 'supermariosunshinebeta', 0, ''),
-('twitter', 'Twitter', 0, '<a href=http://twitter.com/$0>@$0</a>', 'Your Twitter username (without the leading @)', '', '[_0-9a-zA-Z]+', 'jack', 0, ''),
-('wii', 'Wii Game Friend Code', 0, '$1-$2-$3', 'Your Wii Game Friend Code (hyphens are optional)', '', '([0-9]{4})-?([0-9]{4})-?([0-9]{4})', '1234-5678-9012', 1, ''),
-('wii-system', 'Wii Friend Code', 0, '$1-$2-$3', 'Your Wii Friend Code (hyphens are optional)', '', '([0-9]{4})-?([0-9]{4})-?([0-9]{4})', '1234-5678-9012', 0, ''),
-('xbl', 'XBOX Live', 0, '$0', 'Your XBOX Live username', '', '[0-9a-zA-Z]+', 'n00bpwner', 0, ''),
-('yahoo', 'Yahoo! ID', 0, '$email', 'Your Yahoo! ID', '', '[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}', 'carol.bartz@rocketmail.com', 0, 'email'),
-('youtube', 'YouTube', 0, '<a href=http://www.youtube.com/$0>$0</a>', 'Your YouTube username', '', '[0-9a-zA-Z]+', 'spudd', 0, '');
+('3ds',	'3DS Friend Code',	0,	'$1-$2-$3',	'Your 3DS Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	0,	''),
+('aim',	'AIM Screen Name',	0,	'$0',	'Your AIM Screen Name (or email)',	'',	'[A-Za-z.%+-_@]+',	'SmarterChild',	0,	'email'),
+('ds',	'DS Game Friend Code',	0,	'$1-$2-$3',	'Your DS Game Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	1,	''),
+('facebook',	'Facebook',	0,	'<a href=http://www.facebook.com/$0>$0</a>',	'Your Facebook ID number or username',	'',	'[\\.0-9a-zA-Z]+',	'john.smith',	0,	''),
+('gplus',	'Google+',	0,	'<a href=http://plus.google.com/$0>$0</a>',	'Your Google+ ID (the long ass number)',	'',	'[0-9]+',	'110393731121066107376',	0,	''),
+('gtalk',	'Google Talk',	0,	'$0',	'Your Google Talk email address',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'eric.schmidt@gmail.com',	0,	'email'),
+('icq',	'ICQ number',	0,	'<a href=\"http://wwp.icq.com/$0#pager\">$0 <img src=\"http://wwp.icq.com/scripts/online.dll?icq=$0&amp;img=5\" border=0></a>',	'Your ICQ Number',	'',	'[0-9]+',	'91235781',	0,	''),
+('instagram',	'Instagram',	0,	'<a href=http://instagram.com/$0/>$0</a>',	'Your Instagram username (as it appears on a URL)',	'',	'[_\\.-0-9a-zA-Z]+',	'soviet.russia',	0,	''),
+('jabber',	'Jabber',	0,	'$0',	'Your Jabber email address',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'linus.torvalds@linux.org',	0,	'email'),
+('msn',	'Windows Live! ID',	0,	'$0',	'Your Windows Live! ID',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'bill.gates@hotmail.com',	0,	'email'),
+('nintendoid',	'Nintendo ID',	0,	'<a href=\"https://miiverse.nintendo.net/users/$0\">$0</a>',	'Your Nintendo ID',	'',	'[_\\-0-9a-zA-Z]+',	'mariobros.',	0,	''),
+('psn',	'PSN',	0,	'$0',	'Your PlayStation Network username',	'',	'[0-9a-zA-Z]+',	'sonyrul3s',	0,	''),
+('soundcloud',	'Soundcloud',	0,	'<a href=http://soundcloud.com/$0>$0</a>',	'Your Soundcloud username (as it appears on a URL)',	'',	'[_\\-0-9a-zA-Z]+',	'britney-spears',	0,	''),
+('tumblr',	'Tumblr',	0,	'<a href=http://$0.tumblr.com/>$0</a>',	'Your Tumblr username (as it appears on a URL)',	'',	'[_\\-0-9a-zA-Z]+',	'supermariosunshinebeta',	0,	''),
+('twitter',	'Twitter',	0,	'<a href=http://twitter.com/$0>@$0</a>',	'Your Twitter username (without the leading @)',	'',	'[_0-9a-zA-Z]+',	'jack',	0,	''),
+('wii',	'Wii Game Friend Code',	0,	'$1-$2-$3',	'Your Wii Game Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	1,	''),
+('wii-system',	'Wii Friend Code',	0,	'$1-$2-$3',	'Your Wii Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	0,	''),
+('xbl',	'XBOX Live',	0,	'$0',	'Your XBOX Live username',	'',	'[0-9a-zA-Z]+',	'n00bpwner',	0,	''),
+('yahoo',	'Yahoo! ID',	0,	'$email',	'Your Yahoo! ID',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'carol.bartz@rocketmail.com',	0,	'email'),
+('youtube',	'YouTube',	0,	'<a href=http://www.youtube.com/$0>$0</a>',	'Your YouTube username',	'',	'[0-9a-zA-Z]+',	'spudd',	0,	'');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `ranks`
---
-
+DROP TABLE IF EXISTS `ranks`;
 CREATE TABLE `ranks` (
   `rs` int(10) NOT NULL,
   `p` int(10) NOT NULL DEFAULT '0',
   `str` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `ranks`
---
-
 INSERT INTO `ranks` (`rs`, `p`, `str`) VALUES
-(1, 0, 'Non-poster'),
-(1, 1, 'Newcomer'),
-(1, 20, '<img src=img/ranks/goomba.gif width=16 height=16><br>Goomba'),
-(1, 10, '<img src=img/ranks/microgoomba.gif width=8 height=9><br>Micro-Goomba'),
-(1, 35, '<img src=img/ranks/redgoomba.gif width=16 height=16><br>Red Goomba'),
-(1, 50, '<img src=img/ranks/redparagoomba.gif width=20 height=24><br>Red Paragoomba'),
-(1, 65, '<img src=img/ranks/paragoomba.gif width=20 height=24><br>Paragoomba'),
-(1, 80, '<img src=img/ranks/shyguy.gif width=16 height=16><br>Shyguy'),
-(1, 100, '<img src=img/ranks/koopa.gif width=16 height=27><br>Koopa'),
-(1, 120, '<img src=img/ranks/redkoopa.gif width=16 height=27><br>Red Koopa'),
-(1, 140, '<img src=img/ranks/paratroopa.gif width=16 height=28><br>Paratroopa'),
-(1, 160, '<img src=img/ranks/redparatroopa.gif width=16 height=28><br>Red Paratroopa'),
-(1, 180, '<img src=img/ranks/cheepcheep.gif width=16 height=16><br>Cheep-cheep'),
-(1, 200, '<img src=img/ranks/redcheepcheep.gif width=16 height=16><br>Red Cheep-cheep'),
-(1, 225, '<img src=img/ranks/ninji.gif width=16 height=16><br>Ninji'),
-(1, 250, '<img src=img/ranks/flurry.gif width=16 height=16><br>Flurry'),
-(1, 275, '<img src=img/ranks/snifit.gif width=16 height=16><br>Snifit'),
-(1, 300, '<img src=img/ranks/porcupo.gif width=16 height=16><br>Porcupo'),
-(1, 325, '<img src=img/ranks/panser.gif width=16 height=16><br>Panser'),
-(1, 350, '<img src=img/ranks/mole.gif width=16 height=16><br>Mole'),
-(1, 375, '<img src=img/ranks/beetle.gif width=16 height=16><br>Buzzy Beetle'),
-(1, 400, '<img src=img/ranks/nipperplant.gif width=16 height=16><br>Nipper Plant'),
-(1, 425, '<img src=img/ranks/bloober.gif width=16 height=16><br>Bloober'),
-(1, 450, '<img src=img/ranks/busterbeetle.gif width=16 height=15><br>Buster Beetle'),
-(1, 475, '<img src=img/ranks/beezo.gif width=16 height=16><br>Beezo'),
-(1, 500, '<img src=img/ranks/bulletbill.gif width=16 height=14><br>Bullet Bill'),
-(1, 525, '<img src=img/ranks/rex.gif width=20 height=32><br>Rex'),
-(1, 550, '<img src=img/ranks/lakitu.gif width=16 height=24><br>Lakitu'),
-(1, 575, '<img src=img/ranks/spiny.gif width=16 height=16><br>Spiny'),
-(1, 600, '<img src=img/ranks/bobomb.gif width=16 height=16><br>Bob-Omb'),
-(1, 700, '<img src=img/ranks/spike.gif width=32 height=32><br>Spike'),
-(1, 675, '<img src=img/ranks/pokey.gif width=18 height=64><br>Pokey'),
-(1, 650, '<img src=img/ranks/cobrat.gif width=16 height=32><br>Cobrat'),
-(1, 725, '<img src=img/ranks/hedgehog.gif width=16 height=24><br>Melon Bug'),
-(1, 750, '<img src=img/ranks/lanternghost.gif width=26 height=19><br>Lantern Ghost'),
-(1, 775, '<img src=img/ranks/fuzzy.gif width=32 height=31><br>Fuzzy'),
-(1, 800, '<img src=img/ranks/bandit.gif width=23 height=28><br>Bandit'),
-(1, 830, '<img src=img/ranks/superkoopa.gif width=23 height=13><br>Super Koopa'),
-(1, 860, '<img src=img/ranks/redsuperkoopa.gif width=23 height=13><br>Red Super Koopa'),
-(1, 900, '<img src=img/ranks/boo.gif width=16 height=16><br>Boo'),
-(1, 925, '<img src=img/ranks/boo2.gif width=16 height=16><br>Boo'),
-(1, 950, '<img src=img/ranks/fuzzball.gif width=16 height=16><br>Fuzz Ball'),
-(1, 1000, '<img src=img/ranks/boomerangbrother.gif width=60 height=40><br>Boomerang Brother'),
-(1, 1050, '<img src=img/ranks/hammerbrother.gif width=60 height=40><br>Hammer Brother'),
-(1, 1100, '<img src=img/ranks/firebrother.gif width=60 height=24><br>Fire Brother'),
-(1, 1150, '<img src=img/ranks/firesnake.gif width=45 height=36><br>Fire Snake'),
-(1, 1200, '<img src=img/ranks/giantgoomba.gif width=24 height=23><br>Giant Goomba'),
-(1, 1250, '<img src=img/ranks/giantkoopa.gif width=24 height=31><br>Giant Koopa'),
-(1, 1300, '<img src=img/ranks/giantredkoopa.gif width=24 height=31><br>Giant Red Koopa'),
-(1, 1350, '<img src=img/ranks/giantparatroopa.gif width=24 height=31><br>Giant Paratroopa'),
-(1, 1400, '<img src=img/ranks/giantredparatroopa.gif width=24 height=31><br>Giant Red Paratroopa'),
-(1, 1450, '<img src=img/ranks/chuck.gif width=28 height=27><br>Chuck'),
-(1, 1500, '<img src=img/ranks/thwomp.gif width=44 height=32><br>Thwomp'),
-(1, 1550, '<img src=img/ranks/bigcheepcheep.gif width=24 height=32><br>Boss Bass'),
-(1, 1600, '<img src=img/ranks/volcanolotus.gif width=32 height=30><br>Volcano Lotus'),
-(1, 1650, '<img src=img/ranks/lavalotus.gif width=24 height=32><br>Lava Lotus'),
-(1, 1700, '<img src=img/ranks/ptooie2.gif width=16 height=43><br>Ptooie'),
-(1, 1800, '<img src=img/ranks/sledgebrother.gif width=60 height=50><br>Sledge Brother'),
-(1, 1900, '<img src=img/ranks/boomboom.gif width=28 height=26><br>Boomboom'),
-(1, 2000, '<img src=img/ranks/birdopink.gif width=60 height=36><br>Birdo'),
-(1, 2100, '<img src=img/ranks/birdored.gif width=60 height=36><br>Red Birdo'),
-(1, 2200, '<img src=img/ranks/birdogreen.gif width=60 height=36><br>Green Birdo'),
-(1, 2300, '<img src=img/ranks/iggy.gif width=28><br>Larry Koopa'),
-(1, 2400, '<img src=img/ranks/morton.gif width=34><br>Morton Koopa'),
-(1, 2500, '<img src=img/ranks/wendy.gif width=28><br>Wendy Koopa'),
-(1, 2600, '<img src=img/ranks/larry.gif width=28><br>Iggy Koopa'),
-(1, 2700, '<img src=img/ranks/roy.gif width=34><br>Roy Koopa'),
-(1, 2800, '<img src=img/ranks/lemmy.gif width=28><br>Lemmy Koopa'),
-(1, 2900, '<img src=img/ranks/ludwig.gif width=33><br>Ludwig Von Koopa'),
-(1, 3000, '<img src=img/ranks/triclyde.gif width=40 height=48><br>Triclyde'),
-(1, 3100, '<img src=img/ranks/kamek.gif width=45 height=34><br>Magikoopa'),
-(1, 3200, '<img src=img/ranks/wart.gif width=40 height=47><br>Wart'),
-(1, 3300, '<img src=img/ranks/babybowser.gif width=36 height=36><br>Baby Bowser'),
-(1, 3400, '<img src=img/ranks/bowser.gif width=52 height=49><br>King Bowser Koopa'),
-(1, 3500, '<img src=img/ranks/yoshi.gif width=31 height=33><br>Yoshi'),
-(1, 3600, '<img src=img/ranks/yoshiyellow.gif width=31 height=32><br>Yellow Yoshi'),
-(1, 3700, '<img src=img/ranks/yoshiblue.gif width=36 height=35><br>Blue Yoshi'),
-(1, 3800, '<img src=img/ranks/yoshired.gif width=33 height=36><br>Red Yoshi'),
-(1, 3900, '<img src=img/ranks/kingyoshi.gif width=24 height=34><br>King Yoshi'),
-(1, 4000, '<img src=img/ranks/babymario.gif width=28 height=24><br>Baby Mario'),
-(1, 4100, '<img src=img/ranks/luigismall.gif width=15 height=22><br>Luigi'),
-(1, 4200, '<img src=img/ranks/mariosmall.gif width=15 height=20><br>Mario'),
-(1, 4300, '<img src=img/ranks/luigibig.gif width=16 height=30><br>Super Luigi'),
-(1, 4400, '<img src=img/ranks/mariobig.gif width=16 height=28><br>Super Mario'),
-(1, 4500, '<img src=img/ranks/luigifire.gif width=16 height=30><br>Fire Luigi'),
-(1, 4600, '<img src=img/ranks/mariofire.gif width=16 height=28><br>Fire Mario'),
-(1, 4700, '<img src=img/ranks/luigicape.gif width=26 height=30><br>Cape Luigi'),
-(1, 4800, '<img src=img/ranks/mariocape.gif width=26 height=28><br>Cape Mario'),
-(1, 4900, '<img src=img/ranks/luigistar.gif width=16 height=30><br>Star Luigi'),
-(1, 5000, '<img src=img/ranks/mariostar.gif width=16 height=28><br>Star Mario'),
-(1, 625, '<img src=img/ranks/drybones.gif><br>Dry Bones'),
-(1, 10000, 'Climbing the ranks again!'),
-(3, 0, 'Non-poster'),
-(3, 1, '<img src=img/ranksk/kirbystrut.gif><br/>Struttin\' On In'),
-(3, 10, '<img src=img/ranksk/waddledee.gif><br/>Waddle Dee'),
-(3, 20, '<img src=img/ranksk/brontoburt.gif><br/>Bronto Burt'),
-(3, 35, '<img src=img/ranksk/gator.gif><br/>Gator'),
-(3, 50, '<img src=img/ranksk/kabu.gif><br/>Kabu'),
-(3, 65, '<img src=img/ranksk/mumbies.gif><br/>Mumbies'),
-(3, 80, '<img src=img/ranksk/grizzo.gif><br/>Grizzo'),
-(3, 100, '<img src=img/ranksk/tweet.gif><br/>Tweet'),
-(3, 110, '<img src=img/ranksk/ufo.gif><br/>UFO'),
-(3, 120, '<img src=img/ranksk/tooky.gif><br/>Tooky'),
-(3, 140, '<img src=img/ranksk/kruff.gif><br/>Kruff'),
-(3, 160, '<img src=img/ranksk/poppybros.gif><br/>Poppy Bros. Jr'),
-(3, 180, '<img src=img/ranksk/coney.gif><br/>Coney'),
-(3, 200, '<img src=img/ranksk/blipper.gif><br/>Blipper'),
-(3, 220, '<img src=img/ranksk/cappy.gif><br/>Cappy'),
-(3, 240, '<img src=img/ranksk/glunk.gif><br/>Glunk'),
-(3, 260, '<img src=img/ranksk/gungun.gif><br/>Gungun'),
-(3, 280, '<img src=img/ranksk/bouncy.gif><br/>Bouncy'),
-(3, 300, '<img src=img/ranksk/broomhatter.gif<br/>Broom Hatter'),
-(3, 325, '<img src=img/ranksk/squishy.gif><br/>Squishy'),
-(3, 350, '<img src=img/ranksk/gordo.gif><br/>Gordo'),
-(3, 375, '<img src=img/ranksk/scarfy.gif><br/>Scarfy'),
-(3, 400, '<img src=img/ranksk/scarfyprovoked.gif><br/>Provoked Scarfy'),
-(3, 425, '<img src=img/ranksk/simirror.gif><br/>Simirror'),
-(3, 450, '<img src=img/ranksk/noddy.gif><br/>Noddy'),
-(3, 475, '<img src=img/ranksk/capsulej.gif><br/>Capsule-J'),
-(3, 500, '<img src=img/ranksk/walkie.gif><br/>Walkie'),
-(3, 525, '<img src=img/ranksk/waddledoo.gif><br/>Waddle Doo'),
-(3, 550, '<img src=img/ranksk/togezo.gif><br/>Togezo'),
-(3, 575, '<img src=img/ranksk/knucklejoe.gif><br/>Knuckle Joe'),
-(3, 600, '<img src=img/ranksk/sirkibble.gif><br/>Sir Kibble'),
-(3, 645, '<img src=img/ranksk/bomber.gif><br/>Bomber'),
-(3, 650, '<img src=img/ranksk/plasmawhisp.gif><br/>Plasma Whisp'),
-(3, 675, '<img src=img/ranksk/twister.gif><br/>Twister'),
-(3, 700, '<img src=img/ranksk/bobo.gif><br/>Bobo'),
-(3, 725, '<img src=img/ranksk/sparky.gif><br/>Sparky'),
-(3, 750, '<img src=img/ranksk/chilly.gif><br/>Chilly'),
-(3, 775, '<img src=img/ranksk/biospark.gif><br/>Bio Spark'),
-(3, 800, '<img src=img/ranksk/burninleo.gif><br/>Burnin\' Leo'),
-(3, 830, '<img src=img/ranksk/gim.gif><br/>Gim'),
-(3, 860, '<img src=img/ranksk/rocky.gif><br/>Rocky'),
-(3, 900, '<img src=img/ranksk/parasolwdee.gif><br/>Parasol W. Dee'),
-(3, 925, '<img src=img/ranksk/tac.gif><br/>T.A.C'),
-(3, 950, '<img src=img/ranksk/birdon.gif><br/>Birdon'),
-(3, 1000, '<img src=img/ranksk/bladeknight.gif><br/>Blade Knight'),
-(3, 1050, '<img src=img/ranksk/bonkers.gif><br/>Bonkers'),
-(3, 1150, '<img src=img/ranksk/giantwaddledee.gif><br/>Giant Waddle Dee'),
-(3, 1200, '<img src=img/ranksk/tosstortoise.gif><br/>Toss Tortoise'),
-(3, 1250, '<img src=img/ranksk/haboki.gif><br/>Haboki'),
-(3, 1300, '<img src=img/ranksk/phanphan.gif><br/>Phan Phan'),
-(3, 1350, '<img src=img/ranksk/wheeliebig.gif><br/>Big Wheelie'),
-(3, 1400, '<img src=img/ranksk/clockwork.gif><br/>Clockwork'),
-(3, 1450, '<img src=img/ranksk/chefkawasaki.gif><br/>Chef Kawasaki'),
-(3, 1500, '<img src=img/ranksk/poppybrossr.gif><br/>Poppy Bros. Sr'),
-(3, 1550, '<img src=img/ranksk/frosty.gif><br/>Frosty'),
-(3, 1600, '<img src=img/ranksk/jumpershoot.gif><br/>Jumper Shoot'),
-(3, 1650, '<img src=img/ranksk/flamemane.gif><br/>Flame Mane'),
-(3, 1700, '<img src=img/ranksk/karateman.gif><br/>Karate Man'),
-(3, 1800, '<img src=img/ranksk/bugzzy.gif><br/>Bugzzy'),
-(3, 1900, '<img src=img/ranksk/captainstitch.gif><br/>Captain Stitch'),
-(3, 2000, '<img src=img/ranksk/masterhand.gif><br/>Master Hand'),
-(3, 2100, '<img src=img/ranksk/boboo.gif><br/>Boboo'),
-(3, 2200, '<img src=img/ranksk/whispywoods.gif><br/>Whispy Woods'),
-(3, 2300, '<img src=img/ranksk/paintroller.gif><br/>Paint Roller'),
-(3, 2400, '<img src=img/ranksk/kracko.gif><br/>Kracko'),
-(3, 2500, '<img src=img/ranksk/kirbybreak.gif><br/>Halfway There'),
-(3, 2600, '<img src=img/ranksk/mrshine.gif><br/>Mr. Shine'),
-(3, 2700, '<img src=img/ranksk/mrbright.gif><br/>Mr. Bright'),
-(3, 2800, '<img src=img/ranksk/masher.gif><br/>Masher'),
-(3, 2900, '<img src=img/ranksk/butch.gif><br/>Butch'),
-(3, 3000, '<img src=img/ranksk/stave.gif><br/>Stave'),
-(3, 3100, '<img src=img/ranksk/lunarknight.gif><br/>Lunar Knight'),
-(3, 3200, '<img src=img/ranksk/metaknight.gif><br/>Meta Knight'),
-(3, 3300, '<img src=img/ranksk/acro.gif><br/>Acro'),
-(3, 3400, '<img src=img/ranksk/starorb.gif><br/>Star Orb'),
-(3, 3500, '<img src=img/ranksk/darkmatter.gif><br/>Dark Matter'),
-(3, 3600, '<img src=img/ranksk/kingdedede.gif><br/>King Dedede'),
-(3, 3700, '<img src=img/ranksk/dynababy.gif><br/>Dyna Baby'),
-(3, 3800, '<img src=img/ranksk/gooey.gif><br/>Gooey'),
-(3, 3900, '<img src=img/ranksk/kine.gif><br/>Kine'),
-(3, 4000, '<img src=img/ranksk/coo.gif><br/>Coo'),
-(3, 4100, '<img src=img/ranksk/rick.gif><br/>Rick'),
-(3, 4200, '<img src=img/ranksk/kirbyplush.gif><br/>Kirby Plush'),
-(3, 4300, '<img src=img/ranksk/kirbysamurai.gif><br/>Samurai Kirby'),
-(3, 4400, '<img src=img/ranksk/kirbydreamland3.gif><br/>Swimming Kirby'),
-(3, 4500, '<img src=img/ranksk/kirbyadventure.gif><br/>Floating Kirby'),
-(3, 4600, '<img src=img/ranksk/wheelierider.gif><br/>Wheelie Rider'),
-(3, 4700, '<img src=img/ranksk/kirbywarpstar.gif><br/>Warpstar Kirby'),
-(3, 4800, '<img src=img/ranksk/kirbyship.gif><br/>Kirby Ship'),
-(3, 4900, '<img src=img/ranksk/panic.gif><br/>Panic!'),
-(3, 5000, '<img src=img/ranksk/kirbysnooze.gif><br/>Good Work'),
-(4, 0, 'Newcomer'),
-(4, 10, '<img src=img/rankss/ring.gif>'),
-(4, 50, '<img src=img/rankss/ce-blue.png>'),
-(4, 80, '<img src=img/rankss/ce-purple.png>'),
-(4, 110, '<img src=img/rankss/ce-red.png>'),
-(4, 140, '<img src=img/rankss/ce-pink.png>'),
-(4, 170, '<img src=img/rankss/ce-yellow.png>'),
-(4, 200, '<img src=img/rankss/ce-green.png>'),
-(4, 230, '<img src=img/rankss/ce-grey.png>'),
-(4, 260, '<img src=img/rankss/se-blue.png>'),
-(4, 350, '<img src=img/rankss/se-purple.png>'),
-(4, 440, '<img src=img/rankss/se-red.png>'),
-(4, 530, '<img src=img/rankss/se-pink.png>'),
-(4, 620, '<img src=img/rankss/se-yellow.png>'),
-(4, 710, '<img src=img/rankss/se-green.png>'),
-(4, 800, '<img src=img/rankss/se-grey.png>'),
-(4, 1000, '<img src=img/rankss/master.png>');
+(1,	0,	'Non-poster'),
+(1,	1,	'Newcomer'),
+(1,	20,	'<img src=img/ranks/goomba.gif width=16 height=16><br>Goomba'),
+(1,	10,	'<img src=img/ranks/microgoomba.gif width=8 height=9><br>Micro-Goomba'),
+(1,	35,	'<img src=img/ranks/redgoomba.gif width=16 height=16><br>Red Goomba'),
+(1,	50,	'<img src=img/ranks/redparagoomba.gif width=20 height=24><br>Red Paragoomba'),
+(1,	65,	'<img src=img/ranks/paragoomba.gif width=20 height=24><br>Paragoomba'),
+(1,	80,	'<img src=img/ranks/shyguy.gif width=16 height=16><br>Shyguy'),
+(1,	100,	'<img src=img/ranks/koopa.gif width=16 height=27><br>Koopa'),
+(1,	120,	'<img src=img/ranks/redkoopa.gif width=16 height=27><br>Red Koopa'),
+(1,	140,	'<img src=img/ranks/paratroopa.gif width=16 height=28><br>Paratroopa'),
+(1,	160,	'<img src=img/ranks/redparatroopa.gif width=16 height=28><br>Red Paratroopa'),
+(1,	180,	'<img src=img/ranks/cheepcheep.gif width=16 height=16><br>Cheep-cheep'),
+(1,	200,	'<img src=img/ranks/redcheepcheep.gif width=16 height=16><br>Red Cheep-cheep'),
+(1,	225,	'<img src=img/ranks/ninji.gif width=16 height=16><br>Ninji'),
+(1,	250,	'<img src=img/ranks/flurry.gif width=16 height=16><br>Flurry'),
+(1,	275,	'<img src=img/ranks/snifit.gif width=16 height=16><br>Snifit'),
+(1,	300,	'<img src=img/ranks/porcupo.gif width=16 height=16><br>Porcupo'),
+(1,	325,	'<img src=img/ranks/panser.gif width=16 height=16><br>Panser'),
+(1,	350,	'<img src=img/ranks/mole.gif width=16 height=16><br>Mole'),
+(1,	375,	'<img src=img/ranks/beetle.gif width=16 height=16><br>Buzzy Beetle'),
+(1,	400,	'<img src=img/ranks/nipperplant.gif width=16 height=16><br>Nipper Plant'),
+(1,	425,	'<img src=img/ranks/bloober.gif width=16 height=16><br>Bloober'),
+(1,	450,	'<img src=img/ranks/busterbeetle.gif width=16 height=15><br>Buster Beetle'),
+(1,	475,	'<img src=img/ranks/beezo.gif width=16 height=16><br>Beezo'),
+(1,	500,	'<img src=img/ranks/bulletbill.gif width=16 height=14><br>Bullet Bill'),
+(1,	525,	'<img src=img/ranks/rex.gif width=20 height=32><br>Rex'),
+(1,	550,	'<img src=img/ranks/lakitu.gif width=16 height=24><br>Lakitu'),
+(1,	575,	'<img src=img/ranks/spiny.gif width=16 height=16><br>Spiny'),
+(1,	600,	'<img src=img/ranks/bobomb.gif width=16 height=16><br>Bob-Omb'),
+(1,	700,	'<img src=img/ranks/spike.gif width=32 height=32><br>Spike'),
+(1,	675,	'<img src=img/ranks/pokey.gif width=18 height=64><br>Pokey'),
+(1,	650,	'<img src=img/ranks/cobrat.gif width=16 height=32><br>Cobrat'),
+(1,	725,	'<img src=img/ranks/hedgehog.gif width=16 height=24><br>Melon Bug'),
+(1,	750,	'<img src=img/ranks/lanternghost.gif width=26 height=19><br>Lantern Ghost'),
+(1,	775,	'<img src=img/ranks/fuzzy.gif width=32 height=31><br>Fuzzy'),
+(1,	800,	'<img src=img/ranks/bandit.gif width=23 height=28><br>Bandit'),
+(1,	830,	'<img src=img/ranks/superkoopa.gif width=23 height=13><br>Super Koopa'),
+(1,	860,	'<img src=img/ranks/redsuperkoopa.gif width=23 height=13><br>Red Super Koopa'),
+(1,	900,	'<img src=img/ranks/boo.gif width=16 height=16><br>Boo'),
+(1,	925,	'<img src=img/ranks/boo2.gif width=16 height=16><br>Boo'),
+(1,	950,	'<img src=img/ranks/fuzzball.gif width=16 height=16><br>Fuzz Ball'),
+(1,	1000,	'<img src=img/ranks/boomerangbrother.gif width=60 height=40><br>Boomerang Brother'),
+(1,	1050,	'<img src=img/ranks/hammerbrother.gif width=60 height=40><br>Hammer Brother'),
+(1,	1100,	'<img src=img/ranks/firebrother.gif width=60 height=24><br>Fire Brother'),
+(1,	1150,	'<img src=img/ranks/firesnake.gif width=45 height=36><br>Fire Snake'),
+(1,	1200,	'<img src=img/ranks/giantgoomba.gif width=24 height=23><br>Giant Goomba'),
+(1,	1250,	'<img src=img/ranks/giantkoopa.gif width=24 height=31><br>Giant Koopa'),
+(1,	1300,	'<img src=img/ranks/giantredkoopa.gif width=24 height=31><br>Giant Red Koopa'),
+(1,	1350,	'<img src=img/ranks/giantparatroopa.gif width=24 height=31><br>Giant Paratroopa'),
+(1,	1400,	'<img src=img/ranks/giantredparatroopa.gif width=24 height=31><br>Giant Red Paratroopa'),
+(1,	1450,	'<img src=img/ranks/chuck.gif width=28 height=27><br>Chuck'),
+(1,	1500,	'<img src=img/ranks/thwomp.gif width=44 height=32><br>Thwomp'),
+(1,	1550,	'<img src=img/ranks/bigcheepcheep.gif width=24 height=32><br>Boss Bass'),
+(1,	1600,	'<img src=img/ranks/volcanolotus.gif width=32 height=30><br>Volcano Lotus'),
+(1,	1650,	'<img src=img/ranks/lavalotus.gif width=24 height=32><br>Lava Lotus'),
+(1,	1700,	'<img src=img/ranks/ptooie2.gif width=16 height=43><br>Ptooie'),
+(1,	1800,	'<img src=img/ranks/sledgebrother.gif width=60 height=50><br>Sledge Brother'),
+(1,	1900,	'<img src=img/ranks/boomboom.gif width=28 height=26><br>Boomboom'),
+(1,	2000,	'<img src=img/ranks/birdopink.gif width=60 height=36><br>Birdo'),
+(1,	2100,	'<img src=img/ranks/birdored.gif width=60 height=36><br>Red Birdo'),
+(1,	2200,	'<img src=img/ranks/birdogreen.gif width=60 height=36><br>Green Birdo'),
+(1,	2300,	'<img src=img/ranks/iggy.gif width=28><br>Larry Koopa'),
+(1,	2400,	'<img src=img/ranks/morton.gif width=34><br>Morton Koopa'),
+(1,	2500,	'<img src=img/ranks/wendy.gif width=28><br>Wendy Koopa'),
+(1,	2600,	'<img src=img/ranks/larry.gif width=28><br>Iggy Koopa'),
+(1,	2700,	'<img src=img/ranks/roy.gif width=34><br>Roy Koopa'),
+(1,	2800,	'<img src=img/ranks/lemmy.gif width=28><br>Lemmy Koopa'),
+(1,	2900,	'<img src=img/ranks/ludwig.gif width=33><br>Ludwig Von Koopa'),
+(1,	3000,	'<img src=img/ranks/triclyde.gif width=40 height=48><br>Triclyde'),
+(1,	3100,	'<img src=img/ranks/kamek.gif width=45 height=34><br>Magikoopa'),
+(1,	3200,	'<img src=img/ranks/wart.gif width=40 height=47><br>Wart'),
+(1,	3300,	'<img src=img/ranks/babybowser.gif width=36 height=36><br>Baby Bowser'),
+(1,	3400,	'<img src=img/ranks/bowser.gif width=52 height=49><br>King Bowser Koopa'),
+(1,	3500,	'<img src=img/ranks/yoshi.gif width=31 height=33><br>Yoshi'),
+(1,	3600,	'<img src=img/ranks/yoshiyellow.gif width=31 height=32><br>Yellow Yoshi'),
+(1,	3700,	'<img src=img/ranks/yoshiblue.gif width=36 height=35><br>Blue Yoshi'),
+(1,	3800,	'<img src=img/ranks/yoshired.gif width=33 height=36><br>Red Yoshi'),
+(1,	3900,	'<img src=img/ranks/kingyoshi.gif width=24 height=34><br>King Yoshi'),
+(1,	4000,	'<img src=img/ranks/babymario.gif width=28 height=24><br>Baby Mario'),
+(1,	4100,	'<img src=img/ranks/luigismall.gif width=15 height=22><br>Luigi'),
+(1,	4200,	'<img src=img/ranks/mariosmall.gif width=15 height=20><br>Mario'),
+(1,	4300,	'<img src=img/ranks/luigibig.gif width=16 height=30><br>Super Luigi'),
+(1,	4400,	'<img src=img/ranks/mariobig.gif width=16 height=28><br>Super Mario'),
+(1,	4500,	'<img src=img/ranks/luigifire.gif width=16 height=30><br>Fire Luigi'),
+(1,	4600,	'<img src=img/ranks/mariofire.gif width=16 height=28><br>Fire Mario'),
+(1,	4700,	'<img src=img/ranks/luigicape.gif width=26 height=30><br>Cape Luigi'),
+(1,	4800,	'<img src=img/ranks/mariocape.gif width=26 height=28><br>Cape Mario'),
+(1,	4900,	'<img src=img/ranks/luigistar.gif width=16 height=30><br>Star Luigi'),
+(1,	5000,	'<img src=img/ranks/mariostar.gif width=16 height=28><br>Star Mario'),
+(1,	625,	'<img src=img/ranks/drybones.gif><br>Dry Bones'),
+(1,	10000,	'Climbing the ranks again!');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `ranksets`
---
-
+DROP TABLE IF EXISTS `ranksets`;
 CREATE TABLE `ranksets` (
   `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `ranksets`
---
-
 INSERT INTO `ranksets` (`id`, `name`) VALUES
-(1, 'Mario'),
-(0, 'None'),
-(-1, 'Dots (by Xkeeper)'),
-(3, 'Kirby (by YoshiDude)'),
-(4, 'Sonic (by Danika)');
+(1,	'Mario'),
+(0,	'None'),
+(-1,	'Dots (by Xkeeper)');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `ref`
---
-
+DROP TABLE IF EXISTS `ref`;
 CREATE TABLE `ref` (
   `time` int(11) NOT NULL,
   `urlfrom` varchar(255) NOT NULL,
@@ -1171,125 +923,357 @@ CREATE TABLE `ref` (
   `ipaddr` varchar(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `resetpass`
---
-
+DROP TABLE IF EXISTS `resetpass`;
 CREATE TABLE `resetpass` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `user` mediumint(9) UNSIGNED NOT NULL DEFAULT '0',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `date` int(11) NOT NULL DEFAULT '0',
   `ip` char(15) NOT NULL,
   `token` varchar(32) NOT NULL,
   `oldpass` varchar(32) DEFAULT NULL,
   `newpass` varchar(32) DEFAULT NULL,
-  `completed` tinyint(1) NOT NULL DEFAULT '0'
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `robots`
---
-
+DROP TABLE IF EXISTS `robots`;
 CREATE TABLE `robots` (
   `bot_name` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `bot_agent` varchar(100) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
--- --------------------------------------------------------
+INSERT INTO `robots` (`bot_name`, `bot_agent`) VALUES
+('ABCdatos BotLink',	'ABCdatos BotLink/1.0.2'),
+('Ahoy! The Homepage Finder',	'ahoy'),
+('Alkaline',	'AlkalineBOT'),
+('Anthill',	'AnthillV1.1'),
+('Walhello appie',	'appie/1.1'),
+('Arachnophilia',	'Arachnophilia'),
+('Arale',	'arale'),
+('Araneo',	'Araneo/0.7'),
+('AraybOt',	'AraybOt/1.0'),
+('ArchitextSpider',	'ArchitextSpider'),
+('arks',	'arks/1.0'),
+('ASpider (Associative Spider)',	'ASpider/0.09'),
+('ATN Worldwide',	'ATN_Worldwide'),
+('Atomz.com Search Robot',	'Atomz/1.0'),
+('AURESYS',	'AURESYS/1.0'),
+('BackRub',	'BackRub'),
+('robot-id: bayspider',	'BaySpider'),
+('BBot',	'bbot/0.100'),
+('Big Brother',	'Big Brother'),
+('Bjaaland',	'Bjaaland/0.5'),
+('BlackWidow',	'BlackWidow'),
+('Die Blinde Kuh',	'Die Blinde Kuh'),
+('Bloodhound',	'Ukonline'),
+('Borg-Bot',	'borg-bot/0.9'),
+('BoxSeaBot',	'BoxSeaBot/0.5 (http://boxsea.com/crawler)'),
+('bright.net caching robot',	'Mozilla/3.01 (compatible;)'),
+('BSpider',	'BSpider/1.0 libwww-perl/0.40'),
+('CACTVS Chemistry Spider',	'CACTVS Chemistry Spider'),
+('Calif',	'Calif/0.6'),
+('Digimarc Marcspider/CGI',	'Digimarc CGIReader/1.0'),
+('Checkbot',	'Checkbot/x.xx LWP/5.x'),
+('ChristCrawler.com',	'ChristCrawler'),
+('cIeNcIaFiCcIoN.nEt',	'cIeNcIaFiCcIoN.nEt Spider'),
+('CMC/0.01',	'CMC/0.01'),
+('Collective',	'LWP'),
+('Combine System',	'combine/0.0'),
+('ConfuzzledBot',	'Confuzzledbot/X.X'),
+('CoolBot',	'CoolBot'),
+('Web Core / Roots',	'root/0.1'),
+('XYLEME Robot',	'cosmos/0.3'),
+('Internet Cruiser Robot',	'Internet Cruiser Robot/2.1'),
+('Cusco',	'Cusco/3.2'),
+('CyberSpyder Link Test',	'CyberSpyder/2.1'),
+('CydralSpider',	'CydralSpider/'),
+('Desert Realm Spider',	'DesertRealm.com; 0.2; [J];'),
+('DeWeb(c) Katalog/Index',	'Deweb/1.01'),
+('DienstSpider',	'dienstspider/1.0'),
+('Digger',	'Digger/1.0 JDK/1.3.0'),
+('Digital Integrity Robot',	'DIIbot'),
+('Direct Hit Grabber',	'grabber'),
+('DNAbot',	'DNAbot/1.0'),
+('DragonBot',	'DragonBot/1.0 libwww/5.0'),
+('DWCP (Dridus\'Web Cataloging Project)',	'DWCP/2.0'),
+('e-collector',	'LWP::'),
+('EbiNess',	'EbiNess/0.01a'),
+('EIT Link Verifier Robot',	'EIT-Link-Verifier-Robot/0.2'),
+('ELFINBOT',	'elfinbot'),
+('Emacs-w3 Search Engine',	'Emacs-w3/v[0-9.]+'),
+('ananzi',	'EMC Spider'),
+('esculapio',	'esculapio/1.1'),
+('Esther',	'esther'),
+('Evliya Celebi',	'Evliya Celebi v0.151 - http://ilker.ulak.net.tr'),
+('nzexplorer',	'explorersearch'),
+('FastCrawler',	'FastCrawler'),
+('Fluid Dynamics Search Engine robot',	'Mozilla/4.0 (compatible: FDSE robot)'),
+('Felix IDE',	'FelixIDE/1.0'),
+('Wild Ferret Web Hopper #1, #2, #3',	'Hazel\'s Ferret Web hopper,'),
+('FetchRover',	'ESIRover v1.0'),
+('fido',	'fido/0.9 Harvest/1.4.pl2'),
+('Hambot',	'hambot'),
+('KIT-Fireball',	'KIT-Fireball/2.0 libwww/5.0a'),
+('Fish search',	'Fish-Search-Robot'),
+('Fouineur',	'fouineur'),
+('Robot Francoroute',	'Robot du CRIM 1.0a'),
+('Freecrawl',	'Freecrawl'),
+('FunnelWeb',	'FunnelWeb-1.0'),
+('gammaSpider, FocusedCrawler',	'gammaSpider xxxxxxx ()/'),
+('gazz',	'gazz/1.0'),
+('GCreep',	'gcreep/1.0'),
+('GetURL',	'GetURL.rexx v1.05'),
+('Golem',	'Golem/1.1'),
+('Googlebot',	'Googlebot'),
+('Griffon',	'griffon/1.0'),
+('Gromit',	'Gromit/1.0'),
+('Northern Light Gulliver',	'Gulliver/1.1'),
+('Gulper Bot',	'Gulper Web Bot'),
+('Harvest',	'yes'),
+('havIndex',	'havIndex/'),
+('HI (HTML Index) Search',	'AITCSRobot/1.1'),
+('Hometown Spider Pro',	'Hometown Spider Pro'),
+('Wired Digital',	'wired-digital-newsbot/1.5'),
+('ht://Dig',	'htdig/3.1.0b2'),
+('HTMLgobble',	'HTMLgobble v2.2'),
+('iajaBot',	'iajaBot/0.1'),
+('IBM_Planetwide',	'IBM_Planetwide,'),
+('Popular Iconoclast',	'gestaltIconoclast/1.0 libwww-FM/2.17'),
+('Ingrid',	'INGRID/0.1'),
+('Imagelock',	'Mozilla 3.01 PBWF (Win95)'),
+('IncyWincy',	'IncyWincy/1.0b1'),
+('Informant',	'Informant'),
+('InfoSeek Robot 1.0',	'InfoSeek Robot 1.0'),
+('Infoseek Sidewinder',	'Infoseek Sidewinder'),
+('InfoSpiders',	'InfoSpiders/0.1'),
+('Inspector Web',	'inspectorwww'),
+('IntelliAgent',	'\'IAGENT/1.0\''),
+('I, Robot',	'I Robot 0.4 (irobot@chaos.dk)'),
+('Iron33',	'Iron33/0.0'),
+('Israeli-search',	'IsraeliSearch/1.0'),
+('JavaBee',	'JavaBee'),
+('JBot Java Web Robot',	'JBot'),
+('JCrawler',	'JCrawler/0.2'),
+('AskJeeves',	'Teoma'),
+('JoBo Java Web Robot',	'JoBo'),
+('Jobot',	'Jobot/0.1alpha libwww-perl/4.0'),
+('JoeBot',	'JoeBot/x.x,'),
+('The Jubii Indexing Robot',	'JubiiRobot/version#'),
+('JumpStation',	'jumpstation'),
+('image.kapsi.net',	'image.kapsi.net/1.0'),
+('Katipo',	'Katipo/1.0'),
+('KDD-Explorer',	'KDD-Explorer/0.1'),
+('KO_Yappo_Robot',	'KO_Yappo_Robot/'),
+('LabelGrabber',	'LabelGrab/1.1'),
+('larbin',	'larbin (+mail)'),
+('legs',	'legs'),
+('Link Validator',	'Linkidator/0.93'),
+('LinkScan',	'LinkScan'),
+('LinkWalker',	'LinkWalker'),
+('Lockon',	'Lockon'),
+('logo.gif Crawler',	'logo.gif crawler'),
+('Lycos',	'Lycos/x.x'),
+('Magpie',	'Magpie/1.0'),
+('marvin/infoseek',	'marvin'),
+('Mattie',	'M/3.8'),
+('MediaFox',	'MediaFox'),
+('MerzScope',	'MerzScope'),
+('NEC-MeshExplorer',	'NEC-MeshExplorer'),
+('MindCrawler',	'MindCrawler'),
+('mnoGoSearch search engine software',	'UdmSearch'),
+('moget',	'moget/1.0'),
+('MOMspider',	'MOMspider/'),
+('Monster',	'Monster/'),
+('Motor',	'Motor/0.2'),
+('MSNBot',	'MSNBOT/'),
+('Muncher',	'yes'),
+('Muninn',	'Muninn/0.1 libwww-perl-5.76'),
+('Muscat Ferret',	'MuscatFerret/'),
+('Mwd.Search',	'MwdSearch/0.1'),
+('Internet Shinchakubin',	'sharp-info-agent'),
+('NDSpider',	'NDSpider/1.5'),
+('NetCarta WebMap Engine',	'NetCarta CyberPilot Pro'),
+('NetMechanic',	'NetMechanic'),
+('NetScoop',	'NetScoop/1.0 libwww/5.0a'),
+('newscan-online',	'newscan-online/1.1'),
+('NHSE Web Forager',	'NHSEWalker/3.0'),
+('Nomad',	'Nomad-V2.x'),
+('The NorthStar Robot',	'NorthStar'),
+('ObjectsSearch',	'ObjectsSearch/0.01'),
+('Occam',	'Occam/1.0'),
+('HKU WWW Octopus',	'HKU WWW Robot,'),
+('OntoSpider',	'OntoSpider/1.0 libwww-perl/5.65'),
+('Openfind data gatherer',	'Openbot/3.0'),
+('Orb Search',	'Orbsearch/1.0'),
+('Pack Rat',	'PackRat/1.0'),
+('PageBoy',	'PageBoy/1.0'),
+('ParaSite',	'ParaSite/0.21 (http://www.ianett.com/parasite/)'),
+('Patric',	'Patric/0.01a'),
+('pegasus',	'web robot PEGASUS'),
+('The Peregrinator',	'Peregrinator-Mathematics/0.7'),
+('PerlCrawler 1.0',	'PerlCrawler/1.0 Xavatoria/2.0'),
+('Phantom',	'Duppies'),
+('PhpDig',	'phpdig/x.x.x'),
+('PiltdownMan',	'PiltdownMan/1.0 profitnet@myezmail.com'),
+('Pimptrain.com\'s robot',	'Pimptrain'),
+('Pioneer',	'Pioneer'),
+('Portal Juice Spider',	'PortalJuice.com/4.0'),
+('PGP Key Agent',	'PGP-KA/1.2'),
+('PlumtreeWebAccessor',	'PlumtreeWebAccessor/0.9'),
+('Poppi',	'Poppi/1.0'),
+('PortalB Spider',	'PortalBSpider/1.0 (spider@portalb.com)'),
+('psbot',	'psbot/0.X (+http://www.picsearch.com/bot.html)'),
+('GetterroboPlus Puu',	'GetterroboPlus'),
+('Raven Search',	'Raven-v2'),
+('Resume Robot',	'Resume Robot'),
+('RoadHouse Crawling System',	'RHCS/1.0a'),
+('RixBot',	'RixBot (http://www.oops-as.no/rix/)'),
+('Road Runner: The ImageScape Robot',	'Road Runner: ImageScape Robot (lim@cs.leidenuniv.nl)'),
+('Robbie the Robot',	'Robbie/0.1'),
+('ComputingSite Robi/1.0',	'ComputingSite Robi/1.0 (robi@computingsite.com)'),
+('RoboCrawl Spider',	'RoboCrawl (http://www.canadiancontent.net)'),
+('RoboFox',	'Robofox v2.0'),
+('Robozilla',	'Robozilla/1.0'),
+('Roverbot',	'Roverbot'),
+('RuLeS',	'RuLeS/1.0 libwww/4.0'),
+('SafetyNet Robot',	'SafetyNet Robot 0.1,'),
+('Scooter',	'Scooter/2.0 G.R.A.B. V1.1.0'),
+('Search.Aus-AU.COM',	'not available'),
+('Sleek',	'Mozilla/4.0 (Sleek Spider/1.2)'),
+('SearchProcess',	'searchprocess/0.9'),
+('Senrigan',	'Senrigan/xxxxxx'),
+('SG-Scout',	'SG-Scout'),
+('ShagSeeker',	'Shagseek'),
+('Shai\'Hulud',	'Shai\'Hulud'),
+('Sift',	'libwww-perl-5.41'),
+('Simmany Robot Ver1.0',	'SimBot/1.0'),
+('Site Valet',	'Site Valet'),
+('SiteTech-Rover',	'SiteTech-Rover'),
+('Skymob.com',	'aWapClient'),
+('SLCrawler',	'SLCrawler'),
+('Inktomi Slurp',	'Slurp/2.0'),
+('Smart Spider',	'ESISmartSpider/2.0'),
+('Snooper',	'Snooper/b97_01'),
+('Solbot',	'Solbot/1.0 LWP/5.07'),
+('Speedy Spider',	'Speedy Spider'),
+('spider_monkey',	'mouse.house/7.1'),
+('SpiderBot',	'SpiderBot/1.0'),
+('Spiderline Crawler',	'spiderline/3.1.3'),
+('SpiderMan',	'SpiderMan 1.0'),
+('SpiderView(tm)',	'SpiderView'),
+('Spry Wizard Robot',	'no'),
+('Site Searcher',	'ssearcher100'),
+('Suke',	'suke/*.*'),
+('suntek search engine',	'suntek/1.0'),
+('Sygol',	'http://www.sygol.com'),
+('TACH Black Widow',	'Black Widow'),
+('Tarantula',	'Tarantula/1.0'),
+('tarspider',	'tarspider'),
+('Tcl W3 Robot',	'dlw3robot/x.y (in TclX by http://hplyot.obspm.fr/~dl/)'),
+('TechBOT',	'TechBOT'),
+('Templeton',	'Templeton/{version} for {platform}'),
+('TitIn',	'TitIn/0.2'),
+('TITAN',	'TITAN/0.1'),
+('TLSpider',	'TLSpider/1.1'),
+('UCSD Crawl',	'UCSD-Crawler'),
+('UdmSearch',	'UdmSearch/2.1.1'),
+('UptimeBot',	'uptimebot'),
+('URL Check',	'urlck/1.2.3'),
+('URL Spider Pro',	'URL Spider Pro'),
+('Valkyrie',	'Valkyrie/1.0 libwww-perl/0.40'),
+('Verticrawl',	'Verticrawlbot'),
+('Victoria',	'Victoria/1.0'),
+('vision-search',	'vision-search/3.0\''),
+('void-bot',	'void-bot/0.1 (bot@void.be; http://www.void.be/)'),
+('Voyager',	'Voyager/0.0'),
+('VWbot',	'VWbot_K/4.2'),
+('The NWI Robot',	'w3index'),
+('W3M2',	'W3M2/x.xxx'),
+('WallPaper (alias crawlpaper)',	'CrawlPaper/n.n.n (Windows n)'),
+('the World Wide Web Wanderer',	'WWWWanderer v3.0'),
+('w@pSpider by wap4.com',	'w@pSpider/xxx (unix) by wap4.com'),
+('WebBandit Web Spider',	'WebBandit/1.0'),
+('WebCatcher',	'WebCatcher/1.0'),
+('WebCopy',	'WebCopy/(version)'),
+('webfetcher',	'WebFetcher/0.8,'),
+('weblayers',	'weblayers/0.0'),
+('WebLinker',	'WebLinker/0.0 libwww-perl/0.1'),
+('WebMirror',	'no'),
+('The Web Moose',	'WebMoose/0.0.0000'),
+('WebQuest',	'WebQuest/1.0'),
+('Digimarc MarcSpider',	'Digimarc WebReader/1.2'),
+('WebReaper',	'WebReaper [webreaper@otway.com]'),
+('webs',	'webs@recruit.co.jp'),
+('WebVac',	'webvac/1.0'),
+('webwalk',	'webwalk'),
+('WebWalker',	'WebWalker/1.10'),
+('WebWatch',	'WebWatch'),
+('Wget',	'Wget/1.4.0'),
+('whatUseek Winona',	'whatUseek_winona/3.0'),
+('Weblog Monitor',	'wlm-1.1'),
+('w3mir',	'w3mir'),
+('WebStolperer',	'WOLP/1.0 mda/1.0'),
+('WWWC Ver 0.2.5',	'WWWC/0.25 (Win95)'),
+('WebZinger',	'none'),
+('XGET',	'XGET/0.7'),
+('Nederland.zoek',	'Nederland.zoek'),
+('Baidu Spider',	'Baiduspider'),
+('Generic BOT (any with bot in the agent name)',	'bot'),
+('Generic SPIDER (any with spider in the agent name)',	'spider'),
+('InfoPath',	'InfoPath'),
+('Ezooms',	'Ezooms/1.0'),
+('WebIndex',	'WebIndex'),
+('Yahoo! Slurp',	'Yahoo! Slurp');
 
---
--- Tabellstruktur `rpgchat`
---
-
-CREATE TABLE `rpgchat` (
-  `id` mediumint(8) UNSIGNED NOT NULL,
-  `chan` tinyint(4) NOT NULL DEFAULT '0',
-  `date` int(11) NOT NULL DEFAULT '0',
-  `user` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
-  `text` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `rpgrooms`
---
-
-CREATE TABLE `rpgrooms` (
-  `id` mediumint(8) UNSIGNED NOT NULL,
-  `lvmin` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
-  `lvmax` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
-  `users` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `usermax` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `title` varchar(32) NOT NULL,
-  `active` tinyint(4) NOT NULL DEFAULT '0',
-  `turn` mediumint(8) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `smilies`
---
-
+DROP TABLE IF EXISTS `smilies`;
 CREATE TABLE `smilies` (
   `text` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumpning av Data i tabell `smilies`
---
-
 INSERT INTO `smilies` (`text`, `url`) VALUES
-('-_-', 'img/smilies/annoyed.gif'),
-('~:o', 'img/smilies/baby.gif'),
-('o_O', 'img/smilies/bigeyes.gif'),
-(':D', 'img/smilies/biggrin.gif'),
-('o_o', 'img/smilies/blank.gif'),
-(';_;', 'img/smilies/cry.gif'),
-('^^;;;', 'img/smilies/cute2.gif'),
-('^_^', 'img/smilies/cute.gif'),
-('@_@', 'img/smilies/dizzy.gif'),
-('O_O', 'img/smilies/eek.gif'),
-('>:]', 'img/smilies/evil.gif'),
-(':eyeshift:', 'img/smilies/eyeshift.gif'),
-(':(', 'img/smilies/frown.gif'),
-('8-)', 'img/smilies/glasses.gif'),
-(':LOL:', 'img/smilies/lol.gif'),
-('>:[', 'img/smilies/mad.gif'),
-('<_<', 'img/smilies/shiftleft.gif'),
-('>_>', 'img/smilies/shiftright.gif'),
-('x_x', 'img/smilies/sick.gif'),
-(':)', 'img/smilies/smile.gif'),
-(':P', 'img/smilies/tongue.gif'),
-(':B', 'img/smilies/vamp.gif'),
-(';)', 'img/smilies/wink.gif'),
-(':S', 'img/smilies/wobbly.gif'),
-('>_<', 'img/smilies/yuck.gif'),
-(':yes:', 'img/smilies/yes.png'),
-(':no:', 'img/smilies/no.png'),
-(':heart:', 'img/smilies/heart.gif'),
-('w00t', 'img/smilies/woot.gif'),
-(':x', 'img/smilies/crossmouth.gif'),
-(':|', 'img/smilies/slidemouth.gif'),
-(':@', 'img/smilies/dropsmile.gif'),
-(':-3', 'img/smilies/wobble.gif'),
-('X-P', 'img/smilies/xp.gif'),
-('X-3', 'img/smilies/x3.gif'),
-('X-D', 'img/smilies/xd.gif'),
-(':o', 'img/smilies/dramatic.gif');
+('-_-',	'img/smilies/annoyed.gif'),
+('~:o',	'img/smilies/baby.gif'),
+('o_O',	'img/smilies/bigeyes.gif'),
+(':D',	'img/smilies/biggrin.gif'),
+('o_o',	'img/smilies/blank.gif'),
+(';_;',	'img/smilies/cry.gif'),
+('^^;;;',	'img/smilies/cute2.gif'),
+('^_^',	'img/smilies/cute.gif'),
+('@_@',	'img/smilies/dizzy.gif'),
+('O_O',	'img/smilies/eek.gif'),
+('>:]',	'img/smilies/evil.gif'),
+(':eyeshift:',	'img/smilies/eyeshift.gif'),
+(':(',	'img/smilies/frown.gif'),
+('8-)',	'img/smilies/glasses.gif'),
+(':LOL:',	'img/smilies/lol.gif'),
+('>:[',	'img/smilies/mad.gif'),
+('<_<',	'img/smilies/shiftleft.gif'),
+('>_>',	'img/smilies/shiftright.gif'),
+('x_x',	'img/smilies/sick.gif'),
+(':)',	'img/smilies/smile.gif'),
+(':P',	'img/smilies/tongue.gif'),
+(':B',	'img/smilies/vamp.gif'),
+(';)',	'img/smilies/wink.gif'),
+(':S',	'img/smilies/wobbly.gif'),
+('>_<',	'img/smilies/yuck.gif'),
+(':yes:',	'img/smilies/yes.png'),
+(':no:',	'img/smilies/no.png'),
+(':heart:',	'img/smilies/heart.gif'),
+('w00t',	'img/smilies/woot.gif'),
+(':x',	'img/smilies/crossmouth.gif'),
+(':|',	'img/smilies/slidemouth.gif'),
+(':@',	'img/smilies/dropsmile.gif'),
+(':-3',	'img/smilies/wobble.gif'),
+('X-P',	'img/smilies/xp.gif'),
+('X-3',	'img/smilies/x3.gif'),
+('X-D',	'img/smilies/xd.gif'),
+(':o',	'img/smilies/dramatic.gif');
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `spambotlog`
---
-
+DROP TABLE IF EXISTS `spambotlog`;
 CREATE TABLE `spambotlog` (
   `ip` varchar(15) NOT NULL,
   `user` varchar(255) NOT NULL,
@@ -1298,66 +1282,8 @@ CREATE TABLE `spambotlog` (
   `text` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `spritecateg`
---
-
-CREATE TABLE `spritecateg` (
-  `id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumpning av Data i tabell `spritecateg`
---
-
-INSERT INTO `spritecateg` (`id`, `name`) VALUES
-(0, 'Miscellaneous/Unclassified'),
-(1, 'Super Mario Brothers Series'),
-(2, 'Legend of Zelda Series'),
-(3, 'Metroid Series'),
-(4, 'Pok&#233;mon Series'),
-(5, 'Kirby Series'),
-(6, 'Legend of the Evil PLACEHOLDER'),
-(7, 'Sonic the Hedgehog Series');
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `sprites`
---
-
-CREATE TABLE `sprites` (
-  `id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `franchiseid` int(11) NOT NULL DEFAULT '0',
-  `pic` varchar(256) NOT NULL,
-  `alt` varchar(256) NOT NULL,
-  `anchor` enum('free','left','right','top','bottom','sides','sidepic') NOT NULL,
-  `title` varchar(256) NOT NULL,
-  `flavor` text NOT NULL,
-  `rarity` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `sprite_captures`
---
-
-CREATE TABLE `sprite_captures` (
-  `userid` int(11) NOT NULL,
-  `monid` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `tags`
---
-
+DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
   `bit` int(8) NOT NULL,
   `fid` int(10) NOT NULL,
@@ -1366,543 +1292,521 @@ CREATE TABLE `tags` (
   `color` varchar(6) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `threads`
---
-
+DROP TABLE IF EXISTS `threads`;
 CREATE TABLE `threads` (
-  `id` mediumint(8) UNSIGNED NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
-  `replies` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
-  `views` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
-  `closed` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `sticky` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `replies` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `views` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `closed` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `sticky` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `forum` int(5) NOT NULL DEFAULT '0',
-  `user` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `user` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastdate` int(11) NOT NULL DEFAULT '0',
-  `lastuser` mediumint(8) UNSIGNED NOT NULL DEFAULT '0',
+  `lastuser` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastid` int(11) NOT NULL DEFAULT '0',
-  `icon` varchar(100) NOT NULL,
   `tags` int(12) NOT NULL,
-  `announce` int(1) NOT NULL
+  `announce` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `threadsread`
---
-
+DROP TABLE IF EXISTS `threadsread`;
 CREATE TABLE `threadsread` (
   `uid` mediumint(9) NOT NULL,
   `tid` mediumint(9) NOT NULL,
-  `time` int(11) NOT NULL
+  `time` int(11) NOT NULL,
+  UNIQUE KEY `uid` (`uid`,`tid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `threadthumbs`
---
-
+DROP TABLE IF EXISTS `threadthumbs`;
 CREATE TABLE `threadthumbs` (
   `uid` int(11) NOT NULL,
-  `tid` int(11) NOT NULL
+  `tid` int(11) NOT NULL,
+  UNIQUE KEY `uid` (`uid`,`tid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `timezones`
---
-
+DROP TABLE IF EXISTS `timezones`;
 CREATE TABLE `timezones` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
-  `offset` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumpning av Data i tabell `timezones`
---
+  `offset` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=466 DEFAULT CHARSET=utf8;
 
 INSERT INTO `timezones` (`id`, `name`, `offset`) VALUES
-(1, 'UTC', 0),
-(2, 'Africa/Abidjan', 0),
-(3, 'Africa/Accra', 0),
-(4, 'Africa/Addis_Ababa', 10800),
-(5, 'Africa/Algiers', 3600),
-(6, 'Africa/Asmara', 10800),
-(7, 'Africa/Asmera', 10800),
-(8, 'Africa/Bamako', 0),
-(9, 'Africa/Bangui', 3600),
-(10, 'Africa/Banjul', 0),
-(11, 'Africa/Bissau', 0),
-(12, 'Africa/Blantyre', 7200),
-(13, 'Africa/Brazzaville', 3600),
-(14, 'Africa/Bujumbura', 7200),
-(15, 'Africa/Cairo', 7200),
-(16, 'Africa/Casablanca', 0),
-(17, 'Africa/Ceuta', 3600),
-(18, 'Africa/Conakry', 0),
-(19, 'Africa/Dakar', 0),
-(20, 'Africa/Dar_es_Salaam', 10800),
-(21, 'Africa/Djibouti', 10800),
-(22, 'Africa/Douala', 3600),
-(23, 'Africa/El_Aaiun', 0),
-(24, 'Africa/Freetown', 0),
-(25, 'Africa/Gaborone', 7200),
-(26, 'Africa/Harare', 7200),
-(27, 'Africa/Johannesburg', 7200),
-(28, 'Africa/Juba', 0),
-(29, 'Africa/Kampala', 0),
-(30, 'Africa/Khartoum', 0),
-(31, 'Africa/Kigali', 0),
-(32, 'Africa/Kinshasa', 0),
-(33, 'Africa/Lagos', 0),
-(34, 'Africa/Libreville', 0),
-(35, 'Africa/Lome', 0),
-(36, 'Africa/Luanda', 0),
-(37, 'Africa/Lubumbashi', 0),
-(38, 'Africa/Lusaka', 0),
-(39, 'Africa/Malabo', 0),
-(40, 'Africa/Maputo', 0),
-(41, 'Africa/Maseru', 0),
-(42, 'Africa/Mbabane', 0),
-(43, 'Africa/Mogadishu', 0),
-(44, 'Africa/Monrovia', 0),
-(45, 'Africa/Nairobi', 0),
-(46, 'Africa/Ndjamena', 0),
-(47, 'Africa/Niamey', 0),
-(48, 'Africa/Nouakchott', 0),
-(49, 'Africa/Ouagadougou', 0),
-(50, 'Africa/Porto-Novo', 0),
-(51, 'Africa/Sao_Tome', 0),
-(52, 'Africa/Timbuktu', 0),
-(53, 'Africa/Tripoli', 0),
-(54, 'Africa/Tunis', 0),
-(55, 'Africa/Windhoek', 0),
-(56, 'America/Adak', 0),
-(57, 'America/Anchorage', 0),
-(58, 'America/Anguilla', 0),
-(59, 'America/Antigua', 0),
-(60, 'America/Araguaina', 0),
-(61, 'America/Argentina/Buenos_Aires', 0),
-(62, 'America/Argentina/Catamarca', 0),
-(63, 'America/Argentina/ComodRivadavia', 0),
-(64, 'America/Argentina/Cordoba', 0),
-(65, 'America/Argentina/Jujuy', 0),
-(66, 'America/Argentina/La_Rioja', 0),
-(67, 'America/Argentina/Mendoza', 0),
-(68, 'America/Argentina/Rio_Gallegos', 0),
-(69, 'America/Argentina/Salta', 0),
-(70, 'America/Argentina/San_Juan', 0),
-(71, 'America/Argentina/San_Luis', 0),
-(72, 'America/Argentina/Tucuman', 0),
-(73, 'America/Argentina/Ushuaia', 0),
-(74, 'America/Aruba', 0),
-(75, 'America/Asuncion', 0),
-(76, 'America/Atikokan', 0),
-(77, 'America/Atka', 0),
-(78, 'America/Bahia', 0),
-(79, 'America/Bahia_Banderas', 0),
-(80, 'America/Barbados', 0),
-(81, 'America/Belem', 0),
-(82, 'America/Belize', 0),
-(83, 'America/Blanc-Sablon', 0),
-(84, 'America/Boa_Vista', 0),
-(85, 'America/Bogota', 0),
-(86, 'America/Boise', 0),
-(87, 'America/Buenos_Aires', 0),
-(88, 'America/Cambridge_Bay', 0),
-(89, 'America/Campo_Grande', 0),
-(90, 'America/Cancun', 0),
-(91, 'America/Caracas', 0),
-(92, 'America/Catamarca', 0),
-(93, 'America/Cayenne', 0),
-(94, 'America/Cayman', 0),
-(95, 'America/Chicago', 0),
-(96, 'America/Chihuahua', 0),
-(97, 'America/Coral_Harbour', 0),
-(98, 'America/Cordoba', 0),
-(99, 'America/Costa_Rica', 0),
-(100, 'America/Cuiaba', 0),
-(101, 'America/Curacao', 0),
-(102, 'America/Danmarkshavn', 0),
-(103, 'America/Dawson', 0),
-(104, 'America/Dawson_Creek', 0),
-(105, 'America/Denver', 0),
-(106, 'America/Detroit', 0),
-(107, 'America/Dominica', 0),
-(108, 'America/Edmonton', 0),
-(109, 'America/Eirunepe', 0),
-(110, 'America/El_Salvador', 0),
-(111, 'America/Ensenada', 0),
-(112, 'America/Fort_Wayne', 0),
-(113, 'America/Fortaleza', 0),
-(114, 'America/Glace_Bay', 0),
-(115, 'America/Godthab', 0),
-(116, 'America/Goose_Bay', 0),
-(117, 'America/Grand_Turk', 0),
-(118, 'America/Grenada', 0),
-(119, 'America/Guadeloupe', 0),
-(120, 'America/Guatemala', 0),
-(121, 'America/Guayaquil', 0),
-(122, 'America/Guyana', 0),
-(123, 'America/Halifax', 0),
-(124, 'America/Havana', 0),
-(125, 'America/Hermosillo', 0),
-(126, 'America/Indiana/Indianapolis', 0),
-(127, 'America/Indiana/Knox', 0),
-(128, 'America/Indiana/Marengo', 0),
-(129, 'America/Indiana/Petersburg', 0),
-(130, 'America/Indiana/Tell_City', 0),
-(131, 'America/Indiana/Vevay', 0),
-(132, 'America/Indiana/Vincennes', 0),
-(133, 'America/Indiana/Winamac', 0),
-(134, 'America/Indianapolis', 0),
-(135, 'America/Inuvik', 0),
-(136, 'America/Iqaluit', 0),
-(137, 'America/Jamaica', 0),
-(138, 'America/Jujuy', 0),
-(139, 'America/Juneau', 0),
-(140, 'America/Kentucky/Louisville', 0),
-(141, 'America/Kentucky/Monticello', 0),
-(142, 'America/Knox_IN', 0),
-(143, 'America/Kralendijk', 0),
-(144, 'America/La_Paz', 0),
-(145, 'America/Lima', 0),
-(146, 'America/Los_Angeles', 0),
-(147, 'America/Louisville', 0),
-(148, 'America/Lower_Princes', 0),
-(149, 'America/Maceio', 0),
-(150, 'America/Managua', 0),
-(151, 'America/Manaus', 0),
-(152, 'America/Marigot', 0),
-(153, 'America/Martinique', 0),
-(154, 'America/Matamoros', 0),
-(155, 'America/Mazatlan', 0),
-(156, 'America/Mendoza', 0),
-(157, 'America/Menominee', 0),
-(158, 'America/Merida', 0),
-(159, 'America/Metlakatla', 0),
-(160, 'America/Mexico_City', 0),
-(161, 'America/Miquelon', 0),
-(162, 'America/Moncton', 0),
-(163, 'America/Monterrey', 0),
-(164, 'America/Montevideo', 0),
-(165, 'America/Montreal', 0),
-(166, 'America/Montserrat', 0),
-(167, 'America/Nassau', 0),
-(168, 'America/New_York', 0),
-(169, 'America/Nipigon', 0),
-(170, 'America/Nome', 0),
-(171, 'America/Noronha', 0),
-(172, 'America/North_Dakota/Beulah', 0),
-(173, 'America/North_Dakota/Center', 0),
-(174, 'America/North_Dakota/New_Salem', 0),
-(175, 'America/Ojinaga', 0),
-(176, 'America/Panama', 0),
-(177, 'America/Pangnirtung', 0),
-(178, 'America/Paramaribo', 0),
-(179, 'America/Phoenix', 0),
-(180, 'America/Port-au-Prince', 0),
-(181, 'America/Port_of_Spain', 0),
-(182, 'America/Porto_Acre', 0),
-(183, 'America/Porto_Velho', 0),
-(184, 'America/Puerto_Rico', 0),
-(185, 'America/Rainy_River', 0),
-(186, 'America/Rankin_Inlet', 0),
-(187, 'America/Recife', 0),
-(188, 'America/Regina', 0),
-(189, 'America/Resolute', 0),
-(190, 'America/Rio_Branco', 0),
-(191, 'America/Rosario', 0),
-(192, 'America/Santa_Isabel', 0),
-(193, 'America/Santarem', 0),
-(194, 'America/Santiago', 0),
-(195, 'America/Santo_Domingo', 0),
-(196, 'America/Sao_Paulo', 0),
-(197, 'America/Scoresbysund', 0),
-(198, 'America/Shiprock', 0),
-(199, 'America/Sitka', 0),
-(200, 'America/St_Barthelemy', 0),
-(201, 'America/St_Johns', 0),
-(202, 'America/St_Kitts', 0),
-(203, 'America/St_Lucia', 0),
-(204, 'America/St_Thomas', 0),
-(205, 'America/St_Vincent', 0),
-(206, 'America/Swift_Current', 0),
-(207, 'America/Tegucigalpa', 0),
-(208, 'America/Thule', 0),
-(209, 'America/Thunder_Bay', 0),
-(210, 'America/Tijuana', 0),
-(211, 'America/Toronto', 0),
-(212, 'America/Tortola', 0),
-(213, 'America/Vancouver', 0),
-(214, 'America/Virgin', 0),
-(215, 'America/Whitehorse', 0),
-(216, 'America/Winnipeg', 0),
-(217, 'America/Yakutat', 0),
-(218, 'America/Yellowknife', 0),
-(219, 'Antarctica/Casey', 0),
-(220, 'Antarctica/Davis', 0),
-(221, 'Antarctica/DumontDUrville', 0),
-(222, 'Antarctica/Macquarie', 0),
-(223, 'Antarctica/Mawson', 0),
-(224, 'Antarctica/McMurdo', 0),
-(225, 'Antarctica/Palmer', 0),
-(226, 'Antarctica/Rothera', 0),
-(227, 'Antarctica/South_Pole', 0),
-(228, 'Antarctica/Syowa', 0),
-(229, 'Antarctica/Vostok', 0),
-(230, 'Arctic/Longyearbyen', 0),
-(231, 'Asia/Aden', 0),
-(232, 'Asia/Almaty', 0),
-(233, 'Asia/Amman', 0),
-(234, 'Asia/Anadyr', 0),
-(235, 'Asia/Aqtau', 0),
-(236, 'Asia/Aqtobe', 0),
-(237, 'Asia/Ashgabat', 0),
-(238, 'Asia/Ashkhabad', 0),
-(239, 'Asia/Baghdad', 0),
-(240, 'Asia/Bahrain', 0),
-(241, 'Asia/Baku', 0),
-(242, 'Asia/Bangkok', 0),
-(243, 'Asia/Beirut', 0),
-(244, 'Asia/Bishkek', 0),
-(245, 'Asia/Brunei', 0),
-(246, 'Asia/Calcutta', 0),
-(247, 'Asia/Choibalsan', 0),
-(248, 'Asia/Chongqing', 0),
-(249, 'Asia/Chungking', 0),
-(250, 'Asia/Colombo', 0),
-(251, 'Asia/Dacca', 0),
-(252, 'Asia/Damascus', 0),
-(253, 'Asia/Dhaka', 0),
-(254, 'Asia/Dili', 0),
-(255, 'Asia/Dubai', 0),
-(256, 'Asia/Dushanbe', 0),
-(257, 'Asia/Gaza', 0),
-(258, 'Asia/Harbin', 0),
-(259, 'Asia/Hebron', 0),
-(260, 'Asia/Ho_Chi_Minh', 0),
-(261, 'Asia/Hong_Kong', 0),
-(262, 'Asia/Hovd', 0),
-(263, 'Asia/Irkutsk', 0),
-(264, 'Asia/Istanbul', 0),
-(265, 'Asia/Jakarta', 0),
-(266, 'Asia/Jayapura', 0),
-(267, 'Asia/Jerusalem', 0),
-(268, 'Asia/Kabul', 0),
-(269, 'Asia/Kamchatka', 0),
-(270, 'Asia/Karachi', 0),
-(271, 'Asia/Kashgar', 0),
-(272, 'Asia/Kathmandu', 0),
-(273, 'Asia/Katmandu', 0),
-(274, 'Asia/Kolkata', 0),
-(275, 'Asia/Krasnoyarsk', 0),
-(276, 'Asia/Kuala_Lumpur', 0),
-(277, 'Asia/Kuching', 0),
-(278, 'Asia/Kuwait', 0),
-(279, 'Asia/Macao', 0),
-(280, 'Asia/Macau', 0),
-(281, 'Asia/Magadan', 0),
-(282, 'Asia/Makassar', 0),
-(283, 'Asia/Manila', 0),
-(284, 'Asia/Muscat', 0),
-(285, 'Asia/Nicosia', 0),
-(286, 'Asia/Novokuznetsk', 0),
-(287, 'Asia/Novosibirsk', 0),
-(288, 'Asia/Omsk', 0),
-(289, 'Asia/Oral', 0),
-(290, 'Asia/Phnom_Penh', 0),
-(291, 'Asia/Pontianak', 0),
-(292, 'Asia/Pyongyang', 0),
-(293, 'Asia/Qatar', 0),
-(294, 'Asia/Qyzylorda', 0),
-(295, 'Asia/Rangoon', 0),
-(296, 'Asia/Riyadh', 0),
-(297, 'Asia/Saigon', 0),
-(298, 'Asia/Sakhalin', 0),
-(299, 'Asia/Samarkand', 0),
-(300, 'Asia/Seoul', 0),
-(301, 'Asia/Shanghai', 0),
-(302, 'Asia/Singapore', 0),
-(303, 'Asia/Taipei', 0),
-(304, 'Asia/Tashkent', 0),
-(305, 'Asia/Tbilisi', 0),
-(306, 'Asia/Tehran', 0),
-(307, 'Asia/Tel_Aviv', 0),
-(308, 'Asia/Thimbu', 0),
-(309, 'Asia/Thimphu', 0),
-(310, 'Asia/Tokyo', 0),
-(311, 'Asia/Ujung_Pandang', 0),
-(312, 'Asia/Ulaanbaatar', 0),
-(313, 'Asia/Ulan_Bator', 0),
-(314, 'Asia/Urumqi', 0),
-(315, 'Asia/Vientiane', 0),
-(316, 'Asia/Vladivostok', 0),
-(317, 'Asia/Yakutsk', 0),
-(318, 'Asia/Yekaterinburg', 0),
-(319, 'Asia/Yerevan', 0),
-(320, 'Atlantic/Azores', 0),
-(321, 'Atlantic/Bermuda', 0),
-(322, 'Atlantic/Canary', 0),
-(323, 'Atlantic/Cape_Verde', 0),
-(324, 'Atlantic/Faeroe', 0),
-(325, 'Atlantic/Faroe', 0),
-(326, 'Atlantic/Jan_Mayen', 0),
-(327, 'Atlantic/Madeira', 0),
-(328, 'Atlantic/Reykjavik', 0),
-(329, 'Atlantic/South_Georgia', 0),
-(330, 'Atlantic/St_Helena', 0),
-(331, 'Atlantic/Stanley', 0),
-(332, 'Australia/ACT', 0),
-(333, 'Australia/Adelaide', 0),
-(334, 'Australia/Brisbane', 0),
-(335, 'Australia/Broken_Hill', 0),
-(336, 'Australia/Canberra', 0),
-(337, 'Australia/Currie', 0),
-(338, 'Australia/Darwin', 0),
-(339, 'Australia/Eucla', 0),
-(340, 'Australia/Hobart', 0),
-(341, 'Australia/LHI', 0),
-(342, 'Australia/Lindeman', 0),
-(343, 'Australia/Lord_Howe', 0),
-(344, 'Australia/Melbourne', 0),
-(345, 'Australia/North', 0),
-(346, 'Australia/NSW', 0),
-(347, 'Australia/Perth', 0),
-(348, 'Australia/Queensland', 0),
-(349, 'Australia/South', 0),
-(350, 'Australia/Sydney', 0),
-(351, 'Australia/Tasmania', 0),
-(352, 'Australia/Victoria', 0),
-(353, 'Australia/West', 0),
-(354, 'Australia/Yancowinna', 0),
-(355, 'Europe/Amsterdam', 0),
-(356, 'Europe/Andorra', 0),
-(357, 'Europe/Athens', 0),
-(358, 'Europe/Belfast', 0),
-(359, 'Europe/Belgrade', 0),
-(360, 'Europe/Berlin', 0),
-(361, 'Europe/Bratislava', 0),
-(362, 'Europe/Brussels', 0),
-(363, 'Europe/Bucharest', 0),
-(364, 'Europe/Budapest', 0),
-(365, 'Europe/Chisinau', 0),
-(366, 'Europe/Copenhagen', 0),
-(367, 'Europe/Dublin', 0),
-(368, 'Europe/Gibraltar', 0),
-(369, 'Europe/Guernsey', 0),
-(370, 'Europe/Helsinki', 0),
-(371, 'Europe/Isle_of_Man', 0),
-(372, 'Europe/Istanbul', 0),
-(373, 'Europe/Jersey', 0),
-(374, 'Europe/Kaliningrad', 0),
-(375, 'Europe/Kiev', 0),
-(376, 'Europe/Lisbon', 0),
-(377, 'Europe/Ljubljana', 0),
-(378, 'Europe/London', 0),
-(379, 'Europe/Luxembourg', 0),
-(380, 'Europe/Madrid', 0),
-(381, 'Europe/Malta', 0),
-(382, 'Europe/Mariehamn', 0),
-(383, 'Europe/Minsk', 0),
-(384, 'Europe/Monaco', 0),
-(385, 'Europe/Moscow', 0),
-(386, 'Europe/Nicosia', 0),
-(387, 'Europe/Oslo', 0),
-(388, 'Europe/Paris', 0),
-(389, 'Europe/Podgorica', 0),
-(390, 'Europe/Prague', 0),
-(391, 'Europe/Riga', 0),
-(392, 'Europe/Rome', 0),
-(393, 'Europe/Samara', 0),
-(394, 'Europe/San_Marino', 0),
-(395, 'Europe/Sarajevo', 0),
-(396, 'Europe/Simferopol', 0),
-(397, 'Europe/Skopje', 0),
-(398, 'Europe/Sofia', 0),
-(399, 'Europe/Stockholm', 0),
-(400, 'Europe/Tallinn', 0),
-(401, 'Europe/Tirane', 0),
-(402, 'Europe/Tiraspol', 0),
-(403, 'Europe/Uzhgorod', 0),
-(404, 'Europe/Vaduz', 0),
-(405, 'Europe/Vatican', 0),
-(406, 'Europe/Vienna', 0),
-(407, 'Europe/Vilnius', 0),
-(408, 'Europe/Volgograd', 0),
-(409, 'Europe/Warsaw', 0),
-(410, 'Europe/Zagreb', 0),
-(411, 'Europe/Zaporozhye', 0),
-(412, 'Europe/Zurich', 0),
-(413, 'Indian/Antananarivo', 0),
-(414, 'Indian/Chagos', 0),
-(415, 'Indian/Christmas', 0),
-(416, 'Indian/Cocos', 0),
-(417, 'Indian/Comoro', 0),
-(418, 'Indian/Kerguelen', 0),
-(419, 'Indian/Mahe', 0),
-(420, 'Indian/Maldives', 0),
-(421, 'Indian/Mauritius', 0),
-(422, 'Indian/Mayotte', 0),
-(423, 'Indian/Reunion', 0),
-(424, 'Pacific/Apia', 0),
-(425, 'Pacific/Auckland', 0),
-(426, 'Pacific/Chatham', 0),
-(427, 'Pacific/Chuuk', 0),
-(428, 'Pacific/Easter', 0),
-(429, 'Pacific/Efate', 0),
-(430, 'Pacific/Enderbury', 0),
-(431, 'Pacific/Fakaofo', 0),
-(432, 'Pacific/Fiji', 0),
-(433, 'Pacific/Funafuti', 0),
-(434, 'Pacific/Galapagos', 0),
-(435, 'Pacific/Gambier', 0),
-(436, 'Pacific/Guadalcanal', 0),
-(437, 'Pacific/Guam', 0),
-(438, 'Pacific/Honolulu', 0),
-(439, 'Pacific/Johnston', 0),
-(440, 'Pacific/Kiritimati', 0),
-(441, 'Pacific/Kosrae', 0),
-(442, 'Pacific/Kwajalein', 0),
-(443, 'Pacific/Majuro', 0),
-(444, 'Pacific/Marquesas', 0),
-(445, 'Pacific/Midway', 0),
-(446, 'Pacific/Nauru', 0),
-(447, 'Pacific/Niue', 0),
-(448, 'Pacific/Norfolk', 0),
-(449, 'Pacific/Noumea', 0),
-(450, 'Pacific/Pago_Pago', 0),
-(451, 'Pacific/Palau', 0),
-(452, 'Pacific/Pitcairn', 0),
-(453, 'Pacific/Pohnpei', 0),
-(454, 'Pacific/Ponape', 0),
-(455, 'Pacific/Port_Moresby', 0),
-(456, 'Pacific/Rarotonga', 0),
-(457, 'Pacific/Saipan', 0),
-(458, 'Pacific/Samoa', 0),
-(459, 'Pacific/Tahiti', 0),
-(460, 'Pacific/Tarawa', 0),
-(461, 'Pacific/Tongatapu', 0),
-(462, 'Pacific/Truk', 0),
-(463, 'Pacific/Wake', 0),
-(464, 'Pacific/Wallis', 0),
-(465, 'Pacific/Yap', 0);
+(1,	'UTC',	0),
+(2,	'Africa/Abidjan',	0),
+(3,	'Africa/Accra',	0),
+(4,	'Africa/Addis_Ababa',	10800),
+(5,	'Africa/Algiers',	3600),
+(6,	'Africa/Asmara',	10800),
+(7,	'Africa/Asmera',	10800),
+(8,	'Africa/Bamako',	0),
+(9,	'Africa/Bangui',	3600),
+(10,	'Africa/Banjul',	0),
+(11,	'Africa/Bissau',	0),
+(12,	'Africa/Blantyre',	7200),
+(13,	'Africa/Brazzaville',	3600),
+(14,	'Africa/Bujumbura',	7200),
+(15,	'Africa/Cairo',	7200),
+(16,	'Africa/Casablanca',	0),
+(17,	'Africa/Ceuta',	3600),
+(18,	'Africa/Conakry',	0),
+(19,	'Africa/Dakar',	0),
+(20,	'Africa/Dar_es_Salaam',	10800),
+(21,	'Africa/Djibouti',	10800),
+(22,	'Africa/Douala',	3600),
+(23,	'Africa/El_Aaiun',	0),
+(24,	'Africa/Freetown',	0),
+(25,	'Africa/Gaborone',	7200),
+(26,	'Africa/Harare',	7200),
+(27,	'Africa/Johannesburg',	7200),
+(28,	'Africa/Juba',	0),
+(29,	'Africa/Kampala',	0),
+(30,	'Africa/Khartoum',	0),
+(31,	'Africa/Kigali',	0),
+(32,	'Africa/Kinshasa',	0),
+(33,	'Africa/Lagos',	0),
+(34,	'Africa/Libreville',	0),
+(35,	'Africa/Lome',	0),
+(36,	'Africa/Luanda',	0),
+(37,	'Africa/Lubumbashi',	0),
+(38,	'Africa/Lusaka',	0),
+(39,	'Africa/Malabo',	0),
+(40,	'Africa/Maputo',	0),
+(41,	'Africa/Maseru',	0),
+(42,	'Africa/Mbabane',	0),
+(43,	'Africa/Mogadishu',	0),
+(44,	'Africa/Monrovia',	0),
+(45,	'Africa/Nairobi',	0),
+(46,	'Africa/Ndjamena',	0),
+(47,	'Africa/Niamey',	0),
+(48,	'Africa/Nouakchott',	0),
+(49,	'Africa/Ouagadougou',	0),
+(50,	'Africa/Porto-Novo',	0),
+(51,	'Africa/Sao_Tome',	0),
+(52,	'Africa/Timbuktu',	0),
+(53,	'Africa/Tripoli',	0),
+(54,	'Africa/Tunis',	0),
+(55,	'Africa/Windhoek',	0),
+(56,	'America/Adak',	0),
+(57,	'America/Anchorage',	0),
+(58,	'America/Anguilla',	0),
+(59,	'America/Antigua',	0),
+(60,	'America/Araguaina',	0),
+(61,	'America/Argentina/Buenos_Aires',	0),
+(62,	'America/Argentina/Catamarca',	0),
+(63,	'America/Argentina/ComodRivadavia',	0),
+(64,	'America/Argentina/Cordoba',	0),
+(65,	'America/Argentina/Jujuy',	0),
+(66,	'America/Argentina/La_Rioja',	0),
+(67,	'America/Argentina/Mendoza',	0),
+(68,	'America/Argentina/Rio_Gallegos',	0),
+(69,	'America/Argentina/Salta',	0),
+(70,	'America/Argentina/San_Juan',	0),
+(71,	'America/Argentina/San_Luis',	0),
+(72,	'America/Argentina/Tucuman',	0),
+(73,	'America/Argentina/Ushuaia',	0),
+(74,	'America/Aruba',	0),
+(75,	'America/Asuncion',	0),
+(76,	'America/Atikokan',	0),
+(77,	'America/Atka',	0),
+(78,	'America/Bahia',	0),
+(79,	'America/Bahia_Banderas',	0),
+(80,	'America/Barbados',	0),
+(81,	'America/Belem',	0),
+(82,	'America/Belize',	0),
+(83,	'America/Blanc-Sablon',	0),
+(84,	'America/Boa_Vista',	0),
+(85,	'America/Bogota',	0),
+(86,	'America/Boise',	0),
+(87,	'America/Buenos_Aires',	0),
+(88,	'America/Cambridge_Bay',	0),
+(89,	'America/Campo_Grande',	0),
+(90,	'America/Cancun',	0),
+(91,	'America/Caracas',	0),
+(92,	'America/Catamarca',	0),
+(93,	'America/Cayenne',	0),
+(94,	'America/Cayman',	0),
+(95,	'America/Chicago',	0),
+(96,	'America/Chihuahua',	0),
+(97,	'America/Coral_Harbour',	0),
+(98,	'America/Cordoba',	0),
+(99,	'America/Costa_Rica',	0),
+(100,	'America/Cuiaba',	0),
+(101,	'America/Curacao',	0),
+(102,	'America/Danmarkshavn',	0),
+(103,	'America/Dawson',	0),
+(104,	'America/Dawson_Creek',	0),
+(105,	'America/Denver',	0),
+(106,	'America/Detroit',	0),
+(107,	'America/Dominica',	0),
+(108,	'America/Edmonton',	0),
+(109,	'America/Eirunepe',	0),
+(110,	'America/El_Salvador',	0),
+(111,	'America/Ensenada',	0),
+(112,	'America/Fort_Wayne',	0),
+(113,	'America/Fortaleza',	0),
+(114,	'America/Glace_Bay',	0),
+(115,	'America/Godthab',	0),
+(116,	'America/Goose_Bay',	0),
+(117,	'America/Grand_Turk',	0),
+(118,	'America/Grenada',	0),
+(119,	'America/Guadeloupe',	0),
+(120,	'America/Guatemala',	0),
+(121,	'America/Guayaquil',	0),
+(122,	'America/Guyana',	0),
+(123,	'America/Halifax',	0),
+(124,	'America/Havana',	0),
+(125,	'America/Hermosillo',	0),
+(126,	'America/Indiana/Indianapolis',	0),
+(127,	'America/Indiana/Knox',	0),
+(128,	'America/Indiana/Marengo',	0),
+(129,	'America/Indiana/Petersburg',	0),
+(130,	'America/Indiana/Tell_City',	0),
+(131,	'America/Indiana/Vevay',	0),
+(132,	'America/Indiana/Vincennes',	0),
+(133,	'America/Indiana/Winamac',	0),
+(134,	'America/Indianapolis',	0),
+(135,	'America/Inuvik',	0),
+(136,	'America/Iqaluit',	0),
+(137,	'America/Jamaica',	0),
+(138,	'America/Jujuy',	0),
+(139,	'America/Juneau',	0),
+(140,	'America/Kentucky/Louisville',	0),
+(141,	'America/Kentucky/Monticello',	0),
+(142,	'America/Knox_IN',	0),
+(143,	'America/Kralendijk',	0),
+(144,	'America/La_Paz',	0),
+(145,	'America/Lima',	0),
+(146,	'America/Los_Angeles',	0),
+(147,	'America/Louisville',	0),
+(148,	'America/Lower_Princes',	0),
+(149,	'America/Maceio',	0),
+(150,	'America/Managua',	0),
+(151,	'America/Manaus',	0),
+(152,	'America/Marigot',	0),
+(153,	'America/Martinique',	0),
+(154,	'America/Matamoros',	0),
+(155,	'America/Mazatlan',	0),
+(156,	'America/Mendoza',	0),
+(157,	'America/Menominee',	0),
+(158,	'America/Merida',	0),
+(159,	'America/Metlakatla',	0),
+(160,	'America/Mexico_City',	0),
+(161,	'America/Miquelon',	0),
+(162,	'America/Moncton',	0),
+(163,	'America/Monterrey',	0),
+(164,	'America/Montevideo',	0),
+(165,	'America/Montreal',	0),
+(166,	'America/Montserrat',	0),
+(167,	'America/Nassau',	0),
+(168,	'America/New_York',	0),
+(169,	'America/Nipigon',	0),
+(170,	'America/Nome',	0),
+(171,	'America/Noronha',	0),
+(172,	'America/North_Dakota/Beulah',	0),
+(173,	'America/North_Dakota/Center',	0),
+(174,	'America/North_Dakota/New_Salem',	0),
+(175,	'America/Ojinaga',	0),
+(176,	'America/Panama',	0),
+(177,	'America/Pangnirtung',	0),
+(178,	'America/Paramaribo',	0),
+(179,	'America/Phoenix',	0),
+(180,	'America/Port-au-Prince',	0),
+(181,	'America/Port_of_Spain',	0),
+(182,	'America/Porto_Acre',	0),
+(183,	'America/Porto_Velho',	0),
+(184,	'America/Puerto_Rico',	0),
+(185,	'America/Rainy_River',	0),
+(186,	'America/Rankin_Inlet',	0),
+(187,	'America/Recife',	0),
+(188,	'America/Regina',	0),
+(189,	'America/Resolute',	0),
+(190,	'America/Rio_Branco',	0),
+(191,	'America/Rosario',	0),
+(192,	'America/Santa_Isabel',	0),
+(193,	'America/Santarem',	0),
+(194,	'America/Santiago',	0),
+(195,	'America/Santo_Domingo',	0),
+(196,	'America/Sao_Paulo',	0),
+(197,	'America/Scoresbysund',	0),
+(198,	'America/Shiprock',	0),
+(199,	'America/Sitka',	0),
+(200,	'America/St_Barthelemy',	0),
+(201,	'America/St_Johns',	0),
+(202,	'America/St_Kitts',	0),
+(203,	'America/St_Lucia',	0),
+(204,	'America/St_Thomas',	0),
+(205,	'America/St_Vincent',	0),
+(206,	'America/Swift_Current',	0),
+(207,	'America/Tegucigalpa',	0),
+(208,	'America/Thule',	0),
+(209,	'America/Thunder_Bay',	0),
+(210,	'America/Tijuana',	0),
+(211,	'America/Toronto',	0),
+(212,	'America/Tortola',	0),
+(213,	'America/Vancouver',	0),
+(214,	'America/Virgin',	0),
+(215,	'America/Whitehorse',	0),
+(216,	'America/Winnipeg',	0),
+(217,	'America/Yakutat',	0),
+(218,	'America/Yellowknife',	0),
+(219,	'Antarctica/Casey',	0),
+(220,	'Antarctica/Davis',	0),
+(221,	'Antarctica/DumontDUrville',	0),
+(222,	'Antarctica/Macquarie',	0),
+(223,	'Antarctica/Mawson',	0),
+(224,	'Antarctica/McMurdo',	0),
+(225,	'Antarctica/Palmer',	0),
+(226,	'Antarctica/Rothera',	0),
+(227,	'Antarctica/South_Pole',	0),
+(228,	'Antarctica/Syowa',	0),
+(229,	'Antarctica/Vostok',	0),
+(230,	'Arctic/Longyearbyen',	0),
+(231,	'Asia/Aden',	0),
+(232,	'Asia/Almaty',	0),
+(233,	'Asia/Amman',	0),
+(234,	'Asia/Anadyr',	0),
+(235,	'Asia/Aqtau',	0),
+(236,	'Asia/Aqtobe',	0),
+(237,	'Asia/Ashgabat',	0),
+(238,	'Asia/Ashkhabad',	0),
+(239,	'Asia/Baghdad',	0),
+(240,	'Asia/Bahrain',	0),
+(241,	'Asia/Baku',	0),
+(242,	'Asia/Bangkok',	0),
+(243,	'Asia/Beirut',	0),
+(244,	'Asia/Bishkek',	0),
+(245,	'Asia/Brunei',	0),
+(246,	'Asia/Calcutta',	0),
+(247,	'Asia/Choibalsan',	0),
+(248,	'Asia/Chongqing',	0),
+(249,	'Asia/Chungking',	0),
+(250,	'Asia/Colombo',	0),
+(251,	'Asia/Dacca',	0),
+(252,	'Asia/Damascus',	0),
+(253,	'Asia/Dhaka',	0),
+(254,	'Asia/Dili',	0),
+(255,	'Asia/Dubai',	0),
+(256,	'Asia/Dushanbe',	0),
+(257,	'Asia/Gaza',	0),
+(258,	'Asia/Harbin',	0),
+(259,	'Asia/Hebron',	0),
+(260,	'Asia/Ho_Chi_Minh',	0),
+(261,	'Asia/Hong_Kong',	0),
+(262,	'Asia/Hovd',	0),
+(263,	'Asia/Irkutsk',	0),
+(264,	'Asia/Istanbul',	0),
+(265,	'Asia/Jakarta',	0),
+(266,	'Asia/Jayapura',	0),
+(267,	'Asia/Jerusalem',	0),
+(268,	'Asia/Kabul',	0),
+(269,	'Asia/Kamchatka',	0),
+(270,	'Asia/Karachi',	0),
+(271,	'Asia/Kashgar',	0),
+(272,	'Asia/Kathmandu',	0),
+(273,	'Asia/Katmandu',	0),
+(274,	'Asia/Kolkata',	0),
+(275,	'Asia/Krasnoyarsk',	0),
+(276,	'Asia/Kuala_Lumpur',	0),
+(277,	'Asia/Kuching',	0),
+(278,	'Asia/Kuwait',	0),
+(279,	'Asia/Macao',	0),
+(280,	'Asia/Macau',	0),
+(281,	'Asia/Magadan',	0),
+(282,	'Asia/Makassar',	0),
+(283,	'Asia/Manila',	0),
+(284,	'Asia/Muscat',	0),
+(285,	'Asia/Nicosia',	0),
+(286,	'Asia/Novokuznetsk',	0),
+(287,	'Asia/Novosibirsk',	0),
+(288,	'Asia/Omsk',	0),
+(289,	'Asia/Oral',	0),
+(290,	'Asia/Phnom_Penh',	0),
+(291,	'Asia/Pontianak',	0),
+(292,	'Asia/Pyongyang',	0),
+(293,	'Asia/Qatar',	0),
+(294,	'Asia/Qyzylorda',	0),
+(295,	'Asia/Rangoon',	0),
+(296,	'Asia/Riyadh',	0),
+(297,	'Asia/Saigon',	0),
+(298,	'Asia/Sakhalin',	0),
+(299,	'Asia/Samarkand',	0),
+(300,	'Asia/Seoul',	0),
+(301,	'Asia/Shanghai',	0),
+(302,	'Asia/Singapore',	0),
+(303,	'Asia/Taipei',	0),
+(304,	'Asia/Tashkent',	0),
+(305,	'Asia/Tbilisi',	0),
+(306,	'Asia/Tehran',	0),
+(307,	'Asia/Tel_Aviv',	0),
+(308,	'Asia/Thimbu',	0),
+(309,	'Asia/Thimphu',	0),
+(310,	'Asia/Tokyo',	0),
+(311,	'Asia/Ujung_Pandang',	0),
+(312,	'Asia/Ulaanbaatar',	0),
+(313,	'Asia/Ulan_Bator',	0),
+(314,	'Asia/Urumqi',	0),
+(315,	'Asia/Vientiane',	0),
+(316,	'Asia/Vladivostok',	0),
+(317,	'Asia/Yakutsk',	0),
+(318,	'Asia/Yekaterinburg',	0),
+(319,	'Asia/Yerevan',	0),
+(320,	'Atlantic/Azores',	0),
+(321,	'Atlantic/Bermuda',	0),
+(322,	'Atlantic/Canary',	0),
+(323,	'Atlantic/Cape_Verde',	0),
+(324,	'Atlantic/Faeroe',	0),
+(325,	'Atlantic/Faroe',	0),
+(326,	'Atlantic/Jan_Mayen',	0),
+(327,	'Atlantic/Madeira',	0),
+(328,	'Atlantic/Reykjavik',	0),
+(329,	'Atlantic/South_Georgia',	0),
+(330,	'Atlantic/St_Helena',	0),
+(331,	'Atlantic/Stanley',	0),
+(332,	'Australia/ACT',	0),
+(333,	'Australia/Adelaide',	0),
+(334,	'Australia/Brisbane',	0),
+(335,	'Australia/Broken_Hill',	0),
+(336,	'Australia/Canberra',	0),
+(337,	'Australia/Currie',	0),
+(338,	'Australia/Darwin',	0),
+(339,	'Australia/Eucla',	0),
+(340,	'Australia/Hobart',	0),
+(341,	'Australia/LHI',	0),
+(342,	'Australia/Lindeman',	0),
+(343,	'Australia/Lord_Howe',	0),
+(344,	'Australia/Melbourne',	0),
+(345,	'Australia/North',	0),
+(346,	'Australia/NSW',	0),
+(347,	'Australia/Perth',	0),
+(348,	'Australia/Queensland',	0),
+(349,	'Australia/South',	0),
+(350,	'Australia/Sydney',	0),
+(351,	'Australia/Tasmania',	0),
+(352,	'Australia/Victoria',	0),
+(353,	'Australia/West',	0),
+(354,	'Australia/Yancowinna',	0),
+(355,	'Europe/Amsterdam',	0),
+(356,	'Europe/Andorra',	0),
+(357,	'Europe/Athens',	0),
+(358,	'Europe/Belfast',	0),
+(359,	'Europe/Belgrade',	0),
+(360,	'Europe/Berlin',	0),
+(361,	'Europe/Bratislava',	0),
+(362,	'Europe/Brussels',	0),
+(363,	'Europe/Bucharest',	0),
+(364,	'Europe/Budapest',	0),
+(365,	'Europe/Chisinau',	0),
+(366,	'Europe/Copenhagen',	0),
+(367,	'Europe/Dublin',	0),
+(368,	'Europe/Gibraltar',	0),
+(369,	'Europe/Guernsey',	0),
+(370,	'Europe/Helsinki',	0),
+(371,	'Europe/Isle_of_Man',	0),
+(372,	'Europe/Istanbul',	0),
+(373,	'Europe/Jersey',	0),
+(374,	'Europe/Kaliningrad',	0),
+(375,	'Europe/Kiev',	0),
+(376,	'Europe/Lisbon',	0),
+(377,	'Europe/Ljubljana',	0),
+(378,	'Europe/London',	0),
+(379,	'Europe/Luxembourg',	0),
+(380,	'Europe/Madrid',	0),
+(381,	'Europe/Malta',	0),
+(382,	'Europe/Mariehamn',	0),
+(383,	'Europe/Minsk',	0),
+(384,	'Europe/Monaco',	0),
+(385,	'Europe/Moscow',	0),
+(386,	'Europe/Nicosia',	0),
+(387,	'Europe/Oslo',	0),
+(388,	'Europe/Paris',	0),
+(389,	'Europe/Podgorica',	0),
+(390,	'Europe/Prague',	0),
+(391,	'Europe/Riga',	0),
+(392,	'Europe/Rome',	0),
+(393,	'Europe/Samara',	0),
+(394,	'Europe/San_Marino',	0),
+(395,	'Europe/Sarajevo',	0),
+(396,	'Europe/Simferopol',	0),
+(397,	'Europe/Skopje',	0),
+(398,	'Europe/Sofia',	0),
+(399,	'Europe/Stockholm',	0),
+(400,	'Europe/Tallinn',	0),
+(401,	'Europe/Tirane',	0),
+(402,	'Europe/Tiraspol',	0),
+(403,	'Europe/Uzhgorod',	0),
+(404,	'Europe/Vaduz',	0),
+(405,	'Europe/Vatican',	0),
+(406,	'Europe/Vienna',	0),
+(407,	'Europe/Vilnius',	0),
+(408,	'Europe/Volgograd',	0),
+(409,	'Europe/Warsaw',	0),
+(410,	'Europe/Zagreb',	0),
+(411,	'Europe/Zaporozhye',	0),
+(412,	'Europe/Zurich',	0),
+(413,	'Indian/Antananarivo',	0),
+(414,	'Indian/Chagos',	0),
+(415,	'Indian/Christmas',	0),
+(416,	'Indian/Cocos',	0),
+(417,	'Indian/Comoro',	0),
+(418,	'Indian/Kerguelen',	0),
+(419,	'Indian/Mahe',	0),
+(420,	'Indian/Maldives',	0),
+(421,	'Indian/Mauritius',	0),
+(422,	'Indian/Mayotte',	0),
+(423,	'Indian/Reunion',	0),
+(424,	'Pacific/Apia',	0),
+(425,	'Pacific/Auckland',	0),
+(426,	'Pacific/Chatham',	0),
+(427,	'Pacific/Chuuk',	0),
+(428,	'Pacific/Easter',	0),
+(429,	'Pacific/Efate',	0),
+(430,	'Pacific/Enderbury',	0),
+(431,	'Pacific/Fakaofo',	0),
+(432,	'Pacific/Fiji',	0),
+(433,	'Pacific/Funafuti',	0),
+(434,	'Pacific/Galapagos',	0),
+(435,	'Pacific/Gambier',	0),
+(436,	'Pacific/Guadalcanal',	0),
+(437,	'Pacific/Guam',	0),
+(438,	'Pacific/Honolulu',	0),
+(439,	'Pacific/Johnston',	0),
+(440,	'Pacific/Kiritimati',	0),
+(441,	'Pacific/Kosrae',	0),
+(442,	'Pacific/Kwajalein',	0),
+(443,	'Pacific/Majuro',	0),
+(444,	'Pacific/Marquesas',	0),
+(445,	'Pacific/Midway',	0),
+(446,	'Pacific/Nauru',	0),
+(447,	'Pacific/Niue',	0),
+(448,	'Pacific/Norfolk',	0),
+(449,	'Pacific/Noumea',	0),
+(450,	'Pacific/Pago_Pago',	0),
+(451,	'Pacific/Palau',	0),
+(452,	'Pacific/Pitcairn',	0),
+(453,	'Pacific/Pohnpei',	0),
+(454,	'Pacific/Ponape',	0),
+(455,	'Pacific/Port_Moresby',	0),
+(456,	'Pacific/Rarotonga',	0),
+(457,	'Pacific/Saipan',	0),
+(458,	'Pacific/Samoa',	0),
+(459,	'Pacific/Tahiti',	0),
+(460,	'Pacific/Tarawa',	0),
+(461,	'Pacific/Tongatapu',	0),
+(462,	'Pacific/Truk',	0),
+(463,	'Pacific/Wake',	0),
+(464,	'Pacific/Wallis',	0),
+(465,	'Pacific/Yap',	0);
 
--- --------------------------------------------------------
-
---
--- Tabellstruktur `users`
---
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` mediumint(9) UNSIGNED NOT NULL,
+  `id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `displayname` varchar(32) NOT NULL,
   `pass` varchar(32) NOT NULL,
@@ -1925,10 +1829,10 @@ CREATE TABLE `users` (
   `tzoff` float NOT NULL DEFAULT '0',
   `dateformat` varchar(15) NOT NULL DEFAULT 'm-d-y',
   `timeformat` varchar(15) NOT NULL DEFAULT 'h:i A',
-  `ppp` smallint(3) UNSIGNED NOT NULL DEFAULT '20',
-  `tpp` smallint(3) UNSIGNED NOT NULL DEFAULT '20',
+  `ppp` smallint(3) unsigned NOT NULL DEFAULT '20',
+  `tpp` smallint(3) unsigned NOT NULL DEFAULT '20',
   `longpages` int(1) NOT NULL DEFAULT '0',
-  `fontsize` smallint(5) UNSIGNED NOT NULL DEFAULT '68',
+  `fontsize` smallint(5) unsigned NOT NULL DEFAULT '68',
   `theme` varchar(32) NOT NULL DEFAULT 'bmatrix',
   `birth` varchar(10) NOT NULL DEFAULT '-1',
   `rankset` int(10) NOT NULL DEFAULT '1',
@@ -1959,807 +1863,414 @@ CREATE TABLE `users` (
   `emailhide` int(1) NOT NULL DEFAULT '0',
   `showlevelbar` int(11) NOT NULL DEFAULT '0',
   `numbargfx` int(11) NOT NULL DEFAULT '0',
-  `posttoolbar` int(11) NOT NULL DEFAULT '0'
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `usersrpg`
---
-
+DROP TABLE IF EXISTS `usersrpg`;
 CREATE TABLE `usersrpg` (
-  `id` mediumint(9) UNSIGNED NOT NULL DEFAULT '0',
+  `id` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `spent` int(11) NOT NULL DEFAULT '0',
   `gcoins` int(11) NOT NULL DEFAULT '0',
-  `eq1` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `eq2` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `eq3` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `eq4` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `eq5` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `eq6` int(5) UNSIGNED NOT NULL DEFAULT '0',
+  `eq1` int(5) unsigned NOT NULL DEFAULT '0',
+  `eq2` int(5) unsigned NOT NULL DEFAULT '0',
+  `eq3` int(5) unsigned NOT NULL DEFAULT '0',
+  `eq4` int(5) unsigned NOT NULL DEFAULT '0',
+  `eq5` int(5) unsigned NOT NULL DEFAULT '0',
+  `eq6` int(5) unsigned NOT NULL DEFAULT '0',
   `lastact` int(11) NOT NULL DEFAULT '0',
   `room` smallint(6) NOT NULL DEFAULT '0',
   `side` tinyint(4) NOT NULL DEFAULT '0',
   `ready` tinyint(4) NOT NULL DEFAULT '0',
   `hp` mediumint(8) NOT NULL DEFAULT '0',
-  `mp` mediumint(8) NOT NULL DEFAULT '0'
+  `mp` mediumint(8) NOT NULL DEFAULT '0',
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `user_badges`
---
-
+DROP TABLE IF EXISTS `user_badges`;
 CREATE TABLE `user_badges` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `badge_id` int(11) NOT NULL,
-  `badge_var` varchar(32) DEFAULT NULL
+  `badge_var` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `badge_id` (`badge_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `user_group`
---
-
+DROP TABLE IF EXISTS `user_group`;
 CREATE TABLE `user_group` (
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   `sortorder` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumpning av Data i tabell `user_group`
---
 
-INSERT INTO `user_group` (`user_id`, `group_id`, `sortorder`) VALUES
-(0, 1, 0),
-(-1, 15, 0);
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `user_profileext`
---
-
+DROP TABLE IF EXISTS `user_profileext`;
 CREATE TABLE `user_profileext` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `field_id` varchar(64) NOT NULL,
-  `data` varchar(128) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `data` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `views`
---
-
+DROP TABLE IF EXISTS `views`;
 CREATE TABLE `views` (
   `view` int(11) NOT NULL,
   `user` mediumint(9) NOT NULL,
-  `time` int(11) NOT NULL
+  `time` int(11) NOT NULL,
+  UNIQUE KEY `view` (`view`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
---
--- Tabellstruktur `x_perm`
---
-
+DROP TABLE IF EXISTS `x_perm`;
 CREATE TABLE `x_perm` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `x_id` int(11) NOT NULL,
   `x_type` varchar(64) NOT NULL,
   `perm_id` varchar(64) NOT NULL,
   `permbind_id` varchar(64) NOT NULL,
   `bindvalue` int(11) NOT NULL,
-  `revoke` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumpning av Data i tabell `x_perm`
---
+  `revoke` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=424 DEFAULT CHARSET=utf8;
 
 INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `revoke`) VALUES
-(0, 4, 'group', 'edit-titles', '', 0, 0),
-(1, 2, 'group', 'capture-sprites', '', 0, 0),
-(2, 2, 'group', 'login', '', 0, 0),
-(3, 2, 'group', 'update-own-profile', '', 0, 0),
-(4, 1, 'group', 'view-profile-page', '', 0, 0),
-(5, 1, 'group', 'view-public-categories', '', 0, 0),
-(6, 1, 'group', 'view-public-forums', '', 0, 0),
-(7, 1, 'group', 'view-public-posts', '', 0, 0),
-(8, 1, 'group', 'view-public-threads', '', 0, 0),
-(9, 2, 'group', 'create-public-post', '', 0, 0),
-(10, 2, 'group', 'create-public-thread', '', 0, 0),
-(11, 2, 'group', 'update-own-post', '', 0, 0),
-(12, 2, 'group', 'use-post-layout', '', 0, 0),
-(23, 8, 'group', 'consecutive-posts', '', 0, 0),
-(24, 3, 'group', 'delete-post', '', 0, 0),
-(25, 3, 'group', 'delete-thread', '', 0, 0),
-(26, 3, 'group', 'update-post', '', 0, 0),
-(27, 3, 'group', 'update-thread', '', 0, 0),
-(28, 3, 'group', 'view-post-history', '', 0, 0),
-(30, 4, 'group', 'edit-attentions-box', '', 0, 0),
-(31, 4, 'group', 'edit-categories', '', 0, 0),
-(32, 4, 'group', 'edit-forums', '', 0, 0),
-(33, 4, 'group', 'edit-moods', '', 0, 0),
-(34, 4, 'group', 'edit-permissions', '', 0, 0),
-(36, 4, 'group', 'view-all-private-categories', '', 0, 0),
-(37, 4, 'group', 'view-all-private-forums', '', 0, 0),
-(38, 4, 'group', 'view-all-private-posts', '', 0, 0),
-(39, 4, 'group', 'view-all-private-threads', '', 0, 0),
-(40, 4, 'group', 'view-all-sprites', '', 0, 0),
-(41, 4, 'group', 'view-permissions', '', 0, 0),
-(45, 6, 'group', 'no-restrictions', '', 0, 0),
-(46, 7, 'group', 'view-private-forum', 'forum', 11, 0),
-(47, 7, 'group', 'edit-forum-thread', 'forum', 11, 0),
-(48, 7, 'group', 'delete-forum-thread', 'forum', 11, 0),
-(49, 7, 'group', 'edit-forum-post', 'forum', 11, 0),
-(50, 7, 'group', 'delete-forum-post', 'forum', 11, 0),
-(54, 7, 'group', 'view-private-forum', 'forum', 12, 0),
-(55, 7, 'group', 'edit-forum-thread', 'forum', 12, 0),
-(56, 7, 'group', 'delete-forum-thread', 'forum', 12, 0),
-(57, 7, 'group', 'edit-forum-post', 'forum', 12, 0),
-(58, 7, 'group', 'delete-forum-post', 'forum', 12, 0),
-(59, 7, 'group', 'edit-forum-thread', 'forum', 13, 0),
-(60, 7, 'group', 'delete-forum-thread', 'forum', 13, 0),
-(61, 7, 'group', 'edit-forum-post', 'forum', 13, 0),
-(62, 7, 'group', 'delete-forum-post', 'forum', 13, 0),
-(63, 7, 'group', 'view-private-forum', 'forum', 13, 0),
-(64, 4, 'group', 'create-all-private-forum-threads', '', 0, 0),
-(65, 4, 'group', 'create-all-private-forum-posts', '', 0, 0),
-(66, 10, 'group', 'view-private-category', 'categories', 2, 0),
-(67, 10, 'group', 'view-private-forum', 'forum', 2, 0),
-(68, 10, 'group', 'view-private-forum', 'forum', 3, 0),
-(69, 10, 'group', 'create-private-forum-thread', 'forum', 2, 0),
-(70, 10, 'group', 'create-private-forum-post', 'forum', 2, 0),
-(71, 10, 'group', 'create-private-forum-thread', 'forum', 3, 0),
-(72, 10, 'group', 'create-private-forum-post', 'forum', 3, 0),
-(73, 9, 'group', 'create-public-thread', '', 0, 1),
-(74, 9, 'group', 'create-public-post', '', 0, 1),
-(75, 9, 'group', 'update-own-post', '', 0, 1),
-(76, 9, 'group', 'update-own-profile', '', 0, 1),
-(77, 4, 'group', 'update-profiles', '', 0, 0),
-(78, 9, 'group', 'rate-thread', '', 0, 1),
-(79, 2, 'group', 'rate-thread', '', 0, 0),
-(80, 1, 'group', 'register', '', 0, 0),
-(81, 2, 'group', 'register', '', 0, 1),
-(82, 2, 'group', 'logout', '', 0, 0),
-(83, 1, 'group', 'view-login', '', 0, 0),
-(84, 2, 'group', 'view-login', '', 0, 1),
-(85, 2, 'group', 'mark-read', '', 0, 0),
-(86, 8, 'group', 'staff', '', 0, 0),
-(87, 9, 'group', 'banned', '', 0, 0),
-(88, 8, 'group', 'ignore-thread-time-limit', '', 0, 0),
-(89, 2, 'group', 'rename-own-thread', '', 0, 0),
-(90, 7, 'group', 'view-forum-post-history', 'forum', 11, 0),
-(91, 7, 'group', 'view-forum-post-history', 'forum', 12, 0),
-(92, 7, 'group', 'view-forum-post-history', 'forum', 13, 0),
-(93, 7, 'group', 'create-private-forum-thread', 'forum', 11, 0),
-(94, 7, 'group', 'create-private-forum-thread', 'forum', 12, 0),
-(95, 7, 'group', 'create-private-forum-thread', 'forum', 13, 0),
-(96, 7, 'group', 'create-private-forum-post', 'forum', 11, 0),
-(97, 7, 'group', 'create-private-forum-post', 'forum', 12, 0),
-(98, 7, 'group', 'create-private-forum-post', 'forum', 13, 0),
-(99, 4, 'group', 'view-post-ips', '', 0, 0),
-(100, 4, 'group', 'edit-sprites', '', 0, 0),
-(101, 2, 'group', 'update-own-moods', '', 0, 0),
-(102, 2, 'group', 'view-user-urls', '', 0, 0),
-(103, 4, 'group', 'view-hidden-users', '', 0, 0),
-(104, 4, 'group', 'edit-users', '', 0, 0),
-(105, 3, 'user', 'use-test-bed', '', 0, 0),
-(126, 2, 'group', 'create-pms', '', 0, 0),
-(127, 2, 'group', 'delete-own-pms', '', 0, 0),
-(128, 2, 'group', 'view-own-pms', '', 0, 0),
-(129, 8, 'group', 'edit-own-title', '', 0, 0),
-(130, 11, 'group', 'create-pms', '', 0, 1),
-(131, 11, 'group', 'delete-own-pms', '', 0, 1),
-(132, 11, 'group', 'view-own-pms', '', 0, 1),
-(133, 2, 'group', 'view-own-sprites', '', 0, 0),
-(134, 2, 'group', 'create-public-post', 'forum', 16, 1),
-(135, 2, 'group', 'create-public-thread', 'forum', 16, 1),
-(136, 12, 'group', 'view-private-forum', 'forum', 15, 0),
-(137, 12, 'group', 'create-private-forum-post', 'forum', 15, 0),
-(138, 12, 'group', 'create-private-forum-thread', 'forum', 15, 0),
-(139, 4, 'group', 'override-readonly-forums', '', 0, 0),
-(160, 13, 'group', 'edit-forum-thread', 'forum', 1, 0),
-(161, 13, 'group', 'delete-forum-thread', '', 1, 0),
-(162, 13, 'group', 'edit-forum-post', '', 1, 0),
-(163, 13, 'group', 'delete-forum-post', '', 1, 0),
-(164, 13, 'group', 'view-forum-post-history', '', 1, 0),
-(170, 10, 'group', 'edit-forum-thread', '', 2, 0),
-(171, 10, 'group', 'delete-forum-thread', '', 2, 0),
-(172, 10, 'group', 'edit-forum-post', '', 2, 0),
-(173, 10, 'group', 'delete-forum-post', '', 2, 0),
-(174, 10, 'group', 'view-forum-post-history', '', 2, 0),
-(175, 10, 'group', 'edit-forum-thread', '', 3, 0),
-(176, 10, 'group', 'delete-forum-thread', '', 3, 0),
-(177, 10, 'group', 'edit-forum-post', '', 3, 0),
-(178, 10, 'group', 'delete-forum-post', '', 3, 0),
-(179, 10, 'group', 'view-forum-post-history', '', 3, 0),
-(180, 14, 'group', 'edit-forum-thread', '', 2, 0),
-(181, 14, 'group', 'delete-forum-thread', '', 2, 0),
-(182, 14, 'group', 'edit-forum-post', '', 2, 0),
-(183, 14, 'group', 'delete-forum-post', '', 2, 0),
-(184, 14, 'group', 'view-forum-post-history', '', 2, 0),
-(185, 9, 'group', 'rename-own-thread', '', 0, 1),
-(186, 4, 'group', 'view-errors', '', 0, 0),
-(187, 4, 'group', 'edit-ip-bans', '', 0, 0),
-(188, 1, 'group', 'view-calendar', '', 0, 0),
-(189, 15, 'group', 'view-calendar', '', 0, 1),
-(190, 10, 'group', 'view-private-forum', '', 17, 0),
-(191, 10, 'group', 'create-private-forum-post', '', 17, 0),
-(192, 10, 'group', 'create-private-forum-thread', '', 17, 0),
-(193, 10, 'group', 'edit-forum-thread', '', 17, 0),
-(194, 10, 'group', 'delete-forum-thread', '', 17, 0),
-(195, 10, 'group', 'edit-forum-post', '', 17, 0),
-(196, 10, 'group', 'delete-forum-post', '', 17, 0),
-(197, 10, 'group', 'view-forum-post-history', '', 17, 0),
-(198, 3, 'group', 'create-all-forums-announcement', '', 0, 0),
-(199, 10, 'group', 'create-forum-announcement', '', 2, 0),
-(200, 10, 'group', 'create-forum-announcement', '', 3, 0),
-(201, 16, 'group', 'view-private-forum', '', 21, 0),
-(202, 16, 'group', 'create-private-forum-post', '', 21, 0),
-(203, 16, 'group', 'create-private-forum-thread', '', 21, 0),
-(204, 16, 'group', 'view-private-category', '', 9, 0),
-(205, 5, 'group', 'view-private-forum', '', 21, 0),
-(206, 5, 'group', 'create-private-forum-post', '', 21, 0),
-(207, 5, 'group', 'create-private-forum-thread', '', 21, 0),
-(208, 16, 'group', 'edit-forum-thread', '', 21, 0),
-(209, 16, 'group', 'delete-forum-thread', '', 21, 0),
-(210, 16, 'group', 'edit-forum-post', '', 21, 0),
-(211, 16, 'group', 'delete-forum-post', '', 21, 0),
-(212, 16, 'group', 'view-forum-post-history', '', 21, 0),
-(213, 7, 'user', 'edit-sprites', '', 0, 0),
-(214, 10, 'group', 'has-displayname', '', 0, 0),
-(215, 10, 'group', 'view-acs-calendar', '', 0, 0),
-(216, 49, 'user', 'view-acs-calendar', '', 0, 0),
-(217, 2, 'group', 'post-radar', '', 0, 0),
-(218, 3, 'group', 'show-as-staff', '', 0, 0),
-(219, 4, 'group', 'show-as-staff', '', 0, 0),
-(220, 8, 'group', 'show-as-staff', '', 0, 0),
-(221, 6, 'group', 'show-as-staff', '', 0, 0),
-(222, 10, 'group', 'track-ip-change', '', 0, 0),
-(223, 2, 'group', 'use-item-shop', '', 0, 0),
-(224, 2, 'group', 'block-layout', '', 0, 0),
-(226, 12, 'user', 'edit-forum-post', '', 18, 0),
-(227, 12, 'user', 'edit-forum-thread', '', 18, 0),
-(228, 12, 'user', 'delete-forum-post', '', 18, 0),
-(229, 12, 'user', 'delete-forum-thread', '', 18, 0),
-(230, 12, 'user', 'view-forum-post-history', '', 18, 0),
-(232, 9, 'group', 'edit-own-title', '', 0, 1),
-(234, 7, 'user', 'view-user-pms', '', 0, 0),
-(235, 116, 'user', 'create-pms', '', 0, 1),
-(236, 16, 'group', 'edit-forum-thread', '', 23, 0),
-(237, 16, 'group', 'delete-forum-thread', '', 23, 0),
-(238, 16, 'group', 'edit-forum-post', '', 23, 0),
-(239, 16, 'group', 'delete-forum-post', '', 23, 0),
-(240, 16, 'group', 'view-forum-post-history', '', 23, 0),
-(241, 102, 'user', 'view-acs-calendar', '', 0, 0),
-(243, 17, 'group', 'view-post-history', '', 22, 0),
-(244, 16, 'group', 'edit-forum-thread', 'forum', 6, 0),
-(245, 102, 'user', 'consecutive-posts', '', 0, 0),
-(246, 7, 'user', 'has-displayname', '', 0, 0),
-(247, 13, 'user', 'edit-forum-post', '', 18, 0),
-(248, 13, 'user', 'delete-post', '', 18, 0),
-(249, 13, 'user', 'view-post-history', '', 18, 0),
-(250, 13, 'user', 'edit-forum-thread', '', 18, 0),
-(251, 13, 'user', 'delete-forum-thread', '', 18, 0),
-(252, 13, 'user', 'consecutive-posts', '', 0, 0),
-(253, 10, 'group', 'view-allranks', '', 0, 0),
-(254, 3, 'group', 'override-closed-all', '', 0, 0),
-(255, 4, 'group', 'edit-user-show-online', '', 0, 0),
-(256, 4, 'group', 'edit-user-show-online', '', 0, 0),
-(257, 4, 'group', 'edit-user-show-online', '', 0, 0),
-(258, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(259, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(260, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(261, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(262, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(263, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(264, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(265, 4, 'group', 'update-extended-profiles', '', 0, 0),
-(266, 2, 'group', 'show-online', '', 0, 0),
-(267, 4, 'group', 'manage-board', '', 0, 0),
-(268, 4, 'group', 'manage-board', '', 0, 0),
-(269, 4, 'group', 'manage-board', '', 0, 0),
-(270, 4, 'group', 'manage-board', '', 0, 0),
-(271, 4, 'group', 'manage-board', '', 0, 0),
-(272, 4, 'group', 'manage-board', '', 0, 0),
-(273, 4, 'group', 'manage-board', '', 0, 0),
-(274, 4, 'group', 'edit-all-group', '', 0, 0),
-(275, 4, 'group', 'edit-all-group', '', 0, 0),
-(276, 4, 'group', 'edit-all-group', '', 0, 0),
-(277, 4, 'group', 'edit-all-group', '', 0, 0),
-(278, 4, 'group', 'edit-all-group', '', 0, 0),
-(279, 4, 'group', 'edit-all-group', '', 0, 0),
-(280, 4, 'group', 'edit-all-group', '', 0, 0),
-(281, 4, 'group', 'edit-all-group', '', 0, 0),
-(282, 4, 'group', 'edit-all-group', '', 0, 0),
-(283, 4, 'group', 'edit-all-group', '', 0, 0),
-(284, 4, 'group', 'edit-all-group', '', 0, 0),
-(285, 4, 'group', 'edit-all-group', '', 0, 0),
-(286, 4, 'group', 'edit-all-group', '', 0, 0),
-(287, 1, 'group', 'create-public-thread', '', 0, 0),
-(288, 1, 'group', 'create-public-thread', '', 0, 0),
-(289, 1, 'group', 'create-public-thread', '', 0, 0),
-(290, 1, 'group', 'create-public-thread', '', 0, 0),
-(291, 1, 'group', 'create-public-thread', '', 0, 0),
-(292, 1, 'group', 'create-public-thread', '', 0, 0),
-(293, 1, 'group', 'create-public-thread', '', 0, 0),
-(294, 3, 'group', 'ban-users', '', 0, 0),
-(295, 3, 'group', 'ban-users', '', 0, 0),
-(296, 3, 'group', 'ban-users', '', 0, 0),
-(297, 3, 'group', 'ban-users', '', 0, 0),
-(298, 3, 'group', 'ban-users', '', 0, 0),
-(299, 3, 'group', 'ban-users', '', 0, 0),
-(300, 3, 'group', 'ban-users', '', 0, 0),
-(301, 3, 'group', 'ban-users', '', 0, 0),
-(302, 3, 'group', 'ban-users', '', 0, 0),
-(303, 3, 'group', 'ban-users', '', 0, 0),
-(304, 4, 'group', 'edit-titles', '', 0, 0),
-(305, 4, 'group', 'edit-titles', '', 0, 0),
-(306, 4, 'group', 'edit-titles', '', 0, 0),
-(307, 4, 'group', 'edit-titles', '', 0, 0),
-(308, 4, 'group', 'edit-titles', '', 0, 0),
-(309, 4, 'group', 'edit-titles', '', 0, 0),
-(310, 4, 'group', 'edit-titles', '', 0, 0),
-(311, 4, 'group', 'edit-titles', '', 0, 0),
-(312, 4, 'group', 'edit-titles', '', 0, 0),
-(313, 4, 'group', 'edit-titles', '', 0, 0),
-(314, 4, 'group', 'edit-titles', '', 0, 0),
-(315, 4, 'group', 'edit-titles', '', 0, 0),
-(316, 2, 'group', 'deleted-posts-tracker', '', 0, 0),
-(317, 2, 'group', 'deleted-posts-tracker', '', 0, 0),
-(318, 2, 'group', 'view-favorites', '', 0, 0),
-(319, 4, 'group', 'edit-ranks', '', 0, 0),
-(320, 4, 'group', 'has-customusercolor', '', 0, 0);
+(0,	4,	'group',	'edit-titles',	'',	0,	0),
+(2,	2,	'group',	'login',	'',	0,	0),
+(3,	2,	'group',	'update-own-profile',	'',	0,	0),
+(4,	1,	'group',	'view-profile-page',	'',	0,	0),
+(5,	1,	'group',	'view-public-categories',	'',	0,	0),
+(6,	1,	'group',	'view-public-forums',	'',	0,	0),
+(7,	1,	'group',	'view-public-posts',	'',	0,	0),
+(8,	1,	'group',	'view-public-threads',	'',	0,	0),
+(9,	2,	'group',	'create-public-post',	'',	0,	0),
+(10,	2,	'group',	'create-public-thread',	'',	0,	0),
+(11,	2,	'group',	'update-own-post',	'',	0,	0),
+(12,	2,	'group',	'use-post-layout',	'',	0,	0),
+(23,	8,	'group',	'consecutive-posts',	'',	0,	0),
+(24,	3,	'group',	'delete-post',	'',	0,	0),
+(25,	3,	'group',	'delete-thread',	'',	0,	0),
+(26,	3,	'group',	'update-post',	'',	0,	0),
+(27,	3,	'group',	'update-thread',	'',	0,	0),
+(28,	3,	'group',	'view-post-history',	'',	0,	0),
+(30,	4,	'group',	'edit-attentions-box',	'',	0,	0),
+(31,	4,	'group',	'edit-categories',	'',	0,	0),
+(32,	4,	'group',	'edit-forums',	'',	0,	0),
+(33,	4,	'group',	'edit-moods',	'',	0,	0),
+(34,	4,	'group',	'edit-permissions',	'',	0,	0),
+(36,	4,	'group',	'view-all-private-categories',	'',	0,	0),
+(37,	4,	'group',	'view-all-private-forums',	'',	0,	0),
+(38,	4,	'group',	'view-all-private-posts',	'',	0,	0),
+(39,	4,	'group',	'view-all-private-threads',	'',	0,	0),
+(41,	4,	'group',	'view-permissions',	'',	0,	0),
+(45,	6,	'group',	'no-restrictions',	'',	0,	0),
+(46,	7,	'group',	'view-private-forum',	'forum',	11,	0),
+(47,	7,	'group',	'edit-forum-thread',	'forum',	11,	0),
+(48,	7,	'group',	'delete-forum-thread',	'forum',	11,	0),
+(49,	7,	'group',	'edit-forum-post',	'forum',	11,	0),
+(50,	7,	'group',	'delete-forum-post',	'forum',	11,	0),
+(54,	7,	'group',	'view-private-forum',	'forum',	12,	0),
+(55,	7,	'group',	'edit-forum-thread',	'forum',	12,	0),
+(56,	7,	'group',	'delete-forum-thread',	'forum',	12,	0),
+(57,	7,	'group',	'edit-forum-post',	'forum',	12,	0),
+(58,	7,	'group',	'delete-forum-post',	'forum',	12,	0),
+(59,	7,	'group',	'edit-forum-thread',	'forum',	13,	0),
+(60,	7,	'group',	'delete-forum-thread',	'forum',	13,	0),
+(61,	7,	'group',	'edit-forum-post',	'forum',	13,	0),
+(62,	7,	'group',	'delete-forum-post',	'forum',	13,	0),
+(63,	7,	'group',	'view-private-forum',	'forum',	13,	0),
+(64,	4,	'group',	'create-all-private-forum-threads',	'',	0,	0),
+(65,	4,	'group',	'create-all-private-forum-posts',	'',	0,	0),
+(66,	10,	'group',	'view-private-category',	'categories',	2,	0),
+(68,	10,	'group',	'view-private-forum',	'forum',	3,	0),
+(71,	10,	'group',	'create-private-forum-thread',	'forum',	3,	0),
+(72,	10,	'group',	'create-private-forum-post',	'forum',	3,	0),
+(73,	9,	'group',	'create-public-thread',	'',	0,	1),
+(74,	9,	'group',	'create-public-post',	'',	0,	1),
+(75,	9,	'group',	'update-own-post',	'',	0,	1),
+(76,	9,	'group',	'update-own-profile',	'',	0,	1),
+(77,	4,	'group',	'update-profiles',	'',	0,	0),
+(78,	9,	'group',	'rate-thread',	'',	0,	1),
+(79,	2,	'group',	'rate-thread',	'',	0,	0),
+(80,	1,	'group',	'register',	'',	0,	0),
+(81,	2,	'group',	'register',	'',	0,	1),
+(82,	2,	'group',	'logout',	'',	0,	0),
+(83,	1,	'group',	'view-login',	'',	0,	0),
+(84,	2,	'group',	'view-login',	'',	0,	1),
+(85,	2,	'group',	'mark-read',	'',	0,	0),
+(86,	8,	'group',	'staff',	'',	0,	0),
+(87,	9,	'group',	'banned',	'',	0,	0),
+(88,	8,	'group',	'ignore-thread-time-limit',	'',	0,	0),
+(89,	2,	'group',	'rename-own-thread',	'',	0,	0),
+(90,	7,	'group',	'view-forum-post-history',	'forum',	11,	0),
+(91,	7,	'group',	'view-forum-post-history',	'forum',	12,	0),
+(92,	7,	'group',	'view-forum-post-history',	'forum',	13,	0),
+(93,	7,	'group',	'create-private-forum-thread',	'forum',	11,	0),
+(94,	7,	'group',	'create-private-forum-thread',	'forum',	12,	0),
+(95,	7,	'group',	'create-private-forum-thread',	'forum',	13,	0),
+(96,	7,	'group',	'create-private-forum-post',	'forum',	11,	0),
+(97,	7,	'group',	'create-private-forum-post',	'forum',	12,	0),
+(98,	7,	'group',	'create-private-forum-post',	'forum',	13,	0),
+(99,	4,	'group',	'view-post-ips',	'',	0,	0),
+(101,	2,	'group',	'update-own-moods',	'',	0,	0),
+(102,	2,	'group',	'view-user-urls',	'',	0,	0),
+(103,	4,	'group',	'view-hidden-users',	'',	0,	0),
+(104,	4,	'group',	'edit-users',	'',	0,	0),
+(105,	3,	'user',	'use-test-bed',	'',	0,	0),
+(126,	2,	'group',	'create-pms',	'',	0,	0),
+(127,	2,	'group',	'delete-own-pms',	'',	0,	0),
+(128,	2,	'group',	'view-own-pms',	'',	0,	0),
+(129,	8,	'group',	'edit-own-title',	'',	0,	0),
+(130,	11,	'group',	'create-pms',	'',	0,	1),
+(131,	11,	'group',	'delete-own-pms',	'',	0,	1),
+(132,	11,	'group',	'view-own-pms',	'',	0,	1),
+(134,	2,	'group',	'create-public-post',	'forum',	16,	1),
+(135,	2,	'group',	'create-public-thread',	'forum',	16,	1),
+(136,	12,	'group',	'view-private-forum',	'forum',	15,	0),
+(137,	12,	'group',	'create-private-forum-post',	'forum',	15,	0),
+(138,	12,	'group',	'create-private-forum-thread',	'forum',	15,	0),
+(139,	4,	'group',	'override-readonly-forums',	'',	0,	0),
+(175,	10,	'group',	'edit-forum-thread',	'',	3,	0),
+(176,	10,	'group',	'delete-forum-thread',	'',	3,	0),
+(177,	10,	'group',	'edit-forum-post',	'',	3,	0),
+(178,	10,	'group',	'delete-forum-post',	'',	3,	0),
+(179,	10,	'group',	'view-forum-post-history',	'',	3,	0),
+(185,	9,	'group',	'rename-own-thread',	'',	0,	1),
+(186,	4,	'group',	'view-errors',	'',	0,	0),
+(187,	4,	'group',	'edit-ip-bans',	'',	0,	0),
+(188,	1,	'group',	'view-calendar',	'',	0,	0),
+(189,	15,	'group',	'view-calendar',	'',	0,	1),
+(190,	10,	'group',	'view-private-forum',	'',	17,	0),
+(191,	10,	'group',	'create-private-forum-post',	'',	17,	0),
+(192,	10,	'group',	'create-private-forum-thread',	'',	17,	0),
+(193,	10,	'group',	'edit-forum-thread',	'',	17,	0),
+(194,	10,	'group',	'delete-forum-thread',	'',	17,	0),
+(195,	10,	'group',	'edit-forum-post',	'',	17,	0),
+(196,	10,	'group',	'delete-forum-post',	'',	17,	0),
+(197,	10,	'group',	'view-forum-post-history',	'',	17,	0),
+(198,	3,	'group',	'create-all-forums-announcement',	'',	0,	0),
+(200,	10,	'group',	'create-forum-announcement',	'',	3,	0),
+(201,	16,	'group',	'view-private-forum',	'',	21,	0),
+(202,	16,	'group',	'create-private-forum-post',	'',	21,	0),
+(203,	16,	'group',	'create-private-forum-thread',	'',	21,	0),
+(204,	16,	'group',	'view-private-category',	'',	9,	0),
+(205,	5,	'group',	'view-private-forum',	'',	21,	0),
+(206,	5,	'group',	'create-private-forum-post',	'',	21,	0),
+(207,	5,	'group',	'create-private-forum-thread',	'',	21,	0),
+(208,	16,	'group',	'edit-forum-thread',	'',	21,	0),
+(209,	16,	'group',	'delete-forum-thread',	'',	21,	0),
+(210,	16,	'group',	'edit-forum-post',	'',	21,	0),
+(211,	16,	'group',	'delete-forum-post',	'',	21,	0),
+(212,	16,	'group',	'view-forum-post-history',	'',	21,	0),
+(214,	10,	'group',	'has-displayname',	'',	0,	0),
+(215,	10,	'group',	'view-acs-calendar',	'',	0,	0),
+(216,	49,	'user',	'view-acs-calendar',	'',	0,	0),
+(217,	2,	'group',	'post-radar',	'',	0,	0),
+(218,	3,	'group',	'show-as-staff',	'',	0,	0),
+(219,	4,	'group',	'show-as-staff',	'',	0,	0),
+(220,	8,	'group',	'show-as-staff',	'',	0,	0),
+(221,	6,	'group',	'show-as-staff',	'',	0,	0),
+(222,	10,	'group',	'track-ip-change',	'',	0,	0),
+(223,	2,	'group',	'use-item-shop',	'',	0,	0),
+(224,	2,	'group',	'block-layout',	'',	0,	0),
+(226,	12,	'user',	'edit-forum-post',	'',	18,	0),
+(227,	12,	'user',	'edit-forum-thread',	'',	18,	0),
+(228,	12,	'user',	'delete-forum-post',	'',	18,	0),
+(229,	12,	'user',	'delete-forum-thread',	'',	18,	0),
+(230,	12,	'user',	'view-forum-post-history',	'',	18,	0),
+(232,	9,	'group',	'edit-own-title',	'',	0,	1),
+(234,	7,	'user',	'view-user-pms',	'',	0,	0),
+(235,	116,	'user',	'create-pms',	'',	0,	1),
+(236,	16,	'group',	'edit-forum-thread',	'',	23,	0),
+(237,	16,	'group',	'delete-forum-thread',	'',	23,	0),
+(238,	16,	'group',	'edit-forum-post',	'',	23,	0),
+(239,	16,	'group',	'delete-forum-post',	'',	23,	0),
+(240,	16,	'group',	'view-forum-post-history',	'',	23,	0),
+(241,	102,	'user',	'view-acs-calendar',	'',	0,	0),
+(243,	17,	'group',	'view-post-history',	'',	22,	0),
+(244,	16,	'group',	'edit-forum-thread',	'forum',	6,	0),
+(245,	102,	'user',	'consecutive-posts',	'',	0,	0),
+(246,	7,	'user',	'has-displayname',	'',	0,	0),
+(247,	13,	'user',	'edit-forum-post',	'',	18,	0),
+(248,	13,	'user',	'delete-post',	'',	18,	0),
+(249,	13,	'user',	'view-post-history',	'',	18,	0),
+(250,	13,	'user',	'edit-forum-thread',	'',	18,	0),
+(251,	13,	'user',	'delete-forum-thread',	'',	18,	0),
+(252,	13,	'user',	'consecutive-posts',	'',	0,	0),
+(253,	10,	'group',	'view-allranks',	'',	0,	0),
+(254,	3,	'group',	'override-closed-all',	'',	0,	0),
+(255,	4,	'group',	'edit-user-show-online',	'',	0,	0),
+(256,	4,	'group',	'edit-user-show-online',	'',	0,	0),
+(257,	4,	'group',	'edit-user-show-online',	'',	0,	0),
+(258,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(259,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(260,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(261,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(262,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(263,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(264,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(265,	4,	'group',	'update-extended-profiles',	'',	0,	0),
+(266,	2,	'group',	'show-online',	'',	0,	0),
+(267,	4,	'group',	'manage-board',	'',	0,	0),
+(268,	4,	'group',	'manage-board',	'',	0,	0),
+(269,	4,	'group',	'manage-board',	'',	0,	0),
+(270,	4,	'group',	'manage-board',	'',	0,	0),
+(271,	4,	'group',	'manage-board',	'',	0,	0),
+(272,	4,	'group',	'manage-board',	'',	0,	0),
+(273,	4,	'group',	'manage-board',	'',	0,	0),
+(274,	4,	'group',	'edit-all-group',	'',	0,	0),
+(275,	4,	'group',	'edit-all-group',	'',	0,	0),
+(276,	4,	'group',	'edit-all-group',	'',	0,	0),
+(277,	4,	'group',	'edit-all-group',	'',	0,	0),
+(278,	4,	'group',	'edit-all-group',	'',	0,	0),
+(279,	4,	'group',	'edit-all-group',	'',	0,	0),
+(280,	4,	'group',	'edit-all-group',	'',	0,	0),
+(281,	4,	'group',	'edit-all-group',	'',	0,	0),
+(282,	4,	'group',	'edit-all-group',	'',	0,	0),
+(283,	4,	'group',	'edit-all-group',	'',	0,	0),
+(284,	4,	'group',	'edit-all-group',	'',	0,	0),
+(285,	4,	'group',	'edit-all-group',	'',	0,	0),
+(286,	4,	'group',	'edit-all-group',	'',	0,	0),
+(287,	1,	'group',	'create-public-thread',	'',	0,	0),
+(288,	1,	'group',	'create-public-thread',	'',	0,	0),
+(289,	1,	'group',	'create-public-thread',	'',	0,	0),
+(290,	1,	'group',	'create-public-thread',	'',	0,	0),
+(291,	1,	'group',	'create-public-thread',	'',	0,	0),
+(292,	1,	'group',	'create-public-thread',	'',	0,	0),
+(293,	1,	'group',	'create-public-thread',	'',	0,	0),
+(294,	3,	'group',	'ban-users',	'',	0,	0),
+(295,	3,	'group',	'ban-users',	'',	0,	0),
+(296,	3,	'group',	'ban-users',	'',	0,	0),
+(297,	3,	'group',	'ban-users',	'',	0,	0),
+(298,	3,	'group',	'ban-users',	'',	0,	0),
+(299,	3,	'group',	'ban-users',	'',	0,	0),
+(300,	3,	'group',	'ban-users',	'',	0,	0),
+(301,	3,	'group',	'ban-users',	'',	0,	0),
+(302,	3,	'group',	'ban-users',	'',	0,	0),
+(303,	3,	'group',	'ban-users',	'',	0,	0),
+(304,	4,	'group',	'edit-titles',	'',	0,	0),
+(305,	4,	'group',	'edit-titles',	'',	0,	0),
+(306,	4,	'group',	'edit-titles',	'',	0,	0),
+(307,	4,	'group',	'edit-titles',	'',	0,	0),
+(308,	4,	'group',	'edit-titles',	'',	0,	0),
+(309,	4,	'group',	'edit-titles',	'',	0,	0),
+(310,	4,	'group',	'edit-titles',	'',	0,	0),
+(311,	4,	'group',	'edit-titles',	'',	0,	0),
+(312,	4,	'group',	'edit-titles',	'',	0,	0),
+(313,	4,	'group',	'edit-titles',	'',	0,	0),
+(314,	4,	'group',	'edit-titles',	'',	0,	0),
+(315,	4,	'group',	'edit-titles',	'',	0,	0),
+(318,	2,	'group',	'view-favorites',	'',	0,	0),
+(319,	4,	'group',	'edit-ranks',	'',	0,	0),
+(320,	4,	'group',	'has-customusercolor',	'',	0,	0),
+(321,	1,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
+(322,	1,	'group',	'create-forum-announcement',	'forums',	2,	1),
+(323,	1,	'group',	'create-private-forum-post',	'forums',	2,	1),
+(324,	1,	'group',	'create-private-forum-thread',	'forums',	2,	1),
+(325,	1,	'group',	'delete-forum-post',	'forums',	2,	1),
+(326,	1,	'group',	'delete-forum-thread',	'forums',	2,	1),
+(327,	1,	'group',	'edit-forum-post',	'forums',	2,	1),
+(328,	1,	'group',	'edit-forum-thread',	'forums',	2,	1),
+(329,	1,	'group',	'override-closed-forum',	'forums',	2,	1),
+(330,	1,	'group',	'view-forum-post-history',	'forums',	2,	1),
+(331,	1,	'group',	'view-private-forum',	'forums',	2,	1),
+(332,	6,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
+(333,	6,	'group',	'create-forum-announcement',	'forums',	2,	1),
+(334,	6,	'group',	'create-private-forum-post',	'forums',	2,	1),
+(335,	6,	'group',	'create-private-forum-thread',	'forums',	2,	1),
+(336,	6,	'group',	'delete-forum-post',	'forums',	2,	1),
+(337,	6,	'group',	'delete-forum-thread',	'forums',	2,	1),
+(338,	6,	'group',	'edit-forum-post',	'forums',	2,	1),
+(339,	6,	'group',	'edit-forum-thread',	'forums',	2,	1),
+(340,	6,	'group',	'override-closed-forum',	'forums',	2,	1),
+(341,	6,	'group',	'view-forum-post-history',	'forums',	2,	1),
+(342,	6,	'group',	'view-private-forum',	'forums',	2,	1),
+(343,	10,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
+(344,	10,	'group',	'create-forum-announcement',	'forums',	2,	0),
+(345,	10,	'group',	'create-private-forum-post',	'forums',	2,	0),
+(346,	10,	'group',	'create-private-forum-thread',	'forums',	2,	0),
+(347,	10,	'group',	'delete-forum-post',	'forums',	2,	0),
+(348,	10,	'group',	'delete-forum-thread',	'forums',	2,	0),
+(349,	10,	'group',	'edit-forum-post',	'forums',	2,	0),
+(350,	10,	'group',	'edit-forum-thread',	'forums',	2,	0),
+(351,	10,	'group',	'override-closed-forum',	'forums',	2,	1),
+(352,	10,	'group',	'view-forum-post-history',	'forums',	2,	0),
+(353,	10,	'group',	'view-private-forum',	'forums',	2,	0),
+(354,	11,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
+(355,	11,	'group',	'create-forum-announcement',	'forums',	2,	1),
+(356,	11,	'group',	'create-private-forum-post',	'forums',	2,	1),
+(357,	11,	'group',	'create-private-forum-thread',	'forums',	2,	1),
+(358,	11,	'group',	'delete-forum-post',	'forums',	2,	1),
+(359,	11,	'group',	'delete-forum-thread',	'forums',	2,	1),
+(360,	11,	'group',	'edit-forum-post',	'forums',	2,	1),
+(361,	11,	'group',	'edit-forum-thread',	'forums',	2,	1),
+(362,	11,	'group',	'override-closed-forum',	'forums',	2,	1),
+(363,	11,	'group',	'view-forum-post-history',	'forums',	2,	1),
+(364,	11,	'group',	'view-private-forum',	'forums',	2,	1),
+(365,	13,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
+(366,	13,	'group',	'create-forum-announcement',	'forums',	2,	1),
+(367,	13,	'group',	'create-private-forum-post',	'forums',	2,	1),
+(368,	13,	'group',	'create-private-forum-thread',	'forums',	2,	1),
+(369,	13,	'group',	'delete-forum-post',	'forums',	2,	1),
+(370,	13,	'group',	'delete-forum-thread',	'forums',	2,	1),
+(371,	13,	'group',	'edit-forum-post',	'forums',	2,	1),
+(372,	13,	'group',	'edit-forum-thread',	'forums',	2,	1),
+(373,	13,	'group',	'override-closed-forum',	'forums',	2,	1),
+(374,	13,	'group',	'view-forum-post-history',	'forums',	2,	1),
+(375,	13,	'group',	'view-private-forum',	'forums',	2,	1),
+(376,	1,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
+(377,	1,	'group',	'create-forum-announcement',	'forums',	1,	1),
+(378,	1,	'group',	'create-private-forum-post',	'forums',	1,	1),
+(379,	1,	'group',	'create-private-forum-thread',	'forums',	1,	1),
+(380,	1,	'group',	'delete-forum-post',	'forums',	1,	1),
+(381,	1,	'group',	'delete-forum-thread',	'forums',	1,	1),
+(382,	1,	'group',	'edit-forum-post',	'forums',	1,	1),
+(383,	1,	'group',	'edit-forum-thread',	'forums',	1,	1),
+(384,	1,	'group',	'override-closed-forum',	'forums',	1,	1),
+(385,	1,	'group',	'view-forum-post-history',	'forums',	1,	1),
+(386,	1,	'group',	'view-private-forum',	'forums',	1,	1),
+(387,	6,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
+(388,	6,	'group',	'create-forum-announcement',	'forums',	1,	1),
+(389,	6,	'group',	'create-private-forum-post',	'forums',	1,	1),
+(390,	6,	'group',	'create-private-forum-thread',	'forums',	1,	1),
+(391,	6,	'group',	'delete-forum-post',	'forums',	1,	1),
+(392,	6,	'group',	'delete-forum-thread',	'forums',	1,	1),
+(393,	6,	'group',	'edit-forum-post',	'forums',	1,	1),
+(394,	6,	'group',	'edit-forum-thread',	'forums',	1,	1),
+(395,	6,	'group',	'override-closed-forum',	'forums',	1,	1),
+(396,	6,	'group',	'view-forum-post-history',	'forums',	1,	1),
+(397,	6,	'group',	'view-private-forum',	'forums',	1,	1),
+(398,	11,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
+(399,	11,	'group',	'create-forum-announcement',	'forums',	1,	1),
+(400,	11,	'group',	'create-private-forum-post',	'forums',	1,	1),
+(401,	11,	'group',	'create-private-forum-thread',	'forums',	1,	1),
+(402,	11,	'group',	'delete-forum-post',	'forums',	1,	1),
+(403,	11,	'group',	'delete-forum-thread',	'forums',	1,	1),
+(404,	11,	'group',	'edit-forum-post',	'forums',	1,	1),
+(405,	11,	'group',	'edit-forum-thread',	'forums',	1,	1),
+(406,	11,	'group',	'override-closed-forum',	'forums',	1,	1),
+(407,	11,	'group',	'view-forum-post-history',	'forums',	1,	1),
+(408,	11,	'group',	'view-private-forum',	'forums',	1,	1),
+(409,	13,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
+(410,	13,	'group',	'create-forum-announcement',	'forums',	1,	1),
+(411,	13,	'group',	'create-private-forum-post',	'forums',	1,	1),
+(412,	13,	'group',	'create-private-forum-thread',	'forums',	1,	1),
+(413,	13,	'group',	'delete-forum-post',	'forums',	1,	1),
+(414,	13,	'group',	'delete-forum-thread',	'forums',	1,	1),
+(415,	13,	'group',	'edit-forum-post',	'forums',	1,	1),
+(416,	13,	'group',	'edit-forum-thread',	'forums',	1,	1),
+(417,	13,	'group',	'override-closed-forum',	'forums',	1,	1),
+(418,	13,	'group',	'view-forum-post-history',	'forums',	1,	1),
+(419,	13,	'group',	'view-private-forum',	'forums',	1,	1),
+(420,	1,	'group',	'view-private-category',	'categories',	1,	1),
+(421,	6,	'group',	'view-private-category',	'categories',	1,	1),
+(422,	11,	'group',	'view-private-category',	'categories',	1,	1),
+(423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
---
--- Index för dumpade tabeller
---
-
---
--- Index för tabell `annoucenickprefix`
---
-ALTER TABLE `annoucenickprefix`
-  ADD PRIMARY KEY (`group_id`);
-
---
--- Index för tabell `announcechans`
---
-ALTER TABLE `announcechans`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `badgecateg`
---
-ALTER TABLE `badgecateg`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `badges`
---
-ALTER TABLE `badges`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `priority` (`priority`);
-
---
--- Index för tabell `blockedlayouts`
---
-ALTER TABLE `blockedlayouts`
-  ADD KEY `user` (`user`);
-
---
--- Index för tabell `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `dailystats`
---
-ALTER TABLE `dailystats`
-  ADD PRIMARY KEY (`date`);
-
---
--- Index för tabell `deletedgroups`
---
-ALTER TABLE `deletedgroups`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `forummods`
---
-ALTER TABLE `forummods`
-  ADD UNIQUE KEY `uid_2` (`uid`,`fid`),
-  ADD KEY `uid` (`uid`,`fid`);
-
---
--- Index för tabell `forums`
---
-ALTER TABLE `forums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `forumsread`
---
-ALTER TABLE `forumsread`
-  ADD UNIQUE KEY `uid` (`uid`,`fid`);
-
---
--- Index för tabell `group`
---
-ALTER TABLE `group`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `guests`
---
-ALTER TABLE `guests`
-  ADD UNIQUE KEY `ip` (`ip`);
-
---
--- Index för tabell `hourlyviews`
---
-ALTER TABLE `hourlyviews`
-  ADD UNIQUE KEY `hour` (`hour`);
-
---
--- Index för tabell `itemcateg`
---
-ALTER TABLE `itemcateg`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `cat` (`cat`);
-
---
--- Index för tabell `log`
---
-ALTER TABLE `log`
-  ADD KEY `t` (`t`),
-  ADD KEY `ip` (`ip`);
-
---
--- Index för tabell `mcache`
---
-ALTER TABLE `mcache`
-  ADD KEY `hash` (`hash`);
-
---
--- Index för tabell `misc`
---
-ALTER TABLE `misc`
-  ADD PRIMARY KEY (`field`);
-
---
--- Index för tabell `mood`
---
-ALTER TABLE `mood`
-  ADD UNIQUE KEY `id` (`id`,`user`);
-
---
--- Index för tabell `perm`
---
-ALTER TABLE `perm`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `permbind`
---
-ALTER TABLE `permbind`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `permcat`
---
-ALTER TABLE `permcat`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `pmsgs`
---
-ALTER TABLE `pmsgs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `pmsgstext`
---
-ALTER TABLE `pmsgstext`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `polloptions`
---
-ALTER TABLE `polloptions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `poll` (`poll`);
-
---
--- Index för tabell `polls`
---
-ALTER TABLE `polls`
-  ADD KEY `id` (`id`);
-
---
--- Index för tabell `pollvotes`
---
-ALTER TABLE `pollvotes`
-  ADD UNIQUE KEY `id_2` (`id`,`user`);
-
---
--- Index för tabell `posticons`
---
-ALTER TABLE `posticons`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `posts`
---
-ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `threadid` (`thread`);
-
---
--- Index för tabell `poststext`
---
-ALTER TABLE `poststext`
-  ADD PRIMARY KEY (`id`,`revision`);
-
---
--- Index för tabell `post_radar`
---
-ALTER TABLE `post_radar`
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `user_id` (`user_id`,`user2_id`);
-
---
--- Index för tabell `profileext`
---
-ALTER TABLE `profileext`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `ranksets`
---
-ALTER TABLE `ranksets`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `resetpass`
---
-ALTER TABLE `resetpass`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `token` (`token`);
-
---
--- Index för tabell `rpgchat`
---
-ALTER TABLE `rpgchat`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `chan` (`chan`);
-
---
--- Index för tabell `rpgrooms`
---
-ALTER TABLE `rpgrooms`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `sprites`
---
-ALTER TABLE `sprites`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `sprite_captures`
---
-ALTER TABLE `sprite_captures`
-  ADD UNIQUE KEY `userid` (`userid`,`monid`);
-
---
--- Index för tabell `threads`
---
-ALTER TABLE `threads`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `threadsread`
---
-ALTER TABLE `threadsread`
-  ADD UNIQUE KEY `uid` (`uid`,`tid`);
-
---
--- Index för tabell `threadthumbs`
---
-ALTER TABLE `threadthumbs`
-  ADD UNIQUE KEY `uid` (`uid`,`tid`);
-
---
--- Index för tabell `timezones`
---
-ALTER TABLE `timezones`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Index för tabell `usersrpg`
---
-ALTER TABLE `usersrpg`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Index för tabell `user_badges`
---
-ALTER TABLE `user_badges`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `badge_id` (`badge_id`);
-
---
--- Index för tabell `user_profileext`
---
-ALTER TABLE `user_profileext`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index för tabell `views`
---
-ALTER TABLE `views`
-  ADD UNIQUE KEY `view` (`view`);
-
---
--- Index för tabell `x_perm`
---
-ALTER TABLE `x_perm`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT för dumpade tabeller
---
-
---
--- AUTO_INCREMENT för tabell `announcechans`
---
-ALTER TABLE `announcechans`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `badgecateg`
---
-ALTER TABLE `badgecateg`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT för tabell `badges`
---
-ALTER TABLE `badges`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT för tabell `deletedgroups`
---
-ALTER TABLE `deletedgroups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `group`
---
-ALTER TABLE `group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT för tabell `itemcateg`
---
-ALTER TABLE `itemcateg`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT för tabell `items`
---
-ALTER TABLE `items`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT för tabell `permcat`
---
-ALTER TABLE `permcat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT för tabell `pmsgs`
---
-ALTER TABLE `pmsgs`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `polloptions`
---
-ALTER TABLE `polloptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `posticons`
---
-ALTER TABLE `posticons`
-  MODIFY `id` tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
---
--- AUTO_INCREMENT för tabell `posts`
---
-ALTER TABLE `posts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `post_radar`
---
-ALTER TABLE `post_radar`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `resetpass`
---
-ALTER TABLE `resetpass`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `rpgchat`
---
-ALTER TABLE `rpgchat`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `rpgrooms`
---
-ALTER TABLE `rpgrooms`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `sprites`
---
-ALTER TABLE `sprites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `threads`
---
-ALTER TABLE `threads`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `timezones`
---
-ALTER TABLE `timezones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
---
--- AUTO_INCREMENT för tabell `users`
---
-ALTER TABLE `users`
-  MODIFY `id` mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
---
--- AUTO_INCREMENT för tabell `user_badges`
---
-ALTER TABLE `user_badges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT för tabell `user_profileext`
---
-ALTER TABLE `user_profileext`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT för tabell `x_perm`
---
-ALTER TABLE `x_perm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- 2019-01-27 10:38:52

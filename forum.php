@@ -250,7 +250,6 @@ if ($fid) {
 echo "
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" width=17>&nbsp;</td>
-" . "    <td class=\"b h\" width=17>&nbsp;</td>
 " . ($showforum ?
 				"    <td class=\"b h\">Forum</td>" : '') . "
 " . "    <td class=\"b h\">Title</td>
@@ -306,11 +305,6 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	if (!$thread['title'])
 		$thread['title'] = '�';
 
-	if ($thread['icon'])
-		$icon = "<img src='$thread[icon]' height=15>";
-	else
-		$icon = '&nbsp;';
-
 	if ($thread['sticky'])
 		$tr = 'n1';
 	else
@@ -344,7 +338,6 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 
 	echo "<tr class=\"$tr\" align=\"center\">
 " . "    <td class=\"b n1\">$status</td>
-" . "    <td class=\"b\">$icon</td>
 " . ($showforum ?
 					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
 " . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . (($thread['thumbcount']) ? " (" . $thread['thumbcount'] . ") " : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>

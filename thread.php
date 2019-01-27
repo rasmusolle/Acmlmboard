@@ -122,14 +122,14 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 	} elseif ($act == 'open') {
 		$action = ',closed=0';
 	} elseif ($act == 'trash') {
-		editthread($tid, '', $trashid, '', 1);
+		editthread($tid, '', $trashid, 1);
 	} elseif ($act == 'rename') {
 		if(!empty($_POST['title'])) {
 			$newtitle=stripslashes($_POST['title']);
 			$action=",title='".$sql->escape($newtitle)."'";
 		}
 	} elseif ($act == 'move') {
-		editthread($tid, '', $_POST['arg'], '');
+		editthread($tid, '', $_POST['arg']);
 	} elseif ($act == 'tag') {
 		$action = ',tags=tags^' . (1 << $_POST['arg']);
 	} else {

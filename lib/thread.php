@@ -1,11 +1,10 @@
 <?php
 
-function editthread($id, $title = '', $forum = 0, $icon = '', $closed= -1, $sticky= -1, $delete = -1) {
+function editthread($id, $title = '', $forum = 0, $closed= -1, $sticky= -1, $delete = -1) {
 	global $sql;
 	if ($delete < 1) {
 		$set = '';
 		if ($title != '') $set .= ",title=\"$title\"";
-		if ($icon != '')  $set .= ",icon=$icon";
 		if ($closed >= 0) $set .= ",closed=$closed";
 		if ($sticky >= 0) $set .= ",sticky=$sticky";
 		$set[0] = ' ';
