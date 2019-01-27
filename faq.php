@@ -57,7 +57,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#gpg">General Posting Guidelines</a><br>
 			<a href="#move">I just made a thread, where did it go?</a><br>
 			<a href="#rude">I feel that a user is being rude to me. What do I do?</a><br>
-			<a href="#acs">What is "ACS"?</a><br>
 			<a href="#smile">Are smilies and BBCode supported?</a><br>
 			<a href="#tags">Board Specific tags (non-BBcode [tags] and other substitutions)</a><br>
 			<a href="#irc">What's this IRC thing I keep hearing about?</a><br>
@@ -124,12 +123,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Stay cool. Don't further disrupt the thread by responding <b>at all</b> to the rudeness. Let a member of staff know with a link to the offending post(s). Please note that responding to the rudeness is promoting flaming, which is a punishable offense.
-		</td>
-	</tr>
-	<tr class="h"><td class="b h" id="acs">What is "ACS"?</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			ACS stands for Acmlm Champion Series. It is an ongoing posting contest which is found in General Chat. All general posting rules apply.
 		</td>
 	</tr>
 	<tr class="h"><td class="b h" id="smile">Are smilies and BBCode supported?</td></tr>
