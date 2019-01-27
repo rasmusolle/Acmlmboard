@@ -90,51 +90,50 @@ if ($config['memberlistcolorlinks']) {
 	$spancolor = "";
 }
 
-echo "<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>$num user" . ($num > 1 ? 's' : '') . " found.</td>
-" . "  <tr>
-" . "    <td class=\"b n1\" width=60>Sort by:</td>
-" . "    <td class=\"b n2\" align=\"center\">
-" . "      " . mlink('', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Posts</a> |
-" . "      " . mlink('exp', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn) . "EXP</a> |
-" . "      " . mlink('name', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Username</a> |
-" . "      " . mlink('reg', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Registration date</a>
-" . "  <tr>
-" . "    <td class=\"b n1\" width=60>Order by:</td>
-" . "    <td class=\"b n2\" align=\"center\">
-" . "      " . mlink($sort, $sex, $pow, $ppp, $page, 'd', $customnc, $displayn) . "Descending</a> |
-" . "      " . mlink($sort, $sex, $pow, $ppp, $page, 'a', $customnc, $displayn) . "Ascending</a>
-" . "  <tr>
-" . "    <td class=\"b n1\">Sex:</td>
-" . "    <td class=\"b n2\" align=\"center\">
-" . "      " . mlink($sort, 'm', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $malecolor . "Male" . $spancolor . "</a> |
-" . "      " . mlink($sort, 'f', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $femalecolor . "Female" . $spancolor . "</a> |
-" . "      " . mlink($sort, 'n', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $nacolor . "N/A" . $spancolor . "</a> |
-";
+?>
+<table class="c1">
+	<tr class="h"><td class="b h" colspan="2"><?php echo $num . ' user' . ($num > 1 ? 's' : ''); ?> found.</td></tr>
+	<tr>
+		<td class="b n1" width="60">Sort by:</td>
+		<td class="b n2" align="center">
+			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Posts</a> |
+			<?php echo mlink('exp', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> EXP</a> |
+			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Username</a> |
+			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Registration date</a>
+		</td>
+	</tr><tr>
+		<td class="b n1" width="60">Order by:</td>
+		<td class="b n2" align="center">
+			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd', $customnc, $displayn) . "Descending</a> |"; ?>
+			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a', $customnc, $displayn) . "Ascending</a>"; ?>
+		</td>
+	</tr><tr>
+		<td class="b n1">Sex:</td>
+		<td class="b n2" align="center">
+			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $malecolor . "Male" . $spancolor . "</a> | " .
+			mlink($sort, 'f', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $femalecolor . "Female" . $spancolor . "</a> | " .
+			mlink($sort, 'n', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $nacolor . "N/A" . $spancolor . "</a> | ";
 
-if ($config['perusercolor']) {
-	if ($customnc == '1')
-		echo "      " . mlink($sort, $sex, $pow, $ppp, $page, $orderby, '0', $displayn) . "Regular</a> |
-  ";
-	else
-		echo "      " . mlink($sort, $sex, $pow, $ppp, $page, $orderby, '1', $displayn) . "Custom</a> |
-  ";
-}
+			if ($config['perusercolor']) {
+				if ($customnc == '1')
+					echo mlink($sort, $sex, $pow, $ppp, $page, $orderby, '0', $displayn) . "Regular</a> |";
+				else
+					echo  mlink($sort, $sex, $pow, $ppp, $page, $orderby, '1', $displayn) . "Custom</a> |";
+			}
 
-echo "      " . mlink($sort, '', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "All</a>";
+			echo mlink($sort, '', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "All</a>";
 
-//Added the sort by displayname feature - SquidEmpress
-if ($config['displayname'])
-	echo "  <tr>
-" . "    <td class=\"b n1\">Displayname:</td>
-" . "    <td class=\"b n2\" align=\"center\">
-" . "      " . mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '0') . "Regular</a> |
-" . "      " . mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '1') . "Displayname</a>";
-
-echo "  <tr>
-" . "    <td class=\"b n1\">Group:</td>
-" . "    <td class=\"b n2\" align=\"center\">";
+			//Added the sort by displayname feature - SquidEmpress
+			if ($config['displayname'])
+				?><tr>
+					<td class="b n1">Displayname:</td>
+					<td class="b n2" align="center">
+						<?php echo mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '0') . "Regular</a> | " . 
+						mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '1') . "Displayname</a>"; ?>
+				<tr>
+					<td class="b n1">Group:</td>
+					<td class="b n2" align="center">
+<?php
 $c = 0;
 foreach ($groups as $k => $v) {
 	echo $v;
