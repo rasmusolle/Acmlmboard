@@ -68,10 +68,9 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#avatar">What are avatars &amp; mood avatars?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
 			<a href="#search">Search Feature</a><br>
-			<a href="#calendar">What is the calendar for?</a><br>
 			<a href="#usercols">What do the username colours mean?</a><br>
 		</td>
-
+	</tr>
 </table>
 <br>
 <table class="c1">
@@ -293,12 +292,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		<td class="b n1" style="padding:10px!important;">
 			The search feature is used to search the forum posts and threads for whatever you may be looking for.
 			It has the ability to be filtered by forum and user it was posted by.
-		</td>
-	</tr>
-	<tr class="h"><td class="b h" id="calendar">What is the calendar for?</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			The calendar lists user birthdays and special board events.
 		</td>
 	</tr>
 	<tr class="h"><td class="b h" id="usercols">What do the username colours mean?</td></tr>

@@ -62,19 +62,6 @@ CREATE TABLE `deletedgroups` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `events`;
-CREATE TABLE `events` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `month` tinyint(4) NOT NULL,
-  `day` tinyint(4) NOT NULL,
-  `year` smallint(6) NOT NULL,
-  `user` mediumint(9) NOT NULL,
-  `private` tinyint(4) NOT NULL,
-  `event_title` varchar(32) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `forummods`;
 CREATE TABLE `forummods` (
   `uid` int(12) NOT NULL,
@@ -295,7 +282,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-all-group',	'Edit All Group Assets',	'',	3,	''),
 ('edit-all-group-member',	'Edit All User Assets',	'',	3,	''),
 ('edit-attentions-box',	'Edit Attentions Box',	'',	3,	''),
-('edit-calendar-events',	'Edit Calendar Events',	'',	3,	''),
 ('edit-categories',	'Edit Categories',	'',	3,	''),
 ('edit-customusercolors',	'Edit Custom Username Colors',	'',	3,	''),
 ('edit-displaynames',	'Edit Displaynames',	'',	3,	''),
@@ -323,7 +309,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('ignore-thread-time-limit',	'Ignore Thread Time Limit',	'',	0,	''),
 ('login',	'Login',	'',	1,	''),
 ('manage-board',	'Administration Management Panel',	'',	3,	''),
-('manage-shop-items',	'Manage Shop Items',	'',	3,	''),
 ('mark-read',	'Mark Read',	'',	1,	''),
 ('no-restrictions',	'No Restrictions',	'',	3,	''),
 ('override-closed-all',	'Post in All Closed Threads',	'',	2,	''),
@@ -331,7 +316,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('override-closed-thread',	'Post in Closed Thread',	'',	2,	'threads'),
 ('override-readonly-forums',	'Override Read Only Forums',	'',	3,	''),
 ('post-offline',	'Post Offline',	'',	4,	''),
-('post-radar',	'Post Radar',	'Can use Post Radar',	2,	''),
 ('rate-thread',	'Rate Thread',	'',	1,	''),
 ('register',	'Register',	'',	1,	''),
 ('rename-own-thread',	'Rename Own Thread',	'',	1,	''),
@@ -350,11 +334,9 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('update-user-extended-profile',	'Update User Extended Profile',	'',	3,	'users'),
 ('update-user-moods',	'Update User Moods',	'',	3,	'users'),
 ('update-user-profile',	'Update User Profile',	'',	3,	'users'),
-('use-item-shop',	'Use Item Shop',	'',	1,	''),
 ('use-post-layout',	'Use Post Layout',	'',	4,	''),
 ('use-test-bed',	'Use Test Bed',	'',	3,	''),
 ('use-uploader',	'Use Uploader',	'',	1,	''),
-('view-acs-calendar',	'View ACS Rankings Calendar',	'',	2,	''),
 ('view-all-private-categories',	'View All Private Categories',	'',	3,	''),
 ('view-all-private-forums',	'View All Private Forums',	'',	3,	''),
 ('view-all-private-posts',	'View All Private Posts',	'',	3,	''),
@@ -1709,8 +1691,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (185,	9,	'group',	'rename-own-thread',	'',	0,	1),
 (186,	4,	'group',	'view-errors',	'',	0,	0),
 (187,	4,	'group',	'edit-ip-bans',	'',	0,	0),
-(188,	1,	'group',	'view-calendar',	'',	0,	0),
-(189,	15,	'group',	'view-calendar',	'',	0,	1),
 (190,	10,	'group',	'view-private-forum',	'',	17,	0),
 (191,	10,	'group',	'create-private-forum-post',	'',	17,	0),
 (192,	10,	'group',	'create-private-forum-thread',	'',	17,	0),
@@ -1734,15 +1714,12 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (211,	16,	'group',	'delete-forum-post',	'',	21,	0),
 (212,	16,	'group',	'view-forum-post-history',	'',	21,	0),
 (214,	10,	'group',	'has-displayname',	'',	0,	0),
-(215,	10,	'group',	'view-acs-calendar',	'',	0,	0),
-(216,	49,	'user',	'view-acs-calendar',	'',	0,	0),
 (217,	2,	'group',	'post-radar',	'',	0,	0),
 (218,	3,	'group',	'show-as-staff',	'',	0,	0),
 (219,	4,	'group',	'show-as-staff',	'',	0,	0),
 (220,	8,	'group',	'show-as-staff',	'',	0,	0),
 (221,	6,	'group',	'show-as-staff',	'',	0,	0),
 (222,	10,	'group',	'track-ip-change',	'',	0,	0),
-(223,	2,	'group',	'use-item-shop',	'',	0,	0),
 (224,	2,	'group',	'block-layout',	'',	0,	0),
 (226,	12,	'user',	'edit-forum-post',	'',	18,	0),
 (227,	12,	'user',	'edit-forum-thread',	'',	18,	0),
@@ -1757,7 +1734,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (238,	16,	'group',	'edit-forum-post',	'',	23,	0),
 (239,	16,	'group',	'delete-forum-post',	'',	23,	0),
 (240,	16,	'group',	'view-forum-post-history',	'',	23,	0),
-(241,	102,	'user',	'view-acs-calendar',	'',	0,	0),
 (243,	17,	'group',	'view-post-history',	'',	22,	0),
 (244,	16,	'group',	'edit-forum-thread',	'forum',	6,	0),
 (245,	102,	'user',	'consecutive-posts',	'',	0,	0),
@@ -1938,4 +1914,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 14:06:51
+-- 2019-01-27 14:37:28

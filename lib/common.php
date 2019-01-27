@@ -330,7 +330,6 @@ function pageheader($pagetitle = "", $fid = 0) {
           | <a href=\"memberlist.php\">Memberlist</a>
           | <a href=\"activeusers.php\">Active users</a>
           | <a href=\"thread.php?time=86400\">Latest posts</a>
-          " . (has_perm("view-calendar") ? " | <a href=\"calendar.php\">Calendar</a>" : "") . "
           | <a href=\"stats.php\">Stats</a>
           | <a href=\"ranks.php\">Ranks</a>
           | <a href=\"online.php\">Online users</a>
@@ -398,12 +397,8 @@ function pageheader($pagetitle = "", $fid = 0) {
 	if ($log) {
 		if (has_perm("update-own-profile"))
 			$userlinks[$ul++] = array('url' => "editprofile.php", 'title' => 'Edit profile');
-		if (has_perm("view-favorites"))
-			$userlinks[$ul++] = array('url' => "forum.php?fav", 'title' => 'Favorite threads');
 		if (has_perm("update-own-moods"))
 			$userlinks[$ul++] = array('url' => "mood.php", 'title' => 'Edit mood avatars');
-		if (has_perm("view-acs-calendar"))
-			$userlinks[$ul++] = array('url' => "frank.php", 'title' => 'Rankings');
 		if (has_perm('manage-board'))
 			$userlinks[$ul++] = array('url' => 'management.php', 'title' => 'Management');
 		if (has_perm("mark-read"))
