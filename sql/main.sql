@@ -1492,8 +1492,8 @@ CREATE TABLE `users` (
   `sex` tinyint(4) NOT NULL DEFAULT '2',
   `power` tinyint(4) NOT NULL DEFAULT '0',
   `tzoff` float NOT NULL DEFAULT '0',
-  `dateformat` varchar(15) NOT NULL DEFAULT 'm-d-y',
-  `timeformat` varchar(15) NOT NULL DEFAULT 'h:i A',
+  `dateformat` varchar(15) NOT NULL DEFAULT 'Y-m-d',
+  `timeformat` varchar(15) NOT NULL DEFAULT 'H:i',
   `ppp` smallint(3) unsigned NOT NULL DEFAULT '20',
   `tpp` smallint(3) unsigned NOT NULL DEFAULT '20',
   `longpages` int(1) NOT NULL DEFAULT '0',
@@ -1519,12 +1519,9 @@ CREATE TABLE `users` (
   `enablecolor` int(1) NOT NULL DEFAULT '0',
   `hidden` int(1) NOT NULL DEFAULT '0',
   `blocklayouts` int(11) NOT NULL DEFAULT '0',
-  `blocksprites` int(11) NOT NULL DEFAULT '0',
   `hidesmilies` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(128) NOT NULL DEFAULT 'UTC',
   `hidequickreply` int(1) NOT NULL DEFAULT '0',
-  `adinfo` text NOT NULL,
-  `redirtype` int(1) NOT NULL DEFAULT '0',
   `emailhide` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -1886,4 +1883,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 17:49:54
+-- 2019-01-27 18:44:08

@@ -93,7 +93,7 @@ if($act=="Submit" && $post['text']==$_POST[message]){
 }
 
   if($err){
-if($loguser[redirtype]==1 && $act=="Submit"){ pageheader('Edit post',$thread[forum]); }
+if($act=="Submit"){ pageheader('Edit post',$thread[forum]); }
   pageheader('Edit post',$thread[forum]);
     echo "$top - Error";
     noticemsg("Error", $err);
