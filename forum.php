@@ -78,9 +78,6 @@ if ($fid = $_GET['id']) {
 		$ignoreLink = $isIgnored ? "<a href=\"forum.php?id=$fid&amp;unignore\" class=\"unignoreforum\">Unignore forum</a> " : "<a href=\"forum.php?id=$fid&amp;ignore\" class=\"ignoreforum\">Ignore forum</a> ";
 	}
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, 
-
-    (SELECT COUNT(*) FROM threadthumbs WHERE tid=t.id) AS thumbcount,
-
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
 			. "FROM threads t "
 			. "LEFT JOIN users u1 ON u1.id=t.user "
@@ -102,8 +99,6 @@ if ($fid = $_GET['id']) {
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle, 
-    (SELECT COUNT(*) FROM threadthumbs WHERE tid=t.id) AS thumbcount,
-
 
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread" : '') . ' '
 			. "FROM threads t "
@@ -136,8 +131,6 @@ if ($fid = $_GET['id']) {
 	pageheader('Latest posts');
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, 
-    (SELECT COUNT(*) FROM threadthumbs WHERE tid=t.id) AS thumbcount,
-
 
     (NOT ISNULL(p.id)) ispoll, f.title ftitle" . ($log ? ', (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread' : '') . ' '
 			. "FROM threads t "
@@ -169,41 +162,6 @@ if ($fid = $_GET['id']) {
 
 	$topbot = "<table cellspacing=\"0\" width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
-" . "</table>
-";
-}elseif (isset($_GET[fav]) && has_perm('view-favorites')) {
-
-	pageheader("Favorite Threads");
-
-
-	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle, 
-    (SELECT COUNT(*) FROM threadthumbs WHERE tid=t.id) AS thumbcount,
-
-
-    (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread" : '') . ' '
-			. "FROM threads t "
-			. "LEFT JOIN users u1 ON u1.id=t.user "
-			. "LEFT JOIN users u2 ON u2.id=t.lastuser "
-			. "LEFT JOIN polls p ON p.id=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN threadthumbs th ON th.tid=t.id "
-			. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
-					. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. "WHERE th.uid=$loguser[id] "
-			. "AND f.id IN " . forums_with_view_perm() . " "
-			. "ORDER BY t.sticky DESC, t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser[tpp]) . "," . $loguser[tpp]);
-
-	$forum[threads] = $sql->resultq("SELECT count(*) "
-			. "FROM threads t "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. "LEFT JOIN threadthumbs th ON th.tid=t.id "
-			. "WHERE th.uid=$loguser[id] "
-			. "AND f.id IN " . forums_with_view_perm() . " ");
-	$topbot = "<table cellspacing=\"0\" width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Favorite Threads</td>
 " . "</table>
 ";
 } else {
@@ -340,7 +298,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 " . "    <td class=\"b n1\">$status</td>
 " . ($showforum ?
 					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
-" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . (($thread['thumbcount']) ? " (" . $thread['thumbcount'] . ") " : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>
+" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$taglist$pagelist</td>
 " . "    <td class=\"b\">" . userlink($thread, 'u1', $config['startedbyminipic']) . "</td>
 " . "    <td class=\"b\">$thread[replies]</td>
 " . "    <td class=\"b\">$thread[views]</td>

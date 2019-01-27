@@ -294,7 +294,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-own-permissions',	'Edit Own Permissions',	'',	3,	''),
 ('edit-own-title',	'Edit Own Title',	'',	3,	''),
 ('edit-permissions',	'Edit Permissions',	'',	3,	''),
-('edit-profileext',	'Edit Extended Profile Fields',	'',	3,	''),
 ('edit-ranks',	'Edit Ranks',	'',	3,	''),
 ('edit-smilies',	'Edit Smilies',	'',	3,	''),
 ('edit-spiders',	'Edit Spiders',	'',	3,	''),
@@ -316,7 +315,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('override-closed-thread',	'Post in Closed Thread',	'',	2,	'threads'),
 ('override-readonly-forums',	'Override Read Only Forums',	'',	3,	''),
 ('post-offline',	'Post Offline',	'',	4,	''),
-('rate-thread',	'Rate Thread',	'',	1,	''),
 ('register',	'Register',	'',	1,	''),
 ('rename-own-thread',	'Rename Own Thread',	'',	1,	''),
 ('show-as-staff',	'Listed Publicly as Staff',	'',	3,	'users'),
@@ -336,14 +334,12 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('update-user-profile',	'Update User Profile',	'',	3,	'users'),
 ('use-post-layout',	'Use Post Layout',	'',	4,	''),
 ('use-test-bed',	'Use Test Bed',	'',	3,	''),
-('use-uploader',	'Use Uploader',	'',	1,	''),
 ('view-all-private-categories',	'View All Private Categories',	'',	3,	''),
 ('view-all-private-forums',	'View All Private Forums',	'',	3,	''),
 ('view-all-private-posts',	'View All Private Posts',	'',	3,	''),
 ('view-all-private-threads',	'View All Private Threads',	'',	3,	''),
 ('view-allranks',	'Show Hidden Ranks',	'',	2,	''),
 ('view-errors',	'View PHP Errors',	'',	0,	''),
-('view-favorites',	'View Favorite Threads',	'',	1,	''),
 ('view-forum-post-history',	'View Forum Post History',	'',	2,	'forums'),
 ('view-hidden-users',	'View Hidden Users',	'',	3,	''),
 ('view-own-pms',	'View Own PMs',	'',	1,	''),
@@ -1009,14 +1005,6 @@ CREATE TABLE `threadsread` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `threadthumbs`;
-CREATE TABLE `threadthumbs` (
-  `uid` int(11) NOT NULL,
-  `tid` int(11) NOT NULL,
-  UNIQUE KEY `uid` (`uid`,`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `timezones`;
 CREATE TABLE `timezones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1643,8 +1631,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (75,	9,	'group',	'update-own-post',	'',	0,	1),
 (76,	9,	'group',	'update-own-profile',	'',	0,	1),
 (77,	4,	'group',	'update-profiles',	'',	0,	0),
-(78,	9,	'group',	'rate-thread',	'',	0,	1),
-(79,	2,	'group',	'rate-thread',	'',	0,	0),
 (80,	1,	'group',	'register',	'',	0,	0),
 (81,	2,	'group',	'register',	'',	0,	1),
 (82,	2,	'group',	'logout',	'',	0,	0),
@@ -1807,7 +1793,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (313,	4,	'group',	'edit-titles',	'',	0,	0),
 (314,	4,	'group',	'edit-titles',	'',	0,	0),
 (315,	4,	'group',	'edit-titles',	'',	0,	0),
-(318,	2,	'group',	'view-favorites',	'',	0,	0),
 (319,	4,	'group',	'edit-ranks',	'',	0,	0),
 (320,	4,	'group',	'has-customusercolor',	'',	0,	0),
 (321,	1,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
@@ -1914,4 +1899,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 14:37:28
+-- 2019-01-27 15:30:43
