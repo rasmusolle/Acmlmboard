@@ -36,7 +36,6 @@ if ($config['sqlconfig']) {
 	$config['memberlistcolorlinks'] = $configsql['memberlistcolorlinks']['intval'];
 	$config['badgesystem'] = $configsql['badgesystem']['intval'];
 	
-	$config['extendedprofile'] = $configsql['extendedprofile']['intval'];
 	$config['threadprevnext'] = $configsql['threadprevnext']['intval'];
 
 	$config['displayname'] = $configsql['displayname']['intval'];

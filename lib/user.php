@@ -122,27 +122,6 @@ function checkcdisplayname($uid) {
 	return false;
 }
 
-function checkcextendedprofile($uid) {
-	global $loguser, $config;
-
-	if (!$config["extendedprofile"])
-		return false;
-
-	if (!$loguser[id])
-		return false;
-	if (has_perm_revoked('update-own-extended-profile'))
-		return false;
-	if ($uid == $loguser['id'] && has_perm('update-own-extended-profile'))
-		return true;
-
-	if (has_perm('update-extended-profiles'))
-		return true;
-	if (has_perm_with_bindvalue('update-user-extended-profile', $uid))
-		return true;
-
-	return false;
-}
-
 //This block was borrowed from Blargboard. It is a proxy and stop forum spam detection routine and it's required defined function for url pulling.
 function queryURL($url) {
 	if (function_exists('curl_init')) {

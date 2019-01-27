@@ -764,43 +764,6 @@ CREATE TABLE `poststext` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `profileext`;
-CREATE TABLE `profileext` (
-  `id` varchar(64) NOT NULL DEFAULT '',
-  `title` varchar(256) NOT NULL DEFAULT '',
-  `sortorder` int(11) NOT NULL DEFAULT '0',
-  `fmt` varchar(256) NOT NULL DEFAULT '%s',
-  `description` varchar(256) NOT NULL DEFAULT '',
-  `icon` varchar(256) NOT NULL DEFAULT '',
-  `validation` varchar(256) NOT NULL DEFAULT '',
-  `example` varchar(256) NOT NULL DEFAULT '',
-  `extrafield` int(1) NOT NULL DEFAULT '0',
-  `parser` varchar(256) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `profileext` (`id`, `title`, `sortorder`, `fmt`, `description`, `icon`, `validation`, `example`, `extrafield`, `parser`) VALUES
-('3ds',	'3DS Friend Code',	0,	'$1-$2-$3',	'Your 3DS Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	0,	''),
-('aim',	'AIM Screen Name',	0,	'$0',	'Your AIM Screen Name (or email)',	'',	'[A-Za-z.%+-_@]+',	'SmarterChild',	0,	'email'),
-('ds',	'DS Game Friend Code',	0,	'$1-$2-$3',	'Your DS Game Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	1,	''),
-('facebook',	'Facebook',	0,	'<a href=http://www.facebook.com/$0>$0</a>',	'Your Facebook ID number or username',	'',	'[\\.0-9a-zA-Z]+',	'john.smith',	0,	''),
-('gplus',	'Google+',	0,	'<a href=http://plus.google.com/$0>$0</a>',	'Your Google+ ID (the long ass number)',	'',	'[0-9]+',	'110393731121066107376',	0,	''),
-('gtalk',	'Google Talk',	0,	'$0',	'Your Google Talk email address',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'eric.schmidt@gmail.com',	0,	'email'),
-('icq',	'ICQ number',	0,	'<a href=\"http://wwp.icq.com/$0#pager\">$0 <img src=\"http://wwp.icq.com/scripts/online.dll?icq=$0&amp;img=5\" border=0></a>',	'Your ICQ Number',	'',	'[0-9]+',	'91235781',	0,	''),
-('instagram',	'Instagram',	0,	'<a href=http://instagram.com/$0/>$0</a>',	'Your Instagram username (as it appears on a URL)',	'',	'[_\\.-0-9a-zA-Z]+',	'soviet.russia',	0,	''),
-('jabber',	'Jabber',	0,	'$0',	'Your Jabber email address',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'linus.torvalds@linux.org',	0,	'email'),
-('msn',	'Windows Live! ID',	0,	'$0',	'Your Windows Live! ID',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'bill.gates@hotmail.com',	0,	'email'),
-('nintendoid',	'Nintendo ID',	0,	'<a href=\"https://miiverse.nintendo.net/users/$0\">$0</a>',	'Your Nintendo ID',	'',	'[_\\-0-9a-zA-Z]+',	'mariobros.',	0,	''),
-('psn',	'PSN',	0,	'$0',	'Your PlayStation Network username',	'',	'[0-9a-zA-Z]+',	'sonyrul3s',	0,	''),
-('soundcloud',	'Soundcloud',	0,	'<a href=http://soundcloud.com/$0>$0</a>',	'Your Soundcloud username (as it appears on a URL)',	'',	'[_\\-0-9a-zA-Z]+',	'britney-spears',	0,	''),
-('tumblr',	'Tumblr',	0,	'<a href=http://$0.tumblr.com/>$0</a>',	'Your Tumblr username (as it appears on a URL)',	'',	'[_\\-0-9a-zA-Z]+',	'supermariosunshinebeta',	0,	''),
-('twitter',	'Twitter',	0,	'<a href=http://twitter.com/$0>@$0</a>',	'Your Twitter username (without the leading @)',	'',	'[_0-9a-zA-Z]+',	'jack',	0,	''),
-('wii',	'Wii Game Friend Code',	0,	'$1-$2-$3',	'Your Wii Game Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	1,	''),
-('wii-system',	'Wii Friend Code',	0,	'$1-$2-$3',	'Your Wii Friend Code (hyphens are optional)',	'',	'([0-9]{4})-?([0-9]{4})-?([0-9]{4})',	'1234-5678-9012',	0,	''),
-('xbl',	'XBOX Live',	0,	'$0',	'Your XBOX Live username',	'',	'[0-9a-zA-Z]+',	'n00bpwner',	0,	''),
-('yahoo',	'Yahoo! ID',	0,	'$email',	'Your Yahoo! ID',	'',	'[A-Z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}',	'carol.bartz@rocketmail.com',	0,	'email'),
-('youtube',	'YouTube',	0,	'<a href=http://www.youtube.com/$0>$0</a>',	'Your YouTube username',	'',	'[0-9a-zA-Z]+',	'spudd',	0,	'');
-
 DROP TABLE IF EXISTS `ranks`;
 CREATE TABLE `ranks` (
   `rs` int(10) NOT NULL,
@@ -1908,16 +1871,8 @@ CREATE TABLE `user_group` (
   `sortorder` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `user_profileext`;
-CREATE TABLE `user_profileext` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `field_id` varchar(64) NOT NULL,
-  `data` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+INSERT INTO `user_group` (`user_id`, `group_id`, `sortorder`) VALUES
+(0,	1,	0);
 
 DROP TABLE IF EXISTS `views`;
 CREATE TABLE `views` (
@@ -2273,4 +2228,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 10:38:52
+-- 2019-01-27 11:41:34

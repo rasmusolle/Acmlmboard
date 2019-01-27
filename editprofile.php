@@ -203,21 +203,6 @@ if ($act == 'Edit profile') {
 		}
 	}
 
-	if (checkcextendedprofile($targetuserid)) {
-		$qallfields = $sql->query("SELECT * FROM `profileext`");
-		$count = false;
-
-		while ($allfieldsgquery = $sql->fetch($qallfields)) {
-
-			$pdata = addslashes($_POST[$allfieldsgquery['id']]);
-
-			if ($pdata) {
-				if (!preg_match("/" . $allfieldsgquery['validation'] . "/", $pdata))
-					$error.=$allfieldsgquery['title'] . " doesn't match.";
-			}
-		}
-	}
-
 	if (!$error) {
 		if (has_perm("edit-users")) {
 			$spent = ($userrpg['GP'] + $userrpgdata['spent']) - $_POST['GP'];
@@ -244,27 +229,6 @@ if ($act == 'Edit profile') {
 					. " WHERE `id`=$user[id]"
 			);
 		} 
-		if (checkcextendedprofile($targetuserid)) {
-			$qallfields = $sql->query("SELECT * FROM `profileext`");
-			$count = false;
-			if ($sql->prepare('DELETE FROM `user_profileext` WHERE user_id=?', array($targetuserid))) {
-				
-			} //Until multiples of each filed are enabled, wipe the slate.
-			while ($allfieldsgquery = $sql->fetch($qallfields)) {
-				if (substr(setfield($allfieldsgquery['id']), -3) != "=''") {//Should be replated with a better method.
-					$pdata = addslashes($_POST[$allfieldsgquery['id']]);
-					if ($sql->prepare('INSERT INTO `user_profileext` SET
-                user_id=?,field_id=?,data=? ;', array(
-								$targetuserid,
-								$allfieldsgquery['id'],
-								$pdata,
-									)
-							)) {
-						
-					}
-				}
-			}
-		}
 	}
 
 	if (!$error) {
@@ -430,20 +394,6 @@ if (empty($act)) {
 " . fieldrow('Email address', fieldinput(40, 60, 'email')) . "
 " . fieldrow('Homepage URL', fieldinput(40, 200, 'homeurl')) . "
 " . fieldrow('Homepage name', fieldinput(40, 60, 'homename'));
-	if (checkcextendedprofile($targetuserid)) {
-		$fieldReq = $sql->query("SELECT * FROM `profileext`
-                         RIGHT JOIN `user_profileext` ON `profileext`.`id` = `user_profileext`.`field_id`
-                         WHERE `user_profileext`.`user_id`='$targetuserid'");
-		$userprof = array();
-		while ($pfield = $sql->fetch($fieldReq)) {
-			$userprof[$pfield['field_id']] = $pfield['data'];
-		}
-
-		$qallfields = $sql->query("SELECT * FROM `profileext`");
-		while ($allfieldsgquery = $sql->fetch($qallfields)) {
-			echo fieldrow($allfieldsgquery['title'] . "<br /><small>" . $allfieldsgquery['description'] . " (IE: <b>" . $allfieldsgquery['example'] . "</b>)</small>", fieldinputprofile(40, 200, $allfieldsgquery['id'], $userprof));
-		}
-	}
 	//Implemented the show-online perm. - SquidEmpress
 	echo"
 " .

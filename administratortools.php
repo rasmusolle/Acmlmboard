@@ -28,7 +28,6 @@ if ($action == "Apply changes") {
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['threadprevnext']) . "' WHERE field='threadprevnext'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['memberlistcolorlinks']) . "' WHERE field='memberlistcolorlinks'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['badgesystem']) . "' WHERE field='badgesystem'");
-	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['extendedprofile']) . "' WHERE field='extendedprofile'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['displayname']) . "' WHERE field='displayname'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['perusercolor']) . "' WHERE field='perusercolor'");
 	$sql->query("UPDATE misc SET intval='" . $sql->escape($_POST['usernamebadgeeffects']) . "' WHERE field='usernamebadgeeffects'");
@@ -71,7 +70,6 @@ $topposts = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="topposts"'
 $topthreads = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="topthreads"');
 $memberlistcolorlinks = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="memberlistcolorlinks"');
 $badgesystem = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="badgesystem"');
-$extendedprofile = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="extendedprofile"');
 $threadprevnext = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="threadprevnext"');
 $displayname = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="displayname"');
 $perusercolor = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="perusercolor"');
@@ -114,7 +112,6 @@ echo "<form action='administratortools.php' method='post' enctype='multipart/for
 " . "      <td class=\"b n2\"><input type=\"text\" name='topthreads' size='7' maxlength='7' value='" . $topthreads . "' class='right'></td>
 " . fieldrow('Memberlist Color Links', fieldoption('memberlistcolorlinks', $memberlistcolorlinks, array('Disable', 'Enable'))) . "
 " . fieldrow('Badge System', fieldoption('badgesystem', $badgesystem, array('Disable', 'Enable'))) . "
-" . fieldrow('Extended Profile Fields (DO NOT USE; EXPERIMENTAL)', fieldoption('extendedprofile', $extendedprofile, array('Disable', 'Enable'))) . "
 " . fieldrow('Thread Prev Next Links', fieldoption('threadprevnext', $threadprevnext, array('Disable', 'Enable'))) . "
 " . fieldrow('Displaynames', fieldoption('displayname', $displayname, array('Disable', 'Enable'))) . "
 " . fieldrow('Custom Username Colors', fieldoption('perusercolor', $perusercolor, array('Disable', 'Enable'))) . "

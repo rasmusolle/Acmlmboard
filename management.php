@@ -15,8 +15,6 @@ if (has_perm("edit-calendar-events"))
   $mlinks[] = array('url' => "editevents.php", 'title' => 'Manage events');
 if (has_perm('edit-smilies'))
   $mlinks[] = array('url' => "editsmilies.php", 'title' => 'Manage smilies');
-if (has_perm('edit-profileext'))
-  $mlinks[] = array('url' => "editprofileext.php", 'title' => 'Manage extended profile fields');
 if (has_perm("edit-badges")) 
   $mlinks[] = array('url' => "editbadges.php", 'title' => 'Manage badges');
 if (has_perm("edit-groups")) 

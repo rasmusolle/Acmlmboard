@@ -398,22 +398,6 @@ print "    <table cellspacing=\"0\" width=\"100%\">
                    <td class=\"b n1\"><b>Homepage</b></td>
                    <td class=\"b n2\">$homepage";
 
-if ($config['extendedprofile']) {
-	$fieldReq = $sql->query("SELECT * FROM `profileext`
-                       RIGHT JOIN `user_profileext` ON `profileext`.`id` = `user_profileext`.`field_id`
-                       WHERE `user_profileext`.`user_id`='$uid'");
-	while ($pfield = $sql->fetch($fieldReq)) {
-		print "                 <tr>
-                   <td class=\"b n1\"><b>" . $pfield['title'] . "</b></td>";
-
-		if ($pfield['parser'] == "email") {
-			$fieldvalue = EmailObscurer($pfield['data']);
-		} else
-			$fieldvalue = preg_replace("/$pfield[validation]/", $pfield['fmt'], $pfield['data']);
-
-		print "                 <td class=\"b n2\">" . $fieldvalue;
-	}
-}
 print "               </table>
                    <br>";
 
