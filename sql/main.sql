@@ -94,8 +94,8 @@ CREATE TABLE `forums` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `readonly`, `announce`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,	0),
-(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	1,	0);
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	2,	18,	0,	0,	0,	0,	1,	0,	0),
+(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	0,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
 CREATE TABLE `forumsread` (
@@ -405,7 +405,6 @@ CREATE TABLE `pmsgs` (
   `date` int(11) NOT NULL DEFAULT '0',
   `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
-  `nosmilies` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `userto` mediumint(9) unsigned NOT NULL,
   `userfrom` mediumint(9) unsigned NOT NULL,
@@ -464,7 +463,6 @@ CREATE TABLE `posts` (
   `date` int(11) NOT NULL DEFAULT '0',
   `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
-  `nosmilies` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `num` mediumint(9) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -1883,4 +1881,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-27 18:44:08
+-- 2019-01-28 18:49:44

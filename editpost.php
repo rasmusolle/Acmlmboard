@@ -125,7 +125,6 @@ echo     "  <tr>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
 ".        "      <select name=mid>".moodlist($post[mood], $post[user])."
 ".        "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ".($post[nolayout]?"checked":"")."><label for=nolayout>Disable post layout</label>
-".        "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 ".($post[nosmilies]?"checked":"")."><label for=nosmilies>Disable smilies</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
     echo "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($_POST[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
@@ -145,7 +144,6 @@ echo     "  <tr>
     $post[num]=++$euser[posts];
     $post[mood]=(isset($_POST[mid]) ? (int)$_POST[mid] : -1);
     $post[nolayout]=$_POST[nolayout];
-    $post[nosmilies]=$_POST[nosmilies];
     $post[close]=$_POST[close];
     $post[stick]=$_POST[stick];
     $post[open]=$_POST[open];
@@ -187,7 +185,6 @@ echo     "  <tr>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
 ".        "      <select name=mid>".moodlist($post[mood], $post[user])."
 ".        "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ".($post[nolayout]?"checked":"")."><label for=nolayout>Disable post layout</label>
-".        "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 ".($post[nosmilies]?"checked":"")."><label for=nosmilies>Disable smilies</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
     echo "     ".(!$thread[closed] ? "<input type=\"checkbox\" name=close id=close value=1 ".($post[close]?"checked":"")."><label for=close>Close thread</label>" : "")."
@@ -208,7 +205,6 @@ echo     "  <tr>
     $mid=(isset($_POST[mid])?(int)$_POST[mid]:-1);
     checknumeric($mid);
     checknumeric($_POST[nolayout]);
-    checknumeric($_POST[nosmilies]);
     if(can_edit_forum_threads($thread['forum'])){
     	checknumeric($_POST['close']);
     	checknumeric($_POST['stick']);
@@ -221,7 +217,7 @@ echo     "  <tr>
     }
     ++$rev;
     $sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".ctime().")");
-    $sql->query("UPDATE posts SET mood='$mid',nolayout='$_POST[nolayout]',nosmilies='$_POST[nosmilies]' WHERE id='$pid'");
+    $sql->query("UPDATE posts SET mood='$mid',nolayout='$_POST[nolayout]' WHERE id='$pid'");
     $sql->query("UPDATE threads SET lastdate=".ctime().",lastuser=$userid,lastid=$pid$modext WHERE id='$thread[id]'");
     $sql->query("UPDATE forums SET lastdate=".ctime().",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
     

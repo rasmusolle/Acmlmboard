@@ -181,7 +181,7 @@ function can_edit_post($post) {
   global $loguser;
   if (isset($post['user']) && $post['user'] == $loguser['id'] && has_perm('update-own-post')) return true;
   else if (has_perm('update-post')) return true;
-  else if (can_edit_forum_posts($post['tforum'])) return true;
+  else if (isset($post['tforum']) && can_edit_forum_posts($post['tforum'])) return true;
 
   return false;
 }

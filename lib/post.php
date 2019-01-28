@@ -93,7 +93,7 @@ function filterstyle($match) {
 	return $match[1] . $style . $match[3];
 }
 
-function postfilter($msg, $nosmilies = 0) {
+function postfilter($msg) {
 	global $smilies, $config, $sql, $swfid;
 
 	//[blackhole89] - [code] tag
@@ -113,12 +113,10 @@ function postfilter($msg, $nosmilies = 0) {
 
 	$msg = str_replace("\n", '<br>', $msg);
 
-	if (!$nosmilies) {
-		for ($i = 0; $i < $smilies['num']; $i++)
-			$msg = str_replace($smilies[$i]['text'], '�' . $smilies[$i]['text'] . '�', $msg);
-		for ($i = 0; $i < $smilies['num']; $i++)
-			$msg = str_replace('�' . $smilies[$i]['text'] . '�', '<img src=' . $smilies[$i]['url'] . ' align=absmiddle border=0 alt="' . $smilies[$i]['text'] . '" title="' . $smilies[$i]['text'] . '">', $msg);
-	}
+	for ($i = 0; $i < $smilies['num']; $i++)
+		$msg = str_replace($smilies[$i]['text'], '�' . $smilies[$i]['text'] . '�', $msg);
+	for ($i = 0; $i < $smilies['num']; $i++)
+		$msg = str_replace('�' . $smilies[$i]['text'] . '�', '<img src=' . $smilies[$i]['url'] . ' align=absmiddle border=0 alt="' . $smilies[$i]['text'] . '" title="' . $smilies[$i]['text'] . '">', $msg);
 
 	//Relocated here due to conflicts with specific smilies.
 	$msg = preg_replace("@(</?(?:table|caption|col|colgroup|thead|tbody|tfoot|tr|th|td|ul|ol|li|div|p|style|link).*?>)\r?\n@si", '$1', $msg);

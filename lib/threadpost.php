@@ -196,7 +196,7 @@ function threadpost($post, $type, $pthread = '') {
 			}
 			$text.=
 					"    </td>
-" . "    <td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign']), $post['nosmilies'] || $loguser['hidesmilies']) . "</td>
+" . "    <td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
 " . "</table>
 ";
 	}

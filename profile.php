@@ -165,7 +165,6 @@ $post['num'] = 0; //$user[posts];  #2/26/2007 xkeeper - threadpost can hide "1/"
 $post['mood'] = -1;
 $post['id'] = -1;
 $post['nolayout'] = 0;
-$post['nosmilies'] = 0;
 $post['thread'] = -1;
 
 $post['text'] = "[b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.

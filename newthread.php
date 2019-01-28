@@ -9,28 +9,8 @@ checknumeric($announce);
 if (!isset($_POST['action'])) { $_POST['action'] = ''; }
 if ($act = $_POST['action']) {
 	$fid = $_POST['fid'];
-	if ($log) {
-		$userid = $loguser['id'];
-		$user = $loguser;
-		if ($_POST['passenc'] !== md5($pwdsalt2 . $loguser['pass'] . $pwdsalt))
-			$err = 'Invalid token.';
-		
-		$pass = $_POST['passenc'];
-	} else {
-		if ($_POST['passenc'])
-			$pass = $_POST['passenc'];
-		else
-			$pass = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
-		
-		$userid = checkuser($_POST['name'], $pass);
-		if ($userid) {
-			$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
-			$loguser = $user;
-			load_user_permset();
-		} else
-			$err = "    Invalid username or password!<br>
-" . "    <a href=forum.php?id=$fid>Back to forum</a> or <a href=newthread.php?id=$fid>try again</a>";
-	}
+	$userid = $loguser['id'];
+	$user = $loguser;
 } else {
 	$user = $loguser;
 	$fid = $_GET['id'];
@@ -40,6 +20,7 @@ checknumeric($fid);
 if ($announce) {
 	$type = "announcement";
 	$typecap = "Announcement";
+	$ispoll = 0;
 } elseif (isset($_GET['ispoll']) && $_GET['ispoll'] == 1) {
 	$type = "poll";
 	$typecap = "Poll";
@@ -123,31 +104,17 @@ if (isset($err)) {
 	echo $top;
 	?>
 	<br><br>
-	<form action="newthread.php<?=(isset($ispoll) ? "?ispoll=$ispoll" : "") ?>" method="post">
-		<?php if ($log) { ?>
-		<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
-		<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
-		<?php } ?>
+	<form action="newthread.php<?=($ispoll ? "?ispoll=$ispoll" : "") ?>" method="post">
 		<table class="c1">
 			<tr class="h">
 				<td class="b h" colspan="2"><?php echo $typecap; ?></td>
 			</tr>
-			<?php if (!$log) { ?>
-				<tr>
-					<td class="b n1" align="center">Username:</td>
-					<td class="b n2"><input type="text" name="name" size="25" maxlength="25"></td>
-				</tr>
-				<tr>
-					<td class="b n1" align="center">Password:</td>
-					<td class="b n2"><input type="password" name="pass" size=13 maxlength=32></td>
-				</tr>
-			<?php } ?>
 			<tr>
 				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
 			<?php
-			if (isset($ispoll)) {
+			if ($ispoll) {
 				?>
 				<tr>
 					<td class="b n1" align="center">Poll question:</td>
@@ -190,15 +157,8 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<?php if ($log) { ?>
-						<select name="mid"><?php echo moodlist(); ?></select>
-					<?php } ?>
+					<select name="mid"><?php echo moodlist(); ?></select>
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($_POST['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
-					<input type="checkbox" name=nosmilies id=nosmilies value=1 <?php echo (isset($_POST['nosmilies']) ? "checked" : ""); ?>><label for=nosmilies>Disable smilies</label>
-					<?php if (can_edit_forum_threads($fid) && ! $announce) { ?>
-						<input type="checkbox" name=close id=close value=1 <?php echo (isset($_POST['close']) ? "checked" : ""); ?>><label for=close>Close thread</label>
-						<input type="checkbox" name=stick id=stick value=1 <?php echo (isset($_POST['stick']) ? "checked" : ""); ?>><label for=stick>Stick thread</label>
-					<?php } ?>
 				</td>
 			</tr>
 		</table>
@@ -214,9 +174,6 @@ if (isset($err)) {
 	$post['text'] = $_POST['message'];
 	$post['mood'] = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1); // 2009-07 Sukasa: Newthread preview
 	$post['nolayout'] = isset($_POST['nolayout']);
-	$post['nosmilies'] = isset($_POST['nosmilies']);
-	$post['close'] = isset($_POST['close']);
-	$post['stick'] = isset($_POST['stick']);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = ctime();
@@ -261,31 +218,17 @@ if (isset($err)) {
 	pageheader("New $type", $forum['id']);
 	echo "$top - Preview " . (isset($pollprev) ? $pollprev : '');
 	?><br>
-	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr></table>
+	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
 	<?php echo threadpost($post, 0); ?>
 	<br>
 	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
-		<?php if ($log) { ?>
-		<input type="hidden" name=name value="<?php echo htmlval($loguser['name']) ?>">
-		<input type="hidden" name=passenc value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
-		<?php } ?>
 		<table class="c1">
 			<tr class="h">
 				<td class="b h" colspan=2><?php echo $typecap; ?></td>
 			</tr>
-			<?php if (!$log) { ?>
-				<tr>
-					<td class="b n1" align="center">Username:</td>
-					<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
-				</tr>
-				<tr>
-					<td class="b n1" align="center">Password:</td>
-					<td class="b n2"><input type="password" name=pass size=13 maxlength=32></td>
-				</tr>
-			<?php } ?>
 			<tr>
 				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
-				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
+				<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
 			</tr>
 			<?php echo (isset($pollin) ? $pollin : ''); ?>
 			<tr>
@@ -295,7 +238,7 @@ if (isset($err)) {
 			<tr>
 				<td class="b n1" align="center" width=120>Post:</td>
 				<td class="b n2">
-					<textarea name=message id='message' rows=20 cols=80></textarea>
+					<textarea name=message id='message' rows=20 cols=80><?=htmlval($_POST['message']) ?></textarea>
 				</td>
 			</tr>
 			<tr class="n1">
@@ -305,78 +248,17 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<?php if ($log) { ?>
-						<select name="mid"><?php echo moodlist($_POST['mid'], $userid); ?></select>
-					<?php } ?>
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($post['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
-					<input type="checkbox" name=nosmilies id=nosmilies value=1 <?php echo (isset($post['nosmilies']) ? "checked" : ""); ?>><label for=nosmilies>Disable smilies</label>
-					<?php if (can_edit_forum_threads($fid) && ! $announce) { ?>
-						<input type="checkbox" name=close id=close value=1 <?php echo ($post['close'] ? "checked" : ""); ?>><label for=close>Close thread</label>
-						<input type="checkbox" name=stick id=stick value=1 <?php echo ($post['stick'] ? "checked" : ""); ?>><label for=stick>Stick thread</label>
-					<?php } ?>
+					<select name="mid"><?php echo moodlist($_POST['mid'], $userid); ?></select>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>
-	</form>
-	<!--
-" . "<form action=newthread.php?ispoll=$ispoll method=post>
-" . " <table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>$typecap</td>
-" . "      <input type=\"hidden\" name=name value=\"" . htmlval(stripslashes($_POST[name])) . "\">
-" . "      <input type=\"hidden\" name=passenc value=\"$pass\">
-" . "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">$typecap title:</td>
-" . "    <td class=\"b n2\"><input type=\"text\" name=title size=100 maxlength=100 value=\"" . htmlval($_POST[title]) . "\"></td>
-" . $tagsin . "
-" . $pollin . "
-";
-
-		echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-" . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
-";
-	echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
-" . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=10 cols=80>" . htmlval($_POST[message]) . "</textarea></td>
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b\">&nbsp;</td>
-" . "    <td class=\"b\">
-" . "      <input type=\"hidden\" name=fid value=$fid>
-" . "      <input type=\"hidden\" name=iconid value=$_POST[iconid]>
-" . "      <input type=\"hidden\" name=iconurl value=$_POST[iconurl]>
-" . "      <input type=\"hidden\" name=announce value=$announce>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
-" . // 2009-07 Sukasa: Newthread mood selector, just in the place I put it in mine
-"      <select name=mid>" . moodlist($_POST[mid], $userid) . "
-" . "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 " . ($post[nolayout] ? "checked" : "") . "><label for=nolayout>Disable post layout</label>
-" . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . ($post[nosmilies] ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
-";
-	if (can_edit_forum_threads($fid) && ! $announce)
-		echo "     <input type=\"checkbox\" name=close id=close value=1 " . ($post[close] ? "checked" : "") . "><label for=close>Close thread</label>
-" . "      <input type=\"checkbox\" name=stick id=stick value=1 " . ($post[stick] ? "checked" : "") . "><label for=stick>Stick thread</label>
-";
-	echo "    </td>
-" . " </table>
-" . "</form>
-";--><?php
+	</form><?php
 } elseif ($act == 'Submit') {
 	checknumeric($_POST['nolayout']);
-	checknumeric($_POST['nosmilies']);
-	if (can_edit_forum_threads($fid)) {
-		checknumeric($_POST['close']);
-		checknumeric($_POST['stick']);
-		if ($_POST['close'])
-			$modclose = "1";
-		if ($_POST['stick'])
-			$modstick = "1";
-	}
-	
-	if (!$_POST['close'])
-		$modclose = "0";
-	if (!$_POST['stick'])
-		$modstick = "0";
+
+	$modclose = "0";
+	$modstick = "0";
 	
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
@@ -389,7 +271,7 @@ if (isset($err)) {
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
 	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout,nosmilies,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,'$_POST[nolayout]','$_POST[nosmilies]',$announce)");
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,'$_POST[nolayout]',$announce)");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
 	if (!$announce) {

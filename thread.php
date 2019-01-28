@@ -512,7 +512,6 @@ if (isset($tid) &&
 	} else {
 		$fmovelinks = "";
 		$close = $stick = $trash = "";
-		$retag = sizeof($tags) ? "<a href=javascript:showtbox()>Tag</a> | " : "";
 		$edit = "<a href=javascript:showrbox()>Rename</a>";
 		$opt = "Thread";
 	}
@@ -530,7 +529,6 @@ function trashConfirm(e) {
  }
 }
 </script>";
-
 
 	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\">
 " . "  <table cellspacing=\"0\" class=\"c2\"><tr class=\"n2\">
@@ -722,7 +720,6 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 " . // 2009-07 Sukasa: Newreply mood selector, just in the place I put it in mine
 			"      <select name=mid>" . moodlist() . " 
 " . "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ><label for=nolayout>Disable post layout</label>
-" . "      <input type=\"checkbox\" name=nosmilies id=nosmilies value=1 " . ($post['nosmilies'] ? "checked" : "") . "><label for=nosmilies>Disable smilies</label>
 ";
 	if (can_edit_forum_threads($thread['forum']))
 		echo "     <input type=\"checkbox\" name=close id=close value=1 ><label for=close>Close thread</label>

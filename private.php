@@ -78,17 +78,6 @@ $pmsgs = $sql->query("SELECT " . userfields('u', 'u') . ", p.* "
 					."ORDER BY p.unread DESC, p.date DESC "
 					."LIMIT " . (($page - 1) * $loguser['tpp']) . ", " . $loguser['tpp']);
 
-/*
-if ($sent)
-	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "showdel=".$_GET['showdel'].">View received";
-else
-	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "showdel=".$_GET['showdel']."&view=sent>View sent";
-
-if ($showdel)
-	$link2 = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=".$_GET['view'].">View normal";
-else
-	$link2 = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=".$_GET['view']."&showdel=1>View deleted";
-*/
 if ($sent)
 	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . ">View received";
 else
