@@ -32,35 +32,6 @@ if ($fid = $_GET['id']) {
 	//append the forum's title to the site title
 	pageheader($forum['title'], $fid);
 
-	//forum access control // 2007-02-19 blackhole89 // 2011-11-09 blackhole89 tokenisation (more than 4.5 years...)
-	//2012-01-01 DJBouche Happy New Year!
-//[KAWA] Copypasting a chunk from ABXD, with some edits to make it work here.
-	$isIgnored = $sql->resultq("select count(*) from ignoredforums where uid=" . $loguser['id'] . " and fid=" . $fid) == 1;
-	if (isset($_GET['ignore'])) {
-		if (!$isIgnored && $loguser['id'] != 0) {
-			$sql->query("insert into ignoredforums values (" . $loguser['id'] . ", " . $fid . ")");
-			$isIgnored = true;
-			echo
-					"<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"n2\">
-" . "    <td class=\"b n1\" align=\"center\">
-" . "      Forum ignored. You will no longer see any \"New\" markers for this forum.
-" . "</table>
-";
-		}
-	} else if (isset($_GET['unignore'])) {
-		if ($isIgnored) {
-			$sql->query("delete from ignoredforums where uid=" . $loguser['id'] . " and fid=" . $fid);
-			$isIgnored = false;
-			echo
-					"<table cellspacing=\"0\" class=\"c1\">
-" . "  <tr class=\"n2\">
-" . "    <td class=\"b n1\" align=\"center\">
-" . "      Forum unignored.
-" . "</table>
-";
-		}
-	}
 
 	$editforumlink = "";
 
@@ -68,9 +39,6 @@ if ($fid = $_GET['id']) {
 		$editforumlink = "<a href=\"manageforums.php?fid=$fid\" class=\"editforum\">Edit Forum</a> | ";
 	}
 
-	if ($loguser['id'] != 0) {
-		$ignoreLink = $isIgnored ? "<a href=\"forum.php?id=$fid&amp;unignore\" class=\"unignoreforum\">Unignore forum</a> " : "<a href=\"forum.php?id=$fid&amp;ignore\" class=\"ignoreforum\">Ignore forum</a> ";
-	}
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, 
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
 			. "FROM threads t "
@@ -83,7 +51,7 @@ if ($fid = $_GET['id']) {
 			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 	$topbot = "<table cellspacing=\"0\" width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
-" . "  <td class=\"nb\" align=\"right\">" . $editforumlink . $ignoreLink . (can_create_forum_thread($forum) ? "| <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td>
+" . "  <td class=\"nb\" align=\"right\">" . $editforumlink . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td>
 " . "</table>
 ";
 } elseif ($uid = $_GET['user']) {

@@ -53,13 +53,6 @@ while ($c = $sql->fetch($categs)) {
 		$categ[$c['id']] = $c;
 }
 
-//[KAWA] ABXD does ignores with a very nice SQL trick that I think Mega-Mario came up with one day.
-//Unfortunately, this place is too hairy to add the trick to so I'll have to use a third query to collect the ignores. The first is categories. The second is the forum list itself.
-$ignores = array();
-$ignoreQ = $sql->query("SELECT * FROM ignoredforums WHERE uid = " . $loguser['id']);
-while ($i = $sql->fetch($ignoreQ))
-	$ignores[$i['fid']] = true;
-
 $forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.private cprivate, " . userfields('u', 'u') . ", u.minipic uminipic "
 		. "FROM forums f "
 		. "LEFT JOIN users u ON u.id=f.lastuser "
@@ -118,12 +111,6 @@ while ($forum = $sql->fetch($forums)) {
 		$status = '&nbsp;';
 	}
 
-	if (isset($ignores[$forum['id']])) {
-		$status = "&nbsp;";
-		$ignoreFX = "style=\"opacity: 0.5;\"";
-	} else
-		$ignoreFX = "";
-
 	$modstring = "";
 	if (isset($lmods[$forum['id']]))
 		foreach ($lmods[$forum['id']] as $mod)
@@ -134,8 +121,8 @@ while ($forum = $sql->fetch($forums)) {
 	<tr align="center">
 		<td class="b n1"><?php echo $status; ?></td>
 		<td class="b n2" align="left">
-			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>" <?php echo $ignoreFX; ?>><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
-			<br><span class=sfont <?php echo $ignoreFX; ?>><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) . $modstring; ?></span>
+			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>"><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
+			<br><span class=sfont><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) . $modstring; ?></span>
 		</td>
 		<td class="b n1"><?php echo $forum['threads']; ?></td>
 		<td class="b n1"><?php echo $forum['posts']; ?></td>

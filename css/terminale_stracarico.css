@@ -93,14 +93,6 @@ a[class~="newpoll"] {
     	padding-right: 6px;
 }
 
-a[class~="ignoreforum"] { 
-	border: #28DF10 solid 2px;
-	background-color: #000000;
-        padding: 3px;
-    	padding-left: 6px;
-    	padding-right: 6px;
-}
-
 .nc0x{color:#888888} .nc1x{color:#888888} .nc2x{color:#888888}
 .nc00{color:#97ACEF} .nc10{color:#F185C9} .nc20{color:#7C60B0}
 .nc01{color:#D8E8FE} .nc11{color:#FFB3F3} .nc21{color:#EEB9BA}

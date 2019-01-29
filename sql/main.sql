@@ -157,13 +157,6 @@ CREATE TABLE `hourlyviews` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `ignoredforums`;
-CREATE TABLE `ignoredforums` (
-  `uid` int(11) NOT NULL,
-  `fid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `ip2c`;
 CREATE TABLE `ip2c` (
   `ip_from` bigint(12) NOT NULL,
@@ -1880,4 +1873,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-29 16:13:20
+-- 2019-01-29 17:21:44
