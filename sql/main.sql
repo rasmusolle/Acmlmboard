@@ -593,8 +593,7 @@ CREATE TABLE `ranksets` (
 
 INSERT INTO `ranksets` (`id`, `name`) VALUES
 (1,	'Mario'),
-(0,	'None'),
-(-1,	'Dots (by Xkeeper)');
+(0,	'None');
 
 DROP TABLE IF EXISTS `ref`;
 CREATE TABLE `ref` (
@@ -1881,4 +1880,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-28 18:49:44
+-- 2019-01-29 16:13:20
