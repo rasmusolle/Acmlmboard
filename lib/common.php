@@ -9,7 +9,6 @@ $abdate = "7/13/2015";
 $abversion = "2.5.3<i>pre</i> <span style=\"color: #BCDE9A; font-style: italic; font-size:8pt;\">Development</span>";
 
 if ($config['sqlconfig']) {
-
 	// Fallback to the config.php settings in the event that the SQL settings don't load properly or aren't set.
 	$configsql = array();
 	foreach ($config as $cfg_key => $cfg_value) {
@@ -125,9 +124,7 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (ctime() - $config['oldguest']));
 	if ($log) {
 		//AB-SPECIFIC
-		if (has_perm('track-ip-change') && ($userip != ($oldip = $loguser['ip']))) {
-			sendirc("{irccolor-base}" . get_irc_groupname($loguser['group_id']) . " {irccolor-name}" . ($loguser['displayname'] ? $loguser['displayname'] : $loguser['name']) . "{irccolor-base} changed IPs from {irccolor-no}$oldip{irccolor-base} to {irccolor-yes}$userip{irccolor-base}", $config['staffchan']);
-		}
+		//if (has_perm('track-ip-change') && ($userip != ($oldip = $loguser['ip']))) { }
 
 		$sql->query("UPDATE `users` SET `lastview`=" . ctime() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . (isssl() ? "!" : "") . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
 	} else {
@@ -577,13 +574,12 @@ function pageheader($pagetitle = "", $fid = 0) {
 				<td class="b n1">
 					<table style="width:100%">
 						<tr>
-							<td class="nb" width="125"></td>
+							<td class="nb" width="150"></td>
 							<td class="nb" align="center"><span class="white-space:nowrap">
-									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total | <?php echo $count['d']; ?> new posts
-									today, <?php echo $count['h']; ?> last hour.<br> <?php echo $activeusers; ?> active users and
-									<?php echo $activethreads; ?> active threads during the last day.<br>
+									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total.<br><?php echo $count['d']; ?> new posts
+									today, <?php echo $count['h']; ?> last hour.<br>
 							</span></td>
-							<td class="nb" align="right" width="125">
+							<td class="nb" align="right" width="150">
 								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
 							</td>
 						</tr>
