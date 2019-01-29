@@ -119,31 +119,21 @@ if ($config['memberlistcolorlinks']) {
 					echo  mlink($sort, $sex, $pow, $ppp, $page, $orderby, '1', $displayn) . "Custom</a> |";
 			}
 
-			echo mlink($sort, '', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "All</a>";
-
-			//Added the sort by displayname feature - SquidEmpress
-			if ($config['displayname'])
-				?><tr>
-					<td class="b n1">Displayname:</td>
-					<td class="b n2" align="center">
-						<?php echo mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '0') . "Regular</a> | " . 
-						mlink($sort, $sex, $pow, $ppp, $page, $orderby, $customnc, '1') . "Displayname</a>"; ?>
-				<tr>
-					<td class="b n1">Group:</td>
-					<td class="b n2" align="center">
+			echo mlink($sort, '', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "All</a>"; ?>
+	<tr>
+		<td class="b n1">Group:</td>
+		<td class="b n2" align="center">
+			<?php $c = 0;
+			foreach ($groups as $k => $v) {
+			$c++;
+				echo $v . " | ";
+			}
+			echo mlink($sort, $sex, '-1', $ppp, $page, $orderby, $customnc, $displayn) . "All Staff</a> | " .
+			mlink($sort, $sex, '', $ppp, $page, $orderby, $customnc, $displayn) . "All</a>"; ?>
+		</td>
+	</tr>
+</table><br>
 <?php
-$c = 0;
-foreach ($groups as $k => $v) {
-	echo $v;
-	$c++;
-	echo " | ";
-}
-echo "      " . mlink($sort, $sex, '-1', $ppp, $page, $orderby, $customnc, $displayn) . "All Staff</a>
-" . " |       " . mlink($sort, $sex, '', $ppp, $page, $orderby, $customnc, $displayn) . "All</a>
-" . "      
-" . "</table>
-" . "<br>";
-
 
 //[KAWA] Rebuilt this to use my new renderer. Not sure what to do about the part above though X3
 $headers = array(
