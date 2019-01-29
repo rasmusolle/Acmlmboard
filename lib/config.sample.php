@@ -91,8 +91,6 @@ $config['memberlistcolorlinks'] = false; // Toggles the use of more color in mem
 $config['registrationpuzzle'] = true;
 
 $config['threadprevnext'] = false; // Enables a set of links on thread pages that allows you to go to the next or previous 'new' thread.
-
-$config['rootuseremail'] = false; // Enable the Root Administrator's email to be shown in the No Permission page to a user who can edit other users but not Root Administrators.
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
 $config['perusercolor'] = false; // Enable the use of per-user colors.
 $config['useshadownccss'] = false; // Enables use of a CSS class name to all user names (and other elements) that should get a shadow on light color themes

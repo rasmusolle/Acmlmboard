@@ -11,8 +11,6 @@ if (isset($_GET['id'])) {
 	$temp = $_GET['id'];
 	if (checknumeric($temp))
 		$targetuserid = $temp;
-	if ($config['rootuseremail'])
-		$user = $sql->fetchq("SELECT * FROM `users` WHERE `id`='$targetuserid'");
 }
 
 if (!can_edit_user($targetuserid)) {
@@ -20,16 +18,7 @@ if (!can_edit_user($targetuserid)) {
 }
 
 if ($targetuserid == 0) {
-	if ($config['rootuseremail']) {
-		if ((has_perm('edit-users') || has_perm('update-user-profile') || has_perm('update-profiles')) && $user['email'] != "") {
-			$email = "<br>" . userlink($user) . "'s email: " . $user[email] . "<br>";
-		} else {
-			$email = "";
-		}
-		error("Error", "You have no permissions to do this!<br> " . $email . "<a href=./>Back to main</a>");
-	} else {
-		error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
-	}
+	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
 
 $blockroot = " AND `default` >= 0 ";
