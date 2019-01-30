@@ -14,7 +14,7 @@ A:link, A:visited, A:active, A:hover {
 }
 
 body {
-	background: url(../theme/arabgold/back2c.jpg) #202004;
+	background: url(back2c.jpg) #202004;
 	color: white;
 	font-family: verdana, geneva, sans-serif;
 }
@@ -35,21 +35,20 @@ table.c2 {
 }
 
 tr.h {
-	background: url(../theme/arabgold/backh.png) #946464;
+	background: url(backh.png) #946464;
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #DDDDDD;
 }
 
 tr.c {
-	background: url(../theme/arabgold/backc2.png) #BDBD40;
+	background: url(backc2.png) #BDBD40;
 	font-size: 0.9em;
 	color: #EEEEEE;
 }
 
 td.b {
-	border-left: #000000 1px solid;
-	border-top: #000000 1px solid;
+	border: #000000 1px solid;
 	padding: 1px;
 }
 
@@ -59,14 +58,13 @@ td.nb {
 }
 
 td.h {
-	border-left: 0;
-	border-right: 0;
+	border: #000000 1px solid;
 	padding: 1px;
 }
 
-tr.n1, td.n1 { background: url(../theme/arabgold/back2t1.png) #787833; }
-tr.n2, td.n2 { background: url(../theme/arabgold/back2t2.png) #5C5C26; }
-tr.n3, td.n3 { background: url(../theme/arabgold/back2t3.png) #505020; }
+tr.n1, td.n1 { background: url(back2t1.png) #787833; }
+tr.n2, td.n2 { background: url(back2t2.png) #5C5C26; }
+tr.n3, td.n3 { background: url(back2t3.png) #505020; }
 
 .sfont {
 	font-size: 0.8em;
@@ -90,20 +88,6 @@ textarea, input, select, button {
 	border: #FFD040 ridge 2px;
 	color: #FFD040;
 	font-weight: bold;
-}
-
-ins {
-	background: url(../theme/arabgold/back2t1.png);
-	border: 1px #A0A040 dashed;
-	text-decoration: none;
-	color: #40FF30;
-}
-
-del {
-	background: url(../theme/arabgold/back2t3.png);
-	border: 1px #303010 dashed;
-	text-decoration: none;
-	color: #FF4000;
 }
 
 .nc0x{color:#888888} .nc1x{color:#888888} .nc2x{color:#888888}

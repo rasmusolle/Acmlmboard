@@ -53,7 +53,7 @@ tr.h {
 	font-weight: bold;
 	padding:8px 0px 6px 5px;
 	background-color: #1D1D1D;
-	background-image: url(../theme/acid/cellh.gif);
+	background-image: url(cellh.gif);
 	height: 30px;
 }
 
@@ -73,7 +73,7 @@ tr.c {
 	padding:8px;
 	margin:0px;
 	background-color: #1D1D1D;
-	background-image: url(../theme/acid/cellc.gif);
+	background-image: url(cellc.gif);
 	height: 28px;
 	text-align:left;
 }

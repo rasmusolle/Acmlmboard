@@ -3,7 +3,7 @@ ABXD (Nina)
 */
 
 body {
-	background: hsl(210, 20%, 15%) url(../theme/abxd/noise-texture.png);
+	background: hsl(210, 20%, 15%) url(noise-texture.png);
 	color: white;
 	max-width: 1366px;
 	font-family: "Verdana", "Lucida Grande", sans-serif;

@@ -190,10 +190,10 @@ if ($config['override_theme'] && !has_special_perm("bypass-theme-override")) { /
 	$theme = $loguser['theme'];
 }
 
-if (is_file("css/" . $theme . ".css")) {
+if (is_file("theme/" . $theme . "/" . $theme . ".css")) {
 	//try CSS first
 	$themefile = $theme . ".css";
-} elseif (is_file("css/" . $theme . ".php")) {
+} elseif (is_file("theme/" . $theme . "/" . $theme . ".php")) {
 	//then try PHP
 	$themefile = $theme . ".php";
 } else { //then fall back to Standard
@@ -235,7 +235,7 @@ $feedicons = "";
 // also added number_format to views
 // also changed the title to be "pagetitle - boardname" and not vice-versa
 function pageheader($pagetitle = "", $fid = 0) {
-	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl, $themefile,
+	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl, $theme, $themefile,
 	$logofile, $url, $config, $feedicons, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2;
 
 	if (ini_get("register_globals")) {
@@ -306,8 +306,8 @@ function pageheader($pagetitle = "", $fid = 0) {
       <style>
 
       </style>
-      <link rel=\"stylesheet\" href=\"css/$themefile\">
-      <link rel=\"stylesheet\" href=\"css/common.css\">
+      <link rel=\"stylesheet\" href=\"theme/$theme/$themefile\">
+      <link rel=\"stylesheet\" href=\"theme/common.css\">
       <link href=\"lib/prettify/sunburst.css\" type=\"text/css\" rel=\"stylesheet\" />
       <script type=\"text/javascript\" src=\"lib/prettify/prettify.js\"></script>
       </head>

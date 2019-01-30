@@ -12,7 +12,7 @@ a:link, a:visited, a:active, a:hover {
 }
 
 body {
-	background: black url('../theme/greennight/greennightbg.png');
+	background: black url('greennightbg.png');
 	font-family: arial, sans-serif;
 }
 
@@ -25,7 +25,7 @@ td.b { border: 1px solid #208000; }
 
 .n1, .n3 { background: #082000; }
 .n2 { background: #041000; }
-.h { background: #041000 url('../theme/greennight/gradient.png') repeat-x; }
+.h { background: #041000 url('gradient.png') repeat-x; }
 tr.c { background: #0c3000; }
 
 textarea, input, select, button {

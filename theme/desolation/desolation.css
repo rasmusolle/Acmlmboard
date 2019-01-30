@@ -1,10 +1,10 @@
 /* META
-Snowy
+Desolation
 
 */
 
-A:link		{color:#ff4020}
-A:visited	{color:#00cf00}
+A:link		{color:#dddddd}
+A:visited	{color:#cccccc}
 A:active	{color:#ffffff}
 A:hover		{color:#ffffff}
 
@@ -14,10 +14,10 @@ A:link,A:visited,A:active,A:hover{
 }
 
 body{
-  background: url('../theme/desolation/snow_2.jpg') #1b1b1b;
-  background-attachment: fixed; 
-  background-position: top left;
-  background-repeat: repeat-y;
+  background: url('desolation.jpg') #1b1b1b;
+  background-attachment: fixed;
+
+  background-repeat: round;
   color: white;
   font-family: verdana, geneva, sans-serif;
 }
@@ -33,20 +33,19 @@ table.c1{
 }
 
 table.c2{
-	border: #000000 1px solid;
   border: #000000 1px solid;
-  border-collapse: collapse;
+  border: #000000 1px solid;
 }
 
 tr.h{
-  background: url(../theme/desolation/tdbgh.png);
+  background: url(tdbgh.png);
   font-size: 0.9em;
   font-weight: bold;
   color: #DDDDDD;
 }
 
 tr.c{
-  background: url(../theme/desolation/tdbgc.png);
+  background: url(tdbgc.png);
   font-size: 0.9em;
   color: #EEEEEE;
 }
@@ -69,15 +68,15 @@ td.h{
 }
 
 tr.n1,td.n1{
-  background: url(../theme/desolation/tdbg3.png);
+  background: url(tdbg3.png);
 }
 
 tr.n2,td.n2{
-  background: url(../theme/desolation/tdbg2.png);
+  background: url(tdbg2.png);
 }
 
 tr.n3,td.n3{
-  background: url(../theme/desolation/tdbg1.png);
+  background: url(tdbg1.png);
 }
 
 .sfont{
@@ -104,21 +103,6 @@ textarea,input,select,button{
   font-weight: bold;
 }
 
-/*
-ins{
-  background: url(../theme/desolation/back2t1.png);
-  border: 1px #30A050 dashed;
-  text-decoration: none;
-  color: #40FF30;
-}
-
-del{
-  background: url(../theme/desolation/back2t3.png);
-  border: 1px #003010 dashed;
-  text-decoration: none;
-  color: #FF4000;
-}
-*/
 .nc0x{color:#888888; text-decoration: none;}
 .nc1x{color:#888888; text-decoration: none;}
 .nc2x{color:#888888; text-decoration: none;}

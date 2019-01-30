@@ -12,7 +12,7 @@ A:link, A:visited, A:active, A:hover {
 }
 
 body {
-	background: url(../theme/GTSgrass/forest_mountain_ded.png) #202004;
+	background: url(forest_mountain_ded.png) #202004;
 	color: white;
 	font-family: verdana, geneva, sans-serif;
 }
@@ -85,21 +85,6 @@ textarea, input, select, button {
 	color: #536538;
 	font-weight: bold;
 }
-
-ins {
-	background: url(../img/back2t1.png);
-	border: 1px #3050A0 dashed;
-	text-decoration: none;
-	color: #40FF30;
-}
-
-del {
-	background: url(../img/back2t3.png);
-	border: 1px #001030 dashed;
-	text-decoration: none;
-	color: #FF4000;
-}
-
 
 .nc0x{color:#888888} .nc1x{color:#888888} .nc2x{color:#888888}
 .nc00{color:#97ACEF} .nc10{color:#F185C9} .nc20{color:#7C60B0}
