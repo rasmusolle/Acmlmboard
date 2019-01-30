@@ -86,7 +86,7 @@ table.c2 {
 
 table.c1, table.c2 {
 	margin: auto;
-	width: 98%;
+	width: 98% !important;
 }
 
 .sfont {

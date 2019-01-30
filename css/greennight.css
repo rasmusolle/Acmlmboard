@@ -5,7 +5,7 @@ Green Night (Mega-Mario)
 a:link 		{ color: #FFC040; }
 a:visited 	{ color: #C09030; }
 a:active 	{ color: #FFEA60; }
-a:hover 		{ color: #FFFFFF; }
+a:hover 	{ color: #FFFFFF; }
 
 a:link, a:visited, a:active, a:hover 
 {
@@ -23,13 +23,6 @@ body, table
 {
 	color: #efe;
 	font-size: 1.1em;
-}
-
-table.c1, table.c2 
-{
-  width: 100%;
-  border-collapse: collapse;
-  
 }
 
 td.b 

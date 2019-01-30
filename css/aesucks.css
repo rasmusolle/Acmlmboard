@@ -20,10 +20,6 @@ body, table {
 	color: #FF0000;
 	font-size: 13px;
 }
-table.c1, table.c2 {
-  width: 100%;
-  border-collapse: collapse;
-}
 td.b {
 	border: 1px solid #00FFFF url(../theme/aesucks/flash1.gif);
 }

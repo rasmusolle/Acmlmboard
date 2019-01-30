@@ -28,13 +28,11 @@ table{
 }
 
 table.c1{
-  width: 100%;
   border: #000000 1px solid;
   border-collapse: collapse;
 }
 
 table.c2{
-  width: 100%;
 	border: #000000 1px solid;
   border: #000000 1px solid;
   border-collapse: collapse;

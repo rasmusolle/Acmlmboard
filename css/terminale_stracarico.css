@@ -19,10 +19,6 @@ body, table {
 	color: #28DF10;
 	font-size: 1em;
 }
-table.c1, table.c2 {
-  width: 100%;
-  border-collapse: collapse;
-}
 td.b {
 	border: #28DF10 solid 2px;
 	background-color: #000000;

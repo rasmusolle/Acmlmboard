@@ -31,7 +31,6 @@ table
 
 table.c1
 {
-	width: 100%;
 	border: #000 1px solid;
 	border-left: 0;
 	border-top: 0;
@@ -41,7 +40,6 @@ table.c1
 
 table.c2
 {
-	width: 100%;
 	border: #000 1px solid;
 	border-left: 0;
 	border-top: 0;

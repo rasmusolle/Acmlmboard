@@ -24,13 +24,11 @@ table{
 }
 
 table.c1{
-  width: 100%;
   background: black;
   border: #305020 1px solid;
 }
 
 table.c2{
-  width: 100%;
   background: black;
   border: #335533 1px solid;
 }
