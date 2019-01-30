@@ -50,7 +50,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 ?>
 <table class="c1">
 	<tr class="h">
-		<td class="bh">FAQ</td>
+		<td class="b h">FAQ</td>
 	</tr>
 	<tr>
 		<td class="b n1" style="padding: 10px !important;">
