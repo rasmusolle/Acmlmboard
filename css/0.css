@@ -33,7 +33,6 @@ table.c2 {
 
 tr.h {
 	background: #636594;
-	text-align: center;
 	font-size: 1em;
 	font-weight: bold;
 	color: #DDDDDD;
@@ -41,7 +40,6 @@ tr.h {
 
 tr.c {
 	background: #464FB0;
-	text-align: center;
 	font-size: 0.9em;
 	color: #EEEEEE;
 }

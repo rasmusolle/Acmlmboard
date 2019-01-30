@@ -36,7 +36,6 @@ table.c2{
 
 tr.h{
   background: url(../theme/minerslament/backh.png) #646464;
-  text-align: center;
   font-size: 0.9em;
   font-weight: bold;
   color: #DDDDDD;
@@ -44,7 +43,6 @@ tr.h{
 
 tr.c{
   background: url(../theme/minerslament/backc2.png) #404040;
-  text-align: center;
   font-size: 0.9em;
   color: #EEEEEE;
 }

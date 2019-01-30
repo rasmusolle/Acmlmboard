@@ -37,9 +37,6 @@ tr.c td {
 	background: #FF00FF url(../theme/aesucks/flash2.gif);
 	color: #FFFF00;
 }
-tr.h td, tr.c td {
-	text-align: center;
-}
 
 .sfont {
 	font-size: 10px;

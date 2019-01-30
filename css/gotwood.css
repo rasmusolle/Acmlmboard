@@ -51,7 +51,6 @@ tr.h
 {
 	background: #361B08;
 	background: rgba(0, 0, 0, 0.75);
-	text-align: center;
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #FFF;
@@ -61,7 +60,6 @@ tr.c
 {
 	background: #361B08;
 	background: rgba(25, 0, 0, 0.65);
-	text-align: center;
 	font-size: 0.9em;
 	color: #FFF;
 }

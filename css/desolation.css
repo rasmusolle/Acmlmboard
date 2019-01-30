@@ -39,7 +39,6 @@ table.c2{
 
 tr.h{
   background: url(../theme/desolation/tdbgh.png);
-  text-align: center;
   font-size: 0.9em;
   font-weight: bold;
   color: #DDDDDD;
@@ -47,7 +46,6 @@ tr.h{
 
 tr.c{
   background: url(../theme/desolation/tdbgc.png);
-  text-align: center;
   font-size: 0.9em;
   color: #EEEEEE;
 }

@@ -51,7 +51,6 @@ tr.c td, tr.h td {
 	background: linear-gradient(hsl(210, 50%, 15%) 0px, hsl(210, 50%, 50%) 2px, hsl(210, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
 	padding-top: 4px;
 	color: #FFFFFF;
-	text-align: center;
 	font-weight: bold;
 	font-size: .85em;
 }

@@ -46,7 +46,6 @@ table.c2 {
 
 tr.h {
 	background-position: center;
-	text-align: center;
 	vertical-align:middle;
 	color:#B4BFAA;
 	letter-spacing:1px;
@@ -76,6 +75,7 @@ tr.c {
 	background-color: #1D1D1D;
 	background-image: url(../theme/acid/cellc.gif);
 	height: 28px;
+	text-align:left;
 }
 
 td.b {

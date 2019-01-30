@@ -8,9 +8,12 @@
 .spoiler2:hover {
 	opacity: 1;
 }
-/* Cellpadding */
+
 table.c1, table.c2 {
     border-spacing: 0px;
     border-collapse: collapse;
 	width: 100%;
+}
+tr.h, tr.c {
+	text-align: center;
 }
