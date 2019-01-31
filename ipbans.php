@@ -2,32 +2,39 @@
 require 'lib/common.php';
 pageheader('IP bans');
 
-$action = $_GET['action'];
-$what = $_GET['what'];
+$action = (isset($_GET['action']) ? $_GET['action'] : 'needle');
+$what = (isset($_GET['what']) ? $_GET['what'] : 'needle');
+
 function ipfmt($a) {
 	$expl = explode(".",$a);
 	$dot = "<font~color=#808080>.</font>";
+	for ($i = 0; $i < 4; $i++) {
+		if (!isset($expl[$i])) {
+			$expl[$i] = '*';
+		}
+	}
 	return str_replace("~"," ",str_replace(" ","&nbsp;",sprintf("%3s%s%3s%s%3s%s%3s",$expl[0],$dot,$expl[1],$dot,$expl[2],$dot,$expl[3])));
 }
 
 if (!has_perm('edit-ip-bans')) {
 	noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>"); 
-	pagefooter(); 
-	die();
 } else {
 	if ($action == "del") {
 		$data = explode(",",decryptpwd($what));
 		$sql->query("DELETE FROM ipbans WHERE ipmask='$data[0]' AND expires='$data[1]'");
 	} else if ($action == "add") {
 		if ($_POST['ipmask']) {
+			echo (isset($_POST['hard']) ? 1 : 0);
+			$hard = $_POST['hard'];
+			$expires = ($_POST['expires'] > 0 ? ($_POST['expires'] + time()) : 0);
 			$sql->query("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES "
-				."('$_POST[ipmask]','$_POST[hard]','".($_POST[expires]>0?($_POST[expires]+time()):0)."','".addslashes($loguser[name])."','$_POST[reason]')");
+				."('$_POST[ipmask]','$hard','$expires','" . addslashes($loguser['name']) . "','$_POST[reason]')");
 		} else {
 			$err = "You must enter an IP mask";
 		}
 	}
 	$ipbans = $sql->query("SELECT * FROM ipbans");
-	if ($err) noticemsg("Error", $err);
+	if (isset($err)) noticemsg("Error", $err);
     ?>
     <form action="ipbans.php?action=add" method="post">
 		<table class="c1">
@@ -35,7 +42,7 @@ if (!has_perm('edit-ip-bans')) {
 			<tr>
 				<td class="b n1">IP mask</td>
 				<td class="b n2"><input type="text" name="ipmask"></td>
-				<td class="b n1">Hard ban?</td>
+				<td class="b n1">Hard?</td>
 				<td class="b n2"><input type="checkbox" name="hard" value="1"></td>
 				<td class="b n1">Expires?</td>
 				<td class="b n2"><?php echo fieldselect("expires",0,array("600"=>"10 minutes",
@@ -52,24 +59,24 @@ if (!has_perm('edit-ip-bans')) {
 		<tr class="h"><td class="b h" colspan="6">IP bans</td></tr>
 		<tr class="c">
 			<td class="b">IP mask</td>
-			<td class="b">hard?</td>
+			<td class="b">Hard</td>
 			<td class="b">Expires</td>
 			<td class="b">Banner</td>
 			<td class="b" width="100%">Comment</td>
-			<td class="b">Actions</td>
+			<td class="b" width=20></td>
 	<?php 
-	while ($i == $sql->fetch($ipbans)) {
+	while ($i = $sql->fetch($ipbans)) {
 		?>
 		<tr>
 			<td class="b n1"><font face='courier new'><?php echo ipfmt($i['ipmask']); ?></font></td>
-			<td class="b n2" align="center"><font color="<?php echo ($i['hard'] ? "red>Yes" : "green>No"); ?>"></font></td>
+			<td class="b n2" align="center"><font color="<?php echo ($i['hard'] ? "red\">Yes" : "green\">No"); ?></font></td>
 			<td class="b n2" align="center">
 				<?php echo ($i['expires'] ? cdate($loguser['dateformat'],$i['expires'])."&nbsp;".cdate($loguser['timeformat'],$i['expires']) : "never"); ?>
 			</td>
 			<td class="b n2" align="center"><?php echo $i['banner']; ?></td>
 			<td class="b n2"><?php echo stripslashes($i['reason']); ?></td>
 			<td class="b n2" align="center">
-				<a href="ipbans.php?action=del&what=<?php echo urlencode(encryptpwd($i['ipmask'].",".$i['expires'])); ?>">del</a>
+				<a href="ipbans.php?action=del&what=<?php echo urlencode(encryptpwd($i['ipmask'].",".$i['expires'])); ?>"><img src="img/delete.png"></a>
 			</td>
 		</tr>
 		<?php
