@@ -58,14 +58,14 @@ function makecode($match) {
 	$code = htmlspecialchars($match[1]);
 	$list = array("\r\n", "[", ":", ")", "_", "@", "-");
 	$list2 = array("<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;");
-	return "<table cellspacing=\"0\" style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code class=\"prettyprint\" style=\"font-size:9pt;\">" . str_replace($list, $list2, $code) . "</code></table>";
+	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\" style=\"background-color:#444;border:1px solid #444;\"><code class=\"prettyprint\">" . str_replace($list, $list2, $code) . "</code></table>";
 }
 
 function makeirc($match) {
 	$code = htmlspecialchars($match[1]);
 	$list = array("\r\n", "[", ":", ")", "_", "@", "-");
 	$list2 = array("<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;");
-	return "<table cellspacing=\"0\" style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code style=\"font-size:9pt;\">" . str_replace($list, $list2, $code) . "</code></table>";
+	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code>" . str_replace($list, $list2, $code) . "</code></table>";
 }
 
 function makesvg($match) {
