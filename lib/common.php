@@ -282,8 +282,6 @@ function pageheader($pagetitle = "", $fid = 0) {
              </table>";
 	}
 
-	$feedicons .= feedicon("img/rss.png", "rss.php");
-
 	if (isssl()) {
 		$ssllnk = "<img src=\"img/sslon.gif\" title=\"SSL enabled\">";
 	} else if (!$config['showssl']) {
@@ -296,7 +294,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$logbar = $loguser;
 		$logbar['showminipic'] = 1;
 	}
-	
+
 	echo "<!DOCTYPE html>
       <html>
       <head>
@@ -309,6 +307,7 @@ function pageheader($pagetitle = "", $fid = 0) {
       <link rel=\"stylesheet\" href=\"theme/$theme/$themefile\">
       <link rel=\"stylesheet\" href=\"theme/common.css\">
       <link href=\"lib/prettify/sunburst.css\" type=\"text/css\" rel=\"stylesheet\" />
+	  <link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
       <script type=\"text/javascript\" src=\"lib/prettify/prettify.js\"></script>
       </head>
       <body style=\"font-size:$loguser[fontsize]%\" onload=\"prettyPrint()\">
@@ -320,7 +319,8 @@ function pageheader($pagetitle = "", $fid = 0) {
           <td class=\"b\">
           <div style=\"width: 150px\">Views: 
           <span title=\"And " . number_format($botviews) . " views by search engine spiders.\">" . number_format($views) . "</span></div></td>
-          <td class=\"b\" width=\"100%\"><span style=\"float:right\">$feedicons$ssllnk</span>
+          <td class=\"b\" width=\"100%\"><span style=\"float:right\">
+		    <a href='rss.php'><img src='img/feed.png' style='margin-right:5px' title='RSS Feed'></a>$ssllnk</span>
             <a href=\"./\">Main</a>
           | <a href=\"faq.php\">FAQ</a>
           | <a href=\"irc.php\">IRC</a>

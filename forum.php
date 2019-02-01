@@ -27,11 +27,8 @@ if ($fid = $_GET['id']) {
 		error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 	}
 
-	$feedicons.=feedicon("img/rss2.png", "rss.php?forum=$fid", "RSS feed for this section");
-
 	//append the forum's title to the site title
 	pageheader($forum['title'], $fid);
-
 
 	$editforumlink = "";
 

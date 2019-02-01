@@ -222,9 +222,6 @@ if ($viewmode == "thread") {
 		}
 	}
 
-	$feedicons.=feedicon("img/rss3.png", "rss.php?thread=$thread[id]", "RSS feed for this thread");
-	$feedicons.=feedicon("img/rss2.png", "rss.php?forum=$thread[forum]", "RSS feed for this section");
-
 	//append thread's title to page title
 	pageheader($thread['title'], $thread['fid']);
 
