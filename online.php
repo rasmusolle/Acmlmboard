@@ -61,11 +61,10 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b" align="left"><?php echo ($user['hidden'] ? '(' . userlink($user) . ')' : userlink($user)); ?></td>
 		<td class="b"><?php echo cdate($loguser['timeformat'], $user['lastview']); ?></td>
 		<td class="b"><?php echo ($user['lastpost'] ? cdate($dateformat, $user['lastpost']) : '-'); ?></td>
-		<?php echo (has_perm('view-user-urls') ? '<td class="b" align="left">'
+		<?=(has_perm('view-user-urls') ? '<td class="b" align="left">'
 			. ($user['url'] ? "<a href=$user[url]>" . str_replace(array('%20','_'), ' ', $user['url']) . '</a>' : '-')
-			. ($user['ipbanned'] ? ' (IP banned)' : '') . "</td>" : '')
-		?>
-		<?php ?>
+			. "</td>" : '') ?>
+		<?=(has_perm("view-post-ips") ? '<td class="b">'.$user['ip'].'</td>':'') ?>
 		<td class="b"><?php echo $user['posts']; ?></td>
 	</tr>
 <?php } ?>
