@@ -142,15 +142,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 		@$sql->query("INSERT DELAYED INTO `log` VALUES(UNIX_TIMESTAMP(),'$userip','$loguser[id]','" . addslashes($_SERVER['HTTP_USER_AGENT']) . " :: " . addslashes($url) . " :: $postvars')");
 	}
 
-	if(!empty($_SERVER['HTTP_REFERER'])) {
-		$ref = $_SERVER['HTTP_REFERER'];
-		$ref2 = substr($ref, 0, 25);
-		if ($ref && !strpos($ref2, $config['address'])) {
-			$sql->query("INSERT INTO `ref` SET `time`='" . ctime() . "', `userid`='$loguser[id]', `urlfrom`='" . addslashes($ref) . "',
-											  `urlto`='" . addslashes($url) . "', `ipaddr`='" . $_SERVER['REMOTE_ADDR'] . "'");
-		}
-	}
-
 	if (!$bot) {
 		$sql->query("UPDATE `misc` SET `intval`=`intval`+1 WHERE `field`='views'");
 	} else {

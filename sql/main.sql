@@ -575,16 +575,6 @@ INSERT INTO `ranksets` (`id`, `name`) VALUES
 (1,	'Mario'),
 (0,	'None');
 
-DROP TABLE IF EXISTS `ref`;
-CREATE TABLE `ref` (
-  `time` int(11) NOT NULL,
-  `urlfrom` varchar(255) NOT NULL,
-  `urlto` varchar(255) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `ipaddr` varchar(15) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `resetpass`;
 CREATE TABLE `resetpass` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
