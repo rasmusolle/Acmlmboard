@@ -226,7 +226,6 @@ if ($act == 'Edit profile') {
 				. setfield('theme') . ','
 				. setfield('blocklayouts') . ','
 				. setfield('emailhide') . ','
-				. setfield('hidesmilies') . ','
 				. ($config['alwaysshowlvlbar'] ? (setfield('showlevelbar') . ',') : '')
 				. (has_perm("show-online") || has_perm("edit-user-show-online") ? (setfield('hidden') . ',') : '')
 				. setfield('timezone') . ','
@@ -354,7 +353,6 @@ if (empty($act)) {
  . fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
  . fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
  . fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')))
- . fieldrow('Smilies', fieldoption('hidesmilies', $user['hidesmilies'], array('Show smilies', 'Do not show smilies')))
  . fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')));
 	if ($user['id'] == $loguser['id'] && has_perm("show-online") || has_perm("edit-user-show-online")) // i think this should have been double equals.
 		echo"

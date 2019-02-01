@@ -208,20 +208,15 @@ CREATE TABLE `misc` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
-('views',	152,	'',	'0'),
-('maxpostsday',	1,	'',	'0'),
-('maxpostsdaydate',	1516382948,	'',	'0'),
-('maxpostshour',	1,	'',	'0'),
-('maxpostshourdate',	1516382948,	'',	'0'),
-('maxusers',	1,	'',	'0'),
-('maxusersdate',	1516382699,	'',	'0'),
-('maxuserstext',	0,	'<a href=\"profile.php?id=1\"><span  style=\'color:#AA3C3C;\'>Admin</span></a>',	'0'),
-('botviews',	0,	'',	'0'),
-('lockdown',	0,	'',	'0'),
-('attention',	0,	'',	'0'),
-('regdisable',	0,	'',	'0'),
-('hacksnews',	0,	'',	'0'),
-('boardemail',	0,	'',	'0');
+('views',	0,	'',	'0'),
+('maxpostsday',	0,	'',	'0'),
+('maxpostsdaydate',	0,	'',	'0'),
+('maxpostshour',	0,	'',	'0'),
+('maxpostshourdate',	0,	'',	'0'),
+('maxusers',	0,	'',	'0'),
+('maxusersdate',	0,	'',	'0'),
+('maxuserstext',	0,	'',	'0'),
+('botviews',	0,	'',	'0');
 
 DROP TABLE IF EXISTS `mood`;
 CREATE TABLE `mood` (
@@ -1509,7 +1504,6 @@ CREATE TABLE `users` (
   `enablecolor` int(1) NOT NULL DEFAULT '0',
   `hidden` int(1) NOT NULL DEFAULT '0',
   `blocklayouts` int(11) NOT NULL DEFAULT '0',
-  `hidesmilies` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(128) NOT NULL DEFAULT 'UTC',
   `hidequickreply` int(1) NOT NULL DEFAULT '0',
   `emailhide` int(1) NOT NULL DEFAULT '0',
@@ -1873,4 +1867,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-01-29 17:21:44
+-- 2019-02-01 18:16:33
