@@ -574,12 +574,12 @@ function pageheader($pagetitle = "", $fid = 0) {
 				<td class="b n1">
 					<table style="width:100%">
 						<tr>
-							<td class="nb" width="150"></td>
+							<td class="nb" width="170"></td>
 							<td class="nb" align="center"><span class="white-space:nowrap">
 									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total.<br><?php echo $count['d']; ?> new posts
 									today, <?php echo $count['h']; ?> last hour.<br>
 							</span></td>
-							<td class="nb" align="right" width="150">
+							<td class="nb" align="right" width="170">
 								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
 							</td>
 						</tr>
