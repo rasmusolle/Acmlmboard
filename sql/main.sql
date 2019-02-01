@@ -149,14 +149,6 @@ CREATE TABLE `guests` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `hourlyviews`;
-CREATE TABLE `hourlyviews` (
-  `hour` mediumint(9) NOT NULL,
-  `views` int(11) NOT NULL,
-  UNIQUE KEY `hour` (`hour`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `ip2c`;
 CREATE TABLE `ip2c` (
   `ip_from` bigint(12) NOT NULL,

@@ -171,11 +171,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$date = date("m-d-y", ctime());
 	$sql->query("REPLACE INTO `dailystats` (`date`, `users`, `threads`, `posts`, `views`)
                  VALUES ('$date', '$count[u]', '$count[t]', '$count[p]', '$views')");
-
-	//2/21/2007 xkeeper - adding, uh, hourlyviews
-	$sql->query("INSERT INTO `hourlyviews` (`hour`, `views`)
-                 VALUES (" . floor(ctime() / 3600) . ",1)
-                 ON DUPLICATE KEY UPDATE `views`=`views`+1");
 }
 
 //[KAWA] ABXD-style theme system
