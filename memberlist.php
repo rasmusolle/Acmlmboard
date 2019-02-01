@@ -93,14 +93,14 @@ if ($config['memberlistcolorlinks']) {
 <table class="c1">
 	<tr class="h"><td class="b h" colspan="2"><?php echo $num . ' user' . ($num > 1 ? 's' : ''); ?> found.</td></tr>
 	<tr>
-		<td class="b n1" width="60">Sort by:</td>
+		<td class="b n1" width="105">Sort by:</td>
 		<td class="b n2" align="center">
 			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Posts</a> |
 			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Username</a> |
 			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Registration date</a>
 		</td>
 	</tr><tr>
-		<td class="b n1" width="60">Order by:</td>
+		<td class="b n1">Order by:</td>
 		<td class="b n2" align="center">
 			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd', $customnc, $displayn) . "Descending</a> |"; ?>
 			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a', $customnc, $displayn) . "Ascending</a>"; ?>
