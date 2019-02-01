@@ -183,7 +183,7 @@ function getrank($set, $posts) {
 function randnickcolor() {
 	/* OLD HACKISH CODE FOR APRIL 5 */
 	$stime = gettimeofday();
-	$h = (($stime[usec] / 5) % 600);
+	$h = (($stime['usec'] / 5) % 600);
 	if ($h < 100) {
 		$r = 255;
 		$g = 155 + $h;
