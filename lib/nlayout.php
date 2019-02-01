@@ -451,7 +451,7 @@ function announcement_row($announcefid, $aleftspan, $arightspan) {
 function tpl_display($file, $tpl_vars = array()) {
 
 	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, 
-			$extratitle, $boardlogo, $homepageurl, $themefile, $logofile, $url, $config, $feedicons, 
+			$extratitle, $boardlogo, $homepageurl, $themefile, $logofile, $url, $config, 
 			$favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, 
 			$pwdsalt, $pwdsalt2, $abversion, $abdate, $boardprog;
 

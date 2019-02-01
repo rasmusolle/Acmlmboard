@@ -212,8 +212,6 @@ $statusimageset = '';
 if (is_file("theme/" . $theme . "/status/new.png"))
 	$statusimageset = "theme/" . $theme . "/status/";
 
-$feedicons = "";
-
 /*
   Salvaged from "Xkeeper's Nifty Page-o-Hacks". Why? I don't really know, however it's a nice bit of code
   for 'just in case' purposes I guess. Basically it'll get axed when we clean up the other fragments anyway.
@@ -231,7 +229,7 @@ $feedicons = "";
 // also changed the title to be "pagetitle - boardname" and not vice-versa
 function pageheader($pagetitle = "", $fid = 0) {
 	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl, $theme, $themefile,
-	$logofile, $url, $config, $feedicons, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2;
+	$logofile, $url, $config, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2;
 
 	if (ini_get("register_globals")) {
 		echo "<span style=\"color: red;\"> Warning: register_globals is enabled.</style>";
