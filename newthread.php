@@ -45,10 +45,10 @@ if ($act != "Submit") {
 	
 	if ($ispoll) {
 		?>
-		<script type="text/javascript" src="jscolor/jscolor.js"></script>
+		<script type="text/javascript" src="lib/js/jscolor.js"></script>
 		<script type="text/javascript" src="polleditor.js"></script>
 		<?php
-		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="color" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
+		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="jscolor" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
 	}
 }
 

@@ -296,8 +296,8 @@ if (empty($act)) {
 " . "    ";
 	//http://jscolor.com/try.php
 	$colorinput = "
-<script type=text/javascript src=jscolor/jscolor.js></script>
-" . "      <input type=\"text\" name=nick_color class=color value=" . $user['nick_color'] . "><input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>
+<script type=text/javascript src=lib/js/jscolor.js></script>
+" . "      <input type=\"text\" name=nick_color class=jscolor value=" . $user['nick_color'] . "><input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>
 " . "    ";
 
 	echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'>
