@@ -209,6 +209,7 @@ INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
 ('maxusersdate',	0,	'',	'0'),
 ('maxuserstext',	0,	'',	'0'),
 ('botviews',	0,	'',	'0');
+('attention',	0,	'',	'0');
 
 DROP TABLE IF EXISTS `mood`;
 CREATE TABLE `mood` (
@@ -574,21 +575,6 @@ CREATE TABLE `ranksets` (
 INSERT INTO `ranksets` (`id`, `name`) VALUES
 (1,	'Mario'),
 (0,	'None');
-
-DROP TABLE IF EXISTS `resetpass`;
-CREATE TABLE `resetpass` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user` mediumint(9) unsigned NOT NULL DEFAULT '0',
-  `date` int(11) NOT NULL DEFAULT '0',
-  `ip` char(15) NOT NULL,
-  `token` varchar(32) NOT NULL,
-  `oldpass` varchar(32) DEFAULT NULL,
-  `newpass` varchar(32) DEFAULT NULL,
-  `completed` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
 
 DROP TABLE IF EXISTS `robots`;
 CREATE TABLE `robots` (
@@ -1849,4 +1835,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-02-01 18:16:33
+-- 2019-02-02 18:13:40
