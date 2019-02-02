@@ -5,13 +5,9 @@ Thumbs.db
 # Other stuff
 lib/config.php
 userpic/
-gfx/tags/*
-usermood.php
-gfx/status.php
+themes_serial.txt
 
-# Eclipse shit
+# Eclipse stuff
 .buildpath
 .project
 .settings/
-gource.bat
-shop-ref.log
