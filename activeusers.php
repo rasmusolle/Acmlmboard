@@ -20,9 +20,11 @@ $query = 'SELECT '.userfields('u').',u.posts,u.regdate,COUNT(*) num '
 $users = $sql->query($query);
 
 ?>
-Active users during the last <?php echo timeunits2($time); ?>:
-<br>
+<table class="c1" style="width:auto">
+	<tr class="h"><td class="b">Active users during the last <?php echo timeunits2($time); ?>:
+	<tr class="n1"><td class="b n1">
 <?php echo timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000); ?>
+</table><br>
 <table class="c1">
 	<tr class="h">
 		<td class="b h" width="30">#</td>
@@ -67,6 +69,6 @@ pagefooter();
 
 function timelink($timex){
 	global $time;
-	return ($time==$timex ? " ".timeunits2($timex)." " : " <a href=activeusers.php?time=$timex>".timeunits2($timex).'</a> ');
+	return ($time == $timex ? " <span style='font-weight:bold;font-family:Verdana'>".timeunits2($timex)."</span> " : " <a href=activeusers.php?time=$timex>".timeunits2($timex).'</a> ');
 }
 ?>
