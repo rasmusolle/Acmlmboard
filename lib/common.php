@@ -341,7 +341,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			} else {
 				$pmimage = "gfx/pm-off.png";
 			}
-			$pmsgbox = '<a href="private.php"><img src="' . $pmimage . '" width="16" height="9" alt="Private messages" title="Private message"></a> ' . $unreadpms . ' | ';
+			$pmsgbox = '<a href="private.php"><img src="' . $pmimage . '" width="20" alt="Private messages" title="Private message"></a> ' . $unreadpms . ' | ';
 		} else {
 			$pmsgbox = "";
 		}
