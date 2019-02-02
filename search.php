@@ -278,7 +278,6 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 				}
 				$status = '';
 				if ($thread['closed']) $status .= 'off';
-				if ($thread['replies'] >= 50) $status .= 'hot';
 				
 				if ($log) if (isset($thread['isread']) && !$thread['isread']) $status .= 'new';
 				else if ($thread['lastdate'] > (ctime() - 3600)) $status .= 'new';

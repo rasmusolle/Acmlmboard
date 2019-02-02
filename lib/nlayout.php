@@ -96,22 +96,6 @@ function rendernewstatus($type, $newcount = '0') {
 			$statusimg = "new.png";
 			break;
 
-		case "N":
-		case "hn":
-		case "!n":
-			$text = "NEW";
-			$statusimg = "hotnew.png";
-			break;
-
-		case "h":
-			$text = "HOT";
-			break;
-
-		case "!":
-			$text = " ! ";
-			$statusimg = "hot.png";
-			break;
-
 		case "e":
 			$text = "EDT";
 			break;
@@ -121,49 +105,22 @@ function rendernewstatus($type, $newcount = '0') {
 			$text = "EDT";
 			break;
 
-		case "x":
-			$text = "OFF";
-			$statusimg = "off.png";
-			break;
-
-		case "X":
-		case "xh":
-		case "x!":
-			$text = "OFF";
-			$statusimg = "offhot.png";
-			break;
-
-		case "xh":
-			$text = "OFF";
-			$statusimg = "offnew.png";
-			break;
-
-		case "xhn":
-			$text = "OFF";
-			$statusimg = "offhot.png";
-			break;
-
 		case "o":
+			$text = "OFF";
 			$statusimg = "off.png";
-			break;
-
-		case "O":
-		case "ho":
-		case "o!":
-			$statusimg = "offhot.png";
 			break;
 
 		case "on":
+			$text = "OFF";
 			$statusimg = "offnew.png";
 			break;
 
-		case "On":
-		case "ohn":
-		case "o!n":
-			$statusimg = "offhotnew.png";
-			break;
 	}
-
+	
+	if (!isset($text)) {
+		$text = "";
+	}
+	
 	$status = "<div style='line-height:75%;padding: 0;'><img src=\"$imagepath$statusimg\" alt=\"$text\"><br/>";
 	if ($newcount > '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {

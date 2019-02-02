@@ -192,26 +192,20 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	$status = '';
 	$statalt = '';
 	if ($thread['closed']) {
-		$status.='o';
+		$status .= 'o';
 		$statalt = 'OFF';
-	}
-	if ($thread['replies'] >= 50) {
-		$status.='!';
-		if (!$statalt)
-			$statalt = 'HOT';
 	}
 
 	if ($log) {
 		if (!$thread['isread']) {
-			$status.='n';
-			if ($statalt != 'HOT')
-				$statalt = 'NEW';
-		}
-	}else
-	if ($thread['lastdate'] > (ctime() - 3600)) {
-		$status.='n';
-		if ($statalt != 'HOT')
+			$status .= 'n';
 			$statalt = 'NEW';
+		}
+	} else {
+		if ($thread['lastdate'] > (ctime() - 3600)) {
+			$status.='n';
+			$statalt = 'NEW';
+		}
 	}
 
 	if ($status)
