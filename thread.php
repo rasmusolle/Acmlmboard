@@ -527,7 +527,7 @@ function trashConfirm(e) {
 }
 </script>";
 
-	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\">
+	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\" id=\"mod\">
 " . "  <table cellspacing=\"0\" class=\"c2\"><tr class=\"n2\">
 " . "  <td class=\"b n3\">
 " . "    <span id=\"moptions\">
