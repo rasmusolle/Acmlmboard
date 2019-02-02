@@ -67,17 +67,12 @@ function checkcusercolor($uid) {
 	if (!$config["perusercolor"])
 		return false;
 
-	if (!$loguser[id])
+	if (!$loguser['id'])
 		return false;
 	if (has_perm_revoked('has-customusercolor'))
 		return false;
 	if ($uid == $loguser['id'] && has_perm('has-customusercolor'))
 		return true;
-
-	/* Allow a custom user color after a specific postcount/time. *DISABLED*
-	  if($loguser[posts]>=4000) return true;
-	  if($loguser[posts]>3500 && $loguser[regdate]<(time()-3600*24*183)) return true;
-	 */
 
 	if (has_perm('edit-customusercolors'))
 		return true;

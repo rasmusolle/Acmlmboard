@@ -304,7 +304,7 @@ if (empty($act)) {
 " . " <table cellspacing=\"0\" class=\"c1\">
 " .
 			catheader('Login information') . "
-" . (has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user[name])) . "
+" . (has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name'])) . "
 " . (checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : "" ) . "
 " . fieldrow('Password', $passinput) . "
 ";
