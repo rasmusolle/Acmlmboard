@@ -239,21 +239,16 @@ function pageheader($pagetitle = "", $fid = 0) {
 	if ($pagetitle)
 		$pagetitle .= " - ";
 
-	if (has_perm("edit-attentions-box") && $log)
-		$ae = "(<a href=\"editattn.php\">edit</a>)";
-	else
-		$ae = "";
-
 	$extratitle = "
                      <table cellspacing=\"0\" class=\"c1\" width=\"100%\" align=\"center\">
                        <tr class=\"h\">
-                          <td class=\"b h\">$config[atnname] $ae</td>
+                          <td class=\"b h\">$config[atnname]</td>
                         <tr class=\"n2\" align=\"center\">
                           <td class=\"b sfont\">" . ($t = $sql->resultq("SELECT `txtval` FROM `misc` WHERE `field`='attention'")) . "
                           </td>
                      </table>";
 	if ($t == "")
-		$extratitle = $ae;
+		$extratitle = '';
 
 	if ($extratitle) {
 		$boardlogo = "
