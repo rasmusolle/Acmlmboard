@@ -5,17 +5,16 @@
 		<style>
 table.main {
 	border-spacing: 10px;
-	top: 40%;
-	width: 35em;
+	width: 50em;
+	top: 500px;
 	font-family: Verdana;
-	color: #FFffff;
+	color: #ffffff;
 	font-size: 12px;
 	margin: auto;
-	background-color: #C02020;
 }
 		</style>
 	</head>
-	<body style="background-color:#101020">
+	<body style="background-color:#C02020">
 		<table class="main">
 			<tr>
 				<td style="vertical-align:middle;height:100px;width:50px">
