@@ -85,10 +85,16 @@ $config['lockdown'] = false; // Put board in lockdown mode.
 // The following are optional values you can change to personalize your board
 $config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
 
+// irc stuff
 $config['channel'] = "#changeme";
 $config['network'] = "irc.changeme.invalid";
 
-// xkeeper 07/15/2007 - adding horrible spatula quotes for fis^H^H^H^H spatula
+// List of bots (web crawlers)
+$botlist = array(
+	'ia_archiver','baidu','bingbot','duckduckbot','Exabot','Googlebot','msnbot/','Yahoo! Slurp','bot','spider'
+);
+
+
 $spatulas = array(
 	"Value1",
 	"Value2"

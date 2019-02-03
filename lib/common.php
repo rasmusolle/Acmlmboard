@@ -61,14 +61,9 @@ $sql->query('UPDATE users SET group_id=' . $defaultgroup . ', title="", tempbann
 
 $dateformat = "$loguser[dateformat] $loguser[timeformat]";
 
-$bots = array();
-$bota = $sql->query("SELECT `bot_agent` FROM `robots`");
-while ($robots = $sql->fetch($bota)) {
-	$bots[] = $robots['bot_agent'];
-}
 $bot = 0;
 
-if (str_replace($bots, "x", $_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGENT']) {
+if (str_replace($botlist, "x", strtolower($_SERVER['HTTP_USER_AGENT'])) != strtolower($_SERVER['HTTP_USER_AGENT'])) {
 	$bot = 1;
 }
 if ($bot) {

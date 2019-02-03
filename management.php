@@ -9,8 +9,6 @@ if (has_perm("edit-forums"))
 	$mlinks[] = array('url' => "manageforums.php", 'title' => 'Manage forums');
 if (has_perm("edit-ip-bans")) 
 	$mlinks[] = array('url' => "ipbans.php", 'title' => 'Manage IP bans');
-if (has_perm("edit-spiders")) 
-	$mlinks[] = array('url' => "editspiders.php", 'title' => 'Manage spiders');
 if (has_perm('edit-smilies'))
 	$mlinks[] = array('url' => "editsmilies.php", 'title' => 'Manage smilies');
 if (has_perm("edit-groups")) 
