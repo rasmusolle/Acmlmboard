@@ -42,35 +42,6 @@ CREATE TABLE `dailystats` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `deletedgroups`;
-CREATE TABLE `deletedgroups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `char` varchar(1) NOT NULL,
-  `color` varchar(16) DEFAULT NULL,
-  `nc0` varchar(6) CHARACTER SET utf8 NOT NULL,
-  `nc1` varchar(6) CHARACTER SET utf8 NOT NULL,
-  `nc2` varchar(6) CHARACTER SET utf8 NOT NULL,
-  `inherit_group_id` int(11) NOT NULL,
-  `default` int(2) NOT NULL,
-  `banned` int(2) NOT NULL,
-  `sortorder` int(11) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '0',
-  `primary` int(1) NOT NULL DEFAULT '0',
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `forummods`;
-CREATE TABLE `forummods` (
-  `uid` int(12) NOT NULL,
-  `fid` int(12) NOT NULL,
-  UNIQUE KEY `uid_2` (`uid`,`fid`),
-  KEY `uid` (`uid`,`fid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `forums`;
 CREATE TABLE `forums` (
   `id` int(5) NOT NULL DEFAULT '0',
@@ -1523,7 +1494,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (10,	2,	'group',	'create-public-thread',	'',	0,	0),
 (11,	2,	'group',	'update-own-post',	'',	0,	0),
 (12,	2,	'group',	'use-post-layout',	'',	0,	0),
-(23,	8,	'group',	'consecutive-posts',	'',	0,	0),
 (24,	3,	'group',	'delete-post',	'',	0,	0),
 (25,	3,	'group',	'delete-thread',	'',	0,	0),
 (26,	3,	'group',	'update-post',	'',	0,	0),
@@ -1572,9 +1542,7 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (83,	1,	'group',	'view-login',	'',	0,	0),
 (84,	2,	'group',	'view-login',	'',	0,	1),
 (85,	2,	'group',	'mark-read',	'',	0,	0),
-(86,	8,	'group',	'staff',	'',	0,	0),
 (87,	9,	'group',	'banned',	'',	0,	0),
-(88,	8,	'group',	'ignore-thread-time-limit',	'',	0,	0),
 (89,	2,	'group',	'rename-own-thread',	'',	0,	0),
 (90,	7,	'group',	'view-forum-post-history',	'forum',	11,	0),
 (91,	7,	'group',	'view-forum-post-history',	'forum',	12,	0),
@@ -1594,7 +1562,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (126,	2,	'group',	'create-pms',	'',	0,	0),
 (127,	2,	'group',	'delete-own-pms',	'',	0,	0),
 (128,	2,	'group',	'view-own-pms',	'',	0,	0),
-(129,	8,	'group',	'edit-own-title',	'',	0,	0),
 (130,	11,	'group',	'create-pms',	'',	0,	1),
 (131,	11,	'group',	'delete-own-pms',	'',	0,	1),
 (132,	11,	'group',	'view-own-pms',	'',	0,	1),
@@ -1638,7 +1605,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (217,	2,	'group',	'post-radar',	'',	0,	0),
 (218,	3,	'group',	'show-as-staff',	'',	0,	0),
 (219,	4,	'group',	'show-as-staff',	'',	0,	0),
-(220,	8,	'group',	'show-as-staff',	'',	0,	0),
 (221,	6,	'group',	'show-as-staff',	'',	0,	0),
 (222,	10,	'group',	'track-ip-change',	'',	0,	0),
 (224,	2,	'group',	'block-layout',	'',	0,	0),
@@ -1715,7 +1681,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (300,	3,	'group',	'ban-users',	'',	0,	0),
 (301,	3,	'group',	'ban-users',	'',	0,	0),
 (302,	3,	'group',	'ban-users',	'',	0,	0),
-(303,	3,	'group',	'ban-users',	'',	0,	0),
 (304,	4,	'group',	'edit-titles',	'',	0,	0),
 (305,	4,	'group',	'edit-titles',	'',	0,	0),
 (306,	4,	'group',	'edit-titles',	'',	0,	0),
@@ -1774,17 +1739,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (362,	11,	'group',	'override-closed-forum',	'forums',	2,	1),
 (363,	11,	'group',	'view-forum-post-history',	'forums',	2,	1),
 (364,	11,	'group',	'view-private-forum',	'forums',	2,	1),
-(365,	13,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
-(366,	13,	'group',	'create-forum-announcement',	'forums',	2,	1),
-(367,	13,	'group',	'create-private-forum-post',	'forums',	2,	1),
-(368,	13,	'group',	'create-private-forum-thread',	'forums',	2,	1),
-(369,	13,	'group',	'delete-forum-post',	'forums',	2,	1),
-(370,	13,	'group',	'delete-forum-thread',	'forums',	2,	1),
-(371,	13,	'group',	'edit-forum-post',	'forums',	2,	1),
-(372,	13,	'group',	'edit-forum-thread',	'forums',	2,	1),
-(373,	13,	'group',	'override-closed-forum',	'forums',	2,	1),
-(374,	13,	'group',	'view-forum-post-history',	'forums',	2,	1),
-(375,	13,	'group',	'view-private-forum',	'forums',	2,	1),
 (376,	1,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
 (377,	1,	'group',	'create-forum-announcement',	'forums',	1,	1),
 (378,	1,	'group',	'create-private-forum-post',	'forums',	1,	1),
@@ -1818,20 +1772,8 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (406,	11,	'group',	'override-closed-forum',	'forums',	1,	1),
 (407,	11,	'group',	'view-forum-post-history',	'forums',	1,	1),
 (408,	11,	'group',	'view-private-forum',	'forums',	1,	1),
-(409,	13,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
-(410,	13,	'group',	'create-forum-announcement',	'forums',	1,	1),
-(411,	13,	'group',	'create-private-forum-post',	'forums',	1,	1),
-(412,	13,	'group',	'create-private-forum-thread',	'forums',	1,	1),
-(413,	13,	'group',	'delete-forum-post',	'forums',	1,	1),
-(414,	13,	'group',	'delete-forum-thread',	'forums',	1,	1),
-(415,	13,	'group',	'edit-forum-post',	'forums',	1,	1),
-(416,	13,	'group',	'edit-forum-thread',	'forums',	1,	1),
-(417,	13,	'group',	'override-closed-forum',	'forums',	1,	1),
-(418,	13,	'group',	'view-forum-post-history',	'forums',	1,	1),
-(419,	13,	'group',	'view-private-forum',	'forums',	1,	1),
 (420,	1,	'group',	'view-private-category',	'categories',	1,	1),
 (421,	6,	'group',	'view-private-category',	'categories',	1,	1),
-(422,	11,	'group',	'view-private-category',	'categories',	1,	1),
-(423,	13,	'group',	'view-private-category',	'categories',	1,	1);
+(422,	11,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-02-03 12:14:32
+-- 2019-02-03 13:26:54

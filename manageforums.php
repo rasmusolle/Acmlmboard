@@ -5,16 +5,6 @@ if (!has_perm('edit-forums')) {
 	error('Error', 'You have no permissions to do this!<br> <a href=./>Back to main</a>');
 }
 
-if (isset($_GET['ajax'])) {
-	$ajax = $_GET['ajax'];
-	if ($ajax == 'localmodRow') {
-		$user = $sql->fetchp("SELECT ".userfields()." FROM users WHERE name=? OR displayname=?",array($_GET['user'],$_GET['user']));
-		if (!$user) die();
-		echo $user['id'] . '|' . localmodRow($user);
-	}
-	die();
-}
-
 $error = '';
 
 if (isset($_POST['savecat'])) {
@@ -74,20 +64,6 @@ if (isset($_POST['savecat'])) {
 			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=? WHERE id=?", 
 				array($cat, $title, $descr, $ord, $private, $trash, $readonly, $fid));
 		}
-		// save localmods
-		$oldmods = array();
-		$qmods = $sql->prepare("SELECT uid FROM forummods WHERE fid=?",array($fid));
-		while ($mod = $sql->fetch($qmods))
-			$oldmods[$mod['uid']] = 1;
-		$newmods = $_POST['localmod'];
-		foreach ($oldmods as $uid=>$blarg) {
-			if (!$newmods[$uid])
-				$sql->prepare("DELETE FROM forummods WHERE fid=? AND uid=?", array($fid, $uid));
-		}
-		foreach ($newmods as $uid=>$blarg) {
-			if (!isset($oldmods[$uid]))
-				$sql->prepare("INSERT INTO forummods (fid,uid) VALUES (?,?)", array($fid, $uid));
-		}
 		saveperms('forums', $fid);
 		die(header('Location: manageforums.php?fid='.$fid));
 	}
@@ -95,7 +71,6 @@ if (isset($_POST['savecat'])) {
 	// delete forum
 	$fid = (int)$_GET['fid'];
 	$sql->prepare("DELETE FROM forums WHERE id=?",array($fid));
-	$sql->prepare("DELETE FROM forummods WHERE fid=?",array($fid));
 	deleteperms('forums', $fid);
 	die(header('Location: manageforums.php'));
 }
@@ -190,30 +165,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			</tr>
 		</table><br>
 		<?php permtable('forums', $fid); ?>
-		<br><table class="c1">
-			<tr class="h"><td class="b h" colspan="2">Moderators</td></tr>
-			<tr class="c"><td class="b c">Add a moderator</td><td class="b c">Current moderators</td></tr>
-			<tr class="n2">
-				<td class="b" style="width:50%; vertical-align:top;">
-					<input type="text" name="addmod_name" id="addmod_name" size="20" maxlength="32" onkeyup="localmodSearch(this);">
-					<button type="button" class="submit" id="addmod" onclick="addLocalmod();">Add</button><br>
-					<select name="addmod_list" id="addmod_list" style="width:200px;" size="5" onchange="chooseLocalmod(this);"></select>
-				</td>
-				<td class="b" id="modlist" style="vertical-align:top;">
-					<?php 
-					$qmods = $sql->prepare("SELECT ".userfields('u')." FROM forummods f LEFT JOIN users u ON u.id=f.uid WHERE f.fid=?",array($fid));
-					while ($mod = $sql->fetch($qmods))
-						echo "<div>".localmodRow($mod)."</div>";
-					?>
-				</td>
-			</tr>
-			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
-			<tr>
-				<td class="b n2" align="center" colspan="2">
-					<input type="submit" class="submit" name="saveforum" value="Save forum">
-				</td>
-			</tr>
-		</table>
 	</form><?php
 } else {
 	// main page -- category/forum listing
@@ -311,6 +262,7 @@ function permtable($bind, $id) {
 	<?php
 	$c = 1;
 	foreach ($groups as $group) {
+		//error_reporting(~E_NOTICE);
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);
 		
@@ -331,17 +283,11 @@ function permtable($bind, $id) {
 		
 		$permlist = '';
 		foreach ($perms as $pid => $ptitle) {
-			// Temp hack
-			// TODO: fix it up.
-			if ($gid != 1) {
-			if ($gid != 6) {
-			if ($gid != 11) {
-			if ($gid != 13) {
+			
 			if ($doinherit) $check = ' disabled="disabled"';
 			else $check = $permdata[$gid][$pid] ? ' checked="checked"':'';
 			
 			$permlist .= "<label><input type=\"checkbox\" name=\"perm[{$gid}][{$pid}]\" value=1 class=\"perm_{$gid}\"{$check}> {$ptitle}</label> ";
-			}}}}
 		}
 		
 		?><tr class="n<?php echo $c; ?>">
@@ -390,12 +336,6 @@ function saveperms($bind, $id) {
 			$sql->prepare("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`)
 				VALUES (?,?,?,?,?,?)", array($gid, 'group', $perm, $bind, $id, $myperms[$perm]?0:1));
 	}
-}
-
-function localmodRow($user) {
-	return "<span style=\"min-width:200px; display:inline-block;\">".userlink($user)."</span>".
-		"<button class=\"submit\" onclick=\"deleteLocalmod(this.parentNode); return false;\">Remove</button>".
-		"<input type=\"hidden\" name=\"localmod[{$user['id']}]\" id=\"localmod_{$user['id']}\" value=1>";
 }
 
 ?>

@@ -74,11 +74,6 @@ $cat = -1;
 	</tr>
 <?php
 
-$lmods = array();
-$r = $sql->query("SELECT f.fid, " . userfields('u') . " FROM forummods f LEFT JOIN users u ON u.id=f.uid");
-while ($mod = $sql->fetch($r))
-	$lmods[$mod['fid']][] = $mod;
-
 while ($forum = $sql->fetch($forums)) {
 	if (!can_view_forum($forum))
 		continue;
@@ -111,18 +106,12 @@ while ($forum = $sql->fetch($forums)) {
 		$status = '&nbsp;';
 	}
 
-	$modstring = "";
-	if (isset($lmods[$forum['id']]))
-		foreach ($lmods[$forum['id']] as $mod)
-			$modstring.=userlink($mod) . ", ";
-	if ($modstring)
-		$modstring = "<br>(moderated by: " . substr($modstring, 0, -2) . ")";
 	?>
 	<tr align="center">
 		<td class="b n1"><?php echo $status; ?></td>
 		<td class="b n2" align="left">
 			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>"><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
-			<br><span class=sfont><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) . $modstring; ?></span>
+			<br><span class=sfont><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']); ?></span>
 		</td>
 		<td class="b n1"><?php echo $forum['threads']; ?></td>
 		<td class="b n1"><?php echo $forum['posts']; ?></td>

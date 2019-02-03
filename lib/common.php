@@ -81,15 +81,6 @@ if (!$log) {
 		$loguser['theme'] = "minerslament";
 }
 
-$flocalmod = $sql->fetchq("SELECT `uid` FROM `forummods`");
-if ($loguser['id'] == $flocalmod['uid']) {
-	$loguser['modforums'] = array();
-	$modf = $sql->query("SELECT `fid` FROM `forummods` WHERE `uid`='$loguser[id]'");
-	while ($m = $sql->fetch($modf)) {
-		$loguser['modforums'][$m['fid']] = 1;
-	}
-}
-
 require "lib/timezone.php";
 dobirthdays(); //Called here to account for timezone bugs.
 
