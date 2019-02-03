@@ -12,6 +12,14 @@ function LoadBlocklayouts() {
 		$blocklayouts[$block['user']] = 1;
 }
 
+function loadsmilies() {
+	global $sql,$smilies;
+	$i = 0;
+	$s = $sql->query("SELECT * FROM smilies");
+	while($smilies[$i++] = $sql->fetch($s));
+		$smilies['num'] = $i;
+}
+
 function threadpost($post, $type, $pthread = '') {
 	global $dateformat, $loguser, $sql, $blocklayouts, $syndromenable, $config, $signsep;
 	
