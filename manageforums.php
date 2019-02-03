@@ -54,9 +54,9 @@ if (isset($_POST['savecat'])) {
 	$title = stripslashes($_POST['title']);
 	$descr = stripslashes($_POST['descr']);
 	$ord = (int)$_POST['ord'];
-	$private = $_POST['private'] ? 1 : 0;
-	$trash = $_POST['trash'] ? 1 : 0;
-	$readonly = $_POST['readonly'] ? 1 : 0;
+	$private = isset($_POST['private']) ? 1 : 0;
+	$trash = isset($_POST['trash']) ? 1 : 0;
+	$readonly = isset($_POST['readonly']) ? 1 : 0;
 	
 	if (!trim($title))
 		$error = 'Please enter a title for the forum.';
@@ -65,7 +65,7 @@ if (isset($_POST['savecat'])) {
 			$fid = $sql->resultq("SELECT MAX(id) FROM forums");
 			if (!$fid) $fid = 0;
 			$fid++;
-			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?,?)", 
+			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?)", 
 				array($fid, $cat, $title, $descr, $ord, $private, $trash, $readonly));
 		} else {
 			$fid = (int)$fid;
@@ -175,8 +175,8 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 				<td class="b n1" align="center">&nbsp;</td>
 				<td class="b n2">
 					<label><input type="checkbox" name="private" value="1" <?php echo ($forum['private'] ? ' checked="checked"':''); ?>> Private forum</label>
-					<label><input type="checkbox" name="readonly" value=1".($forum['readonly'] ? ' checked="checked"':'')."> Read-only</label>
-					<label><input type="checkbox" name="trash" value=1".($forum['trash'] ? ' checked="checked"':'')."> Trash forum</label>
+					<label><input type="checkbox" name="readonly" value="1"<?=($forum['readonly'] ? ' checked="checked"' : '')?>> Read-only</label>
+					<label><input type="checkbox" name="trash" value="1"<?=($forum['trash'] ? ' checked="checked"':'')?>> Trash forum</label>
 				</td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
