@@ -255,8 +255,6 @@ $logtz = new DateTimeZone($loguser['timezone']);
 $usertzoff = $usertz->getOffset($now);
 $logtzoff = $logtz->getOffset($now);
 
-$user['showminipic'] = 1;
-
 //User color override - Should be moved to a function.
 $u = ''; // what was this originally?
 $group = $usergroups[$user[$u . 'group_id']];

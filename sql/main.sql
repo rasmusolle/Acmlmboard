@@ -1465,7 +1465,6 @@ CREATE TABLE `users` (
   `sign` text NOT NULL,
   `signsep` int(1) NOT NULL DEFAULT '0',
   `bio` text NOT NULL,
-  `minipic` text NOT NULL,
   `etc` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '1',
   `nick_color` varchar(6) NOT NULL,
@@ -1835,4 +1834,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (423,	13,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-02-02 18:13:40
+-- 2019-02-03 12:14:32

@@ -64,33 +64,6 @@ if ($act == 'Edit profile') {
 	if ($_POST['pass'] && $_POST['pass2'] && $_POST['pass'] != $_POST['pass2'])
 		$error = "- The passwords you entered don't match.<br />";
 
-	$minipic = 'minipic';
-	if ($fname = $_FILES['minipic']['name']) {
-		$fext = strtolower(substr($fname, -4));
-		if ($fext != ".png" && $fext != ".gif") {
-			$error.="- Invalid minipic file type; must be PNG or GIF.<br />";
-		}
-		if ($_FILES['minipic']['size'] > 10240) {
-			$error.="- Minipic file size is too high; must be 10KB or less.<br />";
-		}
-		if (!$error) {
-			$tmpfile = $_FILES['minipic']['tmp_name'];
-			list($width, $height, $type) = getimagesize($tmpfile);
-			if ($width != $minipicsize || $height != $minipicsize) {
-				$error.="- Minipic size must be {$minipicsize}x$minipicsize.<br />";
-			} else if ($type != 3 && $type != 1) {
-				$error.="- Minipic file broken or not a valid PNG or GIF image!<br />";
-			} else {
-				if ($type == 1)
-					$type = "gif";
-				else
-					$type = "png";
-				$minipic = "\"data:image/$type;base64," . base64_encode(file_get_contents($tmpfile)) . "\"";
-			}
-		}
-	}
-	if (isset($_POST['minipicdel']))
-		$minipic = "\"\"";
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
 	if ($fname['size'] > 0) {
@@ -232,7 +205,6 @@ if ($act == 'Edit profile') {
 				. "tzoff=$tztotal,"
 				. "birth='$birthday',"
 				. "usepic=$usepic,"
-				. "minipic=$minipic,"
 				. "dateformat='$dateformat',"
 				. "timeformat='$timeformat' "
 				. "WHERE `id`=$user[id]"
@@ -321,7 +293,6 @@ if (empty($act)) {
 " . fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist())) . "
 " . ((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "") . "
 " . fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label><br><font class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</font>') . "
-" . fieldrow('MINIpic', '<input type=file name=minipic size=40> <input type=checkbox name=minipicdel value=1 id=minipicdel><label for=minipicdel>Erase</label><br><font class=sfont>Must be PNG or GIF, within 10KB, exactly ' . $minipicsize . 'x' . $minipicsize . '.</font>') . "
 " . (checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) . "
 ";
 

@@ -226,28 +226,25 @@ function userfields($tbl = '', $pf = '') {
 	return $ret;
 }
 
-function userlink_by_id($uid, $usemini = '') {
+function userlink_by_id($uid) {
 	global $sql;
-	$u = $sql->fetchp("SELECT " . userfields() . ",minipic FROM users WHERE id=?", array($uid));
-	$u['showminipic'] = $usemini;
+	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", array($uid));
 	return userlink($u);
 }
 
-function userlink($user, $u = '', $usemini = '') {
+function userlink($user, $u = '') {
 	global $loguser;
 	if (!$user[$u . 'name'])
 		$user[$u . 'name'] = '&nbsp;';
 
 	return '<a href="profile.php?id=' . $user[$u . 'id'] . '">'
-			. userdisp($user, $u, $usemini)
+			. userdisp($user, $u)
 			. '</a>';
 }
 
-function userdisp($user, $u = '', $usemini = '') {
+function userdisp($user, $u = '') {
 	global $sql, $config, $usergroups, $userbirthdays, $usercnc;
 
-	if ($usemini)
-		$user['showminipic'] = true;
 //Enable per theme nick colors & light theme nick shadows
 	$unclass = '';
 	$unspanend = '';
@@ -275,13 +272,7 @@ function userdisp($user, $u = '', $usemini = '') {
 	if ($config['displayname'] && $user[$u . 'displayname'])
 		$n = $user[$u . 'displayname'];
 
-	if (!empty($user[$u . 'minipic']) && isset($user['showminipic'])) {
-		$minipic = "<img style='vertical-align:text-bottom' src='" . $user[$u . 'minipic'] . "' border=0> ";
-	} else {
-		$minipic = "";
-	}
-
-	$userdisname = "$minipic$unclass<span $nccss style='color:#$nc;'>"
+	$userdisname = "$unclass<span $nccss style='color:#$nc;'>"
 			. str_replace(" ", "&nbsp;", htmlval($n))
 			. '</span>' . $unspanend;
 

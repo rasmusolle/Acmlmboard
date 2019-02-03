@@ -50,7 +50,7 @@ if ($page < 0 || $page > 1000000000000000) {
 }
 
 $fieldlist = '';
-$ufields = array('posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep', 'minipic');
+$ufields = array('posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep');
 foreach ($ufields as $field) {
 	$fieldlist.="u.$field u$field,";
 }
@@ -422,7 +422,7 @@ if ($viewmode == "thread") {
 ";
 }elseif ($viewmode == "user") {
 	$topbot = "<table cellspacing=\"0\" width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Posts by " . userlink($user, "", $config['showminipic']) . "</td>
+" . "  <td class=\"nb\"><a href=./>Main</a> - Posts by " . userlink($user, "") . "</td>
 " . "</table>
 ";
 } elseif ($viewmode == "announce") {

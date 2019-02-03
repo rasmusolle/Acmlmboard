@@ -2,16 +2,15 @@
 
 function userlink_by_name($name) {
 	global $sql, $config;
-	$u = $sql->fetchp("SELECT " . userfields() . ",minipic FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", array($name, $name));
+	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", array($name, $name));
 	if ($u)
-		return userlink($u, null, $config['userlinkminipic']);
+		return userlink($u, null);
 	else
 		return 0;
 }
 
 function get_userlink($matches) {
-	global $config;
-	return userlink_by_id($matches[1], $config['userlinkminipic']);
+	return userlink_by_id($matches[1]);
 }
 
 function get_username_link($matches) {

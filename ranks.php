@@ -13,7 +13,7 @@ if ($getrankset < 1 || $getrankset > $totalranks)
 	$getrankset = 1; // Should be made dynamic based on rank sets.
 
 $linkuser = array();
-$allusers = $sql->query("SELECT " . userfields() . ", `posts`, `minipic`, `lastview` FROM `users` WHERE `rankset` = " . $getrankset . " ORDER BY `id`");
+$allusers = $sql->query("SELECT " . userfields() . ", `posts`, `lastview` FROM `users` WHERE `rankset` = " . $getrankset . " ORDER BY `id`");
 
 while ($row = $sql->fetch($allusers)) { $linkuser[$row['id']] = $row; }
 $blockunknown = true;
@@ -90,11 +90,7 @@ while ($rank = $sql->fetch($ranks)) {
 				$usersonthisrank = '';
 				if ($usersonthisrank)
 					$usersonthisrank .= ", ";
-				if ($user['minipic'])
-					$minpic = "<img style='vertical-align:text-bottom' src='" . $user['minipic'] . "'/> ";
-				else
-					$minpic = "";
-				$usersonthisrank .= $minpic . userlink_by_id($user['id']) . $climbingagain;
+				$usersonthisrank .= userlink_by_id($user['id']) . $climbingagain;
 			} else
 				$idlecount++;
 			$usercount++;

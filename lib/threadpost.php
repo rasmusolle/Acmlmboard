@@ -64,7 +64,7 @@ function threadpost($post, $type, $pthread = '') {
 		$text = "<table cellspacing=\"0\" class=\"c1\">
 " . "  <tr>
 " . "    <td class=\"b n1\" style=border-bottom:0;border-right:0;width:180px height=17>
-" . "      " . userlink($post, 'u', $config['threadminipic']) . "</td>
+" . "      " . userlink($post, 'u') . "</td>
 " . "    <td class=\"b n1\" style=border-left:0>
 " . "      <table cellspacing=\"0\" width=100%>
 " . "        <td class=\"nb sfont\">(post deleted)</td>
@@ -140,7 +140,7 @@ function threadpost($post, $type, $pthread = '') {
 " . "  $postheaderrow 
 " . "  <tr>
 " . "    <td class=\"b n1 $tbar1\" style=\"border-bottom:0; border-right:0; min-width: 180px;\" height=17>
-" . "      " . userlink($post, 'u', $config['threadminipic']) .
+" . "      " . userlink($post, 'u') .
 					/* " ".gettokenstring($post[uid])."</td> //[KAWA] Removed in favor of profile field
 					  ". */ "    </td>
 " . "    <td class=\"b n1 $tbar2\" style=\"border-left:0\" width=100%>

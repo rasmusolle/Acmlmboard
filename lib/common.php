@@ -271,7 +271,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	if ($log) {
 		$logbar = $loguser;
-		$logbar['showminipic'] = 1;
 	}
 
 	echo "<!DOCTYPE html>
@@ -409,14 +408,13 @@ function pageheader($pagetitle = "", $fid = 0) {
 	}
 
 	if ($fid) {
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `minipic`, `hidden`
+		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden`
                               FROM `users`
                               WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck AND `lastforum`='$fid'
                               ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
-			$user['showminipic'] = 1;
 			$onuserlog = ($user['lastpost'] <= $user['lastview']);
 			$offline1 = ($onuserlog ? "" : "[");
 			$offline2 = ($onuserlog ? "" : "]");
@@ -494,12 +492,11 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$hiddencheck = "";
 		}
 
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `minipic`, `hidden` FROM `users`
+		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden` FROM `users`
                            WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
-			$user['showminipic'] = 1;
 			$onuserlog = ($user['lastpost'] <= $user['lastview']);
 			$offline1 = ($onuserlog ? "" : "[");
 			$offline2 = ($onuserlog ? "" : "]");

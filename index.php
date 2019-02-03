@@ -53,7 +53,7 @@ while ($c = $sql->fetch($categs)) {
 		$categ[$c['id']] = $c;
 }
 
-$forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.private cprivate, " . userfields('u', 'u') . ", u.minipic uminipic "
+$forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.private cprivate, " . userfields('u', 'u') . " "
 		. "FROM forums f "
 		. "LEFT JOIN users u ON u.id=f.lastuser "
 		. "LEFT JOIN categories c ON c.id=f.cat "
@@ -91,7 +91,7 @@ while ($forum = $sql->fetch($forums)) {
 	}
 
 	if ($forum['posts'] > 0 && $forum['lastdate'] > 0)
-		$lastpost = '<nobr>' . cdate($dateformat, $forum['lastdate']) . '</nobr><br><font class=sfont>by&nbsp;' . userlink($forum, 'u', $config['indexminipic']) . "&nbsp;<a href='thread.php?pid=" . $forum['lastid'] . "#" . $forum['lastid'] . "'>&raquo;</a></font>";
+		$lastpost = '<nobr>' . cdate($dateformat, $forum['lastdate']) . '</nobr><br><font class=sfont>by&nbsp;' . userlink($forum, 'u') . "&nbsp;<a href='thread.php?pid=" . $forum['lastid'] . "#" . $forum['lastid'] . "'>&raquo;</a></font>";
 	else
 		$lastpost = 'None';
 

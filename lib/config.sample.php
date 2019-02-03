@@ -55,21 +55,12 @@ $config['showssl'] = false; // Shows a link/icon to allow a user to switch to ss
    -- The amount of options may be overwelming at first. AB 2.5+ was designed to allow for great flexiblity. As such there are many optional features. -- */
 
 // User GFX limits
-$minipicsize = 16; // traditionally a square image. $minipicsize x $minipicsize. (AB1/2's Default was 11x11)
 $avatardimx = 180; // Avatar X Scale
 $avatardimy = 180; // Avatar Y Scale
 $avatardimxs = 60; // Avatar X Scale (Scaled Down) **CURRENTLY DISABLED**
 $avatardimys = 60; // Avatar Y Scale (Scaled Down) **CURRENTLY DISABLED**
 $avatarsize = 2 * 30720; // The Avatar size in bytes. The default is to 60kb.
-                     
-// The following settings allow you to enable minipics in various parts of the board. Currently they are specific but they may be simplifed in the future.
-$config['showminipic'] = false; // Show minipics in many generic places that don't need to be specifically controlled.
-$config['userlinkminipic'] = false; // Show minipics in [user=#] and @Name links.
-$config['indexminipic'] = false; // Show minipics on index
-$config['forumminipic'] = false; // Show minipics on forum listing
-$config['startedbyminipic'] = $config['forumminipic']; // Show minipics on forum started by col. (Seperate for testing purposes at this time.. may be merged)
-$config['threadminipic'] = false; // Show minipics in a thread
-                                  
+
 // The following settings allow a board owner to override a board's theme and logo for special events, etc.
 $config['override_theme'] = ""; // If you want to lock everyone to a specific theme.
 $config['override_logo'] = ""; // If you want to replace the logo on all themes.

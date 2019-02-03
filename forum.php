@@ -233,10 +233,10 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 " . ($showforum ?
 					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
 " . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$pagelist</td>
-" . "    <td class=\"b\">" . userlink($thread, 'u1', $config['startedbyminipic']) . "</td>
+" . "    <td class=\"b\">" . userlink($thread, 'u1') . "</td>
 " . "    <td class=\"b\">$thread[replies]</td>
 " . "    <td class=\"b\">$thread[views]</td>
-" . "    <td class=\"b\"><nobr>" . cdate($dateformat, $thread['lastdate']) . "</nobr><br><font class=sfont>by&nbsp;" . userlink($thread, 'u2', $config['forumminipic']) . "&nbsp;<a href='thread.php?pid=$thread[lastid]#$thread[lastid]'>&raquo;</a></font></td>
+" . "    <td class=\"b\"><nobr>" . cdate($dateformat, $thread['lastdate']) . "</nobr><br><font class=sfont>by&nbsp;" . userlink($thread, 'u2') . "&nbsp;<a href='thread.php?pid=$thread[lastid]#$thread[lastid]'>&raquo;</a></font></td>
 ";
 }
 echo "</table>
