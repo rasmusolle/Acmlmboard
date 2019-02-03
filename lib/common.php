@@ -8,42 +8,6 @@ $boardprog = "Acmlm, Emuz, <a href='credits.php'>et al</a>.";
 $abdate = "7/13/2015";
 $abversion = "2.5.3<i>pre</i> <span style=\"color: #BCDE9A; font-style: italic; font-size:8pt;\">Development</span>";
 
-if ($config['sqlconfig']) {
-	// Fallback to the config.php settings in the event that the SQL settings don't load properly or aren't set.
-	$configsql = array();
-	foreach ($config as $cfg_key => $cfg_value) {
-		$configsql[$cfg_key] = array('intval' => (int) $cfg_value, 'txtval' => $cfg_value);
-	}
-
-	if ($res = $sql->query("SELECT * from `misc`")) {
-		while ($row = $sql->fetch($res)) {
-			$configsql[$row['field']] = $row;
-		}
-	}
-
-	$trashid = $configsql['trashid']['intval'];
-	$boardtitle = $configsql['boardtitle']['txtval'];
-	$defaulttheme = $configsql['defaulttheme']['txtval'];
-	$defaultfontsize = $configsql['defaultfontsize']['intval'];
-
-	$avatardimx = $configsql['avatardimx']['intval'];
-	$avatardimy = $configsql['avatardimy']['intval'];
-
-	$config['topposts'] = $configsql['topposts']['intval'];
-	$config['topthreads'] = $configsql['topthreads']['intval'];
-
-	$config['memberlistcolorlinks'] = $configsql['memberlistcolorlinks']['intval'];
-
-	$config['threadprevnext'] = $configsql['threadprevnext']['intval'];
-
-	$config['displayname'] = $configsql['displayname']['intval'];
-	$config['perusercolor'] = $configsql['perusercolor']['intval'];
-	$config['useshadownccss'] = $configsql['useshadownccss']['intval'];
-	$config['nickcolorcss'] = $configsql['nickcolorcss']['intval'];
-
-	$config['atnname'] = $configsql['atnname']['txtval'];
-}
-
 $userip = $_SERVER['REMOTE_ADDR'];
 $userfwd = addslashes(getenv('HTTP_X_FORWARDED_FOR')); //We add slashes to that because the header is under users' control
 $url = getenv("SCRIPT_NAME");
@@ -52,8 +16,7 @@ if ($q = getenv("QUERY_STRING"))
 
 require "lib/login.php";
 
-$a = $sql->fetchq("SELECT `intval`,`txtval` FROM `misc` WHERE `field`='lockdown'");
-if ($a['intval']) {
+if ($config['lockdown']) {
 	//lock down
 	if (has_perm('bypass-lockdown'))
 		echo "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";

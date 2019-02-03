@@ -1,10 +1,8 @@
 <?php
 
-/** Acmlmboard 2 - Configuration **
- 	Please look through the file and will in the apropriate information.
- 	For the settings that call SQL resultp query functions, 
- 	Please look into the Administrator Tools page on your board to configure them.
- */
+// ** Acmlmboard 2 - Configuration **
+// Please look through the file and fill in the appropriate information.
+
 $sqlhost = 'localhost';
 $sqluser = 'sqlusername';
 
@@ -13,8 +11,6 @@ $pwdsalt2 = 'Addtional Salt. Please Change me!';
 
 $sqlpass = 'sqlpassword';
 $sqldb = 'sqldatabase';
-
-$config['sqlconfig'] = true; // Configure settings through Administrator Tools and the misc table.
 
 $trashid = 2; // Designates the id for your trash forum.
 
@@ -86,6 +82,8 @@ $config['displayname'] = false; // Enable the use of the "Display Name" System. 
 $config['perusercolor'] = false; // Enable the use of per-user colors.
 $config['useshadownccss'] = false; // Enables use of a CSS class name to all user names (and other elements) that should get a shadow on light color themes
 $config['nickcolorcss'] = false; // Enables use of CSS to define per theme colors via a span id. Note: You may need to customise CSS to fit your board groups.
+
+$config['lockdown'] = false; // Put board in lockdown mode.
 
 // The following are optional values you can change to personalize your board
 $config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2

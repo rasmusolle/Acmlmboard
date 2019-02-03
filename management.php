@@ -17,8 +17,6 @@ if (has_perm("edit-groups"))
 	$mlinks[] = array('url' => "editgroups.php", 'title' => 'Manage groups');
 if (has_perm("edit-attentions-box"))
 	$mlinks[] = array('url' => "editattn.php", 'title' => 'Edit attention box');
-if (has_perm("admin-tools-access")) 
-	$mlinks[] = array('url' => "administratortools.php", 'title' => 'Administrator Tools');
 
 //Inspired by Tierage's dashboard.php in Blargboard Plus. - SquidEmpress
 $mlinkstext = '';
