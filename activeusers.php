@@ -37,11 +37,11 @@ $users = $sql->query($query);
 $post_total = 0;
 $post_overall = 0;
 $j = 0;
-$tr = 'n3';
+$tr = 'n1';
 for($i = 1; $user = $sql->fetch($users); $i++) {
 	$post_total += $user['num'];
 	$post_overall += $user['posts'];
-	$tr = ($i % 2 ? 'n2': 'n3');
+	$tr = ($i % 2 ? 'n1': 'n2');
 	?>
 	<tr class="<?php echo $tr; ?>" align="center">
 		<td class="b"><?php echo $i; ?>.</td>
@@ -56,9 +56,9 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
 	<tr class="<?php echo $tr; ?>" align="center">
-		<td class="b"><b><?php echo $j; ?>.</b></td>
-		<td class="b"></td>
-		<td class="b"></td>
+		<td class="nb"><b><?php echo $j; ?></b></td>
+		<td class="nb"></td>
+		<td class="nb"></td>
 		<td class="b"><b><?php echo $post_total; ?></b></td>
 		<td class="b"><b><?php echo $post_overall; ?></b></td>
 	</tr>
