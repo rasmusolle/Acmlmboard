@@ -76,19 +76,6 @@ while ($group = $sql->fetch($activegroups)) {
 	$groups[$gc++] = mlink($sort, $sex, $group['id'], $ppp, $page, $orderby, $customnc, $displayn) . $grouptitle . "</a>";
 }
 
-//If colornames are enabled.. 
-if ($config['memberlistcolorlinks']) {
-	$malecolor = "<span $unclass style='color:#97ACEF;'>";
-	$femalecolor = "<span $unclass style='color:#F185C9;'>";
-	$nacolor = "<span $unclass style='color:#7C60B0;'>";
-	$spancolor = "</span>";
-} else {
-	$malecolor = "";
-	$femalecolor = "";
-	$nacolor = "";
-	$spancolor = "";
-}
-
 ?>
 <table class="c1">
 	<tr class="h"><td class="b h" colspan="2"><?php echo $num . ' user' . ($num > 1 ? 's' : ''); ?> found.</td></tr>
@@ -108,9 +95,9 @@ if ($config['memberlistcolorlinks']) {
 	</tr><tr>
 		<td class="b n1">Sex:</td>
 		<td class="b n2" align="center">
-			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $malecolor . "Male" . $spancolor . "</a> | " .
-			mlink($sort, 'f', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $femalecolor . "Female" . $spancolor . "</a> | " .
-			mlink($sort, 'n', $pow, $ppp, $page, $orderby, $customnc, $displayn) . $nacolor . "N/A" . $spancolor . "</a> | ";
+			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Male</a> | " .
+			mlink($sort, 'f', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Female</a> | " .
+			mlink($sort, 'n', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "N/A</a> | ";
 
 			if ($config['perusercolor']) {
 				if ($customnc == '1')

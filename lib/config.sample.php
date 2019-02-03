@@ -73,7 +73,6 @@ $config['secafterpost'] = 5; // (in seconds, 0 == off)
 $config['topposts'] = '5000'; // Number of posts to set the goal to.
 $config['topthreads'] = '200'; // Number of threads created to set the goal to.
 
-$config['memberlistcolorlinks'] = false; // Toggles the use of more color in memberlist.php. Group links will use respective colors to gender searched.
 $config['registrationpuzzle'] = true;
 
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
