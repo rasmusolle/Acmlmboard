@@ -142,10 +142,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$views = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='views'");
 	$botviews = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='botviews'");
 
-	if (($views + 100) % 1000000 <= 200) {
-		$sql->query("INSERT INTO `views` SET `view`=$views, `user`='$loguser[id]', `time`='" . ctime() . "'");
-	}
-
 	$count = $sql->fetchq("	SELECT
 								(SELECT COUNT(*) FROM users) u,
 								(SELECT COUNT(*) FROM threads) t,

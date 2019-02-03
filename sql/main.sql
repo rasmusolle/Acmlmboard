@@ -97,14 +97,12 @@ CREATE TABLE `group` (
 INSERT INTO `group` (`id`, `title`, `nc0`, `nc1`, `nc2`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`, `primary`, `description`) VALUES
 (1,	'Base User',	'',	'',	'',	0,	0,	0,	100,	0,	0,	''),
 (2,	'Normal User',	'97ACEF',	'F185C9',	'7C60B0',	1,	1,	0,	200,	1,	1,	'Normal Registered User'),
-(3,	'Global Moderator',	'AFFABE',	'C762F2',	'47B53C',	8,	0,	0,	600,	1,	1,	''),
+(3,	'Moderator',	'AFFABE',	'C762F2',	'47B53C',	10,	0,	0,	600,	1,	1,	''),
 (4,	'Administrator',	'FFEA95',	'C53A9E',	'F0C413',	3,	0,	0,	700,	1,	1,	''),
 (6,	'Root Administrator',	'EE4444',	'E63282',	'AA3C3C',	0,	-1,	0,	800,	1,	1,	''),
-(8,	'Local Moderator',	'D8E8FE',	'FFB3F3',	'EEB9BA',	10,	0,	0,	400,	1,	1,	''),
 (9,	'Banned',	'888888',	'888888',	'888888',	2,	0,	1,	0,	1,	1,	''),
 (10,	'Staff',	'',	'',	'',	2,	0,	0,	300,	0,	0,	''),
 (11,	'Disable PM Activity',	'',	'',	'',	0,	0,	0,	1000,	1,	0,	'Disallows all Private Message activity (viewing, creation, deletion)'),
-(13,	'General Forum Moderation',	'',	'',	'',	0,	0,	0,	450,	1,	0,	'Allows moderation of the General Forum'),
 (15,	'Bot',	'',	'',	'',	1,	0,	0,	50,	0,	0,	'');
 
 DROP TABLE IF EXISTS `guests`;
@@ -117,18 +115,6 @@ CREATE TABLE `guests` (
   `bot` int(11) NOT NULL,
   `lastforum` int(10) NOT NULL,
   UNIQUE KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `ip2c`;
-CREATE TABLE `ip2c` (
-  `ip_from` bigint(12) NOT NULL,
-  `ip_to` bigint(12) NOT NULL,
-  `registrar` varchar(50) NOT NULL,
-  `assigned` int(12) NOT NULL,
-  `cc2` varchar(2) NOT NULL,
-  `cc3` varchar(3) NOT NULL,
-  `cname` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -150,14 +136,6 @@ CREATE TABLE `log` (
   `request` varchar(255) NOT NULL,
   KEY `t` (`t`),
   KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `mcache`;
-CREATE TABLE `mcache` (
-  `hash` varchar(32) NOT NULL,
-  `file` varchar(32) NOT NULL,
-  KEY `hash` (`hash`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -1459,15 +1437,6 @@ CREATE TABLE `user_group` (
 
 INSERT INTO `user_group` (`user_id`, `group_id`, `sortorder`) VALUES
 (0,	1,	0);
-
-DROP TABLE IF EXISTS `views`;
-CREATE TABLE `views` (
-  `view` int(11) NOT NULL,
-  `user` mediumint(9) NOT NULL,
-  `time` int(11) NOT NULL,
-  UNIQUE KEY `view` (`view`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
 
 DROP TABLE IF EXISTS `x_perm`;
 CREATE TABLE `x_perm` (
