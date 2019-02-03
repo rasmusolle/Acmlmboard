@@ -208,7 +208,7 @@ INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
 ('maxusers',	0,	'',	'0'),
 ('maxusersdate',	0,	'',	'0'),
 ('maxuserstext',	0,	'',	'0'),
-('botviews',	0,	'',	'0');
+('botviews',	0,	'',	'0'),
 ('attention',	0,	'',	'0');
 
 DROP TABLE IF EXISTS `mood`;
