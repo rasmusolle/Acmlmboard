@@ -20,8 +20,8 @@ function img_upload($fname,$img_targ,$img_x,$img_y,$img_size) {
 		$oerr = "Invalid file type.";
 		$err = 1;
 	}
-	if ($err) { return $oerr; }
-	if (move_uploaded_file($fname['tmp_name'],$img_targ)){
+	if ($err) return $oerr;
+	if (move_uploaded_file($fname['tmp_name'],$img_targ)) {
 		return "OK!";
 	} else {
 		return "<br>Error creating file.";
