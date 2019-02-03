@@ -1,6 +1,6 @@
 <?php
 require 'lib/common.php';
-pageheader();
+pageheader('IRC');
 ?>
 <table class="c1">
 	<tr class="h">
