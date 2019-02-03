@@ -28,7 +28,7 @@ function threadpost($post, $type, $pthread = '') {
 	$post['uhead'] = str_replace("<!--", "&lt;!--", $post['uhead']);
 
 	if (isset($post['sign']))
-		$post['text'] = $post['head'] . $post['text'] . $signsep[$loguser['signsep']] . $post['sign'];
+		$post['text'] = $post['head'] . $post['text'] . '____________________' . $post['sign'];
 	else
 		$post['text'] = $post['head'] . $post['text'];
 	//This allows config level enable or disable of syndromes.
