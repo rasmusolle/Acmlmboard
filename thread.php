@@ -162,31 +162,6 @@ if ($viewmode == "thread") {
 	if (!isset($thread['id'])) {
 		error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
 	}
-	if ($config['threadprevnext']) {
-		//AB1 style next/prev thread. Based off of AB1's code
-		if ($tnext = $sql->resultq("SELECT min(t.lastdate), t.forum fid FROM threads t LEFT JOIN forums f ON f.id=t.forum WHERE f.id=$thread[fid] AND t.lastdate>$thread[lastdate]")) {
-			$tnext = $sql->resultq("SELECT id FROM threads WHERE lastdate=$tnext");
-		}
-
-		if ($tprev = $sql->resultq("SELECT max(t.lastdate), t.forum fid FROM threads t LEFT JOIN forums f ON f.id=t.forum WHERE f.id=$thread[fid] AND t.lastdate<$thread[lastdate]")) {
-			$tprev = $sql->resultq("SELECT id FROM threads WHERE lastdate=$tprev");
-		}
-		if ($tnext)
-			$nextnewer = "<a href=thread.php?id=$tnext>Next newer thread</a>";
-		if ($tprev)
-			$nextolder = "<a href=thread.php?id=$tprev>Next older thread</a>";
-		if ($nextnewer and $nextolder)
-			$nextnewer.=" | ";
-		$nextoldnew = "$nextnewer $nextolder";
-		$userbar .= "<div style='text-align: right;'>" . $nextoldnew . "</div>";
-	}
-
-	else {
-		$nextnewer = "";
-		$nextolder = "";
-	}
-
-
 
 	if ($thread['ispoll']) {
 		if ($_GET['act'] == "vote" && $log) {

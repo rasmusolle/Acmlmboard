@@ -73,11 +73,9 @@ $config['secafterpost'] = 5; // (in seconds, 0 == off)
 $config['topposts'] = '5000'; // Number of posts to set the goal to.
 $config['topthreads'] = '200'; // Number of threads created to set the goal to.
 
-$config['threadprevnext'] = false; // Enables links to jump one thread newer/older
 $config['memberlistcolorlinks'] = false; // Toggles the use of more color in memberlist.php. Group links will use respective colors to gender searched.
 $config['registrationpuzzle'] = true;
 
-$config['threadprevnext'] = false; // Enables a set of links on thread pages that allows you to go to the next or previous 'new' thread.
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
 $config['perusercolor'] = false; // Enable the use of per-user colors.
 $config['useshadownccss'] = false; // Enables use of a CSS class name to all user names (and other elements) that should get a shadow on light color themes
