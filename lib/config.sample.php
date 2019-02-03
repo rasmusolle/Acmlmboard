@@ -86,15 +86,6 @@ $config['lockdown'] = false; // Put board in lockdown mode.
 // The following are optional values you can change to personalize your board
 $config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
 
-// these are fallback settings
-$config['trashid'] = $trashid;
-$config['boardtitle'] = $boardtitle;
-$config['defaulttheme'] = $defaulttheme;
-$config['defaultfontsize'] = $defaultfontsize;
-$config['avatardimx'] = $avatardimx;
-$config['avatardimy'] = $avatardimy;
-$config['avatardimy'] = $avatardimy;
-
 $config['channel'] = "#changeme";
 $config['network'] = "irc.changeme.invalid";
 
