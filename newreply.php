@@ -120,7 +120,7 @@ if ($err) {
 		pageheader('New reply', $thread['forum']);
 		echo "$top - Preview
 " . "<br>
-" . "<table cellspacing=\"0\" class=\"c1\">
+" . "<table class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Post preview
 " . "</table>

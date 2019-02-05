@@ -46,7 +46,7 @@ if ($fid = $_GET['id']) {
 			. "WHERE t.forum=$fid AND t.announce=0 "
 			. "ORDER BY t.sticky DESC, t.lastdate DESC "
 			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
-	$topbot = "<table cellspacing=\"0\" width=100%>
+	$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
 " . "  <td class=\"nb\" align=\"right\">" . $editforumlink . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td>
 " . "</table>
@@ -79,7 +79,7 @@ if ($fid = $_GET['id']) {
 			. "LEFT JOIN categories c ON f.cat=c.id "
 			. "WHERE t.user=$uid "
 			. "AND f.id IN " . forums_with_view_perm() . " ");
-	$topbot = "<table cellspacing=\"0\" width=100%>
+	$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Threads by " . ($user[displayname] ? $user[displayname] : $user[name]) . "</td>
 " . "</table>
 ";
@@ -119,7 +119,7 @@ if ($fid = $_GET['id']) {
 			return " <a href=forum.php?time=$timev>" . timeunits2($timev) . '</a> ';
 	}
 
-	$topbot = "<table cellspacing=\"0\" width=100%>
+	$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
 " . "</table>
 ";
@@ -156,7 +156,7 @@ if ($time) {
 			. "</div>";
 }
 echo "<br>
-" . "<table cellspacing=\"0\" class=\"c1\">";
+" . "<table class=\"c1\">";
 
 if ($fid) {
 

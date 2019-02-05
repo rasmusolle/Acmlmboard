@@ -57,7 +57,7 @@ if(!$act){
   pageheader('Edit announcement title',$thread[forum]);
     echo "$top
 ".        "<br><br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        " <form action=editannouncetitle.php method=post>
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Edit Announcement Title</td>

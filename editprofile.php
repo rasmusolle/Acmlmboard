@@ -50,7 +50,7 @@ global $user;
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
 if (!$user) {
-	echo "<table cellspacing=\"0\" class=\"c1\">
+	echo "<table class=\"c1\">
              <td class=\"b n1\" align=\"center\">
                This user doesn't exist!<br>
                <a href=./>Back to main</a>
@@ -273,7 +273,7 @@ if (empty($act)) {
 " . "    ";
 
 	echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'>
-" . " <table cellspacing=\"0\" class=\"c1\">
+" . " <table class=\"c1\">
 " .
 			catheader('Login information') . "
 " . (has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name'])) . "

@@ -185,7 +185,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 		$pagetitle .= " - ";
 
 	$extratitle = "
-                     <table cellspacing=\"0\" class=\"c1\" width=\"100%\" align=\"center\">
+                     <table class=\"c1\" width=\"100%\" align=\"center\">
                        <tr class=\"h\">
                           <td class=\"b h\">$config[atnname]</td>
                         <tr class=\"n2\" align=\"center\">
@@ -197,7 +197,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	if ($extratitle) {
 		$boardlogo = "
-             <table cellspacing=\"0\" width=100%>
+             <table width=100%>
                <tr align=\"center\">
                  <td class=\"b\" style=\"border:none!important\" valign=\"center\"><a href=\"$homepageurl\"><img src=\"$logofile\"></a></td>
                  <td class=\"b\" style=\"border:none!important\" valign=\"center\" width=\"300\">
@@ -234,7 +234,7 @@ function pageheader($pagetitle = "", $fid = 0) {
       <script type=\"text/javascript\" src=\"lib/prettify/prettify.js\"></script>
       </head>
       <body style=\"font-size:$loguser[fontsize]%\" onload=\"prettyPrint()\">
-      <table cellspacing=\"0\" class=\"c1\">
+      <table class=\"c1\">
         <tr class=\"nt n2\" align=\"center\">
         <td class=\"b n1\" align=\"center\" colspan=\"3\">$boardlogo</td>
         </tr>

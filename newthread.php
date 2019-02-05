@@ -182,7 +182,7 @@ if (isset($err)) {
 		$_POST['question'] = stripslashes($_POST['question']);
 		$numopts = $_POST['numopts'];
 		checknumeric($numopts);
-		$pollprev = "<br><table cellspacing=\"0\" class=\"c1\">
+		$pollprev = "<br><table class=\"c1\">
 " . "  <tr class=\"n1\">
 " . "    <td class=\"b n1\" colspan=2>" . htmlval($_POST['question']) . "
 ";

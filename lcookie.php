@@ -28,7 +28,7 @@ pageheader('Advanced login cookie setup');
 
 $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 
-$data="<table cellspacing=\"0\" class=\"c1\" style='width:200px!important'>
+$data="<table class=\"c1\" style='width:200px!important'>
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Current data
 " . "  <tr class=\"h\">
@@ -49,7 +49,7 @@ $data.="</table><br>";
 
 echo "$data
 " . "<form action='lcookie.php' method='post'><input type=\"hidden\" name='action' value='update'>
-" . "<table cellspacing=\"0\" class=\"c1\">
+" . "<table class=\"c1\">
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\">Modify allowed ranges
 " . "  <tr class=\"n1\">

@@ -33,7 +33,7 @@ function urlcreate($url, $query) {
 function RenderTable($data, $headers) {
 	$zebra = 0;
 
-	echo "<table cellspacing=\"0\" class=\"c1\">\n";
+	echo "<table class=\"c1\">\n";
 	echo "\t<tr class=\"h\">\n";
 	foreach ($headers as $headerID => $headerCell) {
 		if (isset($headerCell['hidden']) && $headerCell['hidden'])

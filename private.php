@@ -11,7 +11,7 @@ if (isset($_COOKIE['pstbon'])) {
 	}
 </script>
 	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table cellspacing=\"0\" class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] == - 1) {
 		$rdmsg .= "Sent!<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
 " . "<tr><td class=\"b n1\" align=\"left\">The private message has been sent successfully.</td></tr></table></div>";

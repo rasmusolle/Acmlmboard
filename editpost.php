@@ -101,7 +101,7 @@ if($act=="Submit"){ pageheader('Edit post',$thread[forum]); }
   pageheader('Edit post',$thread[forum]);
     echo "$top
 ".        "<br><br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        " <form action=editpost.php method=post>
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Edit Post</td>
@@ -112,7 +112,7 @@ if($act=="Submit"){ pageheader('Edit post',$thread[forum]); }
 
     echo "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
+".        "    <td class=\"b n2\"><table><tr>$toolbar</table>
 ";
 echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
@@ -156,13 +156,13 @@ echo     "  <tr>
   pageheader('Edit post',$thread[forum]);
     echo "$top - Preview
 ".        "<br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Post preview
 ".        "</table>
 ".         threadpost($post,0)."
 ".        "<br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        " <form action=editpost.php method=post>
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Post</td>
@@ -170,7 +170,7 @@ echo     "  <tr>
 
 echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-".        "    <td class=\"b n2\"><table cellspacing=\"0\"><tr>$toolbar</table>
+".        "    <td class=\"b n2\"><table><tr>$toolbar</table>
 ";
 echo     "  <tr>
 ".        "    <td class=\"b n1\" align=\"center\" width=120>Post:</td>
@@ -236,7 +236,7 @@ echo     "  <tr>
   pageheader('Edit post',$thread[forum]);
       echo "$top - ".($act=='delete'?'Delete':'Undelete')." Post
 ".          "<br><br>
-".          "<table cellspacing=\"0\" class=\"c1\">
+".          "<table class=\"c1\">
 ".          "  <td class=\"b n1\" align=\"center\">
 ".          "    Post ".$act."d!<br>
 ".          "    ".redirect("thread.php?pid=$pid#$pid",htmlval($thread[title]))."
@@ -258,7 +258,7 @@ echo     "  <tr>
                       .'ORDER BY p.id DESC '
                       ."LIMIT $loguser[ppp]");
     echo "<br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" colspan=2>Thread preview
 ".        "</table>
@@ -269,7 +269,7 @@ echo     "  <tr>
 
     if($thread[replies]>=$loguser[ppp]){
     echo "<br>
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        "  <tr>
 ".        "    <td class=\"b n1\">The full thread can be viewed <a href=thread.php?id=$thread[id]>here</a>.
 ".        "</table>

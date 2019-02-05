@@ -69,12 +69,12 @@ function threadpost($post, $type, $pthread = '') {
 		if ($post['id'])
 			$postlinks.=($postlinks ? ' | ' : '') . "ID: $post[id]";
 
-		$text = "<table cellspacing=\"0\" class=\"c1\">
+		$text = "<table class=\"c1\">
 " . "  <tr>
 " . "    <td class=\"b n1\" style=border-bottom:0;border-right:0;width:180px height=17>
 " . "      " . userlink($post, 'u') . "</td>
 " . "    <td class=\"b n1\" style=border-left:0>
-" . "      <table cellspacing=\"0\" width=100%>
+" . "      <table width=100%>
 " . "        <td class=\"nb sfont\">(post deleted)</td>
 " . "        <td class=\"nb sfont\" align=\"right\">$postlinks</td>
 " . "      </table>
@@ -144,7 +144,7 @@ function threadpost($post, $type, $pthread = '') {
 			$tbar2 = ($type == 0 && !$isBlocked) ? "topbar" . $post['uid'] . "_2" : "";
 			$sbar = ($type == 0 && !$isBlocked) ? "sidebar" . $post['uid'] : "";
 			$mbar = ($type == 0 && !$isBlocked) ? "mainbar" . $post['uid'] : "";
-			$text = "<table cellspacing=\"0\" class=\"c1\" id=" . $post['id'] . ">
+			$text = "<table class=\"c1\" id=" . $post['id'] . ">
 " . "  $postheaderrow 
 " . "  <tr>
 " . "    <td class=\"b n1 $tbar1\" style=\"border-bottom:0; border-right:0; min-width: 180px;\" height=17>
@@ -152,7 +152,7 @@ function threadpost($post, $type, $pthread = '') {
 					/* " ".gettokenstring($post[uid])."</td> //[KAWA] Removed in favor of profile field
 					  ". */ "    </td>
 " . "    <td class=\"b n1 $tbar2\" style=\"border-left:0\" width=100%>
-" . "      <table cellspacing=\"0\" width=100%>
+" . "      <table width=100%>
 " . "       <tr>
 " . "        <td class=\"nb sfont\">Posted on " . cdate($dateformat, $post['date']) . "$threadlink$revisionstr</td>
 " . "        <td class=\"nb sfont\" align=\"right\">$postlinks</td>

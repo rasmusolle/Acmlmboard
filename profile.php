@@ -13,7 +13,7 @@ if (!empty($_COOKIE['pstbon'])) {
 	}
 </script>
 	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table cellspacing=\"0\" class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] == -1) {
 		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
 " . "<tr><td class=\"b n1\" align=\"left\">User has been banned.</td></tr></table></div>";
@@ -233,7 +233,7 @@ if (has_perm("block-layout")) {
 
 		if ($blockmessage) {
 			print "
-       <table cellspacing=\"0\" class=\"c1\">
+       <table class=\"c1\">
          <td class=\"b n1\" align=\"center\">
            $blockmessage
        </table>";
@@ -285,9 +285,9 @@ print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "
 if (!empty($_COOKIE['pstbon'])) {
 	print $rdmsg;
 }
-print "    <table cellspacing=\"0\" width=\"100%\">
+print "    <table width=\"100%\">
              <td class=\"nb\" valign=\"top\">
-               <table cellspacing=\"0\" class=\"c1\">
+               <table class=\"c1\">
                  <tr class=\"h\">
                    <td class=\"b h\" colspan=\"2\">General information</td>
                    " . ($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span $unclass style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") . "
@@ -316,7 +316,7 @@ print "    <table cellspacing=\"0\" width=\"100%\">
                      " . ($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') . "
                </table>
                <br>
-               <table cellspacing=\"0\" class=\"c1\">
+               <table class=\"c1\">
                  <tr class=\"h\">
                    <td class=\"b h\" colspan=\"2\">Contact information</td>
                  <tr>
@@ -329,7 +329,7 @@ print "    <table cellspacing=\"0\" width=\"100%\">
 print "               </table>
                    <br>";
 
-print "<table cellspacing=\"0\" class=\"c1\">
+print "<table class=\"c1\">
                  <tr class=\"h\">
                    <td class=\"b h\" colspan=\"2\">User settings</td>
                  <tr>
@@ -346,7 +346,7 @@ print "<table cellspacing=\"0\" class=\"c1\">
                    <td class=\"b n2\">$user[ppp] posts, $user[tpp] threads
                </table>
                <br>
-               <table cellspacing=\"0\" class=\"c1\">
+               <table class=\"c1\">
                  <tr class=\"h\">
                    <td class=\"b h\" colspan=\"2\">Personal information</td>
                  <tr>
@@ -365,14 +365,14 @@ print "<table cellspacing=\"0\" class=\"c1\">
              </td>
            </table>
            <br>
-           <table cellspacing=\"0\" class=\"c1\">
+           <table class=\"c1\">
              <tr class=\"h\">
                <td class=\"b h\">Sample post</td>
              <tr>
            </table>
            " . threadpost($post, 0) . "
            <br>
-           <table cellspacing=\"0\" class=\"c1\">
+           <table class=\"c1\">
              <tr class=\"h\">
                <td class=\"b n2\"><a href=\"forum.php?user=$user[id]\">View threads</a>
                        | <a href=\"thread.php?user=$user[id]\">Show posts</a>

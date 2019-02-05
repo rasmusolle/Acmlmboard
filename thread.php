@@ -24,7 +24,7 @@ if (!empty($_COOKIE['pstbon'])) {
 	}
 </script>
 	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table cellspacing=\"0\" class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] >= 1) {
 		$rdmsg.="Post Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
 " . "<tr><td class=\"b n1\" align=\"left\">Post successful.</td></tr></table></div><br>";
@@ -370,7 +370,7 @@ if ($viewmode == "thread") {
 	}
 	$poll = '';
 	if ($thread['ispoll']) {
-		$poll = "<br><table cellspacing=\"0\" class=\"c1\">
+		$poll = "<br><table class=\"c1\">
 " . "  <tr class=\"n1\">
 " . "    <td class=\"b n1\" colspan=2>" . htmlval($thread['question']) . "
 ";
@@ -388,7 +388,7 @@ if ($viewmode == "thread") {
 ";
 	}
 
-	$topbot = "<table cellspacing=\"0\" width=100%><tr>
+	$topbot = "<table width=100%><tr>
 " . "  <td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> - " . htmlval($thread['title']) . "</td>
 " . "  <td class=\"nb\" align=\"right\">
 " . "  $newreply
@@ -396,7 +396,7 @@ if ($viewmode == "thread") {
 " . "</table>
 ";
 }elseif ($viewmode == "user") {
-	$topbot = "<table cellspacing=\"0\" width=100%>
+	$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Posts by " . userlink($user, "") . "</td>
 " . "</table>
 ";
@@ -407,7 +407,7 @@ if ($viewmode == "thread") {
 		$newreply = "";
 	}
 
-	$topbot = "<table cellspacing=\"0\" width=100%><tr>
+	$topbot = "<table width=100%><tr>
 " . "  <td class=\"nb\"><a href=./>Main</a> " . ($announcefid ? "- <a href=forum.php?id=$announcefid>$announceftitle</a> " : "") . "- Announcements</td>
 " . "  <td class=\"nb\" align=\"right\">
 " . "    $newreply
@@ -415,7 +415,7 @@ if ($viewmode == "thread") {
 " . "</table>
 ";
 } elseif ($viewmode == "time") {
-	$topbot = "<table cellspacing=\"0\" width=100%>
+	$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
 " . "</table>
 ";
@@ -503,7 +503,7 @@ function trashConfirm(e) {
 </script>";
 
 	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\" id=\"mod\">
-" . "  <table cellspacing=\"0\" class=\"c2\"><tr class=\"n2\">
+" . "  <table class=\"c2\"><tr class=\"n2\">
 " . "  <td class=\"b n3\">
 " . "    <span id=\"moptions\">
 " . "    $opt options:
@@ -663,7 +663,7 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	}
 	echo "
 " . "
-" . "<table cellspacing=\"0\" class=\"c1\" name=quickreply id=quickreply>
+" . "<table class=\"c1\" name=quickreply id=quickreply>
 " . " <form action=newreply.php method=post>
 " . "  <tr class=\"h\" onclick='togglequickreply();' style='cursor: pointer'>
 " . "    <td class=\"b h\" colspan=2>Warp Whistle Reply</a></td>
@@ -674,7 +674,7 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	echo "  <tr $quickreplydisplay >
 ";
 		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-" . "    <td class=\"b n2\"><table cellspacing=\"0\"><tr class='toolbar'>$toolbar</table>
+" . "    <td class=\"b n2\"><table><tr class='toolbar'>$toolbar</table>
 ";
 	
 	// TODO: WHERE IS QUOTE TEXT??

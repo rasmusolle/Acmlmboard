@@ -5,7 +5,7 @@
     $a=$sql->query("SELECT users.* FROM mood,users WHERE users.id=mood.user GROUP BY users.id ORDER BY users.id ASC");
 
     echo "Mood avatars:
-".        "<table cellspacing=\"0\" class=\"c1\">
+".        "<table class=\"c1\">
 ".        "  <tr class=\"h\">
 ".        "    <td class=\"b h\" width=30>ID</td>
 ".        "    <td class=\"b h\" width=300>Username</td>

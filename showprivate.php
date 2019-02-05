@@ -40,7 +40,7 @@ if (((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && ! has_perm('view-u
 
 pageheader($pmsgs['title']);
 
-$topbot = "<table cellspacing=\"0\" width=100%>
+$topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - <a href=private.php" . (! $tologuser ? '?id=' . $pmsgs['userto'] : '') . ">Private messages</a> - " . htmlval($pmsgs['title']) . "</td>
 " . "  <td class=\"nb\" align=\"right\">
 " . "    <a href=sendprivate.php?pid=$pid>Reply</a>
