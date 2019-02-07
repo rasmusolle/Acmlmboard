@@ -148,30 +148,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 					<td class="b n1">[s]<i>text</i>[/s]</td>
 					<td class="b n2"><?php echo '<s>Striked-out Text</s>'; ?></td>
 				</tr><tr>
-					<td class="b n1">[red]<i>text</i>[/red]</td>
-					<td class="b n2"><span style="color: #FFC0C0">Red Text</span></td>
-				</tr><tr>
-					<td class="b n1">[green]<i>text</i>[/green]</td>
-					<td class="b n2"><span style="color: #C0FFC0">Green Text</span></td>
-				</tr><tr>
-					<td class="b n1">[blue]<i>text</i>[/blue]</td>
-					<td class="b n2"><span style="color: #C0C0FF">Blue Text</span></td>
-				</tr><tr>
-					<td class="b n1">[orange]<i>text</i>[/orange]</td>
-					<td class="b n2"><span style="color: #FFC080">Orange Text</span></td>
-				</tr><tr>
-					<td class="b n1">[yellow]<i>text</i>[/yellow]</td>
-					<td class="b n2"><span style="color: #FFEE20">Yellow Text</span></td>
-				</tr><tr>
-					<td class="b n1">[pink]<i>text</i>[/pink]</td>
-					<td class="b n2"><span style="color: #FFC0FF">Pink Text</span></td>
-				</tr><tr>
-					<td class="b n1">[white]<i>text</i>[/white]</td>
-					<td class="b n2"><span style="color: #FFFFFF">White Text</span></td>
-				</tr><tr>
-					<td class="b n1">[black]<i>text</i>[/black]</td>
-					<td class="b n2"><span style="color: #000000">Black Text</span></td>
-				</tr><tr>
 					<td class="b n1">[color=<b>hexcolor</b>]<i>text</i>[/color]</td>
 					<td class="b n2"><span style="color: #BCDE9A">Custom color Text</span></td>
 				</tr><tr>
