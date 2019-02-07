@@ -118,9 +118,6 @@ function threadpost($post, $type, $pthread = '') {
 			if (can_edit_post($post) && $post['id'])
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-			if (can_edit_post($post) && $post['id'] && isset($post['isannounce']))
-				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editannouncetitle.php?pid=$post[id]\">Edit Title</a>";
-
 			if ($post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
 
