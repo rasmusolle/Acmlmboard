@@ -65,7 +65,7 @@ CREATE TABLE `forums` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `readonly`, `announce`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	2,	18,	0,	0,	0,	0,	1,	0,	0),
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0),
 (2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	0,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
@@ -160,17 +160,6 @@ INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
 ('botviews',	0,	'',	'0'),
 ('attention',	0,	'',	'0');
 
-DROP TABLE IF EXISTS `mood`;
-CREATE TABLE `mood` (
-  `id` int(11) NOT NULL,
-  `user` int(11) NOT NULL,
-  `label` varchar(127) NOT NULL DEFAULT '',
-  `local` tinyint(1) NOT NULL DEFAULT '0',
-  `url` varchar(255) NOT NULL DEFAULT '',
-  UNIQUE KEY `id` (`id`,`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `perm`;
 CREATE TABLE `perm` (
   `id` varchar(64) NOT NULL,
@@ -182,7 +171,6 @@ CREATE TABLE `perm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) VALUES
-('admin-tools-access',	'Access to Admin Tools',	'',	3,	''),
 ('assign-secondary-groups',	'Assign Secondary Groups',	'',	3,	''),
 ('ban-users',	'Ban Users',	'',	3,	''),
 ('banned',	'Is Banned',	'',	2,	''),
@@ -220,7 +208,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-forums',	'Edit Forums',	'',	3,	''),
 ('edit-groups',	'Edit Groups',	'',	3,	''),
 ('edit-ip-bans',	'Edit IP Bans',	'',	0,	''),
-('edit-moods',	'Edit Moods',	'',	3,	''),
 ('edit-own-permissions',	'Edit Own Permissions',	'',	3,	''),
 ('edit-own-title',	'Edit Own Title',	'',	3,	''),
 ('edit-permissions',	'Edit Permissions',	'',	3,	''),
@@ -252,14 +239,12 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('track-ip-change',	'Track IP Changes in IRC',	'Add this to a group or user to have their IP change reported to the staff channel.',	3,	''),
 ('update-extended-profiles',	'Update Extended Profiles',	'',	3,	''),
 ('update-own-extended-profile',	'Update Own Extended Profile',	'',	1,	''),
-('update-own-moods',	'Update Own Moods',	'',	1,	''),
 ('update-own-post',	'Update Own Post',	'',	4,	''),
 ('update-own-profile',	'Update Own Profile',	'',	1,	''),
 ('update-post',	'Update Post',	'',	2,	''),
 ('update-profiles',	'Update Profiles',	'',	3,	''),
 ('update-thread',	'Update Thread',	'',	2,	''),
 ('update-user-extended-profile',	'Update User Extended Profile',	'',	3,	'users'),
-('update-user-moods',	'Update User Moods',	'',	3,	'users'),
 ('update-user-profile',	'Update User Profile',	'',	3,	'users'),
 ('use-post-layout',	'Use Post Layout',	'',	4,	''),
 ('use-test-bed',	'Use Test Bed',	'',	3,	''),
@@ -332,7 +317,6 @@ DROP TABLE IF EXISTS `pmsgs`;
 CREATE TABLE `pmsgs` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `date` int(11) NOT NULL DEFAULT '0',
-  `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `userto` mediumint(9) unsigned NOT NULL,
@@ -390,7 +374,6 @@ CREATE TABLE `posts` (
   `user` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `thread` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `date` int(11) NOT NULL DEFAULT '0',
-  `mood` int(11) NOT NULL DEFAULT '-1',
   `nolayout` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `num` mediumint(9) NOT NULL DEFAULT '0',
@@ -1181,7 +1164,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (30,	4,	'group',	'edit-attentions-box',	'',	0,	0),
 (31,	4,	'group',	'edit-categories',	'',	0,	0),
 (32,	4,	'group',	'edit-forums',	'',	0,	0),
-(33,	4,	'group',	'edit-moods',	'',	0,	0),
 (34,	4,	'group',	'edit-permissions',	'',	0,	0),
 (36,	4,	'group',	'view-all-private-categories',	'',	0,	0),
 (37,	4,	'group',	'view-all-private-forums',	'',	0,	0),
@@ -1233,7 +1215,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (97,	7,	'group',	'create-private-forum-post',	'forum',	12,	0),
 (98,	7,	'group',	'create-private-forum-post',	'forum',	13,	0),
 (99,	4,	'group',	'view-post-ips',	'',	0,	0),
-(101,	2,	'group',	'update-own-moods',	'',	0,	0),
 (102,	2,	'group',	'view-user-urls',	'',	0,	0),
 (103,	4,	'group',	'view-hidden-users',	'',	0,	0),
 (104,	4,	'group',	'edit-users',	'',	0,	0),
@@ -1455,4 +1436,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (421,	6,	'group',	'view-private-category',	'categories',	1,	1),
 (422,	11,	'group',	'view-private-category',	'categories',	1,	1);
 
--- 2019-02-03 13:26:54
+-- 2019-02-07 17:55:18

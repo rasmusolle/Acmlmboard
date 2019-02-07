@@ -64,7 +64,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
 			<?php if ($syndromenable == 1) echo '<a href="#syndrome">Acmlmboard Syndromes</a><br>'; ?>
 			<?php if ($config['displayname'] == true) echo '<a href="#dispname">Display Name System</a><br>'; ?>
-			<a href="#avatar">What are avatars &amp; mood avatars?</a><br>
+			<a href="#avatar">What are avatars?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
 			<a href="#search">Search Feature</a><br>
 			<a href="#usercols">What do the username colours mean?</a><br>
@@ -266,11 +266,10 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 	<?php } ?>
-	<tr class="h"><td class="b h" id="avatar">What are avatars &amp; mood avatars?</td></tr>
+	<tr class="h"><td class="b h" id="avatar">What are avatars?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			Avatars are a form of display picture which appears beside your posts and in your profile.
-			Likewise, a mood avatar allows you to display a different picture as opposed to the one specified in your profile.
 		</td>
 	</tr>
 	<tr class="h"><td class="b h" id="private">Are private messages supported?</td></tr>

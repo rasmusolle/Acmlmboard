@@ -172,14 +172,6 @@ function can_edit_user($uid) {
 	return false;
 }
 
-function can_edit_user_moods($uid) {
-	global $sql,$loguser;
-	if ($uid == $loguser['id'] && has_perm('update-own-moods')) return true;
-	else if (has_perm('edit-moods')) return true;
-	else if (has_perm_with_bindvalue('update-user-moods',$uid)) return true;
-	return false;
-}
-
 function cats_with_view_perm() {
 	global $sql;
 	static $cache = "";

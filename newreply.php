@@ -104,11 +104,6 @@ if ($err) {
 		$post['text'] = $_POST['message'];
 	else
 		$post['text'] = $quotetext;
-	$post['mood'] = (isset($_POST['mid']) ? (int) $_POST['mid'] : -1); // 2009-07 Sukasa: Newthread preview
-	if ($act == 'Preview')
-		$post['moodlist'] = moodlist($_POST['mid'], '$userid');
-	else
-		$post['moodlist'] = moodlist();
 	if ($log && !$act)
 		$pass = md5($pwdsalt2 . $loguser['pass'] . $pwdsalt);
 	$post['nolayout'] = (isset($_POST['nolayout']) ? $_POST['nolayout'] : null);
@@ -155,7 +150,6 @@ if ($err) {
 					<input type="hidden" name=tid value=<?=$tid ?>>
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?=$post['moodlist'] ?></select>
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
@@ -165,11 +159,10 @@ if ($err) {
 
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts'] ++;
-	$mid = (isset($_POST['mid']) ? (int) $_POST['mid'] : -1);
 
 	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . ctime() . " WHERE id=$userid");
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout) "
-			. "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,$_POST[nolayout])");
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout) "
+			. "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$_POST[nolayout])");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
 	$sql->query("UPDATE threads SET replies=replies+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid$modext WHERE id=$tid");

@@ -162,7 +162,6 @@ $post['date'] = ctime();
 $post['ip'] = $user['ip'];
 $post['num'] = 0; //$user[posts];  #2/26/2007 xkeeper - threadpost can hide "1/" now
 
-$post['mood'] = -1;
 $post['id'] = -1;
 $post['nolayout'] = 0;
 $post['thread'] = -1;
@@ -379,7 +378,6 @@ print "<table class=\"c1\">
                        $blocklayoutlink
                        " . (has_perm('create-pms') ? "| <a href=\"sendprivate.php?uid=" . $user['id'] . "\">Send private message</a>" : "") . "
                        " . (has_perm('view-user-pms') ? "| <a href=\"private.php?id=" . $user['id'] . "\">View private messages</a>" : "") . "
-                       " . (has_perm('edit-moods') ? "| <a href=\"mood.php?user=" . $user['id'] . "\">Edit mood avatars</a>" : "") . "
                        " . (has_perm('edit-users') ? "| <a href=\"editprofile.php?id=" . $user['id'] . "\">Edit user</a>" : "") . "
                        " . $banuser . " " . $editpermissions . " " . $secondarygroups . "
            </table>";

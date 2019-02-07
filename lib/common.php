@@ -317,8 +317,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 	if ($log) {
 		if (has_perm("update-own-profile"))
 			$userlinks[$ul++] = array('url' => "editprofile.php", 'title' => 'Edit profile');
-		if (has_perm("update-own-moods"))
-			$userlinks[$ul++] = array('url' => "mood.php", 'title' => 'Edit mood avatars');
 		if (has_perm('manage-board'))
 			$userlinks[$ul++] = array('url' => 'management.php', 'title' => 'Management');
 		if (has_perm("mark-read"))

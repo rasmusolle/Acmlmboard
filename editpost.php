@@ -73,7 +73,7 @@ if($act!="Submit"){
     .($thread[announce] && $thread[forum]==0 ? "- ".htmlval($thread[title])." " : "- <a href=thread.php?id=$thread[id]>".htmlval($thread[title]).'</a> ')
     .'- Edit post';
 
-  $res=$sql->query  ("SELECT u.id, p.user, p.mood, p.nolayout, pt.text "
+  $res=$sql->query  ("SELECT u.id, p.user, p.nolayout, pt.text "
                     ."FROM posts p "
                     ."LEFT JOIN poststext pt ON p.id=pt.id "
                     ."JOIN ("
@@ -123,7 +123,6 @@ echo     "  <tr>
 ".        "      <input type=\"hidden\" name=pid value=$pid>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
-".        "      <select name=mid>".moodlist($post[mood], $post[user])."
 ".        "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ".($post[nolayout]?"checked":"")."><label for=nolayout>Disable post layout</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
@@ -142,7 +141,6 @@ echo     "  <tr>
     $post[date]=ctime();
     $post[ip]=$userip;
     $post[num]=++$euser[posts];
-    $post[mood]=(isset($_POST[mid]) ? (int)$_POST[mid] : -1);
     $post[nolayout]=$_POST[nolayout];
     $post[close]=$_POST[close];
     $post[stick]=$_POST[stick];
@@ -183,7 +181,6 @@ echo     "  <tr>
 ".        "      <input type=\"hidden\" name=pid value=$pid>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
 ".        "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
-".        "      <select name=mid>".moodlist($post[mood], $post[user])."
 ".        "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ".($post[nolayout]?"checked":"")."><label for=nolayout>Disable post layout</label>
 ";
     if(can_edit_forum_threads($thread[forum]) && !$thread[announce])
@@ -202,8 +199,6 @@ echo     "  <tr>
 
     $rev=$sql->fetchq("SELECT MAX(revision) m FROM poststext WHERE id=$pid");
     $rev=$rev[m];
-    $mid=(isset($_POST[mid])?(int)$_POST[mid]:-1);
-    checknumeric($mid);
     checknumeric($_POST[nolayout]);
     if(can_edit_forum_threads($thread['forum'])){
     	checknumeric($_POST['close']);
@@ -217,7 +212,7 @@ echo     "  <tr>
     }
     ++$rev;
     $sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".ctime().")");
-    $sql->query("UPDATE posts SET mood='$mid',nolayout='$_POST[nolayout]' WHERE id='$pid'");
+    $sql->query("UPDATE posts SET nolayout='$_POST[nolayout]' WHERE id='$pid'");
     $sql->query("UPDATE threads SET lastdate=".ctime().",lastuser=$userid,lastid=$pid$modext WHERE id='$thread[id]'");
     $sql->query("UPDATE forums SET lastdate=".ctime().",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
     

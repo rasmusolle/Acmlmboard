@@ -187,7 +187,6 @@ function amptags($post, $s) {
 	$s = str_replace("&postcount&", $post['uposts'], $s);
 	$s = str_replace("&rank&", $post['ranktext'], $s);
 	$s = str_replace("&rankname&", preg_replace("'<(.*?)>'si", "", $post['ranktext']), $s);
-	$s = str_replace("&mood&", $post['mood'], $s);
 	$s = str_replace("&postrank&", $sql->result($sql->query("SELECT count(*) FROM users WHERE posts>" . $post['uposts']), 0, 0), $s); //Added by request of Acmlm
 	// e modifier is no longer supported... using preg_replace_callback to stop the complaining.
 	$replace_callback = function($match) use ($post) {
@@ -290,26 +289,6 @@ function posttoolbar() {
 			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
 			. posttoolbutton("message", "%", "SVG", "[svg <WIDTH> <HEIGHT>]", "[/svg]", "sv")
 			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt");
-}
-
-function moodlist($mid = -1, $userid = 0) { // 2009-07 Sukasa: It occurred to me that this would be better off in function.php, but last I checked
-	// it was owned by root.
-	// 2013-06 Mega-Mario: wish granted :)
-	global $sql, $loguser;
-	
-	// I don't know if I can trust the input, so, I'm casting to int anyways...
-	$mid = (int)$mid;
-	$userid = (int)$userid;
-	
-	$moodset = $userid > 0 ? $userid : $loguser['id'];
-	
-	$moods = $sql->query("select '-Normal Avatar-' label, -1 id union select label, id from mood where user=$moodset");
-	$moodst = "";
-	while ($mood = $sql->fetch($moods))
-		$moodst.= "<option value=\"{$mood['id']}\"" . ($mood['id'] == $mid ? "selected=\"selected\"" : "") . ">" . stripslashes($mood['label']) . "</option>";
-	$moodst.= "</select>";
-	
-	return $moodst;
 }
 
 ?>

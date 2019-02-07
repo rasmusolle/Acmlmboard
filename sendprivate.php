@@ -72,7 +72,6 @@ if (!$act = $_POST['action']) {
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?php echo moodlist() ?></select>
 					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?>>Disable post layout
 				</td>
 			</tr>
@@ -87,7 +86,6 @@ if (!$act = $_POST['action']) {
 	$post['ip'] = $userip;
 	$post['num'] = 0;
 	$post['text'] = $_POST['message'];
-	$post['mood'] = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1);
 	$post['nolayout'] = $_POST['nolayout'];
 	foreach ($loguser as $field => $val)
 		$post['u' . $field] = $val;
@@ -130,7 +128,6 @@ if (!$act = $_POST['action']) {
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?php echo moodlist($post['mood']) ?></select>
 					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?> >Disable post layout
 				</td>
 			</tr>
@@ -150,9 +147,8 @@ if (!$act = $_POST['action']) {
 			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
 		} else {
 			checknumeric($_POST['nolayout']);
-			checknumeric($_POST['mid']);
-			$sql->query("INSERT INTO pmsgs (date,ip,userto,userfrom,unread,title,mood,nolayout) "
-				."VALUES ('" . ctime() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "'," . $_POST['mid'] . ",$_POST[nolayout])");
+			$sql->query("INSERT INTO pmsgs (date,ip,userto,userfrom,unread,title,nolayout) "
+				."VALUES ('" . ctime() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "',$_POST[nolayout])");
 			$pid = $sql->insertid();
 			$sql->query("INSERT INTO pmsgstext (id,text) VALUES ($pid,'$_POST[message]')");
 			

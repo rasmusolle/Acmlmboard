@@ -157,7 +157,6 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?php echo moodlist(); ?></select>
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($_POST['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
@@ -172,7 +171,6 @@ if (isset($err)) {
 	$post['ip'] = $userip;
 	$post['num'] = ++ $user['posts'];
 	$post['text'] = $_POST['message'];
-	$post['mood'] = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1); // 2009-07 Sukasa: Newthread preview
 	$post['nolayout'] = isset($_POST['nolayout']);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
@@ -248,7 +246,6 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<select name="mid"><?php echo moodlist($_POST['mid'], $userid); ?></select>
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
@@ -263,7 +260,6 @@ if (isset($err)) {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
 	
-	$mid = (isset($_POST['mid']) ? (int) $_POST['mid'] : - 1);
 	if ($announce) {
 		$modclose = $announce;
 	}
@@ -271,7 +267,7 @@ if (isset($err)) {
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
 	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,mood,nolayout,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$mid,'$_POST[nolayout]',$announce)");
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
 	if (!$announce) {
