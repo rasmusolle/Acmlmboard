@@ -1,6 +1,8 @@
 <?php
 require 'fontlib.php';
 
+header('Content-type: image/png');
+
 $im = imagecreatetruecolor(690, 20);
 $n = $_GET['n'];
 $b = $_GET['b'];
