@@ -24,18 +24,4 @@ function getcategorybythread($tid) {
 	return getcategorybyforum(getforumbythread($tid));
 }
 
-function br($count = 1) {
-	for ($i = 0; $i < $count; $i++) {
-		echo '<br>';
-	}
-}
-
-function brreturn($count = 1) {
-	$abcdef = '';
-	for ($i = 0; $i < $count; $i++) {
-		$abcdef .= '<br>';
-	}
-	return $abcdef;
-}
-
 ?>

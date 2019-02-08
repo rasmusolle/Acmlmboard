@@ -51,7 +51,7 @@ $topbot = "<table width=100%>
 $pmsgs['id'] = 0;
 $pmsgs['num'] = 0;
 
-echo $topbot . brreturn() . threadpost($pmsgs, 0) . brreturn() . $topbot;
+echo $topbot . '<br>' . threadpost($pmsgs, 0) . '<br>' . $topbot;
 
 pagefooter();
 ?>
