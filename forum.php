@@ -10,7 +10,7 @@ $page = isset($_GET['page']) && $page > 0 ? (int)$_GET['page'] : 1;
 $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $uid = isset($_GET['user']) ? (int)$_GET['user'] : 0;
 
-if ($fid = $_GET['id']) {
+if (isset($_GET['id']) && $fid = $_GET['id']) {
 	checknumeric($fid);
 
 	if ($log) {
@@ -51,7 +51,7 @@ if ($fid = $_GET['id']) {
 " . "  <td class=\"nb\" align=\"right\">" . $editforumlink . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td>
 " . "</table>
 ";
-} elseif ($uid = $_GET['user']) {
+} elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	checknumeric($uid);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$uid");
 
@@ -71,19 +71,19 @@ if ($fid = $_GET['id']) {
 			. "WHERE t.user=$uid "
 			. "AND f.id IN " . forums_with_view_perm() . " "
 			. "ORDER BY t.sticky DESC, t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser[tpp]) . "," . $loguser[tpp]);
+			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 
-	$forum[threads] = $sql->resultq("SELECT count(*) "
+	$forum['threads'] = $sql->resultq("SELECT count(*) "
 			. "FROM threads t "
 			. "LEFT JOIN forums f ON f.id=t.forum "
 			. "LEFT JOIN categories c ON f.cat=c.id "
 			. "WHERE t.user=$uid "
 			. "AND f.id IN " . forums_with_view_perm() . " ");
 	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Threads by " . ($user[displayname] ? $user[displayname] : $user[name]) . "</td>
+" . "  <td class=\"nb\"><a href=./>Main</a> - Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']) . "</td>
 " . "</table>
 ";
-} elseif ($time = $_GET[time]) {
+} elseif ($time = $_GET['time']) {
 	checknumeric($time);
 	$mintime = ctime() - $time;
 
@@ -103,8 +103,8 @@ if ($fid = $_GET['id']) {
 			. "WHERE t.lastdate>$mintime "
 			. "  AND f.id IN " . forums_with_view_perm() . " "
 			. "ORDER BY t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser[tpp]) . "," . $loguser[tpp]);
-	$forum[threads] = $sql->resultq("SELECT count(*) "
+			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
+	$forum['threads'] = $sql->resultq("SELECT count(*) "
 			. "FROM threads t "
 			. "LEFT JOIN forums f ON f.id=t.forum "
 			. "LEFT JOIN categories c ON f.cat=c.id "
@@ -127,7 +127,7 @@ if ($fid = $_GET['id']) {
 	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 }
 
-$showforum = $uid || $time;
+$showforum = (isset($time) ? $time : $uid);
 
 if ($forum['threads'] <= $loguser['tpp']) {
 	$fpagelist = '<br>';
@@ -148,7 +148,7 @@ if ($forum['threads'] <= $loguser['tpp']) {
 }
 
 echo $topbot;
-if ($time) {
+if (isset($time)) {
 	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
           By Threads | <a href=thread.php?time=$time>By Posts</a></div><br>";
 	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
