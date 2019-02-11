@@ -620,58 +620,20 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
 	$toolbar = posttoolbar();
 
-	//lol so hacky please organise this into the right place soon.
-
-	echo "<script language=javascript>
-        function updatequickreplystatus(ishidden)
-        {
-          x = new XMLHttpRequest();
-          x.open('GET', 'userpref.php?field=hidequickreply&value='+ishidden);
-          x.send(null);
-        }
-        function togglequickreply()
-        {
-          var table = document.getElementById('quickreply');
-          var rows = table.getElementsByTagName('tr');
-          var ishidden = 0;
-          for(var i = 1; i < rows.length; i++)
-          {
-            if(rows[i].className == 'toolbar') continue;
-            if(rows[i].style['display'] == 'none') {
-              rows[i].style['display'] = '';
-              ishidden = 0;
-            }
-            else {
-              rows[i].style['display'] = 'none';
-              ishidden = 1;
-            }
-          }
-          updatequickreplystatus(ishidden);
-        }
-    </script>
-    ";
-
-
-	if ($loguser['hidequickreply']) {
-		$quickreplydisplay = " style='display: none' ";
-	} else {
-		$quickreplydisplay = "";
-	}
-
 	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {
 		echo $rdmsg;
 	}
 	echo "
 " . "
-" . "<table class=\"c1\" name=quickreply id=quickreply>
+" . "<table class=\"c1\">
 " . " <form action=newreply.php method=post>
-" . "  <tr class=\"h\" onclick='togglequickreply();' style='cursor: pointer'>
+" . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Warp Whistle Reply</a></td>
 ";
 	echo "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
 " . "  <input type=\"hidden\" name=passenc value=\"" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . "\">
 ";
-	echo "  <tr $quickreplydisplay >
+	echo "  <tr>
 ";
 		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table><tr class='toolbar'>$toolbar</table>
@@ -680,10 +642,10 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	// TODO: WHERE IS QUOTE TEXT??
 	if(!isset($quotetext)) $quotetext = '';
 	
-	echo "  <tr $quickreplydisplay >
+	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Reply:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=8 cols=80>$quotetext</textarea></td>
-" . "  <tr class=\"n1\" $quickreplydisplay >
+" . "  <tr class=\"n1\">
 " . "    <td class=\"b\">&nbsp;</td>
 " . "    <td class=\"b\">
 " . "      <input type=\"hidden\" name=tid value=$tid>

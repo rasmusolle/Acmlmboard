@@ -1114,7 +1114,6 @@ CREATE TABLE `users` (
   `hidden` int(1) NOT NULL DEFAULT '0',
   `blocklayouts` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(128) NOT NULL DEFAULT 'UTC',
-  `hidequickreply` int(1) NOT NULL DEFAULT '0',
   `emailhide` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
