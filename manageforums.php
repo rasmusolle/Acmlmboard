@@ -78,7 +78,10 @@ if (isset($_POST['savecat'])) {
 pageheader('Forum management');
 
 ?>
-<script type="text/javascript" src="manageforums.js"></script>
+<script type="text/javascript">function toggleAll(cls, enable) {
+	var elems = document.getElementsByClassName(cls);
+	for (var i = 0; i < elems.length; i++) elems[i].disabled = !enable;
+}</script>
 <style type="text/css">label { white-space: nowrap; } input:disabled { opacity: 0.5; }</style>
 <?php
 
@@ -262,7 +265,6 @@ function permtable($bind, $id) {
 	<?php
 	$c = 1;
 	foreach ($groups as $group) {
-		//error_reporting(~E_NOTICE);
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);
 		
