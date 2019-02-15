@@ -164,7 +164,7 @@ if (is_file("theme/" . $theme . "/status/new.png"))
 // also changed the title to be "pagetitle - boardname" and not vice-versa
 function pageheader($pagetitle = "", $fid = 0) {
 	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl, $theme, $themefile,
-	$logofile, $url, $config, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2;
+	$logofile, $url, $config, $favicon, $showonusers, $count, $lastannounce, $lastforumannounce, $inactivedays, $pwdsalt, $pwdsalt2, $bot;
 
 	if (ini_get("register_globals")) {
 		echo "<span style=\"color: red;\"> Warning: register_globals is enabled.</style>";
@@ -303,14 +303,12 @@ function pageheader($pagetitle = "", $fid = 0) {
 	$ul = 0;
 
 	if (!$log) {
-		if (has_perm("register"))
+		if (!$bot) {
 			$userlinks[$ul++] = array('url' => "register.php", 'title' => 'Register');
-		if (has_perm("view-login"))
 			$userlinks[$ul++] = array('url' => "login.php", 'title' => 'Login');
-	}
-	else {
-		if (has_perm("logout"))
-			$userlinks[$ul++] = array('url' => "javascript:document.logout.submit()", 'title' => 'Logout');
+		}
+	} else {
+		$userlinks[$ul++] = array('url' => "javascript:document.logout.submit()", 'title' => 'Logout');
 	}
 	if ($log) {
 		if (has_perm("update-own-profile"))
