@@ -1,13 +1,10 @@
-
-function hex2(n)
-{
+function hex2(n) {
 	n = n.toString(16);
 	if (n.length < 2) n = '0'+n;
 	return n;
 }
 
-function addOption()
-{
+function addOption() {
 	var color = hex2(Math.floor(Math.random() * 255)) + hex2(Math.floor(Math.random() * 255)) + hex2(Math.floor(Math.random() * 255));
 	
 	var opt = document.createElement('div');
@@ -17,7 +14,6 @@ function addOption()
 	jscolor.bind();
 }
 
-function removeOption(opt)
-{
+function removeOption(opt) {
 	opt.parentNode.removeChild(opt);
 }
