@@ -16,8 +16,7 @@ if ($regdis['intval'] == 1) {
 		<tr class="h"><td class="b h" colspan="2">Registration is disabled</td></tr>
 		<tr>
 			<td class="b n1" align="center" width="120">
-				<?php echo $reason; ?> For more information please read the board announcements
-				or visit us on <a href="irc.php">IRC</a>
+				<?php echo $reason; ?> For more information please read the board announcements.
 			</td>
 		</tr>
 	</table>

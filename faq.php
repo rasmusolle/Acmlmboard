@@ -59,7 +59,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<a href="#rude">I feel that a user is being rude to me. What do I do?</a><br>
 			<a href="#smile">Are smilies and BBCode supported?</a><br>
 			<a href="#tags">Board Specific tags (non-BBcode [tags] and other substitutions)</a><br>
-			<a href="#irc">What's this IRC thing I keep hearing about?</a><br>
+			<?php if ($config['hasirc']) echo '<a href="#irc">What\'s this IRC thing I keep hearing about?</a><br>' ?>
 			<a href="#reg">Can I register more than one account?</a><br>
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
 			<?php if ($syndromenable == 1) echo '<a href="#syndrome">Acmlmboard Syndromes</a><br>'; ?>
@@ -181,14 +181,15 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 	 		</table>
 		</td>
 	</tr>
+	<?php if ($config['hasirc']) { ?>
 	<tr class="h"><td class="b h" id="irc">What's this IRC thing I keep hearing about?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
-			If you have an IRC client like mIRC, you can join a chatroom hosted by the Acmlmboard community.
-			All crazy kinds of things can happen there, but will you <a href="https://www.youtube.com/watch?v=YQa2-DY7Y_Q">take the plunge</a>?
-			Connect to the server irc.nolimitzone.com and join the channel. Mibbit is a great client to start with if you don't know what you're doing.
+			If you have an IRC client like <a href="https://hexchat.github.io">HexChat</a>, you can join a chatroom related to this board.<br>
+			The IRC channel is <?=$config['channel']; ?> at <?=$config['network']; ?>.
 		</td>
 	</tr>
+	<?php } ?>
 	<tr class="h"><td class="b h" id="reg">Can I register more than one account?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">

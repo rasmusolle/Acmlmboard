@@ -245,7 +245,6 @@ function pageheader($pagetitle = "", $fid = 0) {
 		    <a href='rss.php'><img src='img/feed.png' style='margin-right:5px' title='RSS Feed'></a>$ssllnk</span>
             <a href=\"./\">Main</a>
           | <a href=\"faq.php\">FAQ</a>
-          | <a href=\"irc.php\">IRC</a>
           | <a href=\"memberlist.php\">Memberlist</a>
           | <a href=\"activeusers.php\">Active users</a>
           | <a href=\"thread.php?time=86400\">Latest posts</a>

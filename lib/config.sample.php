@@ -86,6 +86,7 @@ $config['lockdown'] = false; // Put board in lockdown mode.
 $config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
 
 // irc stuff
+$config['hasirc'] = false;
 $config['channel'] = "#changeme";
 $config['network'] = "irc.changeme.invalid";
 
