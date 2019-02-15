@@ -1,5 +1,4 @@
 <?php
-
 include('lib/common.php');
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -17,19 +16,14 @@ if (!has_perm('edit-attentions-box')) {
 
 	$pageheadtxt = "Edit news";
 	pageheader($pageheadtxt);
-
 	?>
 	<form action="editattn.php" method="post">
 		<table class="c1">
 			<tr class="h"><td class="b h">Edit news box</td></tr>
 			<tr class="n1">
-				<td class="b">
+				<td class="b" style="text-align:center">
 					<textarea name="txtval" rows="8" cols="120"><?php echo $attndata; ?></textarea>
-				</td>
-			</tr>
-			<tr class="n1">
-				<td class="b n1" align="center">
-					<input type="submit" class="submit" name="action" value="Submit">
+					<br><input type="submit" class="submit" name="action" value="Submit">
 				</td>
 			</tr>
 		</table>
