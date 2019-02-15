@@ -1,21 +1,10 @@
 <?php
 
-if (isset($_GET['p'])) {
-	$p = $_GET['p'];
-	return header("Location:thread.php?pid=$p#$p");
-}
-if (isset($_GET['t'])) {
-	$t = $_GET['t'];
-	return header("Location:thread.php?id=$t");
-}
-if (isset($_GET['u'])) {
-	$u = $_GET['u'];
-	return header("Location:profile.php?id=$u");
-}
-if (isset($_GET['a'])) {
-	$a = $_GET['a'];
-	return header("Location:thread.php?announce=$a");
-}
+if (isset($_GET['p'])) header("Location: thread.php?pid={$_GET['p']}#{$_GET['p']}");
+if (isset($_GET['t'])) header("Location: thread.php?id={$_GET['t']}");
+if (isset($_GET['u'])) header("Location: profile.php?id={$_GET['u']}");
+if (isset($_GET['a'])) header("Location: thread.php?announce={$_GET['a']}");
+
 $showonusers = 1;
 require 'lib/common.php';
 
