@@ -5,7 +5,7 @@ if (!has_perm('edit-groups')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
   
-$act = $_GET['act'];
+$act = (isset($_GET['act']) ? $_GET['act'] : '');
 $errmsg = '';
 $caneditperms = has_perm('edit-permissions');
   
@@ -110,7 +110,7 @@ if ($act == 'new' || $act == 'edit') {
 			$grouplist[$g['id']] = $g['title'];
 
 		$defaultlist = array(0=>'-', -1=>'For first user', 1=>'For all users');
-		$bannedlist = array(0=>'-', 1=>'For banned users'); 
+		$bannedlist = array(0=>'-', 1=>'Yes'); 
 		$visiblelist = array(1=>'Visible', 0=>'Invisible');
 		$primarylist = array(1=>'Primary', 0=>'Secondary');
 
@@ -171,7 +171,7 @@ if ($act == 'new' || $act == 'edit') {
 		'parent' => array('caption'=>'Parent group', 'align'=>'center'),
 		'ncolors' => array('caption'=>'Username colors', 'width'=>'175px', 'align'=>'center'),
 		'misc' => array('caption'=>'Default?', 'width'=>'120px', 'align'=>'center'),
-		'bmisc' => array('caption'=>'Banned?', 'width'=>'120px', 'align'=>'center'), 
+		'bmisc' => array('caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'), 
 		'actions' => array('caption'=>'', 'align'=>'right'),
 	);
 
@@ -194,10 +194,10 @@ if ($act == 'new' || $act == 'edit') {
 
 		$bmisc = '-'; 
 		if ($group['banned']) 
-			$bmisc = $group['banned'] == 1 ? 'For banned users' : '-'; 
+			$bmisc = $group['banned'] == 1 ? 'Yes' : '-'; 
 
 		$actions = array();
-		if ($caneditperms) $actions[] = array('href'=>'editperms.php?gid='.$group['id'], 'title'=>'Edit permissions');
+		if ($caneditperms) $actions[] = array('href'=>'editperms.php?gid='.$group['id'], 'title'=>'Edit perms');
 		$actions[] = array('href'=>'editgroups.php?act=edit&id='.$group['id'], 'title'=>'Edit');
 		if ($caneditperms) $actions[] = array('href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete', 
 			'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"? It will be permanently lost as well as all permissions attached to it.');
