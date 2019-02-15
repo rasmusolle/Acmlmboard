@@ -125,14 +125,14 @@ while ($group = $sql->fetch($activegroups)) {
 //[KAWA] Rebuilt this to use my new renderer. Not sure what to do about the part above though X3
 $headers = array(
 	"id" => array("caption" => "#", "width" => "32px", "align" => "center"),
-	"pic" => array("caption" => "Picture", "width" => "64px"),
+	"pic" => array("caption" => "Picture", "width" => "60px"),
 	"name" => array("caption" => "Name"),
 	"reg" => array("caption" => "Registered on", "width" => "130px"),
 	"posts" => array("caption" => "Posts", "width" => "50px"),
 );
 $data = array();
 for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
-	$picture = ($user['usepic'] ? "<img src=gfx/userpic.php?id=$user[id] width=60 height=60>" : '<img src=img/_.png width=60 height=60>');
+	$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>" : '<img src=img/_.png width=60 height=60>');
 
 	$data[] = array(
 		"id" => $user['id'] . '.',

@@ -161,7 +161,7 @@ function threadpost($post, $type, $pthread = '') {
 				$location = ($post['ulocation'] ? '<br>From: ' . postfilter($post['ulocation']) : '');
 				$lastpost = ($post['ulastpost'] ? timeunits(ctime() - $post['ulastpost']) : 'none');
 
-				$picture = ($post['uusepic'] ? "<img src=\"gfx/userpic.php?id=" . $post['uid'] . "&r=" . $post['uusepic'] . "\">" : '');
+				$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
 
 				if ($post['usign']) {
 					$signsep = $post['usignsep'] ? '' : '____________________<br>';
