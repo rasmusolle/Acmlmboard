@@ -150,18 +150,6 @@ select, textarea, input, button {
 	text-align: right;
 }
 
-ins {
-	border: 1px #000000 dashed;
-	text-decoration: none;
-	color: #1D1D1D;
-}
-
-del {
-	border: 1px #000000 dashed;
-	text-decoration: none;
-	color: #1D1D1D;
-}
-
 blockquote {
 	border: #000000 1px solid;
 	padding: 3px;
@@ -182,9 +170,3 @@ form {
 ul, ol {
 	margin: 0px;
 }
-
-.nc0x{color:#888888} .nc1x{color:#888888} .nc2x{color:#888888}
-.nc00{color:#97ACEF} .nc10{color:#F185C9} .nc20{color:#7C60B0}
-.nc01{color:#D8E8FE} .nc11{color:#FFB3F3} .nc21{color:#EEB9BA}
-.nc02{color:#AFFABE} .nc12{color:#C762F2} .nc22{color:#47B53C}
-.nc03{color:#FFEA95} .nc13{color:#C53A9E} .nc23{color:#F0C413}
