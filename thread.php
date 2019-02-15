@@ -12,8 +12,8 @@
   to have been lost in the process of merging before
  * ************************************************** */
 
-require 'lib/common.php';
-require 'lib/threadpost.php';
+require('lib/common.php');
+require('lib/threadpost.php');
 $rdmsg = "";
 if (!empty($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");

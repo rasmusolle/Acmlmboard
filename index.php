@@ -6,7 +6,7 @@ if (isset($_GET['u'])) header("Location: profile.php?id={$_GET['u']}");
 if (isset($_GET['a'])) header("Location: thread.php?announce={$_GET['a']}");
 
 $showonusers = 1;
-require 'lib/common.php';
+require('lib/common.php');
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 

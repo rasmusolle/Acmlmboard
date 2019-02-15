@@ -1,5 +1,5 @@
 <?php
-require 'lib/common.php';
+require('lib/common.php');
 
 $rdmsg = "";
 if (isset($_COOKIE['pstbon'])) {

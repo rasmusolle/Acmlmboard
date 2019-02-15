@@ -1,5 +1,5 @@
 <?php
-require 'lib/common.php';
+require('lib/common.php');
 pageheader('IP bans');
 
 $action = (isset($_GET['action']) ? $_GET['action'] : 'needle');

@@ -1,6 +1,6 @@
 <?php
-require 'lib/common.php';
-require 'lib/threadpost.php';
+require('lib/common.php');
+require('lib/threadpost.php');
 loadsmilies();
 
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : null);

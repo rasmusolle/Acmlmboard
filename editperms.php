@@ -1,5 +1,5 @@
 <?php
-  require 'lib/common.php';
+  require('lib/common.php');
   
 /*
 [02:57:12]	Emuz	x_perm - the table assigning the specific permission to a user/forum/group via g/f/uid and x_type (group, forum, user)

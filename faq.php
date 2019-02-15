@@ -1,5 +1,5 @@
 <?php
-include('lib/common.php');
+require('lib/common.php');
 
 //Smilies List
 $smilieslist = $sql->query("SELECT * FROM `smilies`");

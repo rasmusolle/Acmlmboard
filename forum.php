@@ -4,7 +4,7 @@
   Changelog
   0221  blackhole89    modified queries and $status calculation to use the new "threads read" system
  */
-require 'lib/common.php';
+require('lib/common.php');
 
 $page = isset($_GET['page']) && $page > 0 ? (int)$_GET['page'] : 1;
 $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;

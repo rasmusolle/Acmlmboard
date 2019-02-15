@@ -1,5 +1,5 @@
 <?php
-require "lib/common.php";
+require("lib/common.php");
 
 if (!isset($_GET['rankset']))
 	$getrankset = 1;

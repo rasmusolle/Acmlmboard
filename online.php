@@ -1,5 +1,5 @@
 <?php
-require ('lib/common.php');
+require('lib/common.php');
 
 function sslicon($a, $uid = 0) {
 	if (has_perm('view-post-ips') && $a) {

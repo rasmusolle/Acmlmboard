@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/common.php';
+require('lib/common.php');
 pageheader('Memberlist');
 
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'posts';

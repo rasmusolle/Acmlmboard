@@ -1,6 +1,6 @@
 <?php
-require 'lib/common.php';
-require 'lib/threadpost.php';
+require('lib/common.php');
+require('lib/threadpost.php');
 loadsmilies();
 
 if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }

@@ -1,5 +1,5 @@
 <?php
-include('lib/common.php');
+require('lib/common.php');
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 $attndata = '';

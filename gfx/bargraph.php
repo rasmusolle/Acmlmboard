@@ -1,5 +1,9 @@
 <?php
-require 'fontlib.php';
+require('fontlib.php');
+
+if (!isset($_GET['n']) || !isset($_GET['b']) || !isset($_GET['g']) || !isset($_GET['r']) || !isset($_GET['z'])) {
+	die('not enough parameters');
+}
 
 header('Content-type: image/png');
 

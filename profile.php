@@ -1,7 +1,7 @@
 <?php
 
-require "lib/common.php";
-require "lib/threadpost.php";
+require("lib/common.php");
+require("lib/threadpost.php");
 
 $rdmsg = "";
 if (!empty($_COOKIE['pstbon'])) {

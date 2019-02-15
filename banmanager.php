@@ -1,5 +1,5 @@
 <?php
-require 'lib/common.php';
+require('lib/common.php');
 
 //Alternative to editing users' profiles. - SquidEmpress
 //Based off of banhammer.php from Blargboard by StapleButter.

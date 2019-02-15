@@ -1,5 +1,5 @@
 <?php
-require "lib/function.php";
+require("lib/function.php");
 
 header("Content-type: text/html; charset=utf-8");
 
@@ -14,14 +14,14 @@ $url = getenv("SCRIPT_NAME");
 if ($q = getenv("QUERY_STRING"))
 	$url.="?$q";
 
-require "lib/login.php";
+require("lib/login.php");
 
 if ($config['lockdown']) {
 	//lock down
 	if (has_perm('bypass-lockdown'))
 		echo "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
 	else {
-		include "lib/locked.php";
+		require("lib/locked.php");
 		die();
 	}
 }
@@ -44,7 +44,7 @@ if (!$log) {
 		$loguser['theme'] = "minerslament";
 }
 
-require "lib/timezone.php";
+require("lib/timezone.php");
 dobirthdays(); //Called here to account for timezone bugs.
 
 if ($loguser['ppp'] < 1)
@@ -140,7 +140,7 @@ elseif (is_file("theme/" . $theme . "/logo.png"))
 else
 	$logofile = $defaultlogo;
 
-require "lib/ipbans.php";
+require("lib/ipbans.php");
 
 $statusimageset = '';
 

@@ -1,6 +1,6 @@
 <?php
 
-include('lib/common.php');
+require('lib/common.php');
 
 needs_login(1);
 

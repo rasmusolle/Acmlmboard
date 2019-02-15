@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/common.php';
+require('lib/common.php');
 
 $regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field='regdisable'");
 if ($regdis['intval'] == 1) {

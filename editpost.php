@@ -8,8 +8,8 @@
                         with minpowerreply < minpower and allow users to "reply blindly" now)
   */
 
-  require 'lib/common.php';
-  require 'lib/threadpost.php';
+  require('lib/common.php');
+  require('lib/threadpost.php');
   loadsmilies();
 
   if($act=$_POST[action])

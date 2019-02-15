@@ -1,6 +1,6 @@
 <?php
-require 'lib/common.php';
-require 'lib/threadpost.php';
+require('lib/common.php');
+require('lib/threadpost.php');
 loadsmilies();
 
 needs_login(1);
