@@ -11,7 +11,6 @@ if ($act == 'Login') {
 	} else {
 		$err = "Invalid username or password, cannot log in.";
 	}
-	$echo = '<td class="b n1" align="center">'.$echo.'</td>';
 } elseif ($act == 'logout') {
 	setcookie('user', 0);
 	setcookie('pass', '');

@@ -164,7 +164,7 @@ if ($viewmode == "thread") {
 	}
 
 	if ($thread['ispoll']) {
-		if ($_GET['act'] == "vote" && $log) {
+		if (isset($_GET['act']) && $_GET['act'] == "vote" && $log) {
 			$vote = unpacksafenumeric($_GET['vote']);
 			if ($vote > -1) {
 				if ($thread['multivote']) {
