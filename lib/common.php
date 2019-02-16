@@ -5,8 +5,7 @@ header("Content-type: text/html; charset=utf-8");
 
 //[Scrydan] Added these three variables to make editing quicker.
 $boardprog = "Acmlm, Emuz, <a href='credits.php'>et al</a>.";
-$abdate = "7/13/2015";
-$abversion = "2.5.3<i>pre</i> <span style=\"color: #BCDE9A; font-style: italic; font-size:8pt;\">Development</span>";
+$abversion = "2.5.3MOD";
 
 $userip = $_SERVER['REMOTE_ADDR'];
 $userfwd = addslashes(getenv('HTTP_X_FORWARDED_FOR')); //We add slashes to that because the header is under users' control
@@ -512,7 +511,6 @@ function noticemsg($name, $msg) {
 }
 
 function error($name, $msg) {
-	global $abversion, $abdate, $boardprog;
 	pageheader('Error');
 	echo "<br>";
 	noticemsg($name, $msg);
@@ -521,7 +519,7 @@ function error($name, $msg) {
 }
 
 function pagefooter() {
-	global $abversion, $abdate, $boardprog;
+	global $abversion, $boardprog;
 	?><br>
 	<table class="c2">
 		<tr>
@@ -530,8 +528,8 @@ function pagefooter() {
   					<?php pagestats(); ?>
 				</span>
 				<a href="http://github.com/rasmusolle/acmlmboard"><img src="img/poweredbyacmlm.png" title="Acmlmboard 2" style="float:left; margin-right:4px;"></a>
-				Acmlmboard v<?php echo $abversion . ' (' . $abdate . ')'; ?><br>
-				&copy; 2005-2015 <?php echo $boardprog; ?>
+				Acmlmboard v<?php echo $abversion ?><br>
+				&copy; 2005-2019 <?php echo $boardprog; ?>
 			</td>
 		</tr>
 	</table>
