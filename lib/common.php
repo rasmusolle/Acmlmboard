@@ -142,23 +142,6 @@ else
 
 require("lib/ipbans.php");
 
-$statusimageset = '';
-
-if (is_file("theme/" . $theme . "/status/new.png"))
-	$statusimageset = "theme/" . $theme . "/status/";
-
-/*
-  Salvaged from "Xkeeper's Nifty Page-o-Hacks". Why? I don't really know, however it's a nice bit of code
-  for 'just in case' purposes I guess. Basically it'll get axed when we clean up the other fragments anyway.
-  -Emuz
-
-  if(strstr($url,"UNION%20SELECT") && $loguser[power]<3) {
-  $sql->query("INSERT INTO ipbans VALUES ('$REMOTE_ADDR',1,'','automatic','UNION SELECT')");
-  print "(insert sound of something blowing up here)";
-  die();
-  }
- */
-
 //2/21/2007 xkeeper - todo: add $forumid attribute (? to add "forum user is in" and markread links
 // also added number_format to views
 // also changed the title to be "pagetitle - boardname" and not vice-versa

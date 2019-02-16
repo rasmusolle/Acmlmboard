@@ -80,13 +80,6 @@ function EmailObscurer($emailin) {
 }
 
 function rendernewstatus($type, $newcount = '0') {
-	global $statusimageset;
-
-	if ($statusimageset != '')
-		$imagepath = $statusimageset;
-	else
-		$imagepath = "img/status/";
-
 	switch ($type) {
 		case "n":
 			$text = "NEW";
@@ -118,12 +111,12 @@ function rendernewstatus($type, $newcount = '0') {
 		$text = "";
 	}
 	
-	$status = "<div style='line-height:75%;padding: 0;'><img src=\"$imagepath$statusimg\" alt=\"$text\"><br/>";
+	$status = "<div style='line-height:75%;padding: 0;'><img src=\"img/status/$statusimg\" alt=\"$text\"><br/>";
 	if ($newcount > '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
 			$imgstrings = '';
 			$image = $newcount[$i];
-			$imgstrings .= "<img src='$imagepath" . $image . ".png' alt='" . $newcount[$i] . "'/>";
+			$imgstrings .= "<img src='img/status/" . $image . ".png' alt='" . $newcount[$i] . "'/>";
 		}
 	}
 	$status .= (isset($imgstrings) ? $imgstrings : '') . "</div>";
