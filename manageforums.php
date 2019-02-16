@@ -200,7 +200,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	
 	?><table style="width:100%;">
 		<tr>
-			<td class="b" style="width:50%; vertical-align:top; padding-right:0.5em;">
+			<td class="nb" style="width:50%; vertical-align:top;">
 				<table class="c1">
 					<tr class="h"><td class="b h">Categories</td></tr>
 					<?php echo $catlist; ?>
@@ -208,7 +208,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 					<tr><td class="b n1"><a href="?cid=new">New category</a></td></tr>
 				</table>
 			</td>
-			<td class="b" style="width:50%; vertical-align:top; padding-left:0.5em; padding-right:0.5em;">
+			<td class="nb" style="width:50%; vertical-align:top;">
 				<table class="c1">
 					<tr class="h"><td class="b h">Forums</td></tr>
 					<?php echo $forumlist; ?>
