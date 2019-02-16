@@ -315,8 +315,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 			$userlinks[$ul++] = array('url' => "editprofile.php", 'title' => 'Edit profile');
 		if (has_perm('manage-board'))
 			$userlinks[$ul++] = array('url' => 'management.php', 'title' => 'Management');
-		if (has_perm("mark-read"))
-			$userlinks[$ul++] = $markread;
+		$userlinks[$ul++] = $markread;
 	}
 
 	$c = 0;
