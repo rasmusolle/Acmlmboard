@@ -137,7 +137,7 @@ function rendernewstatus($type, $newcount = '0') {
 function RenderForm($form) {
 	if ($form) {
 		$formp = "<form action=%s method=%s>\n%s</form>\n";
-		$table = "\t<table cellspacing=0 class=c1>\n%s\t</table>\n";
+		$table = "\t<table class=c1>\n%s\t</table>\n";
 		$row = "\t\t<tr>\n%s\t\t</tr>\n";
 		$rowaction = "\t\t<tr class=\"n1\">\n%s\t\t</tr>\n";
 		$rowhead = "\t\t<tr class=\"h\">\n%s\t\t</tr>\n";
@@ -268,7 +268,7 @@ function RenderBreadcrumb($breadcrumb) {
 }
 
 function RenderPageBar($pagebar) {
-	echo "<table cellspacing=0 width=100%>";
+	echo "<table width=100%>";
 	echo "<td class=nb>";
 	if (!empty($pagebar['breadcrumb']))
 		RenderBreadcrumb($pagebar['breadcrumb']);
@@ -280,7 +280,7 @@ function RenderPageBar($pagebar) {
 		echo "&nbsp;";
 	echo "</td></table><br/>";
 	if (!empty($pagebar['message'])) {
-		echo "<table cellspacing=0 width=100% class=c1><tr><td class='center'>";
+		echo "<table width=100% class=c1><tr><td class='center'>";
 		echo $pagebar['message'];
 		echo "</td></tr></table><br/>";
 	}
