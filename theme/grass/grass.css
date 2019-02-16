@@ -1,0 +1,64 @@
+/* META
+Grassy grass (RasmusOlle)
+
+*/
+A:link    {color: #a5ff40}
+A:visited {color: #a5ff40}
+A:hover   {color: #FFFFFF}
+
+A:link, A:visited, A:active, A:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+body {
+	background: url(grass_city_main_sc.png) #202004;
+	color: white;
+	font-family: verdana, geneva, sans-serif;
+}
+
+table.c1, table.c2 {
+	background: black;
+}
+
+tr.h {
+	background: #614126;
+}
+
+tr.c {
+	background: #926239;
+	font-size: 0.9em;
+	color: #EEEEEE;
+}
+
+td {
+	padding: 2px;
+}
+
+td.b {
+	border: #000000 2px solid;
+}
+
+td.nb {
+	border: 0px none;
+}
+
+tr.n1, td.n1 { background: #516541; }
+tr.n2, td.n2 { background: #435528; }
+tr.n3, td.n3 { background: #314521; }
+
+.sfont {
+	font-size: 0.9em;
+}
+
+textarea, input, select, button {
+	border: #000000 solid 2px;
+	background: #334518;
+	color: #FFFFFF;
+}
+
+.submit {
+	border: #000000 solid 2px;
+	color: #ffffff;
+	font-weight: bold;
+}
