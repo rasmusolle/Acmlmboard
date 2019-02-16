@@ -1134,7 +1134,6 @@ CREATE TABLE `x_perm` (
 ) ENGINE=InnoDB AUTO_INCREMENT=424 DEFAULT CHARSET=utf8;
 
 INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `revoke`) VALUES
-(0,	4,	'group',	'edit-titles',	'',	0,	0),
 (3,	2,	'group',	'update-own-profile',	'',	0,	0),
 (4,	1,	'group',	'view-profile-page',	'',	0,	0),
 (5,	1,	'group',	'view-public-categories',	'',	0,	0),
@@ -1247,7 +1246,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (217,	2,	'group',	'post-radar',	'',	0,	0),
 (218,	3,	'group',	'show-as-staff',	'',	0,	0),
 (219,	4,	'group',	'show-as-staff',	'',	0,	0),
-(221,	6,	'group',	'show-as-staff',	'',	0,	0),
 (222,	10,	'group',	'track-ip-change',	'',	0,	0),
 (224,	2,	'group',	'block-layout',	'',	0,	0),
 (226,	12,	'user',	'edit-forum-post',	'',	18,	0),
@@ -1346,17 +1344,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (329,	1,	'group',	'override-closed-forum',	'forums',	2,	1),
 (330,	1,	'group',	'view-forum-post-history',	'forums',	2,	1),
 (331,	1,	'group',	'view-private-forum',	'forums',	2,	1),
-(332,	6,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
-(333,	6,	'group',	'create-forum-announcement',	'forums',	2,	1),
-(334,	6,	'group',	'create-private-forum-post',	'forums',	2,	1),
-(335,	6,	'group',	'create-private-forum-thread',	'forums',	2,	1),
-(336,	6,	'group',	'delete-forum-post',	'forums',	2,	1),
-(337,	6,	'group',	'delete-forum-thread',	'forums',	2,	1),
-(338,	6,	'group',	'edit-forum-post',	'forums',	2,	1),
-(339,	6,	'group',	'edit-forum-thread',	'forums',	2,	1),
-(340,	6,	'group',	'override-closed-forum',	'forums',	2,	1),
-(341,	6,	'group',	'view-forum-post-history',	'forums',	2,	1),
-(342,	6,	'group',	'view-private-forum',	'forums',	2,	1),
 (343,	10,	'group',	'create-consecutive-forum-post',	'forums',	2,	1),
 (344,	10,	'group',	'create-forum-announcement',	'forums',	2,	0),
 (345,	10,	'group',	'create-private-forum-post',	'forums',	2,	0),
@@ -1390,17 +1377,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (384,	1,	'group',	'override-closed-forum',	'forums',	1,	1),
 (385,	1,	'group',	'view-forum-post-history',	'forums',	1,	1),
 (386,	1,	'group',	'view-private-forum',	'forums',	1,	1),
-(387,	6,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
-(388,	6,	'group',	'create-forum-announcement',	'forums',	1,	1),
-(389,	6,	'group',	'create-private-forum-post',	'forums',	1,	1),
-(390,	6,	'group',	'create-private-forum-thread',	'forums',	1,	1),
-(391,	6,	'group',	'delete-forum-post',	'forums',	1,	1),
-(392,	6,	'group',	'delete-forum-thread',	'forums',	1,	1),
-(393,	6,	'group',	'edit-forum-post',	'forums',	1,	1),
-(394,	6,	'group',	'edit-forum-thread',	'forums',	1,	1),
-(395,	6,	'group',	'override-closed-forum',	'forums',	1,	1),
-(396,	6,	'group',	'view-forum-post-history',	'forums',	1,	1),
-(397,	6,	'group',	'view-private-forum',	'forums',	1,	1),
 (398,	11,	'group',	'create-consecutive-forum-post',	'forums',	1,	1),
 (399,	11,	'group',	'create-forum-announcement',	'forums',	1,	1),
 (400,	11,	'group',	'create-private-forum-post',	'forums',	1,	1),
@@ -1413,7 +1389,8 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (407,	11,	'group',	'view-forum-post-history',	'forums',	1,	1),
 (408,	11,	'group',	'view-private-forum',	'forums',	1,	1),
 (420,	1,	'group',	'view-private-category',	'categories',	1,	1),
-(421,	6,	'group',	'view-private-category',	'categories',	1,	1),
-(422,	11,	'group',	'view-private-category',	'categories',	1,	1);
+(422,	11,	'group',	'view-private-category',	'categories',	1,	1),
+(424,	4,	'group',	'edit-titles',	'',	0,	0),
+(711,	6,	'group',	'show-as-staff',	'',	0,	0);
 
--- 2019-02-07 17:55:18
+-- 2019-02-16 10:29:03
