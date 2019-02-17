@@ -223,7 +223,6 @@ HTML;
           | <a href=\"memberlist.php\">Memberlist</a>
           | <a href=\"activeusers.php\">Active users</a>
           | <a href=\"thread.php?time=86400\">Latest posts</a>
-          | <a href=\"stats.php\">Stats</a>
           | <a href=\"ranks.php\">Ranks</a>
           | <a href=\"online.php\">Online users</a>
           | <a href=\"search.php\">Search</a>
