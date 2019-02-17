@@ -38,9 +38,6 @@ if (!$log) {
 	$loguser['theme'] = $defaulttheme;
 	$loguser['ppp'] = 20;
 	$loguser['tpp'] = 20;
-
-	if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 6.0") !== false)
-		$loguser['theme'] = "minerslament";
 }
 
 require("lib/timezone.php");
@@ -50,8 +47,6 @@ if ($loguser['ppp'] < 1)
 	$loguser['ppp'] = 20;
 if ($loguser['tpp'] < 1)
 	$loguser['tpp'] = 20;
-
-//2007-02-19 blackhole89 - needs to be here because it requires loguser data
 
 
 //Unban users whose tempbans have expired. - SquidEmpress
@@ -104,8 +99,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 								(SELECT COUNT(*) FROM threads) t,
 								(SELECT COUNT(*) FROM posts) p");
 	$date = date("m-d-y", ctime());
-	$sql->query("REPLACE INTO `dailystats` (`date`, `users`, `threads`, `posts`, `views`)
-                 VALUES ('$date', '$count[u]', '$count[t]', '$count[p]', '$views')");
 }
 
 //[KAWA] ABXD-style theme system
@@ -164,15 +157,18 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	if ($pagetitle)
 		$pagetitle .= " - ";
+	
+	$t = $sql->resultq("SELECT `txtval` FROM `misc` WHERE `field`='attention'");
 
-	$extratitle = "
-                     <table class=\"c1\" width=\"100%\" align=\"center\">
-                       <tr class=\"h\">
-                          <td class=\"b h\">$config[atnname]</td>
-                        <tr class=\"n2\" align=\"center\">
-                          <td class=\"b sfont\">" . ($t = $sql->resultq("SELECT `txtval` FROM `misc` WHERE `field`='attention'")) . "
-                          </td>
-                     </table>";
+	$extratitle = <<<HTML
+<table class="c1" width="100%" align="center">
+	<tr class="h"><td class="b h">{$config['atnname']}</td></tr>
+	<tr class="n2" align="center">
+		<td class="b sfont">$t</td>
+	</tr>
+</table>
+HTML;
+
 	if ($t == "")
 		$extratitle = '';
 
@@ -205,9 +201,6 @@ function pageheader($pagetitle = "", $fid = 0) {
       <title>$pagetitle$boardtitle</title>
       $config[meta]
       <link rel=\"icon\" type=\"image/png\" href=\"$favicon\">
-      <style>
-
-      </style>
       <link rel=\"stylesheet\" href=\"theme/$theme/$themefile\">
       <link rel=\"stylesheet\" href=\"theme/common.css\">
       <link href=\"lib/prettify/sunburst.css\" type=\"text/css\" rel=\"stylesheet\" />
