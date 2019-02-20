@@ -62,7 +62,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			<?php if ($config['hasirc']) echo '<a href="#irc">What\'s this IRC thing I keep hearing about?</a><br>' ?>
 			<a href="#reg">Can I register more than one account?</a><br>
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
-			<?php if ($syndromenable == 1) echo '<a href="#syndrome">Acmlmboard Syndromes</a><br>'; ?>
 			<?php if ($config['displayname'] == true) echo '<a href="#dispname">Display Name System</a><br>'; ?>
 			<a href="#avatar">What are avatars?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
@@ -210,28 +209,6 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 			</ul>
 		</td>
 	</tr>
-	<?php if ($syndromenable == 1) { ?>
-	<tr class="h"><td class="b h" id="syndrome">Acmlmboard Syndromes</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			The syndromes are triggered when you reach the amount of posts posted per day listed in the table below.
-			<table class="table">
-				<tr><td class="b h">Posts</td><td class="b h">Syndrome</td></tr>
-				<tr><td class="b n1"> 75</td><td class="b n2"><?php syndromeprint(75 ); ?></td></tr>
-				<tr><td class="b n1">100</td><td class="b n2"><?php syndromeprint(100); ?></td></tr>
-				<tr><td class="b n1">150</td><td class="b n2"><?php syndromeprint(150); ?></td></tr>
-				<tr><td class="b n1">200</td><td class="b n2"><?php syndromeprint(200); ?></td></tr>
-				<tr><td class="b n1">250</td><td class="b n2"><?php syndromeprint(250); ?></td></tr>
-				<tr><td class="b n1">300</td><td class="b n2"><?php syndromeprint(300); ?></td></tr>
-				<tr><td class="b n1">350</td><td class="b n2"><?php syndromeprint(350); ?></td></tr>
-				<tr><td class="b n1">400</td><td class="b n2"><?php syndromeprint(400); ?></td></tr>
-				<tr><td class="b n1">450</td><td class="b n2"><?php syndromeprint(450); ?></td></tr>
-				<tr><td class="b n1">500</td><td class="b n2"><?php syndromeprint(500); ?></td></tr>
-				<tr><td class="b n1">600</td><td class="b n2"><?php syndromeprint(600); ?></td></tr>
-			</table>
-		</td>
-	</tr>
-	<?php } ?>
 	<?php if ($config['displayname'] == true) { ?>
 	<tr class="h"><td class="b h" id="dispname">Display Name System</td></tr>
 	<tr>

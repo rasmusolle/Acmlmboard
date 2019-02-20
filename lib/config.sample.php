@@ -61,7 +61,6 @@ $avatarsize = 2 * 30720; // The Avatar size in bytes. The default is to 60kb.
 $config['override_theme'] = ""; // If you want to lock everyone to a specific theme.
 $config['override_logo'] = ""; // If you want to replace the logo on all themes.
 
-$syndromenable = 1; // This variable controls the use of "Syndromes". 0 is off; 1 is on
 $inactivedays = 30; // The number of days before a user is counted as "inactive"
                   
 // The following sectionis related to guests (mostly reflected on online.php)

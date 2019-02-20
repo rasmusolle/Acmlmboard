@@ -21,7 +21,7 @@ function loadsmilies() {
 }
 
 function threadpost($post, $type, $pthread = '') {
-	global $dateformat, $loguser, $sql, $blocklayouts, $syndromenable, $config, $signsep;
+	global $dateformat, $loguser, $sql, $blocklayouts, $config, $signsep;
 	
 	$post['head'] = '';
 	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);
@@ -31,17 +31,10 @@ function threadpost($post, $type, $pthread = '') {
 		$post['text'] = $post['head'] . $post['text'] . '____________________' . $post['sign'];
 	else
 		$post['text'] = $post['head'] . $post['text'];
-	//This allows config level enable or disable of syndromes.
-	if ($syndromenable == 1)
-		$actsyn = @$sql->result($sql->query("SELECT COUNT(*) num FROM posts WHERE user=" . $post['uid'] . " AND date>" . (ctime() - 86400)), 0, 0);
-	else
-		$actsyn = 0;
 
 	$post['ranktext'] = getrank($post['urankset'], $post['uposts']);
 	$post['utitle'] = $post['ranktext']
 			. ((strlen($post['ranktext']) >= 1) ? "<br>" : "")
-			. syndrome($actsyn)
-			. ((strlen(syndrome($actsyn))) ? "<br>" : "")
 			. $post['utitle'];
 
 	//[KAWA] TODO: replace with token effect, or preferably just a profile switch
