@@ -115,10 +115,10 @@ function threadpost($post, $type, $pthread = '') {
 			}
 
 			// "Edit" link for admins or post owners, but not banned users
-			if (can_edit_post($post) && $post['id'])
+			if (isset($post['thread']) && can_edit_post($post) && $post['id'])
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-			if ($post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
+			if (isset($post['thread']) && $post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
 				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
 
 			if ($post['id'])
