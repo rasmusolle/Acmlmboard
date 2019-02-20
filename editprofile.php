@@ -1,5 +1,4 @@
 <?php
-
 require("lib/common.php");
 
 needs_login(1);
@@ -44,17 +43,14 @@ if ($act == 'Edit profile') {
 		setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt)), 2147483647);
 }
 
-
 global $user;
 
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
 if (!$user) {
-	echo "<table class=\"c1\">
-             <td class=\"b n1\" align=\"center\">
-               This user doesn't exist!<br>
-               <a href=./>Back to main</a>
-           </table>";
+	?><table class="c1"><td class="b n1" align="center">
+		This user doesn't exist!<br><a href=./>Back to main</a>
+	</table><?php
 	die(pagefooter());
 }
 
@@ -121,7 +117,6 @@ if ($act == 'Edit profile') {
 	$timeformat = $_POST['timeformat'];
 
 	if (has_perm("edit-users")) {
-
 		//Update admin bells and whistles
 		$targetgroup = $_POST['group_id'];
 		checknumeric($targetgroup);
@@ -235,8 +230,6 @@ if ($act == 'Preview theme') {
 pageheader('Edit profile');
 
 if (empty($act)) {
-
-
 	$listsex = array('Male', 'Female', 'N/A');
 
 	$alltz = $sql->query("SELECT name FROM `timezones`");
