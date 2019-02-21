@@ -276,7 +276,7 @@ if ($viewmode == "thread") {
 
 
 
-	$thread[replies] = $sql->resultq("SELECT count(*) "
+	$thread['replies'] = $sql->resultq("SELECT count(*) "
 					. "FROM posts p "
 					. "LEFT JOIN threads t ON p.thread=t.id "
 					. "LEFT JOIN forums f ON f.id=t.forum "

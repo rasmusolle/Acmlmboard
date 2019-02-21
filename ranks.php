@@ -20,11 +20,6 @@ $blockunknown = true;
 
 $rankposts = array();
 
-if (!isset($_GET['action'])) 
-	$_GET['action'] = 'needle';
-if (!isset($_POST['action']))
-	$_POST['action'] = 'needle';
-
 $allranks = $sql->query("SELECT * FROM `ranks` `r` LEFT JOIN `ranksets` `rs` ON `rs`.`id`=`r`.`rs`
 						ORDER BY `p`");
 $ranks = $sql->query("SELECT * FROM `ranks` `r` LEFT JOIN `ranksets` `rs` ON `rs`.`id`=`r`.`rs`
@@ -55,14 +50,10 @@ if (isset($_GET['rankset'])) {
 
 pageheader("Rankset Listing");
 ?>
-			<table class="c1" style="width:auto">
-				<tr class="h">
-					<td class="b">Rank Set</td>
-				</tr>
-				<tr class="n1">
-					<td class="bn1"><?php echo "$rankselection$inaclnk"; ?></td>
-				</tr>
-			</table>
+<table class="c1" style="width:auto">
+	<tr class="h"><td class="b">Rank Set</td></tr>
+	<tr class="n1"><td class="bn1"><?=$rankselection . $inaclnk ?></td></tr>
+</table>
 <table class="c1">
 	<tr class="h">
 		<td class="b" width="150px">Rank</td>
