@@ -231,8 +231,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('show-online',	'Show Online',	'',	1,	''),
 ('staff',	'Is Staff',	'',	2,	''),
 ('track-ip-change',	'Track IP Changes in IRC',	'Add this to a group or user to have their IP change reported to the staff channel.',	3,	''),
-('update-extended-profiles',	'Update Extended Profiles',	'',	3,	''),
-('update-own-extended-profile',	'Update Own Extended Profile',	'',	1,	''),
 ('update-own-post',	'Update Own Post',	'',	4,	''),
 ('update-own-profile',	'Update Own Profile',	'',	1,	''),
 ('update-post',	'Update Post',	'',	2,	''),
@@ -1130,7 +1128,7 @@ CREATE TABLE `x_perm` (
   `bindvalue` int(11) NOT NULL,
   `revoke` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=424 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=712 DEFAULT CHARSET=utf8;
 
 INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `revoke`) VALUES
 (3,	2,	'group',	'update-own-profile',	'',	0,	0),
@@ -1273,14 +1271,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (255,	4,	'group',	'edit-user-show-online',	'',	0,	0),
 (256,	4,	'group',	'edit-user-show-online',	'',	0,	0),
 (257,	4,	'group',	'edit-user-show-online',	'',	0,	0),
-(258,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(259,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(260,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(261,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(262,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(263,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(264,	4,	'group',	'update-extended-profiles',	'',	0,	0),
-(265,	4,	'group',	'update-extended-profiles',	'',	0,	0),
 (266,	2,	'group',	'show-online',	'',	0,	0),
 (267,	4,	'group',	'manage-board',	'',	0,	0),
 (268,	4,	'group',	'manage-board',	'',	0,	0),
@@ -1391,4 +1381,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (424,	4,	'group',	'edit-titles',	'',	0,	0),
 (711,	6,	'group',	'show-as-staff',	'',	0,	0);
 
--- 2019-02-16 10:29:03
+-- 2019-02-21 15:53:13
