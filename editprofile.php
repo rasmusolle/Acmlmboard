@@ -232,9 +232,8 @@ pageheader('Edit profile');
 if (empty($act)) {
 	$listsex = array('Male', 'Female', 'N/A');
 
-	$alltz = timezone_identifiers_list();
 	$listtimezones = array();
-	foreach ($alltz as $tz) {
+	foreach (timezone_identifiers_list() as $tz) {
 		$listtimezones[$tz] = $tz;
 	}
 
