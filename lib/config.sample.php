@@ -89,6 +89,20 @@ $config['hasirc'] = false;
 $config['channel'] = "#changeme";
 $config['network'] = "irc.changeme.invalid";
 
+// Sample post content
+$config['samplepost'] = <<<HTML
+[b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.
+[quote=Anonymous][spoiler]Hello![/spoiler][/quote]
+[code]if (true) {
+	print "The world isn't broken.";
+} else {
+	print "Something is very wrong.";
+}[/code]
+[irc]This is like code tags but without formatting.
+<Anonymous> I said something![/irc]
+[url=]Test Link. Ooh![/url]
+HTML;
+
 // List of bots (web crawlers)
 $botlist = array(
 	'ia_archiver','baidu','bingbot','duckduckbot','Exabot','Googlebot','msnbot/','Yahoo! Slurp','bot','spider'

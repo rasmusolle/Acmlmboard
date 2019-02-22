@@ -166,16 +166,7 @@ $post['id'] = -1;
 $post['nolayout'] = 0;
 $post['thread'] = -1;
 
-$post['text'] = "[b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.
-				[quote=Needle][quote=Coiny]Hey Needy![/quote]Don't call me Needy![/quote]
-				[code]if (1 == 1) {
-					echo \"The world isn't broken.\";
-				} else {
-					echo \"Something is very wrong.\";
-				}[/code]
-				Sample IRC quote: [irc]<Needle> I ship it like FedEx![/irc]
-				[url=http://bfdi.tv]Test Link. I wonder what anime this links to?[/url]
-				";
+$post['text'] = $config['samplepost'];
 
 foreach ($user as $field => $val) {
 	$post['u' . $field] = $val;
