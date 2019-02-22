@@ -143,7 +143,7 @@ if (isset($err)) {
 	</table></form>
 	<?php
 } else if ($act == 'Submit') {
-	$message = $_POST['message'];
+	$message = $sql->escape($_POST['message']);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 
 	$rev = $sql->fetchq("SELECT MAX(revision) m FROM poststext WHERE id=$pid");

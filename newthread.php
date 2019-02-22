@@ -75,7 +75,7 @@ else if ($user['lastpost'] > ctime() - $config['secafterpost'] && $act == 'Submi
 // 2007-02-19 //blackhole89 - table breach protection
 if ($act == 'Submit') {
 	$title = $_POST['title'];
-	$message = $_POST['message'];
+	$message = $sql->escape($_POST['message']);
 	if (($tdepth = tvalidate($message)) != 0)
 		$err = "    This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>
 " . "    $forumlink";

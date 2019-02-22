@@ -51,7 +51,7 @@ if (!$thread) {
 }
 if ($act == 'Submit') {
 	$lastpost = $sql->fetchq("SELECT `id`,`user`,`date` FROM `posts` WHERE `thread`=$thread[id] ORDER BY `id` DESC LIMIT 1");
-	$message = $_POST['message'];
+	$message = $sql->escape($_POST['message']);
 	/*if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - 86400) && !can_post_consecutively($thread['forum']))
 		$err = "You can't double post until it's been at least one day!<br>$threadlink";*/
 	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - $config['secafterpost']) && can_post_consecutively($thread['forum']))
@@ -158,7 +158,7 @@ if ($err) {
 	checknumeric($_POST['nolayout']);
 
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
-	$user['posts'] ++;
+	$user['posts']++;
 
 	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . ctime() . " WHERE id=$userid");
 	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout) "
