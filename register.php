@@ -147,11 +147,10 @@ if ($act == 'Register') {
 
 pageheader('Register');
 $listsex = array('Male','Female','N/A');
-$alltz = $sql->query("SELECT name FROM `timezones`"); 
 
 $listtimezones = array();
-while ($tz = $sql->fetch($alltz)) {
-	$listtimezones[$tz['name']] = $tz['name'];
+foreach (timezone_identifiers_list() as $tz) {
+	$listtimezones[$tz] = $tz;
 }
 
 $cap = encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));

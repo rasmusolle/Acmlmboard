@@ -232,11 +232,10 @@ pageheader('Edit profile');
 if (empty($act)) {
 	$listsex = array('Male', 'Female', 'N/A');
 
-	$alltz = $sql->query("SELECT name FROM `timezones`");
-
+	$alltz = timezone_identifiers_list();
 	$listtimezones = array();
-	while ($tz = $sql->fetch($alltz)) {
-		$listtimezones[$tz['name']] = $tz['name'];
+	foreach ($alltz as $tz) {
+		$listtimezones[$tz] = $tz;
 	}
 
 	$birthM = '';
