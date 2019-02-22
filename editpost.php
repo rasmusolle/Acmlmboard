@@ -54,8 +54,8 @@ if ($act == 'Submit') {
 }
 
 $top = '<a href=./>Main</a> '
-	.($thread['announce'] && $thread['forum']==0 ? "- <a href=thread.php?announce=0>Announcements</a> " : "- <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> ")
-	.($thread['announce'] && $thread['forum']==0 ? "- ".htmlval($thread[title])." " : "- <a href=thread.php?id=$thread[id]>".htmlval($thread['title']).'</a> ')
+	.($thread['announce'] ? "- <a href=thread.php?announce=0>Announcements</a> " : "- <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> ")
+	.($thread['announce'] ? "- ".htmlval($thread['title'])." " : "- <a href=thread.php?id=$thread[id]>".htmlval($thread['title']).'</a> ')
 	.'- Edit post';
 
 $res = $sql->query("SELECT u.id, p.user, p.nolayout, pt.text "

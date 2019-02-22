@@ -159,9 +159,7 @@ echo "<br>
 " . "<table class=\"c1\">";
 
 if ($fid) {
-
-	echo announcement_row(0, 3, 4);
-	echo announcement_row($fid, 3, 4);
+	echo announcement_row(3, 4);
 }
 
 echo "

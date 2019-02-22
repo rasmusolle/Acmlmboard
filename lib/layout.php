@@ -353,40 +353,29 @@ function ranklist() {
 	return $rlist;
 }
 
-function announcement_row($announcefid, $aleftspan, $arightspan) {
+function announcement_row($aleftspan, $arightspan) {
 	global $dateformat, $sql;
 
 	$announcement = array();
 
 	$ancs = $sql->fetchp("SELECT title,user,`lastdate` FROM threads 
-    WHERE forum=?  AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", array($announcefid));
+	WHERE forum=0 AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", array());
 	if ($ancs) {
 		$announcement['title'] = $ancs['title'];
 		$announcement['date'] = $ancs['lastdate'];
 		$announcement['user'] = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", array($ancs['user']));
 	}
 
-	if (isset($announcement['title']) || can_create_forum_announcements($announcefid)) {
-
+	if (isset($announcement['title']) || has_perm('create-forum-announcements')) {
 		if (isset($announcement['title'])) {
-			$anlink = "<a href=thread.php?announce=$announcefid>" . $announcement['title'] . "</a> -- Posted by " . userlink($announcement['user']) . " on " . cdate($dateformat, $announcement['date']);
+			$anlink = "<a href=thread.php?announce>" . $announcement['title'] . "</a> -- Posted by " . userlink($announcement['user']) . " on " . cdate($dateformat, $announcement['date']);
 		} else {
 			$anlink = "No announcements";
 		}
-		if ($announcefid)
-			$a = "Forum ";
-		else
-			$a = "";
-		echo "
-    " . "  <tr class=\"h\">
-    " . "    <td class=\"b\" colspan=" . ($aleftspan + $arightspan) . ">" . $a . "Announcements
-    " . "    </td>
-    " . "  </tr>
-    " . "  <tr class=\"n1\" align=\"center\">
-    " . "    <td class=\"b\" colspan=" . ((can_create_forum_announcements($announcefid)) ? "$aleftspan" : ($aleftspan + $arightspan)) . " align=left>$anlink
-    " . "    </td>
-    " . (can_create_forum_announcements($announcefid) ? "<td class=\"b\" colspan=$arightspan align=right><a href=newthread.php?id=$announcefid&announce=1>New Announcement</a></td>" : "") . "
-    " . "  </tr>";
+		?><tr class="h"><td class="b" colspan="<?=$aleftspan + $arightspan ?>">Announcements</td></tr>
+		<tr class="n1" align="center"><td class="b" colspan=<?=(has_perm('create-forum-announcements') ? "$aleftspan" : ($aleftspan + $arightspan)) ?> align=left><?=$anlink ?></td>
+		<?=(has_perm('create-forum-announcements') ? "<td class=\"b\" colspan=$arightspan align=right><a href=newthread.php?announce=1>New Announcement</a></td>" : "") ?>
+		</tr><?php
 	}
 }
 

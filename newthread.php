@@ -57,8 +57,8 @@ $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 if (!$forum) {
 	error("Error", "Forum does not exist. <br> <a href=./>Back to main</a>");
 } 
-else if ($announce && !can_create_forum_announcements($fid))
-	$err = "    You have no permissions to create announcements in this forum!<br>$forumLink";
+else if ($announce && !has_perm('create-forum-announcements'))
+	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
 
 else if (!can_create_forum_thread($forum)) {
 	
@@ -288,7 +288,7 @@ if (isset($err)) {
 	}
 
 	if ($announce) {
-		$viewlink = "thread.php?announce=" . $forum['id'];
+		$viewlink = "thread.php?announce";
 		$shortlink = "a=" . $forum['id'];
 	} else {
 		$viewlink = "thread.php?id=$tid";

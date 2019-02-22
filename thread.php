@@ -253,14 +253,7 @@ if ($viewmode == "thread") {
 			. "LEFT JOIN categories c ON c.id=f.cat "
 			. "WHERE p.user=$uid ");
 } elseif ($viewmode == "announce") {
-	$announceftitle = $sql->resultp("SELECT title FROM forums WHERE id=?", array($announcefid));
-
-	if ($announcefid)
-		pageheader('Announcements', $announcefid);
-	else {
-		$showonusers = 1;
-		pageheader('Announcements');
-	}
+	pageheader('Announcements');
 
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum, p.announce isannounce "
 			. "FROM posts p "
@@ -270,18 +263,16 @@ if ($viewmode == "thread") {
 			. "LEFT JOIN threads t ON p.thread=t.id "
 			. "LEFT JOIN forums f ON f.id=t.forum "
 			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE t.forum=$announcefid AND p.announce=1 AND t.announce=1 AND ISNULL(pt2.id) GROUP BY pt.id "
+			. "WHERE p.announce=1 AND t.announce=1 AND ISNULL(pt2.id) GROUP BY pt.id "
 			. "ORDER BY p.id DESC "
 			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
-
-
 
 	$thread['replies'] = $sql->resultq("SELECT count(*) "
 					. "FROM posts p "
 					. "LEFT JOIN threads t ON p.thread=t.id "
 					. "LEFT JOIN forums f ON f.id=t.forum "
 					. "LEFT JOIN categories c ON c.id=f.cat "
-					. "WHERE  f.id=$announcefid AND p.announce=1 AND t.announce=1  "
+					. "WHERE p.announce=1 AND t.announce=1  "
 			) - 1;
 } elseif ($viewmode == "time") {
 	$mintime = ctime() - $timeval;
@@ -348,11 +339,7 @@ if ($thread['replies'] < $ppp) {
 		elseif ($viewmode == "time")
 			$pagelist.=" <a href=thread.php?time=$timeval&page=$p>$p</a>";
 		elseif ($viewmode == "announce")
-			$pagelist.=" <a href=thread.php?announce=$announcefid&page=$p>$p</a>";
-		elseif ($viewmode == "deletedposts")
-			$pagelist.=" <a href=thread.php?deletedposts&page=$p>$p</a>";
-		elseif ($viewmode == "alldeletedposts")
-			$pagelist.=" <a href=thread.php?alldeletedposts&page=$p>$p</a>";
+			$pagelist.=" <a href=thread.php?announce&page=$p>$p</a>";
 	$pagebr = '<br>';
 	$pagelist.='</div>';
 }
@@ -401,14 +388,14 @@ if ($viewmode == "thread") {
 " . "</table>
 ";
 } elseif ($viewmode == "announce") {
-	if (can_create_forum_announcements($announcefid)) {
-		$newreply = "<a href=newthread.php?id=$announcefid&announce=1>New announcement</a>";
+	if (has_perm('create-forum-announcements')) {
+		$newreply = "<a href=newthread.php?announce=1>New announcement</a>";
 	} else {
 		$newreply = "";
 	}
 
 	$topbot = "<table width=100%><tr>
-" . "  <td class=\"nb\"><a href=./>Main</a> " . ($announcefid ? "- <a href=forum.php?id=$announcefid>$announceftitle</a> " : "") . "- Announcements</td>
+" . "  <td class=\"nb\"><a href=./>Main</a> - Announcements</td>
 " . "  <td class=\"nb\" align=\"right\">
 " . "    $newreply
 " . "  </td>

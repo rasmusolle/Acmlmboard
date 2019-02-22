@@ -53,7 +53,7 @@ $cat = -1;
 
 ?>
 <table class="c1">
-	<?php echo announcement_row(0, 2, 3); ?>
+	<?php echo announcement_row(2, 3); ?>
 	<tr class="h">
 		<td class="b h" width=17>&nbsp;</td>
 		<td class="b h">Forum</td>

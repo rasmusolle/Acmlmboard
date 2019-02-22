@@ -321,12 +321,6 @@ function can_create_forum_post($forum) {
 	return true;
 }
 
-
-function can_create_forum_announcements($forumid) {
-	if (!has_perm('create-all-forums-announcement') && !has_perm_with_bindvalue('create-forum-announcement',$forumid)) return false;
-	return true;
-}
-
 function can_create_locked_posts($forumid, $threadid) {
 	if (has_perm('override-closed-all')) return true; 
 	if (has_perm_with_bindvalue('override-closed-forum',$forumid)) return true; 
