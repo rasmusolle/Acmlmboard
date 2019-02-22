@@ -52,9 +52,9 @@ if (!$thread) {
 if ($act == 'Submit') {
 	$lastpost = $sql->fetchq("SELECT `id`,`user`,`date` FROM `posts` WHERE `thread`=$thread[id] ORDER BY `id` DESC LIMIT 1");
 	$message = $sql->escape($_POST['message']);
-	/*if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - 86400) && !can_post_consecutively($thread['forum']))
-		$err = "You can't double post until it's been at least one day!<br>$threadlink";*/
-	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - $config['secafterpost']) && can_post_consecutively($thread['forum']))
+	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - 86400) && !has_perm('consecutive-posts'))
+		$err = "You can't double post until it's been at least one day!<br>$threadlink";
+	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - $config['secafterpost']) && has_perm('consecutive-posts'))
 		$err = "You must wait $config[secafterpost] seconds before posting consecutively.<br>$threadlink";
 	if (strlen(trim($message)) == 0)
 		$err = "Your post is empty! Enter a message and try again.<br>$threadlink";
