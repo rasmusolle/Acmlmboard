@@ -6,24 +6,15 @@ require("lib/threadpost.php");
 $rdmsg = "";
 if (!empty($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<script language=\"javascript\">
-	function dismiss()
-	{
-		document.getElementById(\"postmes\").style['display'] = \"none\";
-	}
-</script>
-	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+	$rdmsg = "<table class=\"c1\" width=\"100%\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] == -1) {
-		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">User has been banned.</td></tr></table></div>";
+		$rdmsg .= "Edit Successful</a></td></tr><tr><td class=\"b n1\">User has been banned.</td></tr></table>";
 	} elseif ($_COOKIE['pstbon'] < -1) {
-		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">User has been unbanned.</td></tr></table></div>";
+		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\">User has been unbanned.</td></tr></table>";
 	} else {
-		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">Profile was edited successfully.</td></tr></table></div>";
+		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\">Profile was edited successfully.</td></tr></table>";
 	}
+	$rdmsg .= "<br>";
 }
 
 loadsmilies();
@@ -49,15 +40,15 @@ $tfound = $sql->resultq("SELECT count(*) FROM `threads` WHERE `user`='$uid'");
 $tavg = sprintf('%1.02f', $user['threads'] / $days);
 
 $thread = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `f`.`title` `ftitle`, `t`.`forum`, `f`.`private`
-                            FROM `forums` `f`
-                            LEFT JOIN `threads` `t` ON `t`.`forum`=`f`.`id`
-                            LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
-                            WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `f`.`id` IN " . forums_with_view_perm());
+						FROM `forums` `f`
+						LEFT JOIN `threads` `t` ON `t`.`forum`=`f`.`id`
+						LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
+						WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `f`.`id` IN " . forums_with_view_perm());
 
 $threadhack = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `t`.`forum`, `t`.`announce`
-                            FROM `threads` `t`
-                            LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
-                            WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `t`.`forum`='0'");
+							FROM `threads` `t`
+							LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
+							WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `t`.`forum`='0'");
 
 if (!$config['topposts'])
 	$topposts = 5000;
@@ -84,10 +75,10 @@ else
 	$tprojdate = " -- Projected date for $topthreads threads: " . date("m-d-y h:i A", $tprojdate);
 
 if ($pfound && $thread) {
-	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a> 
+	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a>
                      (<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
 } else if ($pfound && $threadhack['announce'] && $threadhack['forum'] == 0) {
-	$lastpostlink = "<br>in <a href=\"thread.php?pid=$threadhack[id]#$threadhack[id]\">" . forcewrap(htmlval($threadhack['ttitle'])) . "</a>  
+	$lastpostlink = "<br>in <a href=\"thread.php?pid=$threadhack[id]#$threadhack[id]\">" . forcewrap(htmlval($threadhack['ttitle'])) . "</a>
                      (<a href=\"thread.php?announce=0\">Announcements</a>)";
 } else if ($user['posts'] == 0) {
 	$lastpostlink = "";
@@ -137,7 +128,7 @@ if ($user['birth'] != -1) {
 	$age = "";
 }
 
-//This code was done by Gywall 
+//This code was done by Gywall
 if ($user['email'] && !$user['emailhide']) {
 	$email = EmailObscurer($user['email']);
 } else {
@@ -183,8 +174,7 @@ if (has_perm('edit-permissions')) {
 
 $secondarygroups = "";
 if (has_perm('assign-secondary-groups')) {
-	/* if(!has_perm('edit-own-permissions') && $loguser['id'] == $uid) $secondarygroups =""; //Not really needed in normal context. I commented it out in case someone may want this -Emuz
-	  else */$secondarygroups = "| <a href=\"assignsecondary.php?uid=" . $user['id'] . "\">Manage secondary groups</a>";
+	$secondarygroups = "| <a href=\"assignsecondary.php?uid=" . $user['id'] . "\">Manage secondary groups</a>";
 }
 
 $bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
@@ -222,14 +212,10 @@ if (has_perm("block-layout")) {
 		}
 
 		if ($blockmessage) {
-			print "
-       <table class=\"c1\">
-         <td class=\"b n1\" align=\"center\">
-           $blockmessage
-       </table>";
+			echo '<table class="c1"><td class="b n1" align="center">'.$blockmessage.'</table><br>';
 		}
 	}
-	
+
 	if ($isblocked)
 		$blocklayoutlink = "| <a href=\"profile.php?id=$uid&amp;block=0\">Unblock layout</a>";
 	else
@@ -269,108 +255,102 @@ if ($userdisplayname || $usercnickcolor) {
 	$showrealnick = true;
 }
 
-print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "
-           <br><br>
-";
+print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 if (!empty($_COOKIE['pstbon'])) {
 	print $rdmsg;
 }
-print "    <table width=\"100%\">
-             <td class=\"nb\" valign=\"top\">
-               <table class=\"c1\">
-                 <tr class=\"h\">
-                   <td class=\"b h\" colspan=\"2\">General information</td>
-                   " . ($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span $unclass style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") . "
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Group</b></td>
-                   <td class=\"b n2\">$group[title]
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Total posts</b></td>
-                   <td class=\"b n2\">$user[posts] ($pfound found, $pavg per day)$pprojdate
-                 <tr>
-                   <td class=\"b n1\"><b>Total threads</b></td>
-                   <td class=\"b n2\">$user[threads] ($tfound found, $tavg per day)$tprojdate
-                 <tr>
-                   <td class=\"b n1\"><b>Registered on</b></td>
-                   <td class=\"b n2\">" . cdate($dateformat, $user['regdate']) . " (" . timeunits($days * 86400) . " ago)
-                 <tr>
-                   <td class=\"b n1\"><b>Last post</b></td>
-                   <td class=\"b n2\">
-                     " . ($user['lastpost'] ? cdate($dateformat, $user['lastpost']) . " (" . timeunits(ctime() - $user['lastpost']) . " ago)" : "None") . "
-                     $lastpostlink
-                 <tr>
-                   <td class=\"b n1\"><b>Last view</b></td>
-                   <td class=\"b n2\">
-                     " . cdate($dateformat, $user['lastview']) . " (" . timeunits(ctime() - $user['lastview']) . " ago)
-                     " . ($user['url'] ? "<br>at <a href=\"" . htmlval($user['url']) . "\">" . htmlval($user['url']) . "</a>" : '') . "
-                     " . ($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') . "
-               </table>
-               <br>
-               <table class=\"c1\">
-                 <tr class=\"h\">
-                   <td class=\"b h\" colspan=\"2\">Contact information</td>
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Email address</b></td>
-                   <td class=\"b n2\">$email
-                 <tr>
-                   <td class=\"b n1\"><b>Homepage</b></td>
-                   <td class=\"b n2\">$homepage";
-
-print "               </table>
-                   <br>";
-
-print "<table class=\"c1\">
-                 <tr class=\"h\">
-                   <td class=\"b h\" colspan=\"2\">User settings</td>
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Theme</b></td>
-                   <td class=\"b n2\">
-                     " . htmlval($themename) . "
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Time offset</b></td>
-                   <td class=\"b n2\">
-                     " . sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) . " from you
-                     <br>(current time: " . $userct . ")
-                 <tr>
-                   <td class=\"b n1\"><b>Items per page</b></td>
-                   <td class=\"b n2\">$user[ppp] posts, $user[tpp] threads
-               </table>
-               <br>
-               <table class=\"c1\">
-                 <tr class=\"h\">
-                   <td class=\"b h\" colspan=\"2\">Personal information</td>
-                 <tr>
-                   <td class=\"b n1\" width=\"110\"><b>Real name</b></td>
-                   <td class=\"b n2\">" . ($user['realname'] ? htmlval($user['realname']) : "") . "
-                 <tr>
-                   <td class=\"b n1\"><b>Location</b></td>
-                   <td class=\"b n2\">" . ($user['location'] ? htmlval($user['location']) : "") . "
-                 <tr>
-                   <td class=\"b n1\"><b>Birthday</b></td>
-                   <td class=\"b n2\">$birthday $age
-                 <tr>
-                   <td class=\"b n1\"><b>Bio</b></td>
-                   <td class=\"b n2\">" . ($user['bio'] ? postfilter($user['bio']) : "") . "
-               </table>
-             </td>
-           </table>
-           <br>
-           <table class=\"c1\">
-             <tr class=\"h\">
-               <td class=\"b h\">Sample post</td>
-             <tr>
-           </table>
-           " . threadpost($post, 0) . "
-           <br>
-           <table class=\"c1\">
-             <tr class=\"h\">
-               <td class=\"b n2\"><a href=\"forum.php?user=$user[id]\">View threads</a>
-                       | <a href=\"thread.php?user=$user[id]\">Show posts</a>
-                       $blocklayoutlink
-                       " . (has_perm('create-pms') ? "| <a href=\"sendprivate.php?uid=" . $user['id'] . "\">Send private message</a>" : "") . "
-                       " . (has_perm('view-user-pms') ? "| <a href=\"private.php?id=" . $user['id'] . "\">View private messages</a>" : "") . "
-                       " . (has_perm('edit-users') ? "| <a href=\"editprofile.php?id=" . $user['id'] . "\">Edit user</a>" : "") . "
-                       " . $banuser . " " . $editpermissions . " " . $secondarygroups . "
-           </table>";
-pagefooter();
 ?>
+<table class="c1">
+	<tr class="h">
+		<td class="b h" colspan="2">General information</td>
+	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span $unclass style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Group</b></td>
+		<td class="b n2"><?=$group['title'] ?></td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Total posts</b></td>
+		<td class="b n2"><?=$user['posts'] ?> (<?=$pfound ?> found, <?=$pavg ?> per day)<?=$pprojdate ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Total threads</b></td>
+		<td class="b n2"><?=$user['threads'] ?> (<?=$tfound ?> found, <?=$tavg ?> per day)<?=$tprojdate ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Registered on</b></td>
+		<td class="b n2"><?=cdate($dateformat, $user['regdate']) ?> (<?=timeunits($days * 86400) ?> ago)</td>
+	</tr><tr>
+		<td class="b n1"><b>Last post</b></td>
+		<td class="b n2">
+			<?=($user['lastpost'] ? cdate($dateformat, $user['lastpost']) . " (" . timeunits(ctime() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
+		</td>
+	</tr><tr>
+		<td class="b n1"><b>Last view</b></td>
+		<td class="b n2">
+			<?=cdate($dateformat, $user['lastview']) ?> (<?=timeunits(ctime() - $user['lastview']) ?> ago)
+			<?=($user['url'] ? "<br>at <a href='" . htmlval($user['url']) . "'>" . htmlval($user['url']) . "</a>" : '') ?>
+			<?=($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') ?>
+		</td>
+	</tr>
+</table>
+<br>
+<table class="c1">
+	<tr class="h">
+		<td class="b h" colspan="2">Contact information</td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Email address</b></td>
+		<td class="b n2"><?=$email ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Homepage</b></td>
+		<td class="b n2"><?=$homepage ?></td>
+	</tr>
+</table>
+<br>
+<table class="c1">
+	<tr class="h">
+		<td class="b h" colspan="2">User settings</td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Theme</b></td>
+		<td class="b n2"><?=htmlval($themename) ?></td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Time offset</b></td>
+		<td class="b n2">
+			<?=sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) ?> from you
+			<br>(current time: <?=$userct ?>)
+		</td>
+	</tr><tr>
+		<td class="b n1"><b>Items per page</b></td>
+		<td class="b n2"><?=$user['ppp'] ?> posts, <?=$user['tpp'] ?> threads</td>
+	</tr>
+</table>
+<br>
+<table class="c1">
+	<tr class="h">
+		<td class="b h" colspan="2">Personal information</td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Real name</b></td>
+		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Location</b></td>
+		<td class="b n2"><?=($user['location'] ? htmlval($user['location']) : "") ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Birthday</b></td>
+		<td class="b n2"><?=$birthday . $age ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Bio</b></td>
+		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>
+	</tr>
+</table>
+<br>
+<table class="c1"><tr class="h"><td class="b h">Sample post</td><tr></table>
+<?=threadpost($post, 0)?>
+<br>
+<table class="c1">
+	<tr class="h"><td class="b n3">
+		<a href="forum.php?user=<?=$user['id'] ?>">View threads</a>
+		| <a href="thread.php?user=<?=$user['id'] ?>">Show posts</a>
+		<?=$blocklayoutlink ?>
+		<?=(has_perm('create-pms') ? '| <a href="sendprivate.php?uid=' . $user['id'] . '">Send private message</a>' : "") ?>
+		<?=(has_perm('view-user-pms') ? '| <a href="private.php?id=' . $user['id'] . '">View private messages</a>' : "") ?>
+		<?=(has_perm('edit-users') ? '| <a href="editprofile.php?id=' . $user['id'] . '">Edit user</a>' : "") ?>
+		<?=$banuser . " " . $editpermissions . " " . $secondarygroups ?>
+	</td></tr>
+</table>
+<?php pagefooter(); ?>
