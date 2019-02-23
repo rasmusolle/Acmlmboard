@@ -153,25 +153,23 @@ function isProxy() {
 }
 
 function getrank($set, $posts) {
-	global $ranks, $sql, $rankcache;
+	global $ranks, $rankset_data, $rankset_names;
 
-	// [Mega-Mario] rank cache. In the lack of a better solution, avoids doing the same thing over and over again...
-	if (isset($rankcache[$set][$posts]))
-		return $rankcache[$set][$posts];
+	if ($set == 0) return '';
 
-	//[KAWA] Climbing the Ranks Again
-	if ($posts > 5100) {
-		$posts %= 5000;
-		if ($posts < 10)
-			$posts = 10;
+	$i = 1;
+	foreach ($rankset_data[$rankset_names[$set]] as $rankset) {
+		$neededposts = $rankset['p'];
+		if (isset($rankset_data[$rankset_names[$set]][$i]['p']))
+			$nextneededposts = $rankset_data['Mario'][$i]['p'];
+		else
+			$nextneededposts = 2147483647;
+
+		if (($posts >= $neededposts) && ($posts < $nextneededposts)) {
+			return $rankset['str'];
+		}
+		$i++;
 	}
-
-	if ($set) {
-		$d = $sql->fetchq("SELECT str FROM ranks WHERE rs=$set AND p<=$posts ORDER BY p DESC LIMIT 1");
-		$rankcache[$set][$posts] = $d['str'];
-		return $d['str'];
-	}
-	$rankcache[$set][$posts] = '';
 	return "";
 }
 

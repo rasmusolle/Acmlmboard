@@ -1,111 +1,73 @@
 <?php
 require("lib/common.php");
 
-if (!isset($_GET['rankset']))
-	$getrankset = 1;
-else
-	$getrankset = $_GET['rankset'];
-if (!is_numeric($getrankset))
-	$getrankset = 1;
-$totalranks = $sql->resultq("SELECT count(*) FROM `ranksets` WHERE id > '0';");
-
-if ($getrankset < 1 || $getrankset > $totalranks)
-	$getrankset = 1; // Should be made dynamic based on rank sets.
+if (!isset($_GET['rankset']) || !is_numeric($_GET['rankset'])) $getrankset = 1;
+else $getrankset = $_GET['rankset'];
 
 $linkuser = array();
-$allusers = $sql->query("SELECT " . userfields() . ", `posts`, `lastview` FROM `users` WHERE `rankset` = " . $getrankset . " ORDER BY `id`");
+$allusers = $sql->query("SELECT " . userfields() . ", `posts`, `lastview` FROM `users` WHERE `rankset` = $getrankset ORDER BY `id`");
 
 while ($row = $sql->fetch($allusers)) { $linkuser[$row['id']] = $row; }
-$blockunknown = true;
 
-$rankposts = array();
+$rankselection = '';
+$ranksetcount = 0;
 
-$allranks = $sql->query("SELECT * FROM `ranks` `r` LEFT JOIN `ranksets` `rs` ON `rs`.`id`=`r`.`rs`
-						ORDER BY `p`");
-$ranks = $sql->query("SELECT * FROM `ranks` `r` LEFT JOIN `ranksets` `rs` ON `rs`.`id`=`r`.`rs`
-						WHERE `rs`='$getrankset' ORDER BY `p`");
-
-while ($rank = $sql->fetch($allranks)) {
-	if ($rank['rs'] == $getrankset)
-		$rankposts[] = $rank['p'];
-	if (!isset($rankselection))
-		$rankselection = "<a href=\"ranks.php?rankset=$rank[id]\">$rank[name]</a>";
-	else {
-		if ($usedranks[$rank['rs']] != true)
-			$rankselection .= " | <a href=\"ranks.php?rankset=$rank[id]\">$rank[name]</a>";
+foreach ($rankset_names as $rankset) {
+	if ($ranksetcount != 0) {
+		if ($ranksetcount == 1) 
+			$rankselection .= "<a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
+		else
+			$rankselection .= " | <a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
 	}
-	$usedranks[$rank['rs']] = true;
-}
-if (isset($_GET['rankset'])) {
-	if (!isset($_GET['showinactive']))
-		$inaclnk = " | <a href=\"ranks.php?rankset=" . $_GET['rankset'] . "&showinactive=1\">Show Inactive</a>";
-	else
-		$inaclnk = " | <a href=\"ranks.php?rankset=" . $_GET['rankset'] . "\">Hide Inactive</a>";
-} else {
-	if (!isset($_GET['showinactive']))
-		$inaclnk = " | <a href=\"ranks.php?showinactive=1\">Show Inactive</a>";
-	else
-		$inaclnk = " | <a href=\"ranks.php\">Hide Inactive</a>";
+	$ranksetcount++;
 }
 
-pageheader("Rankset Listing");
-?>
-<table class="c1" style="width:auto">
+pageheader("Ranks");
+
+if ($ranksetcount != 2) { ?>
+<table class="c1" style="width:auto;text-align:center">
 	<tr class="h"><td class="b">Rank Set</td></tr>
-	<tr class="n1"><td class="bn1"><?=$rankselection . $inaclnk ?></td></tr>
-</table>
+	<tr class="n1"><td class="bn1"><?=$rankselection ?></td></tr>
+</table><br>
+<?php } ?>
 <table class="c1">
 	<tr class="h">
 		<td class="b" width="150px">Rank</td>
-		<td class="b" width="50px">Posts</td>
-		<td class="b" width="100px">Users On Rank</td>
+		<td class="b" width="40px">Posts</td>
+		<td class="b" width="50px">Users</td>
 		<td class="b">Users On Rank</td>
 	</tr>
 <?php
 $i = 1;
 
-while ($rank = $sql->fetch($ranks)) {
+foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 	$neededposts = $rank['p'];
-	$nextneededposts = $rankposts[$i];
+	if (isset($rankset_data[$rankset_names[$getrankset]][$i]['p']))
+		$nextneededposts = $rankset_data['Mario'][$i]['p'];
+	else
+		$nextneededposts = 2147483647;
 	$usercount = 0;
 	$idlecount = 0;
 	foreach ($linkuser as $user) {
-		$climbingagain = "";
 		$postcount = $user['posts'];
-		if ($postcount > 5100) {
-			$postcount = $postcount - 5100;
-			$climbingagain = " (Climbing Again (5100))";
-		}
 		if (($postcount >= $neededposts) && ($postcount < $nextneededposts)) {
 			if (isset($_GET['showinactive']) || $user['lastview'] > (time() - (86400 * $inactivedays))) {
 				$usersonthisrank = '';
 				if ($usersonthisrank)
 					$usersonthisrank .= ", ";
-				$usersonthisrank .= userlink_by_id($user['id']) . $climbingagain;
+				$usersonthisrank .= userlink_by_id($user['id']);
 			} else
 				$idlecount++;
 			$usercount++;
 		}
 	}
-	if (isset($rank['image'])) {
-		$rankimage .= "<img src=\"img/ranksets/$rank[dirname]/$rank[image]\">";
-	}
-	?>
-	<tr>
-		<td class="b n1">
-			<?php echo (($usercount - $idlecount) || $blockunknown == false ? "$rank[str]" : "???"); ?>
-		</td>
-		<td class="b n2" align="center">
-			<?php echo (($usercount - $idlecount) || $blockunknown == false ? "$neededposts" : "???"); ?>
-		</td>
+	?><tr>
+		<td class="b n1"><?php echo (($usercount - $idlecount) ? $rank['str'] : '???'); ?></td>
+		<td class="b n2" align="center"><?php echo (($usercount - $idlecount) ? $neededposts : '???'); ?></td>
 		<td class="b n2" align="center"><?php echo $usercount; ?></td>
-		<td class="b n1" align="center">
-			<?php echo (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : ""); ?>
-		</td>
-	</tr>
-	<?php
-
-	unset($rankimage, $usersonthisrank);
+		<td class="b n1" align="center"><?php echo (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : ""); ?></td>
+	</tr><?php
+	unset($usersonthisrank);
 	$i++;
 }
 ?></table><?php

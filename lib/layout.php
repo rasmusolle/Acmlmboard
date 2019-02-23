@@ -343,10 +343,9 @@ function themelist() {
 }
 
 function ranklist() {
-	global $sql, $loguser;
-	$r = $sql->query("SELECT * FROM ranksets ORDER BY id ASC");
-	while ($d = $sql->fetch($r)) {
-		$rlist[$d['id']] = $d['name'];
+	global $rankset_names;
+	foreach ($rankset_names as $rankset) {
+		$rlist[] = $rankset;
 	}
 	return $rlist;
 }

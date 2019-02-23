@@ -107,6 +107,8 @@ $botlist = array(
 	'ia_archiver','baidu','bingbot','duckduckbot','Exabot','Googlebot','msnbot/','Yahoo! Slurp','bot','spider'
 );
 
+$rankset_names = array('None', 'Mario'); // List of ranksets, add any new ones here. Don't remove the "None" rankset!
+require('img/ranks/rankset.php'); // Default (Mario) rankset
 
 $spatulas = array(
 	"Value1",
