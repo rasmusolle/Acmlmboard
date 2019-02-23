@@ -162,7 +162,7 @@ if ($act == 'Edit profile') {
 
 			$sql->query("UPDATE users SET "
 					. ($targetgroup ? "`group_id` = $targetgroup, " : "")
-					. ($_POST['permaban'] ? "`tempbanned` = '0', $banreason" : "")
+					. (isset($_POST['permaban']) ? "`tempbanned` = '0', $banreason" : "")
 					. "`name` = '$targetname'"
 					. " WHERE `id`=$user[id]"
 			);
@@ -181,7 +181,7 @@ if ($act == 'Edit profile') {
 				. setfield('signsep') . ','
 				. setfield('longpages') . ','
 				. setfield('rankset') . ','
-				. (checkctitle($targetuserid) && !$_POST['permaban'] ? (setfield('title') . ',') : '')
+				. (checkctitle($targetuserid) && !isset($_POST['permaban']) ? (setfield('title') . ',') : '')
 				. setfield('realname') . ','
 				. setfield('location') . ','
 				. setfield('email') . ','
@@ -194,7 +194,6 @@ if ($act == 'Edit profile') {
 				. setfield('theme') . ','
 				. setfield('blocklayouts') . ','
 				. setfield('emailhide') . ','
-				. ($config['alwaysshowlvlbar'] ? (setfield('showlevelbar') . ',') : '')
 				. (has_perm("show-online") || has_perm("edit-user-show-online") ? (setfield('hidden') . ',') : '')
 				. setfield('timezone') . ','
 				. "tzoff=$tztotal,"
