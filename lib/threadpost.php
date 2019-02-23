@@ -172,10 +172,10 @@ function threadpost($post, $type, $pthread = '') {
 " . "      " . ((strlen($grouplink)) ? "<br>" : "") . "
 " . "      " . postfilter($post['utitle']);
 				/* Normal Rendering */
-				$text.= "      <br>$picture
+				$text.= "      $picture
 " . "      <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
 " . "      <br>
-" . "      <br>Since: " . cdate('m-d-y', $post['uregdate']) . "
+" . "      <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
 " . "      $location
 " . "      <br>
 " . "      <br>Last post: $lastpost
