@@ -336,11 +336,6 @@ function can_edit_forum_threads($forumid) {
 	return true;
 }
 
-function can_view_forum_post_history($forumid) {
-	if (!has_perm('view-post-history') && !has_perm_with_bindvalue('view-forum-post-history',$forumid)) return false;
-	return true;
-}
-
 function can_delete_forum_threads($forumid) {
 	if (!has_perm('delete-thread') && !has_perm_with_bindvalue('delete-forum-thread',$forumid)) return false;
 	return true;

@@ -141,7 +141,7 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 checknumeric($_GET['pin']);
 checknumeric($_GET['rev']);
 //determine string for revision pinning
-if ($_GET['pin'] && $_GET['rev'] && can_view_forum_post_history(getforumbythread($tid))) {
+if ($_GET['pin'] && $_GET['rev'] && has_perm('view-post-history')) {
 	$pinstr = "AND (pt2.id<>$_GET[pin] OR pt2.revision<>($_GET[rev]+1)) ";
 } else
 	$pinstr = "";

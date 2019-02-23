@@ -120,7 +120,7 @@ function threadpost($post, $type, $pthread = '') {
 			if (has_perm('view-post-ips'))
 				$postlinks.=($postlinks ? ' | ' : '') . "IP: $post[ip]";
 
-			if (isset($post['maxrevision']) && isset($post['thread']) && can_view_forum_post_history(getforumbythread($post['thread'])) && $post['maxrevision'] > 1) {
+			if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
 				$revisionstr.=" | Go to revision: ";
 				for ($i = 1; $i <= $post['maxrevision'];  ++$i)
 					$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
