@@ -88,7 +88,6 @@ INSERT INTO `group` (`id`, `title`, `nc0`, `nc1`, `nc2`, `inherit_group_id`, `de
 (6,	'Root Administrator',	'EE4444',	'E63282',	'AA3C3C',	0,	-1,	0,	800,	1,	1,	''),
 (9,	'Banned',	'888888',	'888888',	'888888',	2,	0,	1,	0,	1,	1,	''),
 (10,	'Staff',	'',	'',	'',	2,	0,	0,	300,	0,	0,	''),
-(11,	'Disable PM Activity',	'',	'',	'',	0,	0,	0,	1000,	1,	0,	'Disallows all Private Message activity (viewing, creation, deletion)'),
 (15,	'Bot',	'',	'',	'',	1,	0,	0,	50,	0,	0,	'');
 
 DROP TABLE IF EXISTS `guests`;
@@ -666,9 +665,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (40,	2,	'group',	'create-pms',	'',	0,	0),
 (41,	2,	'group',	'delete-own-pms',	'',	0,	0),
 (42,	2,	'group',	'view-own-pms',	'',	0,	0),
-(43,	11,	'group',	'create-pms',	'',	0,	1),
-(44,	11,	'group',	'delete-own-pms',	'',	0,	1),
-(45,	11,	'group',	'view-own-pms',	'',	0,	1),
 (46,	4,	'group',	'override-readonly-forums',	'',	0,	0),
 (47,	9,	'group',	'rename-own-thread',	'',	0,	1),
 (48,	4,	'group',	'edit-ip-bans',	'',	0,	0),
@@ -704,13 +700,6 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (85,	10,	'group',	'edit-forum-post',	'forums',	2,	0),
 (86,	10,	'group',	'edit-forum-thread',	'forums',	2,	0),
 (89,	10,	'group',	'view-private-forum',	'forums',	2,	0),
-(92,	11,	'group',	'create-private-forum-post',	'forums',	2,	1),
-(93,	11,	'group',	'create-private-forum-thread',	'forums',	2,	1),
-(94,	11,	'group',	'delete-forum-post',	'forums',	2,	1),
-(95,	11,	'group',	'delete-forum-thread',	'forums',	2,	1),
-(96,	11,	'group',	'edit-forum-post',	'forums',	2,	1),
-(97,	11,	'group',	'edit-forum-thread',	'forums',	2,	1),
-(100,	11,	'group',	'view-private-forum',	'forums',	2,	1),
 (103,	1,	'group',	'create-private-forum-post',	'forums',	1,	1),
 (104,	1,	'group',	'create-private-forum-thread',	'forums',	1,	1),
 (105,	1,	'group',	'delete-forum-post',	'forums',	1,	1),
@@ -718,15 +707,7 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (107,	1,	'group',	'edit-forum-post',	'forums',	1,	1),
 (108,	1,	'group',	'edit-forum-thread',	'forums',	1,	1),
 (111,	1,	'group',	'view-private-forum',	'forums',	1,	1),
-(114,	11,	'group',	'create-private-forum-post',	'forums',	1,	1),
-(115,	11,	'group',	'create-private-forum-thread',	'forums',	1,	1),
-(116,	11,	'group',	'delete-forum-post',	'forums',	1,	1),
-(117,	11,	'group',	'delete-forum-thread',	'forums',	1,	1),
-(118,	11,	'group',	'edit-forum-post',	'forums',	1,	1),
-(119,	11,	'group',	'edit-forum-thread',	'forums',	1,	1),
-(122,	11,	'group',	'view-private-forum',	'forums',	1,	1),
 (123,	1,	'group',	'view-private-category',	'categories',	1,	1),
-(124,	11,	'group',	'view-private-category',	'categories',	1,	1),
 (125,	4,	'group',	'edit-titles',	'',	0,	0),
 (126,	6,	'group',	'show-as-staff',	'',	0,	0);
 
