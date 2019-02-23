@@ -65,14 +65,11 @@ $activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id
 
 $groups = array();
 $gc = 0;
-$unclass = '';
-if ($config['useshadownccss'])
-	$unclass = "class='needsshadow'";
 while ($group = $sql->fetch($activegroups)) {
 	if ($sex == 'f') $sexcolor = $group['nc1'];
 	elseif ($sex == 'n') $sexcolor = $group['nc2'];
 	else $sexcolor = $group['nc0'];
-	$grouptitle = "<span $unclass style=\"color:#" . $sexcolor . ";\">" . $group['title'] . "</span>";
+	$grouptitle = "<span style=\"color:#" . $sexcolor . ";\">" . $group['title'] . "</span>";
 	$groups[$gc++] = mlink($sort, $sex, $group['id'], $ppp, $page, $orderby, $customnc, $displayn) . $grouptitle . "</a>";
 }
 

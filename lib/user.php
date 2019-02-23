@@ -246,13 +246,7 @@ function userdisp($user, $u = '') {
 	global $sql, $config, $usergroups, $userbirthdays, $usercnc;
 
 //Enable per theme nick colors & light theme nick shadows
-	$unclass = '';
-	$unspanend = '';
 	$nccss = '';
-	if ($config['useshadownccss']) {
-		$unclass = "<span class='needsshadow'>";
-		$unspanend = "</span>";
-	}
 
 	if ($config['nickcolorcss'])
 		$nccss = "class='nc" . $user[$u . 'sex'] . $user[$u . 'group_id'] . "'";
@@ -272,9 +266,9 @@ function userdisp($user, $u = '') {
 	if ($config['displayname'] && $user[$u . 'displayname'])
 		$n = $user[$u . 'displayname'];
 
-	$userdisname = "$unclass<span $nccss style='color:#$nc;'>"
+	$userdisname = "<span $nccss style='color:#$nc;'>"
 			. str_replace(" ", "&nbsp;", htmlval($n))
-			. '</span>' . $unspanend;
+			. '</span>';
 
 	return $userdisname;
 }

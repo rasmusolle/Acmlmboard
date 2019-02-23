@@ -237,13 +237,10 @@ $group = $usergroups[$user[$u . 'group_id']];
 $realnc = $group['nc' . $user[$u . 'sex']];
 
 //Toggles class define for spans where appropriate
-$unclass = '';
 $usercnickcolor = '';
 $userdisplayname = false;
 $showrealnick = false;
 
-if ($config['useshadownccss'])
-	$unclass = "class='needsshadow'";
 //If user has a a displayname, a custom username color, or both, we need to show the realname field.
 if ($config['perusercolor'] && $user['enablecolor'])
 	$usercnickcolor = $user['nick_color'];
@@ -263,7 +260,7 @@ if (!empty($_COOKIE['pstbon'])) {
 <table class="c1">
 	<tr class="h">
 		<td class="b h" colspan="2">General information</td>
-	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span $unclass style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
+	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
 	</tr><tr>
 		<td class="b n1" width="110"><b>Group</b></td>
 		<td class="b n2"><?=$group['title'] ?></td>
