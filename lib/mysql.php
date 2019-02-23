@@ -9,7 +9,7 @@ class mysql {
 	public $time = 0;
 	public $db = null;
 	public $debug_mode = false; // change this to enable SQL query dumps
-	
+
 	function connect($host, $user, $pass) {
 		$this->db = new mysqli($host, $user, $pass);
 		return $this->db;

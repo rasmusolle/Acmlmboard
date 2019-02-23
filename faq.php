@@ -248,7 +248,7 @@ $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colou
 		</td>
 	</tr>
 </table>
-<?php 
+<?php
 pagefooter();
 
 ?>

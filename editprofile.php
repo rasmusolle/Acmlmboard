@@ -166,7 +166,7 @@ if ($act == 'Edit profile') {
 					. "`name` = '$targetname'"
 					. " WHERE `id`=$user[id]"
 			);
-		} 
+		}
 	}
 
 	if (!$error) {
@@ -303,7 +303,7 @@ if (empty($act)) {
 " . fieldrow('Email address', fieldinput(40, 60, 'email')) . "
 " . fieldrow('Homepage URL', fieldinput(40, 200, 'homeurl')) . "
 " . fieldrow('Homepage name', fieldinput(40, 60, 'homename'));
-	
+
 	echo	catheader('Options')
  . fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
  . fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
@@ -319,7 +319,7 @@ if (empty($act)) {
 		echo"
 " . fieldrow('Hide from Online Views', fieldoption('hidden', $user['hidden'], array('Show me online', 'Never show me online'))) . "
 ";
-	
+
 	echo catheader('&nbsp;') . "
 " . "  <tr class=\"n1\">
 " . "    <td class=\"b\">&nbsp;</td>

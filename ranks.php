@@ -104,7 +104,7 @@ while ($rank = $sql->fetch($ranks)) {
 		</td>
 	</tr>
 	<?php
-	
+
 	unset($rankimage, $usersonthisrank);
 	$i++;
 }

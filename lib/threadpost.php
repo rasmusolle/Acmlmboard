@@ -22,7 +22,7 @@ function loadsmilies() {
 
 function threadpost($post, $type, $pthread = '') {
 	global $dateformat, $loguser, $sql, $blocklayouts, $config, $signsep;
-	
+
 	$post['head'] = '';
 	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);
 	$post['uhead'] = str_replace("<!--", "&lt;!--", $post['uhead']);
@@ -51,7 +51,7 @@ function threadpost($post, $type, $pthread = '') {
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
 	//}
-	
+
 	if (isset($post['deleted']) && $post['deleted']) {
 		$postlinks = "";
 		if (can_edit_forum_posts(getforumbythread($post['thread']))) {
@@ -82,17 +82,17 @@ function threadpost($post, $type, $pthread = '') {
 			$threadlink = '';
 			$postlinks = '';
 			$revisionstr = '';
-			
+
 			// Lazy hacks :3
 			if (!isset($post['id'])) $post['id'] = 0;
-			
+
 			if ($pthread)
 				$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
 
 			if (isset($post['id']) && $post['id'])
 				$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
 
-				
+
 //2007-03-08 blackhole89
 			if (isset($post['revision']) && $post['revision'] >= 2)
 				$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
@@ -135,7 +135,7 @@ function threadpost($post, $type, $pthread = '') {
 			$sbar = ($type == 0 && !$isBlocked) ? "sidebar" . $post['uid'] : "";
 			$mbar = ($type == 0 && !$isBlocked) ? "mainbar" . $post['uid'] : "";
 			$text = "<table class=\"c1\" id=" . $post['id'] . ">
-" . "  $postheaderrow 
+" . "  $postheaderrow
 " . "  <tr>
 " . "    <td class=\"b n1 $tbar1\" style=\"border-bottom:0; border-right:0; min-width: 180px;\" height=17>
 " . "      " . userlink($post, 'u') .

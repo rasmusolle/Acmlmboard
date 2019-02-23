@@ -35,13 +35,13 @@ if (!$act = $_POST['action']) {
 			$userto = $post['name'];
 		}
 	}
-	
+
 	if ($uid = $_GET['uid']) {
 		checknumeric($uid);
 		$userto = $sql->resultq("SELECT IF(displayname='',name,displayname) name FROM users WHERE id=$uid");
 	} elseif (!isset($userto))
 		$userto = $_POST['userto'];
-	
+
 	pageheader('Send private message');
 	echo $top;
 	?>
@@ -81,7 +81,7 @@ if (!$act = $_POST['action']) {
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
-	
+
 	$post['date'] = ctime();
 	$post['ip'] = $userip;
 	$post['num'] = 0;
@@ -90,7 +90,7 @@ if (!$act = $_POST['action']) {
 	foreach ($loguser as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = ctime();
-	
+
 	pageheader('Send private message');
 	?>
 	$top - Preview
@@ -136,7 +136,7 @@ if (!$act = $_POST['action']) {
 	<?php
 } elseif ($act == 'Submit') {
 	$userto = $sql->resultq("SELECT id FROM users WHERE name LIKE '".$_POST['userto']."' OR displayname LIKE '".$_POST['userto']."'");
-	
+
 	if ($userto && $_POST['message']) {
 		// [blackhole89] 2007-07-26
 		$recentpms = $sql->query("SELECT date FROM pmsgs WHERE date>=(UNIX_TIMESTAMP()-30) AND userfrom='$loguser[id]'");
@@ -151,7 +151,7 @@ if (!$act = $_POST['action']) {
 				."VALUES ('" . ctime() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "',$_POST[nolayout])");
 			$pid = $sql->insertid();
 			$sql->query("INSERT INTO pmsgstext (id,text) VALUES ($pid,'$_POST[message]')");
-			
+
 			redirect("private.php", - 1);
 		}
 	} elseif (!$userto) {
@@ -159,7 +159,7 @@ if (!$act = $_POST['action']) {
 	} elseif (!$_POST['message']) {
 		$msg = "You can't send a blank message!<br>Go back or <a href=sendprivate.php>try again</a>";
 	}
-	
+
 	pageheader('Send private message');
 	echo "$top - Error";
 	noticemsg("Error", $msg);

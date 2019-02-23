@@ -8,7 +8,7 @@ if ($regdis['intval'] == 1) {
 
 	if ($regdis['txtval'] != "")
 		$reason = $regdis['txtval'];
-	else 
+	else
 		$reason = "Registration is currently disabled.";
 
 	?>
@@ -30,9 +30,9 @@ $boardemailaddress = $sql->resultq("SELECT `emailaddress` FROM `misc` WHERE `fie
 if (isProxy()) {
 	pageheader('Register');
 
-	if ($regdis['txtval'] != "") 
+	if ($regdis['txtval'] != "")
 		$reason = $regdis['txtval'];
-	else 
+	else
 		$reason = "Security Check Failure";
 
 	?>
@@ -67,10 +67,10 @@ if ($act == 'Register') {
 	$cname = strtolower($cname);
 
 	$dupe = $sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", array($cname,$cname));
-	
+
 	$sex = (int)$_POST['sex'];
 	if ($sex < 0 || $sex > 2) $sex = 1;
-	
+
 	$timezone = $_POST['timezone'];
 
 	$err = '';
@@ -133,7 +133,7 @@ if ($act == 'Register') {
 
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
-			
+
 			?><span style='text-align:center;'>
 				If you aren't redirected, then please <a href="./">go here.</a>
 				<?php echo '<meta http-equiv="refresh" content="1;url=./">'; ?>

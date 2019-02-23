@@ -1,13 +1,13 @@
 <?php
 require('lib/common.php');
 pageheader('Active users');
-  
+
 if (isset($_GET['time'])) {
 	$time = $_GET['time'];
 } else {
 	$time = 86400;
 }
-  
+
 checknumeric($time);
 if ($time < 1)
 	$time = 86400;

@@ -5,7 +5,7 @@ require('lib/common.php');
 //Based off of banhammer.php from Blargboard by StapleButter.
 
 $uid = $loguser['id'];
- 
+
 if (isset($_GET['id'])) {
 	$temp = $_GET['id'];
 	if (checknumeric($temp))
@@ -15,15 +15,15 @@ if (isset($_GET['id'])) {
 if (!has_perm('ban-users')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
-   
+
 //From editperms.php
 $id = (int)$_GET['id'];
 
 $tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",array($id));
 if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
-} 
- 
+}
+
 if ($uid = $_GET['id']) {
 	checknumeric($uid);
 	$numid = $sql->fetchq("SELECT `id` FROM `users` WHERE `id`='$uid'");
@@ -34,7 +34,7 @@ $bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
 $defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
 
 global $user;
- 
+
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $uid");
 
 //Concatenation like in ABXD
@@ -61,9 +61,9 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	die(pagefooter());
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
 	if ($user['group_id'] != $bannedgroup['id']) {
-		error("Error", "This user is not a Banned User.<br> <a href=./>Back to main</a> "); 
+		error("Error", "This user is not a Banned User.<br> <a href=./>Back to main</a> ");
 	}
-	
+
 	$sql->query("UPDATE users SET group_id='$defaultgroup[id]' WHERE id='$user[id]'");
 	$sql->query("UPDATE users SET title='' WHERE id='$user[id]'");
 	$sql->query("UPDATE users SET tempbanned='0' WHERE id='$user[id]'");
@@ -92,14 +92,14 @@ if (isset($_GET['unban'])) {
 		'message' => (isset($errmsg) ? $errmsg : ''));
 }
 RenderPageBar($pagebar);
-  
+
 if (isset($_GET['unban'])) {
 	?><form action="banmanager.php?id=$uid" method="post" enctype="multipart/form-data"><table class="c1">
 		<tr class="h"><td class="b">Unban User</td></tr>
 		<tr class="n1"><td class="b n1" align="center"><input type="submit" class="submit" name="unbanuser" value="Unban User"></td></tr>
 	</table><?php
 } else {
-	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data"> 
+	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data">
 	<table class="c1">
         <?=catheader('Ban User') ?>
 		<tr>

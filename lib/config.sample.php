@@ -62,10 +62,10 @@ $config['override_theme'] = ""; // If you want to lock everyone to a specific th
 $config['override_logo'] = ""; // If you want to replace the logo on all themes.
 
 $inactivedays = 30; // The number of days before a user is counted as "inactive"
-                  
+
 // The following sectionis related to guests (mostly reflected on online.php)
 $config['oldguest'] = 300; // Number of seconds before a guest is deleted due to being "old"
-                         
+
 // This will create a delay between consecutive posts if you have the override perm. This is used exclusively to stop mobile double posting.
 $config['secafterpost'] = 5; // (in seconds, 0 == off)
                              // This will allow you to set the goal limits for 'Projected date' in profile.php

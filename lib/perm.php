@@ -92,7 +92,7 @@ function title_for_perm($permid) {
 
 function apply_group_permissions($permset,$gid) {
 	//apply group permissions from lowest node upwards
-	while ($gid > 0) { 
+	while ($gid > 0) {
 		$gpermset = perms_for_x('group',$gid);
 		foreach ($gpermset as $k => $v) {
 			//remove already added permissions
@@ -118,7 +118,7 @@ function secondary_groups_for_user($userid) {
 
 function in_permset($permset,$perm) {
 	foreach ($permset as $v) {
-		if (($v['id'] == $perm['id']) && ($v['bindvalue'] == $perm['bindvalue'])) 
+		if (($v['id'] == $perm['id']) && ($v['bindvalue'] == $perm['bindvalue']))
 			return true;
 	}
 	return false;
@@ -131,9 +131,9 @@ function can_view_cat($cat) {
 	//is it a private category?
 	if ($cat['private']) {
 		//can view the forum's category
-		if (!has_perm('view-all-private-categories') &&	!has_perm_with_bindvalue('view-private-category',$cat['id'])) return false;	
+		if (!has_perm('view-all-private-categories') &&	!has_perm_with_bindvalue('view-private-category',$cat['id'])) return false;
 	}
-	return true;	
+	return true;
 }
 
 function can_edit_post($post) {
@@ -267,7 +267,7 @@ function can_view_forum($forum) {
 
 function needs_login($head=0) {
 	global $log;
-	if (!$log) { 
+	if (!$log) {
 		if ($head) pageheader('Login required');
 		$err = "You need to be logged in to do that!<br><a href=login.php>Please login here.</a>";
 		echo '<table class="c1"><tr class="n2"><td class="b n1" align="center">$err</td></tr></table>';
@@ -280,13 +280,13 @@ function grouplink($usex, $gid) {
 	global $sql, $usergroups;
 
 	$group = $usergroups[$gid];
-	if ($group['default'] != 1) 
+	if ($group['default'] != 1)
 		return "<font color='#".$group['nc'.$usex]."'>".$group['title']."</font>";
 	else return "";
 }
 
 function can_create_forum_thread($forum) {
-	global $log; 
+	global $log;
 	if ($forum['readonly'] && !has_perm('override-readonly-forums')) return false;
 
 	//must fulfill the following criteria
@@ -304,7 +304,7 @@ function can_create_forum_thread($forum) {
 }
 
 function can_create_forum_post($forum) {
-	global $log; 
+	global $log;
 	if ($forum['readonly'] && !has_perm('override-readonly-forums')) return false;
 
 	//must fulfill the following criteria
@@ -322,8 +322,8 @@ function can_create_forum_post($forum) {
 }
 
 function can_create_locked_posts($forumid, $threadid) {
-	if (has_perm('override-closed-all')) return true; 
-	if (has_perm_with_bindvalue('override-closed-forum',$forumid)) return true; 
+	if (has_perm('override-closed-all')) return true;
+	if (has_perm_with_bindvalue('override-closed-forum',$forumid)) return true;
 	if (has_perm_with_bindvalue('override-closed-thread',$threadid)) return true;
 	return false;
 }
@@ -381,7 +381,7 @@ function has_perm_with_bindvalue($permid,$bindvalue) {
 	global $logpermset;
 	foreach ($logpermset as $k => $v) {
 		if ($v['id'] == 'no-restrictions') return true;
-		if ($permid == $v['id'] && !$v['revoke'] && $bindvalue == $v['bindvalue']) 
+		if ($permid == $v['id'] && !$v['revoke'] && $bindvalue == $v['bindvalue'])
 		return true;
 	}
 	return false;

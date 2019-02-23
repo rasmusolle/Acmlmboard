@@ -82,7 +82,7 @@ if ($sent)
 	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . ">View received";
 else
 	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=sent>View sent";
-	
+
 if ($showdel)
 	$link2 = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=".$_GET['view'].">View normal";
 else
@@ -133,7 +133,7 @@ if (ISSET($_COOKIE['pstbon'])) {
 			$status = rendernewstatus("n");
 		if (! $pmsg['title'])
 			$pmsg['title'] = '(untitled)';
-	
+
 		$tr = ($i % 2 ? 'n2' : 'n3');
 		?>
 		<tr class="<?php echo $tr; ?>" align="center">

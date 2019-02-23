@@ -4,11 +4,11 @@ require('lib/common.php');
 if (!has_perm('edit-groups')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
-  
+
 $act = (isset($_GET['act']) ? $_GET['act'] : '');
 $errmsg = '';
 $caneditperms = has_perm('edit-permissions');
-  
+
 if ($act == 'delete') {
 	$id = unpacksafenumeric($_GET['id']);
 	$group = $sql->fetchp("SELECT * FROM `group` WHERE `id`=?", array($id));
@@ -58,8 +58,8 @@ if ($act == 'delete') {
 		$default = $_POST['default'];
 		if ($default < -1 || $default > 1) $default = 0;
 
-		$banned = $_POST['banned']; 
-		if ($banned > 1) $banned = 0; 
+		$banned = $_POST['banned'];
+		if ($banned > 1) $banned = 0;
 
 		$sortorder = (int)$_POST['sortorder'];
 
@@ -69,7 +69,7 @@ if ($act == 'delete') {
 		if (empty($title))
 			$errmsg = 'You must enter a name for the group.';
 		else {
-			$values = array($title, $_POST['nc0'], $_POST['nc1'], $_POST['nc2'], $parentid, $default, $banned, $sortorder, $visible, 
+			$values = array($title, $_POST['nc0'], $_POST['nc1'], $_POST['nc2'], $parentid, $default, $banned, $sortorder, $visible,
 			$primary, $_POST['description']);
 
 			if ($act == 'new')
@@ -93,7 +93,7 @@ if ($act == 'new' || $act == 'edit') {
 		'actions' => array(array('href'=>'editgroups.php?act=new', 'title'=>'New group')),
 		'message' => $errmsg
 	);
-	
+
 	if ($act == 'new') {
 		$group = array('id'=>0, 'title'=>'', 'nc0'=>'', 'nc1'=>'', 'nc2'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0, 'description'=>'');
 		$pagebar['title'] = 'New group';
@@ -110,7 +110,7 @@ if ($act == 'new' || $act == 'edit') {
 			$grouplist[$g['id']] = $g['title'];
 
 		$defaultlist = array(0=>'-', -1=>'For first user', 1=>'For all users');
-		$bannedlist = array(0=>'-', 1=>'Yes'); 
+		$bannedlist = array(0=>'-', 1=>'Yes');
 		$visiblelist = array(1=>'Visible', 0=>'Invisible');
 		$primarylist = array(1=>'Primary', 0=>'Secondary');
 
@@ -125,7 +125,7 @@ if ($act == 'new' || $act == 'edit') {
 						'description' => array('title'=>'Description', 'type'=>'text', 'length'=>255, 'size'=>100, 'value'=>$group['description']),
 						'inherit_group_id' => array('title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']),
 						'default' => array('title'=>'Default', 'type'=>'dropdown', 'choices'=>$defaultlist, 'value'=>$group['default']),
-						'banned' => array('title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']), 
+						'banned' => array('title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']),
 						'sortorder' => array('title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']),
 						'visible' => array('title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']),
 						'primary' => array('title'=>'Type', 'type'=>'radio', 'choices'=>$primarylist, 'value'=>$group['primary']),
@@ -171,7 +171,7 @@ if ($act == 'new' || $act == 'edit') {
 		'parent' => array('caption'=>'Parent group', 'align'=>'center'),
 		'ncolors' => array('caption'=>'Username colors', 'width'=>'175px', 'align'=>'center'),
 		'misc' => array('caption'=>'Default?', 'width'=>'120px', 'align'=>'center'),
-		'bmisc' => array('caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'), 
+		'bmisc' => array('caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'),
 		'actions' => array('caption'=>'', 'align'=>'right'),
 	);
 
@@ -192,14 +192,14 @@ if ($act == 'new' || $act == 'edit') {
 		if ($group['default'])
 			$misc = $group['default'] == -1 ? 'For first user' : 'For all users';
 
-		$bmisc = '-'; 
-		if ($group['banned']) 
-			$bmisc = $group['banned'] == 1 ? 'Yes' : '-'; 
+		$bmisc = '-';
+		if ($group['banned'])
+			$bmisc = $group['banned'] == 1 ? 'Yes' : '-';
 
 		$actions = array();
 		if ($caneditperms) $actions[] = array('href'=>'editperms.php?gid='.$group['id'], 'title'=>'Edit perms');
 		$actions[] = array('href'=>'editgroups.php?act=edit&id='.$group['id'], 'title'=>'Edit');
-		if ($caneditperms) $actions[] = array('href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete', 
+		if ($caneditperms) $actions[] = array('href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete',
 			'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"? It will be permanently lost as well as all permissions attached to it.');
 
 		$data[] = array(
@@ -210,11 +210,11 @@ if ($act == 'new' || $act == 'edit') {
 			'parent' => $group['parenttitle'] ? htmlspecialchars($group['parenttitle']) : '<small>(none)</small>',
 			'ncolors' => $ncolors,
 			'misc' => $misc,
-			'bmisc' => $bmisc, 
+			'bmisc' => $bmisc,
 			'actions' => RenderActions($actions,true),
 		);
 	}
-	
+
 	RenderTable($data, $header);
 	echo '<br>';
 	$pagebar['message'] = '';

@@ -42,7 +42,7 @@ else
 if ($act != "Submit") {
 	echo '<script language="javascript" type="text/javascript" src="tools.js"></script>';
 	$toolbar = posttoolbar();
-	
+
 	if ($ispoll) {
 		?>
 		<script type="text/javascript" src="lib/js/jscolor.js"></script>
@@ -56,14 +56,14 @@ $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
 if (!$forum) {
 	error("Error", "Forum does not exist. <br> <a href=./>Back to main</a>");
-} 
+}
 else if ($announce && !has_perm('create-forum-announcements'))
 	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
 
 else if (!can_create_forum_thread($forum)) {
-	
+
 	$err = "    You have no permissions to create threads in this forum!<br>$forumlink";
-} 
+}
 else if ($user['lastpost'] > ctime() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
 	$err = "    Don't post threads so fast, wait a little longer.<br>
 " . "    $forumlink";
@@ -134,7 +134,7 @@ if (isset($err)) {
 					<td class="b n1" align="center">Options:</td>
 					<td class="b n2">
 						<input type="checkbox" name="multivote" value="1" id="mv">
-						<label for="mv">Allow multiple voting</label> | 
+						<label for="mv">Allow multiple voting</label> |
 						<input type="checkbox" name="changeable" checked value="1" id="ch">
 						<label for="ch">Allow changing one's vote</label>
 					</td>
@@ -166,7 +166,7 @@ if (isset($err)) {
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
-	
+
 	$post['date'] = ctime();
 	$post['ip'] = $userip;
 	$post['num'] = ++ $user['posts'];
@@ -175,7 +175,7 @@ if (isset($err)) {
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = ctime();
-	
+
 	if ($ispoll) {
 		$_POST['question'] = stripslashes($_POST['question']);
 		$numopts = $_POST['numopts'];
@@ -191,19 +191,19 @@ if (isset($err)) {
 " . "  <td class=\"b n1\" align=\"center\">Poll choices:</td>
 " . "  <td class=\"b n2\"><div id=\"polloptions\">
 ";
-		
+
 		if (isset($_POST['opt'])) {
 			foreach ($_POST['opt'] as $id => $text) {
 				$text = htmlval(stripslashes($text));
-				
+
 				$color = stripslashes($_POST['col'][$id]);
 				list ($r, $g, $b) = sscanf(strtolower($color), '%02x%02x%02x');
-				
+
 				$pollin .= "    " . sprintf($optfield, $text, $r, $g, $b) . "\n";
 				$pollprev .= "<tr class=\"n2\"><td class=\"b n2\">{$text} $h<td class=\"b n3\"><img src=\"gfx/bargraph.php?z=1&n=1&r={$r}&g={$g}&b={$b}\">";
 			}
 		}
-		
+
 		$pollin .= "  </div>
 " . "  <button type=\"button\" class=\"submit\" id=addopt onclick=\"addOption();return false;\">Add choice</button></td>
 " . "<tr>
@@ -212,7 +212,7 @@ if (isset($err)) {
 ";
 		$pollprev .= "</table>";
 	}
-	
+
 	pageheader("New $type", $forum['id']);
 	echo "$top - Preview " . (isset($pollprev) ? $pollprev : '');
 	?><br>
@@ -256,14 +256,14 @@ if (isset($err)) {
 
 	$modclose = "0";
 	$modstick = "0";
-	
+
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
-	
+
 	if ($announce) {
 		$modclose = $announce;
 	}
-	
+
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
 	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
@@ -274,15 +274,15 @@ if (isset($err)) {
 		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
 	}
 	$sql->query("UPDATE threads SET lastid=$pid WHERE id=$tid");
-	
+
 	if ($ispoll) {
 		$sql->query("INSERT INTO polls (id,question,multivote,changeable) VALUES ($tid,'{$_POST['question']}','{$_POST['multivote']}','{$_POST['changeable']}')");
-		
+
 		foreach ($_POST['opt'] as $id => $_text) {
 			$color = stripslashes($_POST['col'][$id]);
 			list ($r, $g, $b) = sscanf(strtolower($color), '%02x%02x%02x');
 			$text = $sql->escape($_text);
-			
+
 			$sql->query("INSERT INTO polloptions (`poll`,`option`,r,g,b) VALUES ($tid,'{$text}'," . (int) $r . "," . (int) $g . "," . (int) $b . ")");
 		}
 	}
@@ -294,7 +294,7 @@ if (isset($err)) {
 		$viewlink = "thread.php?id=$tid";
 		$shortlink = "t=$tid";
 	}
-	
+
 	redirect($viewlink, $c);
 }
 

@@ -189,7 +189,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 			while ($post = $sql->fetch($posts)) {
 				$pthread['id'] = $post['tid'];
 				$pthread['title'] = $post['ttitle'];
-				$post['text'] = preg_replace($boldify,"<b>\\0</b>",$post['text']); 
+				$post['text'] = preg_replace($boldify,"<b>\\0</b>",$post['text']);
 				echo "<br>".threadpost($post,0,$pthread);
 			}
 		} else {
@@ -278,7 +278,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 				}
 				$status = '';
 				if ($thread['closed']) $status .= 'off';
-				
+
 				if ($log) if (isset($thread['isread']) && !$thread['isread']) $status .= 'new';
 				else if ($thread['lastdate'] > (ctime() - 3600)) $status .= 'new';
 

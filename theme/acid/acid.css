@@ -12,9 +12,9 @@ a:link, a:visited, a:active {
 a:hover {
 	color: #B3FF00;
 	text-decoration: none;
-} 
+}
 
-body { 
+body {
 	font-family: Verdana, Tahoma, Arial, sans-serif;
 	font-size: 10px;
 	color: #B4BFAA;
@@ -89,7 +89,7 @@ td.nb {
 	padding: 1px;
 }
 
-td.h { 
+td.h {
 	border-left: 0;
 	border-right: 0;
 	padding: 1px;

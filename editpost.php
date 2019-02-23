@@ -7,14 +7,14 @@ $_GET['act'] = (isset($_GET['act']) ? $_GET['act'] : 'needle');
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : '');
 
 if ($act = $_POST['action']) {
-	$pid = $_POST['pid'];  
-	
+	$pid = $_POST['pid'];
+
 	if ($_POST['passenc'] !== md5($pwdsalt2 . $loguser['pass'] . $pwdsalt))
 		$err = 'Invalid token.';
 } else {
 	$pid = $_GET['pid'];
 }
-  
+
 $userid = $loguser['id'];
 $user = $loguser;
 $pass = md5($pwdsalt2.$loguser['pass'].$pwdsalt);

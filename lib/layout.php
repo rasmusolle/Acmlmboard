@@ -6,7 +6,7 @@ function urlcreate($url, $query) {
 
 /** Our first step to sanity, brought to us by Kawa **
  *
- * function RenderTable(data, headers) 
+ * function RenderTable(data, headers)
  *
  * Renders (outputs) a table in HTML using `headers` for column definition
  * and `data` to fill cells with data.
@@ -19,10 +19,10 @@ function urlcreate($url, $query) {
  *    key                -> column key
  *    value['caption']   -> display text for the column header
  *    value['width']     -> (optional) specify a fixed width size (CSS width:)
- *    value['color']     -> (optional) color for the column data cells 
+ *    value['color']     -> (optional) color for the column data cells
  *                          which corresponds to CSS '.n' classes)
  *    value['align']     -> (optional) CSS text-align: for the data cells
- *    value['hidden']    -> (optional) 
+ *    value['hidden']    -> (optional)
  *
  * `data`
  * An associative array of cell data values:
@@ -106,11 +106,11 @@ function rendernewstatus($type, $newcount = '0') {
 			break;
 
 	}
-	
+
 	if (!isset($text)) {
 		$text = "";
 	}
-	
+
 	$status = "<div style='line-height:75%;padding: 0;'><img src=\"img/status/$statusimg\" alt=\"$text\"><br/>";
 	if ($newcount > '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
@@ -244,8 +244,7 @@ function RenderActions($actions, $ret = false) {
 		}
 		if ($i++)
 			$out.= ' | ';
-		$out .= sprintf('<a 
-href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
+		$out .= sprintf('<a href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
 	}
 	if ($ret)
 		return $out;
@@ -255,8 +254,7 @@ href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
 
 function RenderBreadcrumb($breadcrumb) {
 	foreach ($breadcrumb as $action) {
-		echo sprintf('<a href=%s>%s</a> - 
-', HTMLAttribEncode($action['href']), $action['title']);
+		echo sprintf('<a href=%s>%s</a> - ', HTMLAttribEncode($action['href']), $action['title']);
 	}
 }
 
@@ -358,7 +356,7 @@ function announcement_row($aleftspan, $arightspan) {
 
 	$announcement = array();
 
-	$ancs = $sql->fetchp("SELECT title,user,`lastdate` FROM threads 
+	$ancs = $sql->fetchp("SELECT title,user,`lastdate` FROM threads
 	WHERE forum=0 AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", array());
 	if ($ancs) {
 		$announcement['title'] = $ancs['title'];

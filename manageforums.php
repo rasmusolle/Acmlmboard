@@ -34,7 +34,7 @@ if (isset($_POST['savecat'])) {
 	// delete category
 	$cid = (int)$_GET['cid'];
 	$sql->prepare("DELETE FROM categories WHERE id=?",array($cid));
-	
+
 	deleteperms('categories', $cid);
 	die(header('Location: manageforums.php'));
 } else if (isset($_POST['saveforum'])) {
@@ -47,7 +47,7 @@ if (isset($_POST['savecat'])) {
 	$private = isset($_POST['private']) ? 1 : 0;
 	$trash = isset($_POST['trash']) ? 1 : 0;
 	$readonly = isset($_POST['readonly']) ? 1 : 0;
-	
+
 	if (!trim($title))
 		$error = 'Please enter a title for the forum.';
 	else {
@@ -55,13 +55,13 @@ if (isset($_POST['savecat'])) {
 			$fid = $sql->resultq("SELECT MAX(id) FROM forums");
 			if (!$fid) $fid = 0;
 			$fid++;
-			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?)", 
+			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?)",
 				array($fid, $cat, $title, $descr, $ord, $private, $trash, $readonly));
 		} else {
 			$fid = (int)$fid;
 			if (!$sql->resultp("SELECT COUNT(*) FROM forums WHERE id=?",array($fid)))
 				die(header('Location: manageforums.php'));
-			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=? WHERE id=?", 
+			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=? WHERE id=?",
 				array($cat, $title, $descr, $ord, $private, $trash, $readonly, $fid));
 		}
 		saveperms('forums', $fid);
@@ -133,7 +133,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	while ($cat = $sql->fetch($qcats))
 		$cats[$cat['id']] = $cat['title'];
 	$catlist = fieldselect('cat', $forum['cat'], $cats);
-	
+
 	?><form action="" method="POST">
 		<table class="c1">
 			<tr class="h"><td class="b h" colspan="2"><?php echo ($fid == 'new' ? 'Create' : 'Edit'); ?> forum</td></tr>
@@ -171,23 +171,23 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	</form><?php
 } else {
 	// main page -- category/forum listing
-	
+
 	$qcats = $sql->query("SELECT id,title FROM categories ORDER BY ord, id");
 	$cats = array();
 	while ($cat = $sql->fetch($qcats))
 		$cats[$cat['id']] = $cat;
-	
+
 	$qforums = $sql->query("SELECT f.id,f.title,f.cat FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord, c.id, f.ord, f.id");
 	$forums = array();
 	while ($forum = $sql->fetch($qforums))
 		$forums[$forum['id']] = $forum;
-	
+
 	$catlist = ''; $c = 1;
 	foreach ($cats as $cat) {
 		$catlist .= "<tr><td class=\"b n$c\"><a href=\"?cid={$cat['id']}\">{$cat['title']}</a></td></tr>";
 		$c = ($c == 1) ? 2 : 1;
 	}
-	
+
 	$forumlist = ''; $c = 1; $lc = -1;
 	foreach ($forums as $forum) {
 		if ($forum['cat'] != $lc) {
@@ -197,7 +197,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		$forumlist .= "<tr><td class=\"b n$c\"><a href=\"?fid={$forum['id']}\">{$forum['title']}</a></td></tr>";
 		$c = ($c==1) ? 2:1;
 	}
-	
+
 	?><table style="width:100%;">
 		<tr>
 			<td class="nb" style="width:50%; vertical-align:top;">
@@ -228,38 +228,38 @@ function rec_grouplist($parent, $level, $tgroups, $groups) {
 	foreach ($tgroups as $g) {
 		if ($g['inherit_group_id'] != $parent)
 			continue;
-		
+
 		$g['indent'] = $level;
 		$groups[] = $g;
-		
+
 		$groups = rec_grouplist($g['id'], $level+1, $tgroups, $groups);
 	}
 	return $groups;
 }
 function grouplist() {
 	global $sql, $usergroups;
-	
+
 	$groups = array();
 	$groups = rec_grouplist(0, 0, $usergroups, $groups);
-	
+
 	return $groups;
 }
 function permtable($bind, $id) {
 	global $sql;
-	
+
 	$qperms = $sql->prepare("SELECT id,title FROM perm WHERE permbind_id=?",array($bind));
-	$perms = array(); 
+	$perms = array();
 	while ($perm = $sql->fetch($qperms))
 		$perms[$perm['id']] = $perm['title'];
-	
+
 	$groups = grouplist();
-	
+
 	$qpermdata = $sql->prepare("SELECT x.x_id,x.perm_id,x.revoke FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
 		array('group',$bind,$id));
 	$permdata = array();
 	while ($perm = $sql->fetch($qpermdata))
 		$permdata[$perm['x_id']][$perm['perm_id']] = !$perm['revoke'];
-		
+
 	?><table class="c1">
 		<tr class="h"><td class="b h">Group</td><td class="b h" colspan="2">Permissions</td></tr>
 	<?php
@@ -267,40 +267,40 @@ function permtable($bind, $id) {
 	foreach ($groups as $group) {
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);
-		
+
 		$pf = $group['primary'] ? '<strong' : '<span';
 		if ($group['nc2']) $pf .= ' style="color: #'.htmlspecialchars($group['nc2']).';"';
 		$pf .= '>';
 		$sf = $group['primary'] ? '</strong>' : '</span>';
 		$gtitle = "{$pf}{$gtitle}{$sf}";
-		
+
 		$doinherit = false;
 		$inherit = '';
 		if ($group['inherit_group_id']) {
 			$doinherit = !isset($permdata[$gid]) || empty($permdata[$gid]);
-			
+
 			$check = $doinherit ? ' checked="checked"' : '';
 			$inherit = "<label><input type=\"checkbox\" name=\"inherit[{$gid}]\" value=1 onclick=\"toggleAll('perm_{$gid}',!this.checked);\"{$check}> Inherit from parent</label>&nbsp;";
 		}
-		
+
 		$permlist = '';
 		foreach ($perms as $pid => $ptitle) {
-			
+
 			if ($doinherit) $check = ' disabled="disabled"';
 			else $check = $permdata[$gid][$pid] ? ' checked="checked"':'';
-			
+
 			$permlist .= "<label><input type=\"checkbox\" name=\"perm[{$gid}][{$pid}]\" value=1 class=\"perm_{$gid}\"{$check}> {$ptitle}</label> ";
 		}
-		
+
 		?><tr class="n<?php echo $c; ?>">
 			<td class="b" style="width:200px;"><span style="white-space:nowrap;"><?php echo str_repeat('&nbsp; &nbsp; ', $group['indent']) . $gtitle; ?></span></td>
 			<td class="b" style="width:100px;"><?php echo $inherit; ?></td>
 			<td class="b"><?php echo $permlist; ?></td>
 		</tr><?php
-		
+
 		$c = ($c == 1) ? 2 : 1;
 	}
-	
+
 	?><tr class="n<?php echo $c; ?>">
 		<td class="b">&nbsp;</td>
 		<td class="b" colspan="2">
@@ -312,27 +312,27 @@ function permtable($bind, $id) {
 
 function deleteperms($bind, $id) {
 	global $sql;
-	
+
 	$sql->prepare("DELETE x FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
 		array('group', $bind, $id));
 }
 
 function saveperms($bind, $id) {
 	global $sql, $usergroups;
-	
+
 	$qperms = $sql->prepare("SELECT id FROM perm WHERE permbind_id=?",array($bind));
-	$perms = array(); 
+	$perms = array();
 	while ($perm = $sql->fetch($qperms))
 		$perms[] = $perm['id'];
-	
+
 	// delete the old perms
 	deleteperms($bind, $id);
-	
+
 	// apply the new perms
 	foreach ($usergroups as $gid=>$group) {
 		if ($_POST['inherit'][$gid])
 			continue;
-			
+
 		$myperms = $_POST['perm'][$gid];
 		foreach ($perms as $perm)
 			$sql->prepare("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`)

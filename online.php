@@ -95,7 +95,7 @@ for ($i = 1; $guest = $sql->fetch($guests); $i++) {
 		<td class="b" align="left">
 			<a href="<?php echo $guest['url']; ?>"><?php echo str_replace(array("%20","_"), " ", $guest['url']); ?></a>
 			<?php echo ($guest['ipbanned'] ? " (IP banned)" : ""); ?>
-		</td> 
+		</td>
 		<?php echo (has_perm("view-post-ips") ? '<td class="b">' . flagip($guest['ip']) . '</td>' : ''); ?>
 	</tr>
 	<?php

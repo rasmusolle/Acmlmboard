@@ -124,8 +124,8 @@ if ($err) {
 ";
 	} else {
 		pageheader('New reply', $thread['forum']);
-		echo "$top 
-" . "<br><br> 
+		echo "$top
+" . "<br><br>
 ";
 	}
 	?>

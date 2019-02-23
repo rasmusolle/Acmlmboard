@@ -589,7 +589,7 @@ while ($post = $sql->fetch($posts)) {
 	}
 	if (can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
-	
+
 	if (isset($_REQUEST['pid'])) {
 		if ($post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
 			echo $rdmsg;
@@ -625,10 +625,10 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
 " . "    <td class=\"b n2\"><table><tr class='toolbar'>$toolbar</table>
 ";
-	
+
 	// TODO: WHERE IS QUOTE TEXT??
 	if(!isset($quotetext)) $quotetext = '';
-	
+
 	echo "  <tr>
 " . "    <td class=\"b n1\" align=\"center\" width=120>Reply:</td>
 " . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=8 cols=80>$quotetext</textarea></td>

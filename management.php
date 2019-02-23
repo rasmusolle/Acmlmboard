@@ -5,13 +5,13 @@ pageheader('Management');
 
 $mlinks = array();
 //$mlinks[] = array('url' => "updatethemes.php", 'title' => 'Update Themes');
-if (has_perm("edit-forums")) 
+if (has_perm("edit-forums"))
 	$mlinks[] = array('url' => "manageforums.php", 'title' => 'Manage forums');
-if (has_perm("edit-ip-bans")) 
+if (has_perm("edit-ip-bans"))
 	$mlinks[] = array('url' => "ipbans.php", 'title' => 'Manage IP bans');
 if (has_perm('edit-smilies'))
 	$mlinks[] = array('url' => "editsmilies.php", 'title' => 'Manage smilies');
-if (has_perm("edit-groups")) 
+if (has_perm("edit-groups"))
 	$mlinks[] = array('url' => "editgroups.php", 'title' => 'Manage groups');
 if (has_perm("edit-attentions-box"))
 	$mlinks[] = array('url' => "editattn.php", 'title' => 'Edit attention box');

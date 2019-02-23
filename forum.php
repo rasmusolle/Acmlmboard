@@ -36,7 +36,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		$editforumlink = "<a href=\"manageforums.php?fid=$fid\" class=\"editforum\">Edit Forum</a> | ";
 	}
 
-	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, 
+	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*,
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
 			. "FROM threads t "
 			. "LEFT JOIN users u1 ON u1.id=t.user "
@@ -57,7 +57,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
-	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle, 
+	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle,
 
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread" : '') . ' '
 			. "FROM threads t "
@@ -89,7 +89,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	pageheader('Latest posts');
 
-	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, 
+	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid,
 
     (NOT ISNULL(p.id)) ispoll, f.title ftitle" . ($log ? ', (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread' : '') . ' '
 			. "FROM threads t "

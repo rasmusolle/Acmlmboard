@@ -17,7 +17,7 @@ function ipfmt($a) {
 }
 
 if (!has_perm('edit-ip-bans')) {
-	noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>"); 
+	noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 } else {
 	if ($action == "del") {
 		$data = explode(",",decryptpwd($what));
@@ -64,7 +64,7 @@ if (!has_perm('edit-ip-bans')) {
 			<td class="b">Banner</td>
 			<td class="b" width="100%">Comment</td>
 			<td class="b" width=20></td>
-	<?php 
+	<?php
 	while ($i = $sql->fetch($ipbans)) {
 		?>
 		<tr>

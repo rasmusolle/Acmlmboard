@@ -173,7 +173,7 @@ function amptags($post, $s) {
 	$s = str_replace("&postrank&", $sql->result($sql->query("SELECT count(*) FROM users WHERE posts>" . $post['uposts']), 0, 0), $s); //Added by request of Acmlm
 	// e modifier is no longer supported... using preg_replace_callback to stop the complaining.
 	$replace_callback = function($match) use ($post) {
-		return max($match[1] - $post['num'], 0); 
+		return max($match[1] - $post['num'], 0);
 	};
 	$s = preg_replace_callback('@&(\d+)&@si', $replace_callback, $s);
 	return $s;
