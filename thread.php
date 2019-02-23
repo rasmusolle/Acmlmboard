@@ -348,8 +348,8 @@ if ($viewmode == "thread") {
 
 	$faccess = $sql->fetch($sql->query("SELECT id,private,readonly FROM forums WHERE id=" . (int) $thread['forum']));
 	if (can_create_forum_post($faccess)) {
-		if (can_create_locked_posts($thread['forum'], $thread['id']) && $thread['closed'])
-			$newreply = "<b><i>Thread closed</i></b> | <a href=\"newreply.php?id=$tid\" class=\"newreply\">New reply</a>"; //needs function to test for perm based on $faccess
+		if (has_perm('override-closed') && $thread['closed'])
+			$newreply = "<b><i>Thread closed</i></b> | <a href=\"newreply.php?id=$tid\" class=\"newreply\">New reply</a>";
 		elseif ($thread['closed'])
 			$newreply = "Thread closed";
 		else

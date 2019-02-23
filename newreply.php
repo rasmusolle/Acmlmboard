@@ -46,7 +46,7 @@ if (!$thread) {
 	error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
 } else if (!can_create_forum_post(array('id' => $thread['forum'], 'private' => $thread['fprivate'], 'readonly' => $thread['readonly']))) {
 	$err = "You have no permissions to create posts in this forum!<br>$forumlink";
-} elseif ($thread['closed'] && !can_create_locked_posts($thread['forum'], $thread['id'])) {
+} elseif ($thread['closed'] && !has_perm('override-closed')) {
 	$err = "You can't post in closed threads!<br>$threadlink";
 }
 if ($act == 'Submit') {
