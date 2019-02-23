@@ -40,7 +40,7 @@ if (!$log) {
 	$loguser['tpp'] = 20;
 }
 
-require("lib/timezone.php");
+date_default_timezone_set($loguser['timezone']);
 dobirthdays(); //Called here to account for timezone bugs.
 
 if ($loguser['ppp'] < 1)
