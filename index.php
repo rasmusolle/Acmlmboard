@@ -47,8 +47,7 @@ $forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.priva
 		. "LEFT JOIN users u ON u.id=f.lastuser "
 		. "LEFT JOIN categories c ON c.id=f.cat "
 		. ($log ? "LEFT JOIN forumsread r ON r.fid=f.id AND r.uid=$loguser[id] " : '')
-		. " WHERE announce=0 "
-		. "ORDER BY c.ord,c.id,f.ord,f.id");
+		. " ORDER BY c.ord,c.id,f.ord,f.id");
 $cat = -1;
 
 ?>

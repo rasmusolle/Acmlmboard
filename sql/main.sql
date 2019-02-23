@@ -43,9 +43,6 @@ CREATE TABLE `forums` (
   `lastdate` int(11) NOT NULL DEFAULT '0',
   `lastuser` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastid` int(11) NOT NULL,
-  `minpower` tinyint(4) NOT NULL DEFAULT '-1',
-  `minpowerthread` tinyint(4) NOT NULL DEFAULT '0',
-  `minpowerreply` tinyint(4) NOT NULL DEFAULT '0',
   `private` int(1) NOT NULL,
   `trash` int(1) NOT NULL,
   `readonly` int(1) NOT NULL DEFAULT '0',
@@ -53,9 +50,9 @@ CREATE TABLE `forums` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `minpower`, `minpowerthread`, `minpowerreply`, `private`, `trash`, `readonly`, `announce`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0),
-(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	1,	1,	1,	0,	0);
+INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `private`, `trash`, `readonly`, `announce`) VALUES
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	1,	0,	0),
+(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	0,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
 CREATE TABLE `forumsread` (
@@ -570,12 +567,9 @@ CREATE TABLE `users` (
   `ipfwd` varchar(64) NOT NULL,
   `url` varchar(255) NOT NULL,
   `ipbanned` tinyint(4) NOT NULL DEFAULT '0',
-  `pmblocked` tinyint(1) NOT NULL DEFAULT '0',
   `tempbanned` int(12) NOT NULL,
   `canreport` tinyint(4) NOT NULL DEFAULT '1',
-  `renamethread` tinyint(4) NOT NULL DEFAULT '1',
   `sex` tinyint(4) NOT NULL DEFAULT '2',
-  `power` tinyint(4) NOT NULL DEFAULT '0',
   `tzoff` float NOT NULL DEFAULT '0',
   `dateformat` varchar(15) NOT NULL DEFAULT 'Y-m-d',
   `timeformat` varchar(15) NOT NULL DEFAULT 'H:i',
