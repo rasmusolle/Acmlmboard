@@ -79,11 +79,8 @@ if ($bot) {
 	load_bot_permset();
 }
 if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
-	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (ctime() - $config['oldguest']));
+	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (ctime() - 300));
 	if ($log) {
-		//AB-SPECIFIC
-		//if (has_perm('track-ip-change') && ($userip != ($oldip = $loguser['ip']))) { }
-
 		$sql->query("UPDATE `users` SET `lastview`=" . ctime() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . (isssl() ? "!" : "") . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
 	} else {
 		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . ctime() . ",'$userip','" . (isssl() ? "!" : "") . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
@@ -109,10 +106,10 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$views = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='views'");
 	$botviews = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='botviews'");
 
-	$count = $sql->fetchq("	SELECT
-								(SELECT COUNT(*) FROM users) u,
-								(SELECT COUNT(*) FROM threads) t,
-								(SELECT COUNT(*) FROM posts) p");
+	$count = $sql->fetchq("SELECT
+							(SELECT COUNT(*) FROM users) u,
+							(SELECT COUNT(*) FROM threads) t,
+							(SELECT COUNT(*) FROM posts) p");
 	$date = date("m-d-y", ctime());
 }
 
@@ -139,22 +136,13 @@ if (is_file("theme/" . $theme . "/" . $theme . ".css")) {
 	$themefile = $theme . ".css";
 }
 
-
-if ($config['override_logo'])
-	$logofile = $config['override_logo'];
-elseif (is_file("theme/" . $theme . "/logo.png"))
-	$logofile = "theme/" . $theme . "/logo.png";
-else
-	$logofile = $defaultlogo;
+$logofile = $defaultlogo;
 
 require("lib/ipbans.php");
 
-//2/21/2007 xkeeper - todo: add $forumid attribute (? to add "forum user is in" and markread links
-// also added number_format to views
-// also changed the title to be "pagetitle - boardname" and not vice-versa
 function pageheader($pagetitle = "", $fid = 0) {
-	global  $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl, $theme, $themefile,
-	$logofile, $url, $config, $favicon, $showonusers, $count, $inactivedays, $pwdsalt, $pwdsalt2, $bot;
+	global $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl,
+	$theme, $themefile, $logofile, $url, $config, $favicon, $showonusers, $count, $pwdsalt, $pwdsalt2, $bot;
 
 	if (ini_get("register_globals")) {
 		echo "<span style=\"color: red;\"> Warning: register_globals is enabled.</style>";
@@ -175,27 +163,21 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	$t = $sql->resultq("SELECT `txtval` FROM `misc` WHERE `field`='attention'");
 
-	$extratitle = <<<HTML
+	if ($t != "")
+		$extratitle = <<<HTML
 <table class="c1" width="100%" align="center">
-	<tr class="h"><td class="b h">{$config['atnname']}</td></tr>
-	<tr class="n2" align="center">
-		<td class="b sfont">$t</td>
-	</tr>
+	<tr class="h"><td class="b h">News</td></tr>
+	<tr class="n2" align="center"><td class="b sfont">$t</td></tr>
 </table>
 HTML;
 
-	if ($t == "")
-		$extratitle = '';
-
 	if ($extratitle) {
-		$boardlogo = "
-             <table width=100%>
-               <tr align=\"center\">
-                 <td class=\"b\" style=\"border:none!important\" valign=\"center\"><a href=\"$homepageurl\"><img src=\"$logofile\"></a></td>
-                 <td class=\"b\" style=\"border:none!important\" valign=\"center\" width=\"300\">
-                   $extratitle
-                 </td>
-             </table>";
+		$boardlogo = <<<HTML
+<table width=100%><tr align="center">
+	<td class="nb" valign="center">$boardlogo</td>
+	<td class="nb" valign="center" width="300">$extratitle</td>
+</tr></table>
+HTML;
 	}
 
 	if (isssl()) {
@@ -210,78 +192,48 @@ HTML;
 		$logbar = $loguser;
 	}
 
-	echo "<!DOCTYPE html>
-      <html>
-      <head>
-      <title>$pagetitle$boardtitle</title>
-      $config[meta]
-      <link rel=\"icon\" type=\"image/png\" href=\"$favicon\">
-      <link rel=\"stylesheet\" href=\"theme/$theme/$themefile\">
-      <link rel=\"stylesheet\" href=\"theme/common.css\">
-      <link href=\"lib/prettify/sunburst.css\" type=\"text/css\" rel=\"stylesheet\" />
-	  <link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
-      <script type=\"text/javascript\" src=\"lib/prettify/prettify.js\"></script>
-      </head>
-      <body style=\"font-size:$loguser[fontsize]%\" onload=\"prettyPrint()\">
-      <table class=\"c1\">
-        <tr class=\"nt n2\" align=\"center\">
-        <td class=\"b n1\" align=\"center\" colspan=\"3\">$boardlogo</td>
-        </tr>
-        <tr class=\"n2\" align=\"center\">
-          <td class=\"b\">
-          <div style=\"width: 150px\">Views:
-          <span title=\"And " . number_format($botviews) . " views by search engine spiders.\">" . number_format($views) . "</span></div></td>
-          <td class=\"b\" width=\"100%\"><span style=\"float:right\">
-		    <a href='rss.php'><img src='img/feed.png' style='margin-right:5px' title='RSS Feed'></a>$ssllnk</span>
-            <a href=\"./\">Main</a>
-          | <a href=\"faq.php\">FAQ</a>
-          | <a href=\"memberlist.php\">Memberlist</a>
-          | <a href=\"activeusers.php\">Active users</a>
-          | <a href=\"thread.php?time=86400\">Latest posts</a>
-          | <a href=\"ranks.php\">Ranks</a>
-          | <a href=\"online.php\">Online users</a>
-          | <a href=\"search.php\">Search</a>
-          </td>
-          <td class=\"b\"><div style=\"width: 150px\">" . cdate($dateformat, ctime()) . "</div></td>
-        <tr class=\"n1\" align=\"center\">
-          <td class=\"b\" colspan=\"3\">
-            " . ($log ? userlink($logbar) : "Guest") . ": ";
-
+	?><!DOCTYPE html>
+<html>
+	<head>
+		<title><?=$pagetitle.$boardtitle?></title>
+		<?=$config['meta']?>
+		<link rel="icon" type="image/png" href="$favicon">
+		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
+		<link rel="stylesheet" href="theme/common.css">
+		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
+		<link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
+		<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+	</head>
+	<body style="font-size:<?=$loguser['fontsize']?>%" onload="prettyPrint()">
+		<table class="c1">
+			<tr class="nt n2" align="center"><td class="b n1" align="center" colspan="3"><?=$boardlogo?></td></tr>
+			<tr class="n2" align="center">
+				<td class="b"><div style="width: 150px">Views: <?=number_format($views) ?></div></td>
+				<td class="b" width="100%">
+					<a href="./">Main</a>
+					| <a href="faq.php">FAQ</a>
+					| <a href="memberlist.php">Memberlist</a>
+					| <a href="activeusers.php">Active users</a>
+					| <a href="thread.php?time=86400">Latest posts</a>
+					| <a href="ranks.php">Ranks</a>
+					| <a href="online.php">Online users</a>
+					| <a href="search.php">Search</a>
+				</td>
+				<td class="b"><div style="width: 150px"><?=cdate($dateformat, ctime())?></div></td>
+				<tr class="n1" align="center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
+<?php
 	if ($log) {
-		//2/25/2007 xkeeper - framework laid out. Naturally, the SQL queries are a -mess-. --;
-		$pmsgs = $sql->fetchq("SELECT `p`.`id` `id`, `p`.`date` `date`, " . userfields('u', 'u') . "
-                            FROM `pmsgs` `p`
-                            LEFT JOIN `users` `u` ON `u`.`id`=`p`.`userfrom`
-                            WHERE `p`.`userto`='$loguser[id]'
-                            ORDER BY `date` DESC LIMIT 1");
-
 		$unreadpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `unread`=1 AND `del_to`='0'");
-		$totalpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `del_to`='0'");
-
-		if ($unreadpms) {
-			$status = rendernewstatus("n");
-			$unreadpms = " ($unreadpms new)";
-		} else {
-			$status = "";
-			$unreadpms = "";
-		}
 
 		if (has_perm('view-own-pms')) {
-			if ($unreadpms) {
-				$pmimage = "gfx/pm.png";
-			} else {
-				$pmimage = "gfx/pm-off.png";
-			}
-			$pmsgbox = '<a href="private.php"><img src="' . $pmimage . '" width="20" alt="Private messages" title="Private message"></a> ' . $unreadpms . ' | ';
+			echo '<a href="private.php">
+			<img src="gfx/pm'.(!$unreadpms ? '-off' : '').'.png" width="20" alt="Private messages" title="Private message"></a>
+			'.($unreadpms ?  "($unreadpms new)" : '').' | ';
 		} else {
 			$pmsgbox = "";
 		}
 	}
-	if (!empty($pmsgbox)) {
-		echo $pmsgbox;
-	}
 
-	//mark forum read
 	checknumeric($fid);
 	if ($fid)
 		$markread = array("url" => "index.php?action=markread&fid=$fid", "title" => "Mark forum read");
@@ -289,30 +241,26 @@ HTML;
 		$markread = array("url" => "index.php?action=markread&fid=all", "title" => "Mark all forums read");
 
 	$userlinks = array();
-	$ul = 0;
 
 	if (!$log) {
 		if (!$bot) {
-			$userlinks[$ul++] = array('url' => "register.php", 'title' => 'Register');
-			$userlinks[$ul++] = array('url' => "login.php", 'title' => 'Login');
+			$userlinks[] = array('url' => "register.php", 'title' => 'Register');
+			$userlinks[] = array('url' => "login.php", 'title' => 'Login');
 		}
 	} else {
-		$userlinks[$ul++] = array('url' => "javascript:document.logout.submit()", 'title' => 'Logout');
+		$userlinks[] = array('url' => "javascript:document.logout.submit()", 'title' => 'Logout');
 	}
 	if ($log) {
 		if (has_perm("update-own-profile"))
-			$userlinks[$ul++] = array('url' => "editprofile.php", 'title' => 'Edit profile');
+			$userlinks[] = array('url' => "editprofile.php", 'title' => 'Edit profile');
 		if (has_perm('manage-board'))
-			$userlinks[$ul++] = array('url' => 'management.php', 'title' => 'Management');
-		$userlinks[$ul++] = $markread;
+			$userlinks[] = array('url' => 'management.php', 'title' => 'Management');
+		$userlinks[] = $markread;
 	}
 
 	$c = 0;
-
 	foreach ($userlinks as $k => $v) {
-		if ($c > 0) {
-			echo " | ";
-		}
+		if ($c > 0) echo " | ";
 		echo "<a href=\"{$v['url']}\">{$v['title']}</a>";
 		$c++;
 	}
@@ -324,21 +272,18 @@ HTML;
 			<input type="hidden" name="p" value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
 		</form><?php
 	}
-
-	echo "
-			</table>
-			<br>";
+	echo "</table><br>";
 
 	$hiddencheck = "AND `hidden`='0' ";
 	if (has_perm('view-hidden-users')) {
 		$hiddencheck = "";
 	}
-
+ 
 	if ($fid) {
 		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden`
-                              FROM `users`
-                              WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck AND `lastforum`='$fid'
-                              ORDER BY `name`");
+							FROM `users`
+							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck AND `lastforum`='$fid'
+							ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
@@ -378,10 +323,10 @@ HTML;
 		<?php
 	} else if ($showonusers) {
 		//[KAWA] Copypastadaption from ABXD, with added activity limiter.
-		$birthdaylimit = 86400 * $inactivedays;
+		$birthdaylimit = 86400 * 30;
 		$rbirthdays = $sql->query("SELECT `birth`, " . userfields() . "
-                                 FROM `users`
-                                 WHERE `birth` LIKE '" . date('m-d') . "%' AND `lastview` > " . (time() - $birthdaylimit) . " ORDER BY `name`");
+								FROM `users`
+								WHERE `birth` LIKE '" . date('m-d') . "%' AND `lastview` > " . (time() - $birthdaylimit) . " ORDER BY `name`");
 		$birthdays = array();
 		while ($user = $sql->fetch($rbirthdays)) {
 			$b = explode('-', $user['birth']);
@@ -405,9 +350,9 @@ HTML;
 		if (count($birthdays)) {
 			$birthdaystoday = implode(", ", $birthdays);
 			$birthdaybox = "
-        <tr class=\"n1\" align=\"center\">
-        <td class=\"b n2\" align=\"center\">
-        Birthdays today: $birthdaystoday";
+			<tr class=\"n1\" align=\"center\">
+			<td class=\"b n2\" align=\"center\">
+			Birthdays today: $birthdaystoday";
 		}
 
 		$count['d'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (ctime() - 86400) . "'");
@@ -420,7 +365,7 @@ HTML;
 		}
 
 		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden` FROM `users`
-                           WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck ORDER BY `name`");
+							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
@@ -501,20 +446,14 @@ function pagestats() {
 	global $start, $sql;
 	$time = usectime() - $start;
 	echo sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
-          MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
+		MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }
 
 function noticemsg($name, $msg) {
-	?>
-	<table class="c1">
-		<tr class="h">
-			<td class="b h" align="center"><?php echo $name; ?></td>
-		</tr>
-		<tr>
-			<td class="b n1" align="center"><?php echo $msg; ?></td>
-		</tr>
-	</table><br>
-	<?php
+	?><table class="c1">
+		<tr class="h"><td class="b h" align="center"><?php echo $name; ?></td></tr>
+		<tr><td class="b n1" align="center"><?php echo $msg; ?></td></tr>
+	</table><br><?php
 }
 
 function error($name, $msg) {
@@ -539,8 +478,7 @@ function pagefooter() {
 				&copy; 2005-2019 <?php echo $boardprog; ?>
 			</td>
 		</tr>
-	</table>
-	<?php
+	</table><?php
 }
 
 ?>
