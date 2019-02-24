@@ -35,7 +35,12 @@ if ($config['lockdown']) {
 	if (has_perm('bypass-lockdown'))
 		echo "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
 	else {
-		require("lib/locked.php");
+		echo <<<HTML
+<body style="background-color:#C02020;padding:5em;color:#ffffff;margin:auto;max-width:50em;">
+	Access to the board has been restricted by the administration.
+	Please forgive any inconvenience caused and stand by until the underlying issues have been resolved.
+</body>
+HTML;
 		die();
 	}
 }
