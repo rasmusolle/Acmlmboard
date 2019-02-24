@@ -1,6 +1,5 @@
 <?php
 require('lib/datetime.php');
-require('lib/request.php');
 require('lib/mysql.php');
 require('lib/layout.php');
 require('lib/config.php');
