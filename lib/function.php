@@ -10,5 +10,4 @@ require('lib/thread.php');
 require('lib/auth.php');
 require('lib/user.php');
 require('lib/post.php');
-require('lib/graphics.php');
 ?>

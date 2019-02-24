@@ -63,9 +63,30 @@ if ($act == 'Edit profile') {
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
 	if ($fname['size'] > 0) {
-		$ava_out = img_upload($fname, "userpic/$user[id]", $avatardimx, $avatardimy, $avatarsize);
+		$ftypes = array("png","jpeg","jpg","gif");
+		$img_data = getimagesize($fname['tmp_name']);
+		$err = "";
+		if ($img_data[0] > $avatardimx)
+			$err .= "<br>Too wide.";
+		if ($img_data[1] > $avatardimy)
+			$err .= "<br>Too tall.";
+		if ($fname['size'] > $avatarsize)
+			$err .= "<br>Filesize limit of $avatarsize bytes exceeded.";
+		if (!in_array(str_replace("image/","",$img_data['mime']),$ftypes))
+			$err = "Invalid file type.";
+		
+		if ($err != "")
+			$ava_out = $err;
+		else {
+			if (move_uploaded_file($fname['tmp_name'], "userpic/$user[id]")) {
+				$ava_out = "OK!";
+			} else {
+				$ava_out = "<br>Error creating file.";
+			}
+		}
+
 		if ($ava_out != "OK!") {
-			$error.=$ava_out;
+			$error .= $ava_out;
 		} else
 			$usepic = "usepic+1";
 	}
