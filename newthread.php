@@ -197,9 +197,11 @@ if (isset($err)) {
 
 				$color = stripslashes($_POST['col'][$id]);
 				list ($r, $g, $b) = sscanf(strtolower($color), '%02x%02x%02x');
+				
+				$colori = str_pad(dechex($r), 2, "0", STR_PAD_LEFT) . str_pad(dechex($g), 2, "0", STR_PAD_LEFT) . str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
 
 				$pollin .= "    " . sprintf($optfield, $text, $r, $g, $b) . "\n";
-				$pollprev .= "<tr class=\"n2\"><td class=\"b n2\">{$text} $h<td class=\"b n3\"><img src=\"gfx/bargraph.php?z=1&n=1&r={$r}&g={$g}&b={$b}\">";
+				$pollprev .= "<tr class=\"n2\"><td class=\"b n2\" width=200>{$text} $h<td class=\"b n3\"><div style=\"width:100%;background-color:#$colori;\"><span style=\"padding-right:10em;\"></span></div>";
 			}
 		}
 

@@ -357,7 +357,7 @@ if ($viewmode == "thread") {
 	if ($thread['ispoll']) {
 		$poll = "<br><table class=\"c1\">
 " . "  <tr class=\"n1\">
-" . "    <td class=\"b n1\" colspan=2>" . htmlval($thread['question']) . "
+" . "    <td class=\"b n1\" colspan=3>" . htmlval($thread['question']) . "
 ";
 		$opts = $sql->query("SELECT o.*,(COUNT(*) & (NOT ISNULL(v.user))*1023) c,((NOT ISNULL(w.user))*1) s FROM polloptions o LEFT JOIN pollvotes v ON v.id=o.id LEFT JOIN pollvotes w ON w.user='$loguser[id]' AND w.id=o.id WHERE poll=$tid GROUP BY o.id");
 		$total = $sql->resultq("SELECT COUNT(DISTINCT v.user) FROM polloptions o, pollvotes v WHERE o.poll=$tid AND v.id=o.id");
@@ -365,10 +365,15 @@ if ($viewmode == "thread") {
 		while ($opt = $sql->fetch($opts)) {
 			$h = $opt['s'] ? "*" : "";
 			$cond = $log && (($thread['multivote'] && !$opt['s']) || $thread['changeable'] || !$mytotal);
-			$poll.="<tr class=\"n2\"><td class=\"b n2\">" . ($cond ? ("<a href=thread.php?id=$tid&act=vote&vote=" . urlencode(packsafenumeric($opt['id'])) . ">") : "") . htmlval($opt['option']) . ($cond ? "</a>" : "") . " $h<td class=\"b n3\"><img src=\"gfx/bargraph.php?z=$opt[c]&n=$total&r=$opt[r]&g=$opt[g]&b=$opt[b]\">";
+			$percentage = ($total != 0 ? min(100, ($opt['c'] / $total) * 100) : 100);
+			$color = str_pad(dechex($opt['r']), 2, "0", STR_PAD_LEFT) . str_pad(dechex($opt['g']), 2, "0", STR_PAD_LEFT) . str_pad(dechex($opt['b']), 2, "0", STR_PAD_LEFT);
+			$poll .= "<tr class=\"n2\"><td class=\"b n2\" width=200>"
+			.($cond ? ("<a href=thread.php?id=$tid&act=vote&vote=".urlencode(packsafenumeric($opt['id'])).">") : "")
+			.htmlval($opt['option']).($cond ? "</a>" : "")." $h
+			<td class=\"b n3\"><div style=\"width:" . sprintf("%.2f%%", $percentage) . ";background-color:#$color;\"><span style=\"padding-right:10em;\"></span></div></td><td class=\"b n3\" width=60>".sprintf("%.2f%%", $percentage)."</td>";
 		}
 		$poll.=
-				"  <tr class=\"n2\"><td class=\"b sfont\" colspan=2>Multiple voting is " . ($thread['multivote'] ? "" : "not") . " allowed. Changing your vote is " . ($thread['changeable'] ? "" : "not") . " allowed. $total " . ($total == 1 ? "user has" : "users have") . " voted so far.
+				"  <tr class=\"n2\"><td class=\"b sfont\" colspan=3>Multiple voting is " . ($thread['multivote'] ? "" : "not") . " allowed. Changing your vote is " . ($thread['changeable'] ? "" : "not") . " allowed. $total " . ($total == 1 ? "user has" : "users have") . " voted so far.
 " . "</table>
 ";
 	}
