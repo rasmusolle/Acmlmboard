@@ -221,8 +221,6 @@ HTML;
 			echo '<a href="private.php">
 			<img src="img/pm'.(!$unreadpms ? '-off' : '').'.png" width="20" alt="Private messages" title="Private message"></a>
 			'.($unreadpms ?  "($unreadpms new)" : '').' | ';
-		} else {
-			$pmsgbox = "";
 		}
 	}
 

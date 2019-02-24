@@ -4,6 +4,12 @@ function urlcreate($url, $query) {
 	return $url . '?' . http_build_query($query);
 }
 
+function redirect($url, $msg) {
+	header("Set-Cookie: pstbon=" . $msg . "; Max-Age=60; Version=1");
+	header("Location: " . $url);
+	die();
+}
+
 /** Our first step to sanity, brought to us by Kawa **
  *
  * function RenderTable(data, headers)

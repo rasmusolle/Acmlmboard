@@ -1,22 +1,20 @@
 <?php
 require("lib/common.php");
 
-$r = request_variables(array('id', 'uid', 'action','act'));
 $pagebar = array();
-checknumeric($r['id']);
-checknumeric($r['uid']);
 
 pageheader("Assign Secondary Groups");
 
+$id = (isset($_GET['id']) && is_numeric($_GET['id']) ? $_GET['id'] : '');
+$uid = (isset($_GET['uid']) && is_numeric($_GET['uid']) ? $_GET['uid'] : '');
+$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : '');
+$act = (isset($_REQUEST['act']) ? $_REQUEST['act'] : '');
+
 if (!has_perm('assign-secondary-groups')) { noticemsg("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>"); pagefooter(); die(); }
-if (!isset($r['uid']) || $r['uid'] == 0) { noticemsg("Error", "No User Requested.<br> <a href=./>Back to main</a>"); pagefooter(); die(); }
-$id = $r['id'];
-$uid = $r['uid'];
+if ($uid == '' || $uid == 0) { noticemsg("Error", "No User Requested.<br> <a href=./>Back to main</a>"); pagefooter(); die(); }
 
-$r['action'] = (isset($r['action']) ? $r['action'] : '');
-
-if ($r['action'] == "del") {
-	unset($r['action']);
+if ($action == "del") {
+	unset($action);
 	if((is_root_gid($id) || !can_edit_group_assets($id) && $id!=$loguser['group_id']) && !has_perm('no-restrictions')) {
 		$pagebar['message'] = "You do not have the permissions to revoke this group.";
 	} else if ($id > 0) {
@@ -28,7 +26,7 @@ if ($r['action'] == "del") {
 	}
 }
 
-if (empty($r['action'])) {
+if (empty($action)) {
 	$headers = array(
 		"id" => array("caption" => "#",
 			"width" => "32px", "align" => "center", "color" => 1, "hidden" => 'true'),
@@ -48,9 +46,9 @@ if (empty($r['action'])) {
 	$pagebar['actions'] = array(array('title' => 'Assign Group','href' => 'assignsecondary.php?action=new&uid='.$uid));
 	RenderPageBar($pagebar);
 	RenderTable($data, $headers);
-} elseif ($r['action'] == "new") {
-	if (!empty($r['act'])) {
-		$s = request_variables(array('group_id','group_var'));
+} elseif ($action) {
+	if (!empty($act)) {
+		$s = array('group_id' => $_POST['group_id'], 'group_var' => $_POST['group_var']);
 		if ((is_root_gid($s['group_id']) || !can_edit_group_assets($s['group_id']) && $s['group_id']!=$loguser['group_id']) && !has_perm('no-restrictions')) {
 			$pagebar['message'] = "You do not have the permissions to assign this group.";
 		} else if ($sql->prepare('INSERT INTO user_group SET user_id=?,group_id=?,sortorder=? ;', array($uid,$s['group_id'],0))) {
@@ -80,7 +78,7 @@ if (empty($r['action'])) {
 	}
 
 	$form = array(
-		'action' => urlcreate('assignsecondary.php', array('action' => $r['action'],'uid' => $r['uid'])),
+		'action' => urlcreate('assignsecondary.php', array('action' => $action,'uid' => $uid)),
 		'method' => 'POST',
 		'categories' => array(
 			'metadata' => array('title' => 'Secondary Group Assign','fields' => array('group_id' => array('title' => 'Secondary Group','type' => 'dropdown','choices' => $allbdg,'value' => 0))),
