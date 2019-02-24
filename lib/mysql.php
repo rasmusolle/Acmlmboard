@@ -1,7 +1,10 @@
 <?php
 
-class mysql {
+$sql = new mysql;
+$sql->connect($sqlhost,$sqluser,$sqlpass) or die("Couldn't connect to MySQL server<br>".$sql->error());
+$sql->selectdb($sqldb) or die("Couldn't find MySQL database");
 
+class mysql {
 	// public for now since this replicates the behavior of PHP4 class variables.
 	public $queries = 0;
 	public $rowsf = 0;
