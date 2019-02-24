@@ -76,7 +76,7 @@ if (!has_perm('edit-ip-bans')) {
 			<td class="b n2" align="center"><?php echo $i['banner']; ?></td>
 			<td class="b n2"><?php echo stripslashes($i['reason']); ?></td>
 			<td class="b n2" align="center">
-				<a href="ipbans.php?action=del&what=<?php echo urlencode(encryptpwd($i['ipmask'].",".$i['expires'])); ?>"><img src="img/delete.png"></a>
+				<a href="ipbans.php?action=del&what=<?php echo urlencode(encryptpwd($i['ipmask'].",".$i['expires'])); ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 			</td>
 		</tr>
 		<?php

@@ -138,7 +138,7 @@ if (ISSET($_COOKIE['pstbon'])) {
 		?>
 		<tr class="<?php echo $tr; ?>" align="center">
 			<td class="b n2">
-				<a href="private.php?action=del&id=<?php echo $pmsg['id'] ?>&showdel=<?php echo $showdel; ?>&view=<?php echo $_GET['view']; ?>"><img src="img/delete.png"></a>
+				<a href="private.php?action=del&id=<?php echo $pmsg['id'] ?>&showdel=<?php echo $showdel; ?>&view=<?php echo $_GET['view']; ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 			</td>
 			<td class="b n1"><?php echo $status; ?></td>
 			<td class="b" align="left"><a href=showprivate.php?id=<?php echo $pmsg['id']; ?>><?php echo forcewrap(htmlval($pmsg['title'])); ?></a></td>
