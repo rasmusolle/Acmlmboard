@@ -51,7 +51,7 @@ foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 	foreach ($linkuser as $user) {
 		$postcount = $user['posts'];
 		if (($postcount >= $neededposts) && ($postcount < $nextneededposts)) {
-			if (isset($_GET['showinactive']) || $user['lastview'] > (time() - (86400 * $inactivedays))) {
+			if (isset($_GET['showinactive']) || $user['lastview'] > (time() - (86400 * 30))) {
 				$usersonthisrank = '';
 				if ($usersonthisrank)
 					$usersonthisrank .= ", ";

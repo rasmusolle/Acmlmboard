@@ -118,7 +118,6 @@ function postfilter($msg) {
 	//Relocated here due to conflicts with specific smilies.
 	$msg = preg_replace("@(</?(?:table|caption|col|colgroup|thead|tbody|tfoot|tr|th|td|ul|ol|li|div|p|style|link).*?>)\r?\n@si", '$1', $msg);
 
-	//$msg=preg_replace("'lemonparty'si",'ffff',$msg); Lemonparty Filter
 	$msg = preg_replace("'\[(b|i|u|s)\]'si", '<\\1>', $msg);
 	$msg = preg_replace("'\[/(b|i|u|s)\]'si", '</\\1>', $msg);
 	$msg = str_replace('[spoiler]', '<span class="spoiler1" onclick=""><span class="spoiler2">', $msg);

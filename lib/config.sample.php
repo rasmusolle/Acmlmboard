@@ -22,12 +22,9 @@ $defaulttheme = "new"; // Select the default theme to be used. This will also be
 $defaultfontsize = 90; // Overall font scale of the board. Default is 90%
 $homepageurl = "http://something/"; // This defines the link for the header image.
 
-/*
- * Registeration Bot Protection * Currently the default protection is a simple passphrase with question array used to pull random questions. The way it is coded you could easily replace it with something stronger, or even simpler. The register.php take $puzzleAnswer and $puzzle. Feel free to write something around it.
- */
-
+// Registeration Bot Protection
+$config['registrationpuzzle'] = true;
 $puzzleAnswer = 12; // This should be changed
-                    // $puzzleAnswer = "Sekrit Key!";// This can also be a string
 $puzzleVariations = array(
 	"What is six times two?",
 	"What is twenty four minus fourteen plus two?",
@@ -53,35 +50,19 @@ $config['showssl'] = false; // Shows a link/icon to allow a user to switch to ss
 // User GFX limits
 $avatardimx = 180; // Avatar X Scale
 $avatardimy = 180; // Avatar Y Scale
-$avatardimxs = 60; // Avatar X Scale (Scaled Down) **CURRENTLY DISABLED**
-$avatardimys = 60; // Avatar Y Scale (Scaled Down) **CURRENTLY DISABLED**
 $avatarsize = 2 * 30720; // The Avatar size in bytes. The default is to 60kb.
 
 // The following settings allow a board owner to override a board's theme and logo for special events, etc.
 $config['override_theme'] = ""; // If you want to lock everyone to a specific theme.
-$config['override_logo'] = ""; // If you want to replace the logo on all themes.
-
-$inactivedays = 30; // The number of days before a user is counted as "inactive"
-
-// The following sectionis related to guests (mostly reflected on online.php)
-$config['oldguest'] = 300; // Number of seconds before a guest is deleted due to being "old"
 
 // This will create a delay between consecutive posts if you have the override perm. This is used exclusively to stop mobile double posting.
 $config['secafterpost'] = 5; // (in seconds, 0 == off)
-                             // This will allow you to set the goal limits for 'Projected date' in profile.php
-$config['topposts'] = '5000'; // Number of posts to set the goal to.
-$config['topthreads'] = '200'; // Number of threads created to set the goal to.
-
-$config['registrationpuzzle'] = true;
 
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
 $config['perusercolor'] = false; // Enable the use of per-user colors.
 $config['nickcolorcss'] = false; // Enables use of CSS to define per theme colors via a span id. Note: You may need to customise CSS to fit your board groups.
 
 $config['lockdown'] = false; // Put board in lockdown mode.
-
-// The following are optional values you can change to personalize your board
-$config['atnname'] = "News"; // Title of the attention box. It was 'News' on ABII and "Points of Required Attention™" on B2
 
 // irc stuff
 $config['hasirc'] = false;
