@@ -145,12 +145,6 @@ function postfilter($msg) {
 	$msg = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si", '<blockquote><span class="quotedby"><small><i><a href=thread.php?pid=\\2#\\2>Posted by \\1</a></i></small></span><hr>', $msg);
 	$msg = preg_replace("'\[quote=(.*?)\]'si", '<blockquote><span class="quotedby"><i>Posted by \\1</i></span><hr>', $msg);
 	$msg = preg_replace("'>>([0-9]+)'si", '>><a href=thread.php?pid=\\1#\\1>\\1</a>', $msg);
-	//dynamically convert SSL and non-SSL links
-	if (isssl()) {
-		$msg = str_replace($config['base'], $config['sslbase'], $msg);
-	} else {
-		$msg = str_replace($config['sslbase'], $config['base'], $msg);
-	}
 
 	//[KAWA] Youtube tag.
 	$msg = preg_replace("'\[youtube\]([\-0-9_a-zA-Z]*?)\[/youtube\]'si", '<iframe width="420" height="315" src="http://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $msg);

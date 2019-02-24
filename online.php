@@ -1,13 +1,6 @@
 <?php
 require('lib/common.php');
 
-function sslicon($a, $uid = 0) {
-	if (has_perm('view-post-ips') && $a) {
-		return "<img src='img/ssloff.gif'>";
-	}
-	return "";
-}
-
 pageheader('Online users');
 
 $time = (isset($_GET['time']) ? $_GET['time'] : null);
@@ -48,12 +41,6 @@ Online users during the last <?php echo str_replace('.', '', timeunits2($time));
 	</tr>
 <?php
 for ($i = 1; $user = $sql->fetch($users); $i++) {
-	if ($user['url'] == '!') {
-		$user['url'] = substr($user['url'], 1);
-		$user['ssl'] = 1;
-	} else {
-		$user['ssl'] = 0;
-	}
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
 	<tr class="<?php echo $tr; ?>" align="center">
@@ -80,12 +67,6 @@ Guests:
 	</tr>
 <?php
 for ($i = 1; $guest = $sql->fetch($guests); $i++) {
-	if ($guest['url'][0] == '!') {
-		$guest['url'] = substr($guest[url], 1);
-		$guest['ssl'] = 1;
-	} else {
-		$guest['ssl'] = 0;
-	}
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
 	<tr class="<?php echo $tr; ?>" align="center">
@@ -113,12 +94,6 @@ Bots:
 	</tr>
 <?php
 for ($i = 1; $guest = $sql->fetch($bots); $i++) {
-	if ($guest['url'][0] == '!') {
-		$guest['url'] = substr($guest['url'], 1);
-		$guest['ssl'] = 1;
-	} else {
-		$guest['ssl'] = 0;
-	}
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
 	<tr class="<?php echo $tr; ?>" align="center">

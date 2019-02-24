@@ -81,9 +81,9 @@ if ($bot) {
 if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (ctime() - 300));
 	if ($log) {
-		$sql->query("UPDATE `users` SET `lastview`=" . ctime() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . (isssl() ? "!" : "") . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
+		$sql->query("UPDATE `users` SET `lastview`=" . ctime() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
 	} else {
-		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . ctime() . ",'$userip','" . (isssl() ? "!" : "") . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
+		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . ctime() . ",'$userip','" . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
 	}
 
 	//[blackhole89]
@@ -178,14 +178,6 @@ HTML;
 	<td class="nb" valign="center" width="300">$extratitle</td>
 </tr></table>
 HTML;
-	}
-
-	if (isssl()) {
-		$ssllnk = "<img src=\"img/sslon.gif\" title=\"SSL enabled\">";
-	} else if (!$config['showssl']) {
-		$ssllnk = "";
-	} else {
-		$ssllnk = "<a href=\"$config[sslbase]$url\" title=\"View in SSL mode\"><img border=\"0\" src=\"img/ssloff.gif\"></a>";
 	}
 
 	if ($log) {

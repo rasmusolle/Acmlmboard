@@ -15,10 +15,6 @@ function request_variables($varlist) {
 	return $out;
 }
 
-function isssl() {
-	return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
-}
-
 function redirect($url, $msg) {
 	header("Set-Cookie: pstbon=" . $msg . "; Max-Age=60; Version=1");
 	header("Location: " . $url);

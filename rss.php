@@ -3,8 +3,6 @@ header('Content-Type: application/rss+xml');
 
 require('lib/common.php');
 
-if (isssl()) $config['base'] = $config['sslbase'];
-
 $fieldlist = '';
 $ufields = array('id','name','sex','group_id');
 foreach($ufields as $field)

@@ -16,11 +16,11 @@ $trashid = 2; // Designates the id for your trash forum.
 
 $boardtitle = "Insert title here"; // This is what will be displayed at the top of your browser window.
 $defaultlogo = "theme/abII.png"; // Replace with the logo of your choice. Note: This is used if a theme doesn't have it's own logo. It is replaced per theme depending on the theme used.
-$boardlogo = "<img style='border: 0px' src='$defaultlogo' title=\"$boardtitle\">"; // This defines the logo. Recommended you leave this the default.
 $favicon = "theme/fav.png"; // Replace with your favicon of choice
 $defaulttheme = "new"; // Select the default theme to be used. This will also be showed to users who are not logged in.
 $defaultfontsize = 90; // Overall font scale of the board. Default is 90%
 $homepageurl = "http://something/"; // This defines the link for the header image.
+$boardlogo = "<a href='$homepageurl'><img src='$defaultlogo' title='$boardtitle'></a>"; // This defines the logo. Recommended you leave this the default.
 
 // Registeration Bot Protection
 $config['registrationpuzzle'] = true;
@@ -39,10 +39,8 @@ $config['log'] = 0; // Enables logging to the database of moderator & administra
 $config['ckey'] = "configckey";
 $config['address'] = "url"; // Hostname or IP address of your server (this will be public)
 $config['base'] = "http://" . $config['address']; // Replace if you need fine control of the address
-$config['sslbase'] = "https://" . $config['address']; // Replace if you need fine control of the address
 $config['path'] = "/"; // If you run your copy in a specific path (ie: http://www.example.gov/board) than this would be 'board/''
 $config['meta'] = "<meta name='description' content=\"Stuff goes here!\"><meta name='keywords' content=\"Acmlmboard, Your Stuff\">"; // This is used for search engine keywords.
-$config['showssl'] = false; // Shows a link/icon to allow a user to switch to ssl. Enable if you are using on a https server.
 
 /* -- Everything past this point is optional.  It is recommended to get the board up and running first before adjusting the following                  --
    -- The amount of options may be overwelming at first. AB 2.5+ was designed to allow for great flexiblity. As such there are many optional features. -- */
