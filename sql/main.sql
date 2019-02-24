@@ -192,7 +192,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-own-permissions',	'Edit Own Permissions',	'',	3,	''),
 ('edit-own-title',	'Edit Own Title',	'',	3,	''),
 ('edit-permissions',	'Edit Permissions',	'',	3,	''),
-('edit-smilies',	'Edit Smilies',	'',	3,	''),
 ('edit-titles',	'Edit Titles',	'',	3,	''),
 ('edit-user-customnickcolor',	'Edit User Custom Nick Color',	'',	3,	'users'),
 ('edit-user-displayname',	'Edit User Displayname',	'',	3,	'users'),
@@ -362,51 +361,6 @@ CREATE TABLE `poststext` (
   PRIMARY KEY (`id`,`revision`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
-DROP TABLE IF EXISTS `smilies`;
-CREATE TABLE `smilies` (
-  `text` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-INSERT INTO `smilies` (`text`, `url`) VALUES
-('-_-',	'img/smilies/annoyed.gif'),
-('~:o',	'img/smilies/baby.gif'),
-('o_O',	'img/smilies/bigeyes.gif'),
-(':D',	'img/smilies/biggrin.gif'),
-('o_o',	'img/smilies/blank.gif'),
-(';_;',	'img/smilies/cry.gif'),
-('^^;;;',	'img/smilies/cute2.gif'),
-('^_^',	'img/smilies/cute.gif'),
-('@_@',	'img/smilies/dizzy.gif'),
-('O_O',	'img/smilies/eek.gif'),
-('>:]',	'img/smilies/evil.gif'),
-(':eyeshift:',	'img/smilies/eyeshift.gif'),
-(':(',	'img/smilies/frown.gif'),
-('8-)',	'img/smilies/glasses.gif'),
-(':LOL:',	'img/smilies/lol.gif'),
-('>:[',	'img/smilies/mad.gif'),
-('<_<',	'img/smilies/shiftleft.gif'),
-('>_>',	'img/smilies/shiftright.gif'),
-('x_x',	'img/smilies/sick.gif'),
-(':)',	'img/smilies/smile.gif'),
-(':P',	'img/smilies/tongue.gif'),
-(':B',	'img/smilies/vamp.gif'),
-(';)',	'img/smilies/wink.gif'),
-(':S',	'img/smilies/wobbly.gif'),
-('>_<',	'img/smilies/yuck.gif'),
-(':yes:',	'img/smilies/yes.png'),
-(':no:',	'img/smilies/no.png'),
-(':heart:',	'img/smilies/heart.gif'),
-('w00t',	'img/smilies/woot.gif'),
-(':x',	'img/smilies/crossmouth.gif'),
-(':|',	'img/smilies/slidemouth.gif'),
-(':@',	'img/smilies/dropsmile.gif'),
-(':-3',	'img/smilies/wobble.gif'),
-('X-P',	'img/smilies/xp.gif'),
-('X-3',	'img/smilies/x3.gif'),
-('X-D',	'img/smilies/xd.gif'),
-(':o',	'img/smilies/dramatic.gif');
 
 DROP TABLE IF EXISTS `threads`;
 CREATE TABLE `threads` (

@@ -42,8 +42,6 @@ function timelink($time) {
 		return " <a href=thread.php?time=$time>" . timeunits2($time) . '</a> ';
 }
 
-loadsmilies();
-
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0 || $page > 1000000000000000) {
 	error("Error", "Invalid page number");

@@ -8,8 +8,6 @@ if (!has_perm('view-own-pms')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
 
-loadsmilies();
-
 $fieldlist = '';
 $ufields = array(
 	'posts', 'regdate', 'lastpost',

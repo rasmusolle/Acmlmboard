@@ -1,7 +1,6 @@
 <?php
 require("lib/common.php");
 require("lib/threadpost.php");
-loadsmilies();
 
 pageheader("Search");
 

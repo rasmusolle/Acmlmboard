@@ -2,30 +2,24 @@
 require('lib/common.php');
 
 //Smilies List
-$smilieslist = $sql->query("SELECT * FROM `smilies`");
-$numsmilies = $sql->resultq("SELECT COUNT(*) FROM `smilies`");
-$smiliewidth = ceil(sqrt($numsmilies));
+$smiliewidth = ceil(sqrt(sizeof($smilies)));
 $smilietext = "<table>";
 
 $x = 0;
-while ($smily = $sql->fetch($smilieslist)) {
-	if ($x == 0) {
-		$smilietext .= "<tr>";
-	}
+foreach ($smilies as $smily) {
+	if ($x == 0) $smilietext .= "<tr>";
 	$smilietext .= "<td width='35'>$smily[text]</td><td width='27'><img src='$smily[url]'/></td><td width='5'></td>";
 	$x++;
 	$x %= $smiliewidth;
-	if ($x == 0) {
-		$smilietext .= "</tr>";
-	}
+	if ($x == 0) $smilietext .= "</tr>";
 }
 $smilietext .= "</table>";
+
 pageheader("FAQ");
 
 if (isset($_GET['testshit'])) {
 	echo $sqluser . ' ' . $sqlpass . ' ' . $sqldb;
 }
-
 
 $ncx = $sql->query("SELECT title, nc0, nc1, nc2 FROM `group` WHERE nc0 != '' ORDER BY sortorder ASC");
 $nctable = "";
@@ -44,8 +38,6 @@ while ($ncr = $sql->fetch($ncx)) {
 
 
 $customucolors = $config['perusercolor'] ? "<br />If you see a user with a colour not present on this list, than that user has a specific colour assigned to them." : '';
-
-//Begin written FAQ
 
 ?>
 <table class="c1">

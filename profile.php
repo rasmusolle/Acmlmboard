@@ -17,8 +17,6 @@ if (!empty($_COOKIE['pstbon'])) {
 	$rdmsg .= "<br>";
 }
 
-loadsmilies();
-
 $uid = isset($_GET['id']) ? (int)$_GET['id'] : -1;
 if($uid < 0) {
 	error("Error", "You must specify a user ID!");

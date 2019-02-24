@@ -107,6 +107,47 @@ $botlist = array(
 	'ia_archiver','baidu','bingbot','duckduckbot','Exabot','Googlebot','msnbot/','Yahoo! Slurp','bot','spider'
 );
 
+// List of smilies
+$smilies = array(
+	array('text' => '-_-', 'url' => 'img/smilies/annoyed.gif'),
+	array('text' => '~:o', 'url' => 'img/smilies/baby.gif'),
+	array('text' => 'o_O', 'url' => 'img/smilies/bigeyes.gif'),
+	array('text' => ':D', 'url' => 'img/smilies/biggrin.gif'),
+	array('text' => 'o_o', 'url' => 'img/smilies/blank.gif'),
+	array('text' => ';_;', 'url' => 'img/smilies/cry.gif'),
+	array('text' => '^^;;;', 'url' => 'img/smilies/cute2.gif'),
+	array('text' => '^_^', 'url' => 'img/smilies/cute.gif'),
+	array('text' => '@_@', 'url' => 'img/smilies/dizzy.gif'),
+	array('text' => 'O_O', 'url' => 'img/smilies/eek.gif'),
+	array('text' => '>:]', 'url' => 'img/smilies/evil.gif'),
+	array('text' => ':eyeshift:', 'url' => 'img/smilies/eyeshift.gif'),
+	array('text' => ':(', 'url' => 'img/smilies/frown.gif'),
+	array('text' => '8-)', 'url' => 'img/smilies/glasses.gif'),
+	array('text' => ':LOL:', 'url' => 'img/smilies/lol.gif'),
+	array('text' => '>:[', 'url' => 'img/smilies/mad.gif'),
+	array('text' => '<_<', 'url' => 'img/smilies/shiftleft.gif'),
+	array('text' => '>_>', 'url' => 'img/smilies/shiftright.gif'),
+	array('text' => 'x_x', 'url' => 'img/smilies/sick.gif'),
+	array('text' => ':)', 'url' => 'img/smilies/smile.gif'),
+	array('text' => ':P', 'url' => 'img/smilies/tongue.gif'),
+	array('text' => ':B', 'url' => 'img/smilies/vamp.gif'),
+	array('text' => ';)', 'url' => 'img/smilies/wink.gif'),
+	array('text' => ':S', 'url' => 'img/smilies/wobbly.gif'),
+	array('text' => '>_<', 'url' => 'img/smilies/yuck.gif'),
+	array('text' => ':box:', 'url' => 'img/smilies/box.png'),
+	array('text' => ':yes:', 'url' => 'img/smilies/yes.png'),
+	array('text' => ':no:', 'url' => 'img/smilies/no.png'),
+	array('text' => ':heart:', 'url' => 'img/smilies/heart.gif'),
+	array('text' => ':x', 'url' => 'img/smilies/crossmouth.gif'),
+	array('text' => ':|', 'url' => 'img/smilies/slidemouth.gif'),
+	array('text' => ':@', 'url' => 'img/smilies/dropsmile.gif'),
+	array('text' => ':-3', 'url' => 'img/smilies/wobble.gif'),
+	array('text' => 'X-P', 'url' => 'img/smilies/xp.gif'),
+	array('text' => 'X-3', 'url' => 'img/smilies/x3.gif'),
+	array('text' => 'X-D', 'url' => 'img/smilies/xd.gif'),
+	array('text' => ':o', 'url' => 'img/smilies/dramatic.gif')
+);
+
 $rankset_names = array('None', 'Mario'); // List of ranksets, add any new ones here. Don't remove the "None" rankset!
 require('img/ranks/rankset.php'); // Default (Mario) rankset
 

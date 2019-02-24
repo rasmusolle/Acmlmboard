@@ -112,10 +112,8 @@ function postfilter($msg) {
 
 	$msg = str_replace("\n", '<br>', $msg);
 
-	for ($i = 0; $i < $smilies['num']; $i++)
-		$msg = str_replace($smilies[$i]['text'], '�' . $smilies[$i]['text'] . '�', $msg);
-	for ($i = 0; $i < $smilies['num']; $i++)
-		$msg = str_replace('�' . $smilies[$i]['text'] . '�', '<img src=' . $smilies[$i]['url'] . ' align=absmiddle border=0 alt="' . $smilies[$i]['text'] . '" title="' . $smilies[$i]['text'] . '">', $msg);
+	for ($i = 0; $i < sizeof($smilies); $i++)
+		$msg = str_replace($smilies[$i]['text'], '<img src=' . $smilies[$i]['url'] . ' align=absmiddle alt="' . $smilies[$i]['text'] . '" title="' . $smilies[$i]['text'] . '">', $msg);
 
 	//Relocated here due to conflicts with specific smilies.
 	$msg = preg_replace("@(</?(?:table|caption|col|colgroup|thead|tbody|tfoot|tr|th|td|ul|ol|li|div|p|style|link).*?>)\r?\n@si", '$1', $msg);
