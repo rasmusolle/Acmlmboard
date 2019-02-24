@@ -219,7 +219,7 @@ HTML;
 
 		if (has_perm('view-own-pms')) {
 			echo '<a href="private.php">
-			<img src="gfx/pm'.(!$unreadpms ? '-off' : '').'.png" width="20" alt="Private messages" title="Private message"></a>
+			<img src="img/pm'.(!$unreadpms ? '-off' : '').'.png" width="20" alt="Private messages" title="Private message"></a>
 			'.($unreadpms ?  "($unreadpms new)" : '').' | ';
 		} else {
 			$pmsgbox = "";
