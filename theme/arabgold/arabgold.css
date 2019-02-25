@@ -21,7 +21,6 @@ body {
 
 table {
 	color: white;
-	font-size: 1em;
 }
 
 table.c1 {
@@ -36,30 +35,28 @@ table.c2 {
 
 tr.h {
 	background: url(backh.png) #946464;
-	font-size: 0.9em;
 	font-weight: bold;
 	color: #DDDDDD;
 }
 
 tr.c {
 	background: url(backc2.png) #BDBD40;
-	font-size: 0.9em;
 	color: #EEEEEE;
 }
 
 td.b {
 	border: #000000 1px solid;
-	padding: 1px;
+	padding: 2px;
 }
 
 td.nb {
 	border: 0px none;
-	padding: 1px;
+	padding: 2px;
 }
 
 td.h {
 	border: #000000 1px solid;
-	padding: 1px;
+	padding: 2px;
 }
 
 tr.n1, td.n1 { background: url(back2t1.png) #787833; }
