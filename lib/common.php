@@ -194,7 +194,7 @@ HTML;
 	<head>
 		<title><?=$pagetitle.$boardtitle?></title>
 		<?=$config['meta']?>
-		<link rel="icon" type="image/png" href="$favicon">
+		<link rel="icon" type="image/png" href="<?=$favicon?>">
 		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
 		<link rel="stylesheet" href="theme/common.css">
 		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
@@ -464,7 +464,7 @@ function pagefooter() {
 	?><br>
 	<table class="c2">
 		<tr>
-			<td class="left b n2">
+			<td class="b n2 sfont">
   				<span style="float:right; text-align:right;">
   					<?php pagestats(); ?>
 				</span>
