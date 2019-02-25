@@ -120,7 +120,7 @@ if (isset($err)) {
 	echo $top . ' - Preview';
 	?><br><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</table>
-	<?=threadpost($post,0)?><br>
+	<?=threadpost($post)?><br>
 	<form action=editpost.php method=post><table class="c1">
 		<tr class="h"><td class="b h" colspan=2>Post</td></tr>
 		<tr>

@@ -12,7 +12,7 @@ function LoadBlocklayouts() {
 		$blocklayouts[$block['user']] = 1;
 }
 
-function threadpost($post, $type, $pthread = '') {
+function threadpost($post, $pthread = '') {
 	global $dateformat, $loguser, $sql, $blocklayouts, $config, $signsep;
 
 	$post['head'] = '';
@@ -60,63 +60,56 @@ HTML;
 		return $text;
 	}
 
-	switch ($type) {
-		case 0:
-		case 1:
-			$postheaderrow = '';
-			$threadlink = '';
-			$postlinks = '';
-			$revisionstr = '';
+	$postheaderrow = '';
+	$threadlink = '';
+	$postlinks = '';
+	$revisionstr = '';
 
-			// Lazy hacks :3
-			if (!isset($post['id'])) $post['id'] = 0;
+	// Lazy hacks :3
+	if (!isset($post['id'])) $post['id'] = 0;
 
-			if ($pthread)
-				$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
+	if ($pthread)
+		$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
 
-			if (isset($post['id']) && $post['id'])
-				$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
+	if (isset($post['id']) && $post['id'])
+		$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
 
-			if (isset($post['revision']) && $post['revision'] >= 2)
-				$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
+	if (isset($post['revision']) && $post['revision'] >= 2)
+		$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
 
-			// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
-			if (isset($post['isannounce'])) {
-				$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
-			} else if (isset($post['thread']) && $loguser['id'] != 0) {
-				$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
-			}
+	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
+	if (isset($post['isannounce'])) {
+		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
+	} else if (isset($post['thread']) && $loguser['id'] != 0) {
+		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
+	}
 
-			// "Edit" link for admins or post owners, but not banned users
-			if (isset($post['thread']) && can_edit_post($post) && $post['id'])
-				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
+	// "Edit" link for admins or post owners, but not banned users
+	if (isset($post['thread']) && can_edit_post($post) && $post['id'])
+		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-			if (isset($post['thread']) && $post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
-				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
+	if (isset($post['thread']) && $post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
+		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
 
-			if ($post['id'])
-				$postlinks.=" | ID: $post[id]";
+	if ($post['id'])
+		$postlinks.=" | ID: $post[id]";
 
-			if (has_perm('view-post-ips'))
-				$postlinks.=($postlinks ? ' | ' : '') . "IP: $post[ip]";
+	if (has_perm('view-post-ips'))
+		$postlinks.=($postlinks ? ' | ' : '') . "IP: $post[ip]";
 
-			if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
-				$revisionstr.=" | Go to revision: ";
-				for ($i = 1; $i <= $post['maxrevision'];  ++$i)
-					$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
-			}
+	if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
+		$revisionstr.=" | Go to revision: ";
+		for ($i = 1; $i <= $post['maxrevision'];  ++$i)
+			$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
+	}
 
-			// if quote enabled then if $postlink2 then postlink2 .= | [quote]
-			// 2/22/2007 xkeeper - guess which moron forgot to close the </a>
-			//[KAWA] Fun fact: <a name> is deprecated in favor of using IDs.
-			//       That's right, you can use <anything id="foo"> in place of <a name="foo">!
-			$tbar1 = ($type == 0 && !$isBlocked) ? "topbar" . $post['uid'] . "_1" : "";
-			$tbar2 = ($type == 0 && !$isBlocked) ? "topbar" . $post['uid'] . "_2" : "";
-			$sbar = ($type == 0 && !$isBlocked) ? "sidebar" . $post['uid'] : "";
-			$mbar = ($type == 0 && !$isBlocked) ? "mainbar" . $post['uid'] : "";
-			$ulink = userlink($post, 'u');
-			$pdate = cdate($dateformat, $post['date']);
-			$text = <<<HTML
+	$tbar1 = (!$isBlocked) ? "topbar" . $post['uid'] . "_1" : "";
+	$tbar2 = (!$isBlocked) ? "topbar" . $post['uid'] . "_2" : "";
+	$sbar = (!$isBlocked) ? "sidebar" . $post['uid'] : "";
+	$mbar = (!$isBlocked) ? "mainbar" . $post['uid'] : "";
+	$ulink = userlink($post, 'u');
+	$pdate = cdate($dateformat, $post['date']);
+	$text = <<<HTML
 <table class="c1" id="{$post['id']}">
 	$postheaderrow
 	<tr>
@@ -129,36 +122,32 @@ HTML;
 	</tr><tr valign=top>
 		<td class='b n1 sfont $sbar' style="border-top:0;">
 HTML;
-			if ($type == 0) {
-				$lastpost = ($post['ulastpost'] ? timeunits(ctime() - $post['ulastpost']) : 'none');
 
-				$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
+	$lastpost = ($post['ulastpost'] ? timeunits(ctime() - $post['ulastpost']) : 'none');
+	$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
 
-				if ($post['usign']) {
-					$signsep = $post['usignsep'] ? '' : '____________________<br>';
+	if ($post['usign']) {
+		$signsep = $post['usignsep'] ? '' : '____________________<br>';
 
-					if (!$post['uhead'])
-						$post['usign'] = '<br><br><small>' . $signsep . $post['usign'] . '</small>';
-					else
-						$post['usign'] = '<br><br>' . $signsep . $post['usign'];
-				}
+		if (!$post['uhead'])
+			$post['usign'] = '<br><br><small>' . $signsep . $post['usign'] . '</small>';
+		else
+			$post['usign'] = '<br><br>' . $signsep . $post['usign'];
+	}
 
-				$grouplink = grouplink($post['usex'], $post['ugroup_id']);
-				$text .= $grouplink . ((strlen($grouplink)) ? "<br>" : "") . postfilter($post['utitle']);
-				$text .= "<br>$picture
+	$grouplink = grouplink($post['usex'], $post['ugroup_id']);
+	$text .= $grouplink . ((strlen($grouplink)) ? "<br>" : "") . postfilter($post['utitle']);
+	$text .= "<br>$picture
 <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
 <br>
 <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
 <br>
 <br>Last post: $lastpost
 <br>Last view: " . timeunits(ctime() - $post['ulastview']);
-			} else {
-				$text .= "Posts:" . $post['num'] . "/" . $post['uposts'];
-			}
 			$text .= "</td>
 <td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
 </table>";
-	}
+
 	return $text;
 }
 

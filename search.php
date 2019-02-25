@@ -189,7 +189,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search") {
 				$pthread['id'] = $post['tid'];
 				$pthread['title'] = $post['ttitle'];
 				$post['text'] = preg_replace($boldify,"<b>\\0</b>",$post['text']);
-				echo "<br>".threadpost($post,0,$pthread);
+				echo "<br>".threadpost($post,$pthread);
 			}
 		} else {
 			if (!isset($page)) $page = 1;

@@ -335,7 +335,7 @@ if (!empty($_COOKIE['pstbon'])) {
 </table>
 <br>
 <table class="c1"><tr class="h"><td class="b h">Sample post</td><tr></table>
-<?=threadpost($post, 0)?>
+<?=threadpost($post)?>
 <br>
 <table class="c1">
 	<tr class="h"><td class="b n3">

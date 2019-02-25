@@ -16,19 +16,6 @@ checknumeric($tid);
 
 $act = (isset($act) ? $act : null);
 
-if ($act != 'Submit') {
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",u.posts AS uposts, p.*, pt1.text, t.forum tforum "
-			. 'FROM posts p '
-			. 'LEFT JOIN threads t ON t.id=p.thread '
-			. 'LEFT JOIN poststext pt1 ON p.id=pt1.id '
-			. 'LEFT JOIN poststext pt2 ON pt2.id=pt1.id AND pt2.revision=(pt1.revision+1) '
-			. 'LEFT JOIN users u ON p.user=u.id '
-			. "WHERE p.thread=$tid "
-			. "  AND ISNULL(pt2.id) "
-			. 'ORDER BY p.id DESC '
-			. "LIMIT $loguser[ppp]");
-}
-
 $thread = $sql->fetchq('SELECT t.*, f.title ftitle, f.private fprivate, f.readonly freadonly '
 		. 'FROM threads t '
 		. 'LEFT JOIN forums f ON f.id=t.forum '
@@ -118,7 +105,7 @@ if ($err) {
 " . "  <tr class=\"h\">
 " . "    <td class=\"b h\" colspan=2>Post preview
 " . "</table>
-" . threadpost($post, 0) . "
+" . threadpost($post) . "
 " . "<br>
 ";
 	} else {
@@ -171,19 +158,6 @@ if ($err) {
 	$sql->query("DELETE FROM threadsread WHERE tid='$thread[id]' AND NOT (uid='$userid')");
 
 	redirect("thread.php?pid=$pid#$pid", $c);
-}
-
-if ($act != 'Submit' && !$err && can_view_forum($thread)) {
-	?><br>
-<table class="c1"><tr class="h"><td class="b h" colspan=2>Thread preview</td></tr></table>
-<?php
-	while ($post = $sql->fetch($posts)) {
-		echo threadpost($post, 1);
-	}
-
-	if ($thread['replies'] >= $loguser['ppp']) {
-		?><br><table class="c1"><tr><td class="b n1">The full thread can be viewed <a href=thread.php?id=<?=$tid ?>>here</a>.</td></table><?php
-	}
 }
 
 pagefooter();

@@ -599,7 +599,7 @@ while ($post = $sql->fetch($posts)) {
 		}
 	}
 	echo "<br>
-" . threadpost($post, 0);
+" . threadpost($post);
 }
 
 

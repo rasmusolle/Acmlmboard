@@ -218,7 +218,7 @@ if (isset($err)) {
 	echo "$top - Preview " . (isset($pollprev) ? $pollprev : '');
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
-	<?php echo threadpost($post, 0); ?>
+	<?php echo threadpost($post); ?>
 	<br>
 	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
 		<table class="c1">
