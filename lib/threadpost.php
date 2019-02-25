@@ -145,7 +145,7 @@ HTML;
 
 				$grouplink = grouplink($post['usex'], $post['ugroup_id']);
 				$text .= $grouplink . ((strlen($grouplink)) ? "<br>" : "") . postfilter($post['utitle']);
-				$text .= "$picture
+				$text .= "<br>$picture
 <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
 <br>
 <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
