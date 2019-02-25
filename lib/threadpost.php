@@ -29,20 +29,11 @@ function threadpost($post, $type, $pthread = '') {
 			. ((strlen($post['ranktext']) >= 1) ? "<br>" : "")
 			. $post['utitle'];
 
-	//[KAWA] TODO: replace with token effect, or preferably just a profile switch
-	/*
-	  //opaque goggles
-	  if ($x_hacks['opaques']) {
-	  $post['usign'] = $post['uhead'] = "";
-	  }
-	 */
-	//if($post[nolayout]) {
 	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts), per-post ($post[nolayout]) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
 	$isBlocked = $post['nolayout'] || $loguser['blocklayouts'];
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
-	//}
 
 	if (isset($post['deleted']) && $post['deleted']) {
 		$postlinks = "";
@@ -52,18 +43,20 @@ function threadpost($post, $type, $pthread = '') {
 		}
 
 		if ($post['id'])
-			$postlinks.=($postlinks ? ' | ' : '') . "ID: $post[id]";
+			$postlinks .= ($postlinks ? ' | ' : '') . "ID: $post[id]";
 
-		$text = "<table class=\"c1\">
-" . "  <tr>
-" . "    <td class=\"b n1\" style=border-bottom:0;border-right:0;width:180px height=17>
-" . "      " . userlink($post, 'u') . "</td>
-" . "    <td class=\"b n1\" style=border-left:0>
-" . "      <table width=100%>
-" . "        <td class=\"nb sfont\">(post deleted)</td>
-" . "        <td class=\"nb sfont\" align=\"right\">$postlinks</td>
-" . "      </table>
-" . "</table>";
+		$ulink = userlink($post, 'u');
+		$text = <<<HTML
+<table class="c1"><tr>
+	<td class="b n1" style="border-right:0;width:180px">$ulink</td>
+	<td class="b n1" style="border-left:0">
+		<table width="100%">
+			<td class="nb sfont">(post deleted)</td>
+			<td class="nb sfont" align="right">$postlinks</td>
+		</table>
+	</td>
+</tr></table>
+HTML;
 		return $text;
 	}
 
@@ -84,19 +77,14 @@ function threadpost($post, $type, $pthread = '') {
 			if (isset($post['id']) && $post['id'])
 				$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
 
-
-//2007-03-08 blackhole89
 			if (isset($post['revision']) && $post['revision'] >= 2)
 				$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
 
 			// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 			if (isset($post['isannounce'])) {
-				$postheaderrow = "<tr class=\"h\">
-               <td class=\"b\" colspan=2>" . $post['ttitle'] . "</td>
-             </tr>
-            ";
+				$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
 			} else if (isset($post['thread']) && $loguser['id'] != 0) {
-				$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
+				$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
 			}
 
 			// "Edit" link for admins or post owners, but not banned users
@@ -126,24 +114,22 @@ function threadpost($post, $type, $pthread = '') {
 			$tbar2 = ($type == 0 && !$isBlocked) ? "topbar" . $post['uid'] . "_2" : "";
 			$sbar = ($type == 0 && !$isBlocked) ? "sidebar" . $post['uid'] : "";
 			$mbar = ($type == 0 && !$isBlocked) ? "mainbar" . $post['uid'] : "";
-			$text = "<table class=\"c1\" id=" . $post['id'] . ">
-" . "  $postheaderrow
-" . "  <tr>
-" . "    <td class=\"b n1 $tbar1\" style=\"border-bottom:0; border-right:0; min-width: 180px;\" height=17>
-" . "      " . userlink($post, 'u') .
-					/* " ".gettokenstring($post[uid])."</td> //[KAWA] Removed in favor of profile field
-					  ". */ "    </td>
-" . "    <td class=\"b n1 $tbar2\" style=\"border-left:0\" width=100%>
-" . "      <table width=100%>
-" . "       <tr>
-" . "        <td class=\"nb sfont\">Posted on " . cdate($dateformat, $post['date']) . "$threadlink$revisionstr</td>
-" . "        <td class=\"nb sfont\" align=\"right\">$postlinks</td>
-" . "      </table>
-" . "  <tr valign=top>
-" . "    <td class='b n1 sfont $sbar' style=\"border-top:0;\">
-";
+			$ulink = userlink($post, 'u');
+			$pdate = cdate($dateformat, $post['date']);
+			$text = <<<HTML
+<table class="c1" id="{$post['id']}">
+	$postheaderrow
+	<tr>
+		<td class="b n1 $tbar1" style="border-bottom:0; border-right:0; min-width: 180px;" height=17>$ulink</td>
+		<td class="b n1 $tbar2" style="border-left:0" width=100%>
+			<table width=100%>
+				<tr><td class="nb sfont">Posted on $pdate $threadlink $revisionstr</td><td class="nb sfont" align="right">$postlinks</td></tr>
+			</table>
+		</td>
+	</tr><tr valign=top>
+		<td class='b n1 sfont $sbar' style="border-top:0;">
+HTML;
 			if ($type == 0) {
-				$location = ($post['ulocation'] ? '<br>From: ' . postfilter($post['ulocation']) : '');
 				$lastpost = ($post['ulastpost'] ? timeunits(ctime() - $post['ulastpost']) : 'none');
 
 				$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
@@ -157,31 +143,21 @@ function threadpost($post, $type, $pthread = '') {
 						$post['usign'] = '<br><br>' . $signsep . $post['usign'];
 				}
 
-				//2/26/2007 xkeeper - making "posts: [[xxx/]]yyy" conditional instead of constant
 				$grouplink = grouplink($post['usex'], $post['ugroup_id']);
-				$text.=
-						$grouplink . "
-" . "      " . ((strlen($grouplink)) ? "<br>" : "") . "
-" . "      " . postfilter($post['utitle']);
-				/* Normal Rendering */
-				$text.= "      $picture
-" . "      <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
-" . "      <br>
-" . "      <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
-" . "      $location
-" . "      <br>
-" . "      <br>Last post: $lastpost
-" . "      <br>Last view: " . timeunits(ctime() - $post['ulastview']);
-			}else {
-				$text.="
-" . "      Posts: $post[num]/$post[uposts]
-";
+				$text .= $grouplink . ((strlen($grouplink)) ? "<br>" : "") . postfilter($post['utitle']);
+				$text .= "$picture
+<br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
+<br>
+<br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
+<br>
+<br>Last post: $lastpost
+<br>Last view: " . timeunits(ctime() - $post['ulastview']);
+			} else {
+				$text .= "Posts:" . $post['num'] . "/" . $post['uposts'];
 			}
-			$text.=
-					"    </td>
-" . "    <td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
-" . "</table>
-";
+			$text .= "</td>
+<td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
+</table>";
 	}
 	return $text;
 }
