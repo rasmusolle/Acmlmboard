@@ -12,7 +12,7 @@ if (isset($_POST['savecat'])) {
 	$cid = $_GET['cid'];
 	$title = stripslashes($_POST['title']);
 	$ord = (int)$_POST['ord'];
-	$private = $_POST['private'] ? 1:0;
+	$private = isset($_POST['private']) ? 1 : 0;
 	if (!trim($title))
 		$error = 'Please enter a title for the category.';
 	else {
