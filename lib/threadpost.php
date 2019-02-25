@@ -48,7 +48,7 @@ function threadpost($post, $type, $pthread = '') {
 		$postlinks = "";
 		if (can_edit_forum_posts(getforumbythread($post['thread']))) {
 			$postlinks.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&rev=$post[revision]#$post[id]\">Peek</a> | ";
-			$postlinks.="<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post[id])) . "&amp;act=undelete\">Undelete</a>";
+			$postlinks.="<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=undelete\">Undelete</a>";
 		}
 
 		if ($post['id'])

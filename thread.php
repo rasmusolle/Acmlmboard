@@ -102,7 +102,7 @@ else
 
 $action = '';
 $userbar = '';
-$timeval = 0;
+//$timeval = 0;
 
 $post_c = isset($_POST['c']) ? $_POST['c'] : '';
 $act = isset($_POST['action']) ? $_POST['action'] : '';
@@ -563,7 +563,7 @@ function trashConfirm(e) {
 
 echo "$topbot$userbar";
 
-if ($timeval) {
+if (isset($timeval)) {
 	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
           <a href=forum.php?time=$timeval>By Threads</a> | By Posts</a></div><br>";
 	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
@@ -581,7 +581,7 @@ while ($post = $sql->fetch($posts)) {
 			continue;
 	}
 	}
-	if (isset($uid) || $timeval) {
+	if (isset($uid) || isset($timeval)) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
 	}
@@ -590,11 +590,11 @@ while ($post = $sql->fetch($posts)) {
 	} else {
 		$post['maxrevision'] = $sql->resultq("SELECT MAX(revision) FROM poststext WHERE id=$_GET[pin]");
 	}
-	if (can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
+	if (isset($thread['forum']) && can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 
 	if (isset($_REQUEST['pid'])) {
-		if ($post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
+		if (isset($_COOKIE['pstbon']) && $post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
 			echo $rdmsg;
 		}
 	}
