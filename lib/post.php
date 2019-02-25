@@ -67,21 +67,6 @@ function makeirc($match) {
 	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code>" . str_replace($list, $list2, $code) . "</code></table>";
 }
 
-function makesvg($match) {
-	$svgin = "<?xml version=\"1.0\" standalone=\"no\"?" . ">"
-			. "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n "
-			. "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
-			. "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"{$match[1]}\" height=\"{$match[2]}\" viewBox=\"0 0 {$match[1]} {$match[2]}\" version=\"1.1\">";
-	$svgout = "</svg>";
-
-	$svgcode = $match[3];
-
-	if (strpos($_SERVER['HTTP_USER_AGENT'], "Chrome") !== false)
-		return "<img src=\"data:image/svg+xml;base64," . htmlspecialchars(base64_encode($svgin . $svgcode . $svgout)) . "\" width=\"{$match[1]}\" height=\"{$match[2]}\">";
-	else
-		return "<object data=\"data:image/svg+xml;base64," . htmlspecialchars(base64_encode($svgin . $svgcode . $svgout)) . "\" type=\"image/svg+xml\" width=\"{$match[1]}\" height=\"{$match[2]}\"></object>";
-}
-
 function filterstyle($match) {
 	$style = $match[2];
 
@@ -103,12 +88,7 @@ function postfilter($msg) {
 
 	$msg = preg_replace_callback("@(<style.*?>)(.*?)(</style.*?>)@si", 'filterstyle', $msg);
 
-	// security filtering needs to be done before [svg] is parsed because [svg]
-	// uses tags that are otherwise blacklisted
 	$msg = securityfilter($msg);
-
-	//[blackhole89] - [svg] tag
-	$msg = preg_replace_callback("'\[svg ([0-9]+) ([0-9]+)\](.*?)\[/svg\]'si", 'makesvg', $msg);
 
 	$msg = str_replace("\n", '<br>', $msg);
 
@@ -261,7 +241,6 @@ function posttoolbar() {
 			. posttoolbutton("message", ";", "Code", "[code]", "[/code]", "cd")
 			. "<td class=\"b n2\">&nbsp;</td>"
 			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
-			. posttoolbutton("message", "%", "SVG", "[svg <WIDTH> <HEIGHT>]", "[/svg]", "sv")
 			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt");
 }
 
