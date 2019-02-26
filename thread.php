@@ -348,7 +348,7 @@ if ($viewmode == "thread") {
 	die();
 }
 
-$modlinks = '<br>';
+$modlinks = '';
 if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] == $thread['user'] && !$thread['closed'] && has_perm('rename-own-thread')))) {
 	$link = "<a href=javascript:submitmod";
 	if (can_edit_forum_threads($thread['forum'])) {
