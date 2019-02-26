@@ -1,36 +1,15 @@
 <?php
 
-/* thread.php ****************************************
-  Changelog
-  0224  Sukasa          Removed hack.
-  0223  Sukasa          added small threadid==4650 hack for banner (will remove)
-  it's near the end of the document, specifically just below $modlink=...
-  0222  blackhole89     added support for mark forum read from here
-  0221  blackhole89     updating the threadsread table when a logged on user
-  uses this
-  0220  blackhole89     readded check for forum minpower; this appears
-  to have been lost in the process of merging before
- * ************************************************** */
-
 require('lib/common.php');
 require('lib/threadpost.php');
 $rdmsg = "";
 if (!empty($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<script language=\"javascript\">
-	function dismiss()
-	{
-		document.getElementById(\"postmes\").style['display'] = \"none\";
-	}
-</script>
-	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+	$rdmsg = "<br><table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] >= 1) {
-		$rdmsg.="Post Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">Post successful.</td></tr></table></div><br>";
+		$rdmsg .= "Post Successful</td></tr><tr><td class=\"b n1\" align=\"left\">Post successful.</td></tr></table></div><br>";
 	} else {
-		$rdmsg.="Edit Successful<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">Post was edited successfully.</td></tr></table></div>";
+		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\" align=\"left\">Post was edited successfully.</td></tr></table>";
 	}
 }
 
@@ -102,7 +81,6 @@ else
 
 $action = '';
 $userbar = '';
-//$timeval = 0;
 
 $post_c = isset($_POST['c']) ? $_POST['c'] : '';
 $act = isset($_POST['action']) ? $_POST['action'] : '';
@@ -169,8 +147,7 @@ if ($viewmode == "thread") {
 					if ($thread['changeable']) {
 						//changeable multivotes toggle
 						$res = $sql->query("DELETE FROM pollvotes WHERE user='$loguser[id]' AND id='$vote'");
-						if (!$sql->affectedrows())
-							$sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
+						if (!$sql->affectedrows()) $sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
 					} else
 						$sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
 				} else if ($thread['changeable']) {
@@ -178,8 +155,7 @@ if ($viewmode == "thread") {
 					$sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
 				} else {
 					$res = $sql->resultq("SELECT COUNT(*) FROM pollvotes v LEFT JOIN polloptions o ON o.id=v.id WHERE v.user='$loguser[id]' AND o.poll=$tid");
-					if (!$res)
-						$sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
+					if (!$res) $sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
 				}
 
 				$redir = 'Location: thread.php?';
@@ -187,8 +163,7 @@ if ($viewmode == "thread") {
 					$redir .= "pid={$pid}#{$pid}";
 				else {
 					$redir .= 'id=' . $tid;
-					if (isset($_REQUEST['page']))
-						$redir .= '&page=' . $_REQUEST['page'];
+					if (isset($_REQUEST['page'])) $redir .= '&page=' . $_REQUEST['page'];
 				}
 				die(header($redir));
 			}
@@ -205,10 +180,10 @@ if ($viewmode == "thread") {
 	//check for having to mark the forum as read too
 	if ($log) {
 		$readstate = $sql->fetchq("SELECT ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') n "
-				. "FROM threads t "
-				. "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
-				. "WHERE t.forum=$thread[fid] "
-				. "GROUP BY ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') ORDER BY n ASC");
+			. "FROM threads t "
+			. "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
+			. "WHERE t.forum=$thread[fid] "
+			. "GROUP BY ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') ORDER BY n ASC");
 		//if $readstate[n] is 1, MySQL did not create a group for threads where ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') is 0;
 		//thus, all threads in the forum are read. Mark it as such.
 		if ($readstate['n'] == 1)
@@ -217,90 +192,63 @@ if ($viewmode == "thread") {
 
 	//select top revision // 2007-03-08 blackhole89
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ", " . $fieldlist . " p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
-			. "FROM posts p "
-			. "LEFT JOIN threads t ON t.id=p.thread "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "WHERE p.thread=$tid AND ISNULL(pt2.id) "
-			. "GROUP BY p.id "
-			. "ORDER BY p.id "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+		. "FROM posts p "
+		. "LEFT JOIN threads t ON t.id=p.thread "
+		. "LEFT JOIN poststext pt ON p.id=pt.id "
+		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
+		. "LEFT JOIN users u ON p.user=u.id "
+		. "WHERE p.thread=$tid AND ISNULL(pt2.id) "
+		. "GROUP BY p.id "
+		. "ORDER BY p.id "
+		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 }elseif ($viewmode == "user") {
-	$user = $sql->fetchq("SELECT * "
-			. "FROM users "
-			. "WHERE id=$uid ");
-	//title
+	$user = $sql->fetchq("SELECT * FROM users WHERE id = $uid");
+
 	pageheader("Posts by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
-			. "FROM posts p "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.user=$uid AND ISNULL(pt2.id) "
-			. "ORDER BY p.id "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+		. "FROM posts p "
+		. "LEFT JOIN poststext pt ON p.id=pt.id "
+		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
+		. "LEFT JOIN users u ON p.user=u.id "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.user=$uid AND ISNULL(pt2.id) "
+		. "ORDER BY p.id "
+		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 
 	$thread[replies] = $sql->resultq("SELECT count(*) "
-			. "FROM posts p "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.user=$uid ");
+		. "FROM posts p "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.user=$uid ");
 } elseif ($viewmode == "announce") {
 	pageheader('Announcements');
 
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum, p.announce isannounce "
-			. "FROM posts p "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.announce=1 AND t.announce=1 AND ISNULL(pt2.id) GROUP BY pt.id "
-			. "ORDER BY p.id DESC "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+		. "FROM posts p "
+		. "LEFT JOIN poststext pt ON p.id=pt.id "
+		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
+		. "LEFT JOIN users u ON p.user=u.id "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.announce=1 AND t.announce=1 AND ISNULL(pt2.id) GROUP BY pt.id "
+		. "ORDER BY p.id DESC "
+		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 
 	$thread['replies'] = $sql->resultq("SELECT count(*) "
-					. "FROM posts p "
-					. "LEFT JOIN threads t ON p.thread=t.id "
-					. "LEFT JOIN forums f ON f.id=t.forum "
-					. "LEFT JOIN categories c ON c.id=f.cat "
-					. "WHERE p.announce=1 AND t.announce=1  "
+		. "FROM posts p "
+		. "LEFT JOIN threads t ON p.thread=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON c.id=f.cat "
+		. "WHERE p.announce=1 AND t.announce=1  "
 			) - 1;
 } elseif ($viewmode == "time") {
 	$mintime = ctime() - $timeval;
 
 	pageheader('Latest posts');
-
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
-			. "FROM posts p "
-			. "LEFT JOIN poststext pt ON p.id=pt.id "
-			. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
-			. "LEFT JOIN users u ON p.user=u.id "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.date>$mintime AND ISNULL(pt2.id) "
-			. "ORDER BY p.date DESC "
-			. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
-
-	$thread['replies'] = $sql->resultq("SELECT count(*) "
-			. "FROM posts p "
-			. "LEFT JOIN threads t ON p.thread=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON c.id=f.cat "
-			. "WHERE p.date>$mintime "
-	);
-} else
-	pageheader();
-
-if (isset($_GET['time'])) {
-	$mintime = ctime() - $timeval;
 
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
@@ -319,8 +267,10 @@ if (isset($_GET['time'])) {
 		. "LEFT JOIN threads t ON p.thread=t.id "
 		. "LEFT JOIN forums f ON f.id=t.forum "
 		. "LEFT JOIN categories c ON c.id=f.cat "
-		. "WHERE p.date>$mintime ");
-}
+		. "WHERE p.date>$mintime "
+	);
+} else
+	pageheader();
 
 if ($thread['replies'] < $ppp) {
 	$pagelist = '';
@@ -343,7 +293,6 @@ if ($thread['replies'] < $ppp) {
 }
 
 if ($viewmode == "thread") {
-
 	$faccess = $sql->fetch($sql->query("SELECT id,private,readonly FROM forums WHERE id=" . (int) $thread['forum']));
 	if (can_create_forum_post($faccess)) {
 		if (has_perm('override-closed') && $thread['closed'])
@@ -379,36 +328,19 @@ if ($viewmode == "thread") {
 	}
 
 	$topbot = "<table width=100%><tr>
-" . "  <td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> - " . htmlval($thread['title']) . "</td>
-" . "  <td class=\"nb\" align=\"right\">
-" . "  $newreply
-" . "  </td>
-" . "</table>
-";
+		<td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> - " . htmlval($thread['title']) . "</td>
+		<td class=\"nb\" align=\"right\">$newreply</td></tr></table>";
 }elseif ($viewmode == "user") {
-	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Posts by " . userlink($user, "") . "</td>
-" . "</table>
-";
+	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Posts by ".userlink($user, "")."</td></table>";
 } elseif ($viewmode == "announce") {
-	if (has_perm('create-forum-announcements')) {
+	if (has_perm('create-forum-announcements'))
 		$newreply = "<a href=newthread.php?announce=1>New announcement</a>";
-	} else {
+	else
 		$newreply = "";
-	}
 
-	$topbot = "<table width=100%><tr>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Announcements</td>
-" . "  <td class=\"nb\" align=\"right\">
-" . "    $newreply
-" . "  </td>
-" . "</table>
-";
+	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb\" align=\"right\">$newreply</td></tr></table>";
 } elseif ($viewmode == "time") {
-	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
-" . "</table>
-";
+	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Latest posts</td></tr></table>";
 	$timeval = $_GET['time'];
 } else {
 	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
@@ -416,11 +348,8 @@ if ($viewmode == "thread") {
 	die();
 }
 
-
 $modlinks = '<br>';
-if (isset($tid) &&
-		(can_edit_forum_threads($thread['forum']) ||
-		($loguser['id'] == $thread['user'] && !$thread['closed'] && has_perm('rename-own-thread')))) {
+if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] == $thread['user'] && !$thread['closed'] && has_perm('rename-own-thread')))) {
 	$link = "<a href=javascript:submitmod";
 	if (can_edit_forum_threads($thread['forum'])) {
 		if ($thread['sticky']) {
@@ -485,80 +414,71 @@ if (isset($tid) &&
 
 	echo "<script language=\"javascript\">
 function trashConfirm(e) {
-    if(confirm(\"Are you sure you want to trash this thread?\"));
-    else {
-  e.preventDefault();
- }
+	if (confirm(\"Are you sure you want to trash this thread?\"));
+	else {
+		e.preventDefault();
+	}
 }
 </script>";
 
 	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\" id=\"mod\">
-" . "  <table class=\"c2\"><tr class=\"n2\">
-" . "  <td class=\"b n3\">
-" . "    <span id=\"moptions\">
-" . "    $opt options:
-" . "    $stick
-" . "    $close
-" . "    $trash
-" . "    $edit
-" . "    </span>
-" . "    <span id=\"mappend\">
-" . "    </span>
-" . "    <span id=\"canceledit\">
-" . "    </span>
-" . "    <script type=\"text/javascript\">
-" . "      function submitmod(act){
-" . "        document.getElementById('action').value=act;
-" . "        document.getElementById('mod').submit();
-" . "      }
-" . "      function submitrename(name){
-" . "        document.mod.arg.value=name;
-" . "        submitmod('rename')
-" . "      }
-" . "      function submitmove(fid){
-" . "        document.mod.arg.value=fid;
-" . "        submitmod('move')
-" . "      }
-" . "      function showrbox(){
-" . "        document.getElementById('moptions').innerHTML='Rename thread:';
-" . "        document.getElementById('mappend').innerHTML='$renamefield';
-" . "        document.getElementById('mappend').style.display = '';
-" . "      }
-" . "      function showmove(){
-" . "        document.getElementById('moptions').innerHTML='Move to: ';
-" . "        document.getElementById('mappend').innerHTML='$fmovelinks';
-" . "        document.getElementById('mappend').style.display = '';
-" . "      }
-" . "      function submit_on_return(event,act){
-" . "        a=event.keyCode?event.keyCode:event.which?event.which:event.charCode;
-" . "        document.mod.action.value=act;
-" . "        document.mod.arg.value=document.mod.tmp.value;
-" . "        if(a==13) document.mod.submit();
-" . "      }
-" . "      function hidethreadedit() {
-" . "        document.getElementById('moptions').innerHTML = '$opt options: $stick2 $close2 $trash2 $edit';
-" . "        document.getElementById('mappend').innerHTML = '<input type=hidden name=tmp style=\'width:80%!important;border-width:0px!important;padding:0px!important\' onkeypress=\"submit_on_return(event,\'rename\')\" value=\"" . addcslashes(htmlentities($thread['title'], ENT_COMPAT | ENT_HTML401, 'UTF-8'), "'") . "\" maxlength=100>';
-" . "        document.getElementById('canceledit').style.display = 'none';
-" . "     }
-" . "     function movetid() {
-" . "        var x = document.getElementById('forumselect').selectedIndex;
-" . "        document.getElementById('move').innerHTML = document.getElementsByTagName('option')[x].value;
-" . "        return document.getElementsByTagName('option')[x].value;
-" . "     }
-" . "     function renametitle() {
-" . "        var x = document.getElementById('title').value;
-" . "        document.getElementById('rename').innerHTML = document.getElementsByTagName('input')[x].value;
-" . "        return document.getElementsByTagName('input')[x].value;
-" . "     }
-" . "    </script>
-" . "    <input type=hidden id=\"arg\" name=\"arg\" value=\"\" />
-" . "    <input type=hidden id=\"id\" name=\"id\" value=\"$tid\" />
-" . "    <input type=hidden id=\"action\" name=\"action\" value=\"\" />
-" . "    <input type=hidden id=\"c\" name=\"c\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . " />
-" . "  </td>
-" . "</table>
-" . "</form>
-";
+<table class=\"c2\"><tr class=\"n2\">
+	<td class=\"b n3\">
+		<span id=\"moptions\">$opt options: $stick $close $trash $edit </span>
+		<span id=\"mappend\"></span>
+		<span id=\"canceledit\"></span>
+		<script type=\"text/javascript\">
+function submitmod(act){
+	document.getElementById('action').value=act;
+	document.getElementById('mod').submit();
+}
+function submitrename(name){
+	document.mod.arg.value=name;
+	submitmod('rename')
+}
+function submitmove(fid){
+	document.mod.arg.value=fid;
+	submitmod('move')
+}
+function showrbox(){
+	document.getElementById('moptions').innerHTML='Rename thread:';
+	document.getElementById('mappend').innerHTML='$renamefield';
+	document.getElementById('mappend').style.display = '';
+}
+function showmove(){
+	document.getElementById('moptions').innerHTML='Move to: ';
+	document.getElementById('mappend').innerHTML='$fmovelinks';
+	document.getElementById('mappend').style.display = '';
+}
+function submit_on_return(event,act){
+	a=event.keyCode?event.keyCode:event.which?event.which:event.charCode;
+	document.mod.action.value=act;
+	document.mod.arg.value=document.mod.tmp.value;
+	if(a==13) document.mod.submit();
+}
+function hidethreadedit() {
+	document.getElementById('moptions').innerHTML = '$opt options: $stick2 $close2 $trash2 $edit';
+	document.getElementById('mappend').innerHTML = '<input type=hidden name=tmp style=\'width:80%!important;border-width:0px!important;padding:0px!important\' onkeypress=\"submit_on_return(event,\'rename\')\" value=\"" . addcslashes(htmlentities($thread['title'], ENT_COMPAT | ENT_HTML401, 'UTF-8'), "'") . "\" maxlength=100>';
+	document.getElementById('canceledit').style.display = 'none';
+}
+function movetid() {
+	var x = document.getElementById('forumselect').selectedIndex;
+	document.getElementById('move').innerHTML = document.getElementsByTagName('option')[x].value;
+	return document.getElementsByTagName('option')[x].value;
+}
+function renametitle() {
+	var x = document.getElementById('title').value;
+	document.getElementById('rename').innerHTML = document.getElementsByTagName('input')[x].value;
+	return document.getElementsByTagName('input')[x].value;
+}
+		</script>
+		<input type=hidden id=\"arg\" name=\"arg\" value=\"\" />
+		<input type=hidden id=\"id\" name=\"id\" value=\"$tid\" />
+		<input type=hidden id=\"action\" name=\"action\" value=\"\" />
+		<input type=hidden id=\"c\" name=\"c\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . " />
+	</td>
+</table>
+</form>";
 }
 
 echo "$topbot$userbar";
@@ -566,14 +486,12 @@ echo "$topbot$userbar";
 if (isset($timeval)) {
 	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
           <a href=forum.php?time=$timeval>By Threads</a> | By Posts</a></div><br>";
-	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
+	echo '' .
 			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
 			. "</div>";
 }
 
-echo "$modlinks
-" . "$pagelist
-" . (isset($poll) ? $poll : '');
+echo "$modlinks $pagelist " . (isset($poll) ? $poll : '');
 while ($post = $sql->fetch($posts)) {
 	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {
@@ -598,13 +516,10 @@ while ($post = $sql->fetch($posts)) {
 			echo $rdmsg;
 		}
 	}
-	echo "<br>
-" . threadpost($post);
+	echo "<br>".threadpost($post);
 }
 
-
-echo "$pagelist$pagebr
-" . "<br>";
+echo "$pagelist$pagebr<br>";
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
@@ -613,45 +528,26 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {
 		echo $rdmsg;
 	}
-	echo "
-" . "
-" . "<table class=\"c1\">
-" . " <form action=newreply.php method=post>
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>Warp Whistle Reply</a></td>
-";
-	echo "  <input type=\"hidden\" name=name value=\"" . htmlval($loguser['name']) . "\">
-" . "  <input type=\"hidden\" name=passenc value=\"" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . "\">
-";
-	echo "  <tr>
-";
-		echo "    <td class=\"b n1\" align=\"center\" width=120>Format:</td>
-" . "    <td class=\"b n2\"><table><tr class='toolbar'>$toolbar</table>
-";
-
-	// TODO: WHERE IS QUOTE TEXT??
-	if(!isset($quotetext)) $quotetext = '';
-
-	echo "  <tr>
-" . "    <td class=\"b n1\" align=\"center\" width=120>Reply:</td>
-" . "    <td class=\"b n2\"><textarea wrap=\"virtual\" name=message id='message' rows=8 cols=80>$quotetext</textarea></td>
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b\">&nbsp;</td>
-" . "    <td class=\"b\">
-" . "      <input type=\"hidden\" name=tid value=$tid>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Submit>
-" . "      <input type=\"submit\" class=\"submit\" name=action value=Preview>
-" . "      <input type=\"checkbox\" name=nolayout id=nolayout value=1 ><label for=nolayout>Disable post layout</label>
-";
-	if (can_edit_forum_threads($thread['forum']))
-		echo "     <input type=\"checkbox\" name=close id=close value=1 ><label for=close>Close thread</label>
-                " . (!$thread['sticky'] ? "<input type=\"checkbox\" name=stick id=stick value=1><label for=stick>Stick thread</label>" : "") . "
-                " . ($thread['sticky'] ? "<input type=\"checkbox\" name=unstick id=unstick value=1><label for=unstick>Unstick thread</label>" : "") . "
-";
-	echo "    </td>
-" . " </form>
-" . "</table><br>
-";
+	?><table class="c1">
+<form action="newreply.php" method="post">
+	<tr class="h"><td class="b h" colspan=2>Warp Whistle Reply</a></td>
+	<tr>
+		<td class="b n1" align="center" width=120>Format:</td>
+		<td class="b n2"><table><tr class='toolbar'><?=$toolbar ?></table>
+	</tr><tr>
+		<td class="b n1" align="center" width=120>Reply:</td>
+		<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=8 cols=80></textarea></td>
+	</tr><tr class="n1">
+		<td class="b"></td>
+		<td class="b">
+			<input type="hidden" name="tid" value="<?=$tid ?>">
+			<input type="submit" class="submit" name="action" value="Submit">
+			<input type="submit" class="submit" name="action" value="Preview">
+			<input type="checkbox" name="nolayout" id="nolayout" value=1><label for="nolayout">Disable post layout</label>
+		</td>
+	</tr>
+</form></table><br>
+<?php
 }
 
 echo "$userbar$topbot";
