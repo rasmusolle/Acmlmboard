@@ -90,34 +90,18 @@ function rendernewstatus($type, $newcount = '0') {
 		case "n":
 			$text = "NEW";
 			$statusimg = "new.png";
-			break;
-
-		case "e":
-			$text = "EDT";
-			break;
-
-		case "E":
-		case "!e":
-			$text = "EDT";
-			break;
-
+		break;
 		case "o":
 			$text = "OFF";
 			$statusimg = "off.png";
-			break;
-
+		break;
 		case "on":
 			$text = "OFF";
 			$statusimg = "offnew.png";
-			break;
-
+		break;
 	}
 
-	if (!isset($text)) {
-		$text = "";
-	}
-
-	$status = "<div style='line-height:75%;padding: 0;'><img src=\"img/status/$statusimg\" alt=\"$text\"><br/>";
+	$status = "<div style='line-height:75%'><img src=\"img/status/$statusimg\" alt=\"$text\"><br/>";
 	if ($newcount > '0') {
 		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
 			$imgstrings = '';
