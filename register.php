@@ -25,32 +25,6 @@ if ($regdis['intval'] == 1) {
 	die();
 }
 
-
-$boardemailaddress = $sql->resultq("SELECT `emailaddress` FROM `misc` WHERE `field`='boardemail'");
-if (isProxy()) {
-	pageheader('Register');
-
-	if ($regdis['txtval'] != "")
-		$reason = $regdis['txtval'];
-	else
-		$reason = "Security Check Failure";
-
-	?>
-	<table class="c1">
-		<tr class="h"><td class="b h" colspan="2">Registration is denied</td></tr>
-		<tr>
-			<td class="b n1" align="center" width="120">
-				Our site has detected your IP is either a proxy, or listed as a known spammer.
-				If you feel this is in error contact the board admins at <?php echo $boardemailaddress; ?>
-			</td>
-		</tr>
-	</table>
-	<?php
-
-	pagefooter();
-	die();
-}
-
 function randstr($l) {
 	$str = "";
 	$chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$+/~";

@@ -117,41 +117,6 @@ function checkcdisplayname($uid) {
 	return false;
 }
 
-//This block was borrowed from Blargboard. It is a proxy and stop forum spam detection routine and it's required defined function for url pulling.
-function queryURL($url) {
-	if (function_exists('curl_init')) {
-		if ($ch = curl_init($url)) {
-			curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'PHP/' . phpversion()); // Notice: Use of undefined constant BLARG_VERSION
-
-			$result = curl_exec($ch);
-			curl_close($ch);
-
-			return $result;
-		}
-	} else if (ini_get('allow_url_fopen')) {
-		return file_get_contents($url);
-	}
-
-	return FALSE;
-}
-
-function isProxy() {
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != $_SERVER['REMOTE_ADDR']) {
-		return true;
-	}
-
-	if ($result = queryURL('http://www.stopforumspam.com/api?ip=' . urlencode($_SERVER['REMOTE_ADDR']))) {
-		if (stripos($result, '<appears>yes</appears>') !== FALSE) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 function getrank($set, $posts) {
 	global $ranks, $rankset_data, $rankset_names;
 
