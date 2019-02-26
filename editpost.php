@@ -35,7 +35,7 @@ $thread = $sql->fetchq('SELECT p.user puser, t.*, f.title ftitle, f.private fpri
 
 if (!$thread) $pid = 0;
 if ($act != "Submit") {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
+	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
 }
 $toolbar = posttoolbar();
 

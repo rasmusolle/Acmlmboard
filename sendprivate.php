@@ -10,7 +10,7 @@ if (!isset($_GET['pid'])) $_GET['pid'] = -1;
 if (!isset($_GET['uid'])) $_GET['uid'] = -1;
 
 if ($act != 'Submit') {
-	echo '<script language="javascript" type="text/javascript" src="tools.js"></script>';
+	echo '<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>';
 }
 
 $top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';

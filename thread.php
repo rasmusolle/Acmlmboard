@@ -607,7 +607,7 @@ echo "$pagelist$pagebr
 " . "<br>";
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
+	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
 	$toolbar = posttoolbar();
 
 	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {

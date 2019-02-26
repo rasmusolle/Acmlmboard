@@ -22,7 +22,7 @@ $thread = $sql->fetchq('SELECT t.*, f.title ftitle, f.private fprivate, f.readon
 		. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
 
 if ($act != "Submit") {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"tools.js\"></script>";
+	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
 }
 $toolbar = posttoolbar();
 
