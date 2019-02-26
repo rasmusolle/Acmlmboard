@@ -233,13 +233,13 @@ function posttoolbar() {
 			. posttoolbutton("message", "I", "Italic", "[i]", "[/i]")
 			. posttoolbutton("message", "U", "Underline", "[u]", "[/u]")
 			. posttoolbutton("message", "S", "Strikethrough", "[s]", "[/s]")
-			. "<td class=\"b n2\">&nbsp;</td>"
+			. "<td class=\"nb n2\">&nbsp;</td>"
 			. posttoolbutton("message", "_", "IRC", "[irc]", "[/irc]")
 			. posttoolbutton("message", "/", "URL", "[url]", "[/url]")
 			. posttoolbutton("message", "!", "Spoiler", "[spoiler]", "[/spoiler]", "sp")
 			. posttoolbutton("message", "&#133;", "Quote", "[quote]", "[/quote]", "qt")
 			. posttoolbutton("message", ";", "Code", "[code]", "[/code]", "cd")
-			. "<td class=\"b n2\">&nbsp;</td>"
+			. "<td class=\"nb n2\">&nbsp;</td>"
 			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
 			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt");
 }
