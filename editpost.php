@@ -152,8 +152,6 @@ if (isset($err)) {
 	$rev++;
 	$sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".ctime().")");
 	$sql->query("UPDATE posts SET nolayout='$_POST[nolayout]' WHERE id='$pid'");
-	$sql->query("UPDATE threads SET lastdate=".ctime().",lastuser=$userid,lastid=$pid$modext WHERE id='$thread[id]'");
-	$sql->query("UPDATE forums SET lastdate=".ctime().",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");
 
