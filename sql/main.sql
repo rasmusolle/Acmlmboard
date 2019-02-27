@@ -82,8 +82,8 @@ INSERT INTO `group` (`id`, `title`, `nc0`, `nc1`, `nc2`, `inherit_group_id`, `de
 (1,	'Base User',	'',	'',	'',	0,	0,	0,	100,	0,	0,	''),
 (2,	'Normal User',	'97ACEF',	'F185C9',	'7C60B0',	1,	1,	0,	200,	1,	1,	'Normal Registered User'),
 (3,	'Moderator',	'AFFABE',	'C762F2',	'47B53C',	10,	0,	0,	600,	1,	1,	''),
-(4,	'Administrator',	'FFEA95',	'C53A9E',	'F0C413',	3,	0,	0,	700,	1,	1,	''),
-(6,	'Root Administrator',	'EE4444',	'E63282',	'AA3C3C',	0,	-1,	0,	800,	1,	1,	''),
+(4,	'Administrator',	'FFEA95',	'C53A9E',	'd8b00d',	3,	0,	0,	700,	1,	1,	''),
+(6,	'Root Administrator',	'AA3C3C',	'AA3C3C',	'AA3C3C',	0,	-1,	0,	800,	1,	1,	''),
 (9,	'Banned',	'888888',	'888888',	'888888',	2,	0,	1,	0,	1,	1,	''),
 (10,	'Staff',	'',	'',	'',	2,	0,	0,	300,	0,	0,	''),
 (15,	'Bot',	'',	'',	'',	1,	0,	0,	50,	0,	0,	'');
@@ -127,7 +127,6 @@ CREATE TABLE `misc` (
   `field` varchar(255) NOT NULL,
   `intval` int(11) NOT NULL DEFAULT '0',
   `txtval` text NOT NULL,
-  `emailaddress` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '0',
   PRIMARY KEY (`field`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
