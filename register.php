@@ -83,28 +83,6 @@ if ($act == 'Register') {
 			$sql->prepare("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", array($id, ctime()));
 			$sql->prepare("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", array($id, ctime()));
 
-			/* count matches for IP and hash */
-			//hash
-			$a = $sql->fetchq("SELECT COUNT(*) as c FROM users WHERE pass='".md5($pwdsalt2.$_POST[pass].$pwdsalt)."'");
-			$m_hash = $a['c']-1;
-			//split the IP
-			$ipparts = explode(".",$userip);
-			// /32 matches
-			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip='$userip'");
-			$m_ip32 = $a['c']-1;
-			// /24
-			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].$ipparts[2].%'");
-			$m_ip24 = $a['c']-1;
-			// /16
-			$a = $sql->fetchq("SELECT count(*) as c FROM users WHERE ip LIKE '$ipparts[0].$ipparts[1].%'");
-			$m_ip16 = $a['c']-1;
-
-			//fancy colouring (if matches exist, make it red); references to make foreach not operate on copies
-			$clist = array(&$m_hash, &$m_ip32, &$m_ip24, &$m_ip16);
-			foreach($clist as &$c) {
-				if($c>0) $c = "{irccolor-no}$c"; else $c="{irccolor-yes}$c";
-			}
-
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
 
@@ -135,7 +113,7 @@ if(!empty($err)) noticemsg("Error", $err);
 		<tr class="h">
 			<td class="b h" colspan="2">Register</td>
 		</tr><tr>
-			<td class="b n1" align="center" width=120>Username:</td>
+			<td class="b n1" align="center" width=150>Username:</td>
 			<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
 		</tr><tr>
 			<td class="b n1" align="center">Password:</td>
