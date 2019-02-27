@@ -232,7 +232,7 @@ $logtzoff = $logtz->getOffset($now);
 //User color override - Should be moved to a function.
 $u = ''; // what was this originally?
 $group = $usergroups[$user[$u . 'group_id']];
-$realnc = $group['nc' . $user[$u . 'sex']];
+$realnc = $group['nc'];
 
 //Toggles class define for spans where appropriate
 $usercnickcolor = '';
@@ -249,6 +249,8 @@ if ($config['displayname'] && $user['displayname'])
 if ($userdisplayname || $usercnickcolor) {
 	$showrealnick = true;
 }
+
+$sex = array('Male', 'Female', 'N/A');
 
 print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 if (!empty($_COOKIE['pstbon'])) {
@@ -328,6 +330,9 @@ if (!empty($_COOKIE['pstbon'])) {
 	</tr><tr>
 		<td class="b n1"><b>Birthday</b></td>
 		<td class="b n2"><?=$birthday . $age ?></td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Sex</b></td>
+		<td class="b n2"><?=$sex[$user['sex']] ?></td>
 	</tr><tr>
 		<td class="b n1"><b>Bio</b></td>
 		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>

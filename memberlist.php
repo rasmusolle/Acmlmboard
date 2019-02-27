@@ -9,8 +9,6 @@ $pow = isset($_REQUEST['pow']) ? $_REQUEST['pow'] : '';
 $ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : 50;
 $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
 $orderby = isset($_REQUEST['orderby']) ? $_REQUEST['orderby'] : '';
-$customnc = isset($_REQUEST['customnc']) ? $_REQUEST['customnc'] : '';
-$displayn = isset($_REQUEST['displayn']) ? $_REQUEST['displayn'] : '';
 
 if ($ppp < 1) $ppp = 50;
 if ($page < 1) $page = 1;
@@ -33,22 +31,9 @@ if ($pow != '' && is_numeric($pow)) {
 	else
 		$where.=" AND group_id=$pow";
 }
-if (!$config['perusercolor'])
-	$customnc = '0';
-if ($customnc == '1')
-	$where.=" AND `nick_color` !='' AND `enablecolor` > 0";
 
-if (!$config['displayname'])
-	$displayn = '0';
-if ($displayn == '1')
-	$where.=" AND `displayname` !=''";
-
-$users = $sql->query("SELECT * FROM users "
-		. "WHERE $where "
-		. "ORDER BY $order "
-		. "LIMIT " . ($page - 1) * $ppp . ",$ppp");
-$num = $sql->resultq("SELECT COUNT(*) FROM users "
-		. "WHERE $where");
+$users = $sql->query("SELECT * FROM users WHERE $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
+$num = $sql->resultq("SELECT COUNT(*) FROM users WHERE $where");
 
 if ($num <= $ppp)
 	$pagelist = '';
@@ -58,7 +43,7 @@ else {
 		if ($p == $page)
 			$pagelist.=" $p";
 		else
-			$pagelist.=' ' . mlink($sort, $sex, $pow, $ppp, $p, $orderby, $customnc, $displayn) . "$p</a>";
+			$pagelist.=' ' . mlink($sort, $sex, $pow, $ppp, $p, $orderby, $displayn) . "$p</a>";
 }
 
 $activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
@@ -66,11 +51,8 @@ $activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id
 $groups = array();
 $gc = 0;
 while ($group = $sql->fetch($activegroups)) {
-	if ($sex == 'f') $sexcolor = $group['nc1'];
-	elseif ($sex == 'n') $sexcolor = $group['nc2'];
-	else $sexcolor = $group['nc0'];
-	$grouptitle = "<span style=\"color:#" . $sexcolor . ";\">" . $group['title'] . "</span>";
-	$groups[$gc++] = mlink($sort, $sex, $group['id'], $ppp, $page, $orderby, $customnc, $displayn) . $grouptitle . "</a>";
+	$grouptitle = "<span style=\"color:#" . $group['nc'] . ";\">" . $group['title'] . "</span>";
+	$groups[$gc++] = mlink($sort, $sex, $group['id'], $ppp, $page, $orderby) . $grouptitle . "</a>";
 }
 
 ?>
@@ -79,31 +61,24 @@ while ($group = $sql->fetch($activegroups)) {
 	<tr>
 		<td class="b n1" width="105">Sort by:</td>
 		<td class="b n2" align="center">
-			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Posts</a> |
-			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Username</a> |
-			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby, $customnc, $displayn); ?> Registration date</a>
+			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby); ?> Posts</a> |
+			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby); ?> Username</a> |
+			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby); ?> Registration date</a>
 		</td>
 	</tr><tr>
 		<td class="b n1">Order by:</td>
 		<td class="b n2" align="center">
-			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd', $customnc, $displayn) . "Descending</a> |"; ?>
-			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a', $customnc, $displayn) . "Ascending</a>"; ?>
+			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd') . "Descending</a> |"; ?>
+			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a') . "Ascending</a>"; ?>
 		</td>
 	</tr><tr>
 		<td class="b n1">Sex:</td>
 		<td class="b n2" align="center">
-			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Male</a> | " .
-			mlink($sort, 'f', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "Female</a> | " .
-			mlink($sort, 'n', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "N/A</a> | ";
+			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby) . "Male</a> | " .
+			mlink($sort, 'f', $pow, $ppp, $page, $orderby) . "Female</a> | " .
+			mlink($sort, 'n', $pow, $ppp, $page, $orderby) . "N/A</a> | ";
 
-			if ($config['perusercolor']) {
-				if ($customnc == '1')
-					echo mlink($sort, $sex, $pow, $ppp, $page, $orderby, '0', $displayn) . "Regular</a> |";
-				else
-					echo  mlink($sort, $sex, $pow, $ppp, $page, $orderby, '1', $displayn) . "Custom</a> |";
-			}
-
-			echo mlink($sort, '', $pow, $ppp, $page, $orderby, $customnc, $displayn) . "All</a>"; ?>
+			echo mlink($sort, '', $pow, $ppp, $page, $orderby) . "All</a>"; ?>
 	<tr>
 		<td class="b n1">Group:</td>
 		<td class="b n2" align="center">
@@ -112,8 +87,8 @@ while ($group = $sql->fetch($activegroups)) {
 			$c++;
 				echo $v . " | ";
 			}
-			echo mlink($sort, $sex, '-1', $ppp, $page, $orderby, $customnc, $displayn) . "All Staff</a> | " .
-			mlink($sort, $sex, '', $ppp, $page, $orderby, $customnc, $displayn) . "All</a>"; ?>
+			echo mlink($sort, $sex, '-1', $ppp, $page, $orderby) . "All Staff</a> | " .
+			mlink($sort, $sex, '', $ppp, $page, $orderby) . "All</a>"; ?>
 		</td>
 	</tr>
 </table><br>
@@ -146,7 +121,7 @@ if ($pagelist)
 	echo '<br>'.$pagelist.'<br>';
 pagefooter();
 
-function mlink($sort, $sex, $pow, $ppp, $page = 1, $orderby, $customnc, $displayn) {
+function mlink($sort, $sex, $pow, $ppp, $page = 1, $orderby) {
 	return '<a href=memberlist.php?'
 			. ($sort ? "sort=$sort" : '')
 			. ($sex ? "&sex=$sex" : '')
@@ -154,8 +129,6 @@ function mlink($sort, $sex, $pow, $ppp, $page = 1, $orderby, $customnc, $display
 			. ($ppp != 50 ? "&ppp=$ppp" : '')
 			. ($page != 1 ? "&page=$page" : '')
 			. ($orderby != '' ? "&orderby=$orderby" : '')
-			. ($customnc != '' ? "&customnc=$customnc" : '')
-			. ($displayn != '' ? "&displayn=$displayn" : '')
 			. '>';
 }
 

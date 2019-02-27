@@ -55,17 +55,6 @@ function gid_for_user($userid) {
 	return $row['group_id'];
 }
 
-function sex_for_user($userid) {
-	global $sql;
-	$row = $sql->fetchp("SELECT sex FROM users WHERE id=?",array($userid));
-	return $row['sex'];
-}
-function color_for_group($gid,$sex) {
-	global $sql;
-	$row = $sql->fetchp("SELECT nc$sex FROM `group` WHERE id=?",array($gid));
-	return $row["nc$sex"];
-}
-
 function load_guest_permset() {
 	global $logpermset;
 	$logpermset = array();
@@ -276,12 +265,12 @@ function needs_login($head=0) {
 	}
 }
 
-function grouplink($usex, $gid) {
-	global $sql, $usergroups;
+function grouplink($gid) {
+	global $usergroups;
 
 	$group = $usergroups[$gid];
 	if ($group['default'] != 1)
-		return "<font color='#".$group['nc'.$usex]."'>".$group['title']."</font>";
+		return "<font color='#".$group['nc']."'>".$group['title']."</font>";
 	else return "";
 }
 

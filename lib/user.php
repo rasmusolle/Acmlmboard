@@ -212,14 +212,14 @@ function userdisp($user, $u = '') {
 	$nccss = '';
 
 	if ($config['nickcolorcss'])
-		$nccss = "class='nc" . $user[$u . 'sex'] . $user[$u . 'group_id'] . "'";
+		$nccss = "class='nc" . $user[$u . 'group_id'] . "'";
 //Over-ride for custom colours [Gywall]
 	if ($config['perusercolor'] && $user[$u . 'nick_color'] && $user[$u . 'enablecolor']) {
 		$nc = $user[$u . 'nick_color'];
 		$nccss = "";
 	} else {
 		$group = $usergroups[$user[$u . 'group_id']];
-		$nc = $group['nc' . $user[$u . 'sex']];
+		$nc = $group['nc'];
 	}
 	//Random Nick Color on Birthday
 	if (isset($userbirthdays[$user[$u . 'id']]))

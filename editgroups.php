@@ -129,14 +129,7 @@ if ($act == 'new' || $act == 'edit') {
 						'sortorder' => array('title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']),
 						'visible' => array('title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']),
 						'primary' => array('title'=>'Type', 'type'=>'radio', 'choices'=>$primarylist, 'value'=>$group['primary']),
-					)
-				),
-				'colors' => array(
-					'title' => 'Username colors',
-					'fields' => array(
-						'nc0' => array('title'=>'Male color', 'type'=>'color', 'value'=>$group['nc0']),
-						'nc1' => array('title'=>'Female color', 'type'=>'color', 'value'=>$group['nc1']),
-						'nc2' => array('title'=>'Unspec. color', 'type'=>'color', 'value'=>$group['nc2']),
+						'nc' => array('title'=>'Username color', 'type'=>'color', 'value'=>$group['nc']),
 					)
 				),
 				'actions' => array(
@@ -183,8 +176,8 @@ if ($act == 'new' || $act == 'edit') {
 		if ($group['primary']) $name = "<strong>{$name}</strong>";
 		if (!$group['visible']) $name = "<span style=\"opacity: 0.6;\">{$name}</span>";
 
-		if ($group['nc0'] && $group['nc1'] && $group['nc2'])
-			$ncolors = "<strong style=\"color: #{$group['nc0']};\">Male</strong> <strong style=\"color: #{$group['nc1']};\">Female</strong> <strong style=\"color: #{$group['nc2']};\">Unspec.</strong>";
+		if ($group['nc'])
+			$ncolors = "<strong style=\"color: #{$group['nc']};\">Username</strong>";
 		else
 			$ncolors = '<small>(none set)</small>';
 

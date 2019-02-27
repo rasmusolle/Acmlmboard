@@ -135,7 +135,7 @@ HTML;
 			$post['usign'] = '<br><br>' . $signsep . $post['usign'];
 	}
 
-	$grouplink = grouplink($post['usex'], $post['ugroup_id']);
+	$grouplink = grouplink($post['ugroup_id']);
 	$text .= $grouplink . ((strlen($grouplink)) ? "<br>" : "") . postfilter($post['utitle']);
 	$text .= "<br>$picture
 <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]

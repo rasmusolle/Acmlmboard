@@ -21,22 +21,14 @@ if (isset($_GET['testshit'])) {
 	echo $sqluser . ' ' . $sqlpass . ' ' . $sqldb;
 }
 
-$ncx = $sql->query("SELECT title, nc0, nc1, nc2 FROM `group` WHERE nc0 != '' ORDER BY sortorder ASC");
+$ncx = $sql->query("SELECT title, nc FROM `group` WHERE nc != '' ORDER BY sortorder ASC");
 $nctable = "";
-$sexname = array('male','female','unspec.');
 
 while ($ncr = $sql->fetch($ncx)) {
 	$nctable .= "<tr>";
-
-	if (($ncr['nc0'] == $ncr['nc1']) && ($ncr['nc1'] == $ncr['nc2'])) {
-		$nc = $ncr["nc0"];
-		$nctable .= "<td class='b n1' width='200' colspan=3><b><font color='#$nc'>".$ncr['title']."</font></b></td>";
-	} else {
-		for ($sex = 0; $sex < 3; $sex++) {
-			$nc = $ncr["nc$sex"];
-			$nctable .= "<td class='b n1' width='200'><b><font color='#$nc'>".$ncr['title'].", ".$sexname[$sex]."</font></b></td>";
-		}
-	}
+	
+	$nc = $ncr["nc"];
+	$nctable .= "<td class='b n1' width='200'><b><font color='#$nc'>".$ncr['title']."</font></b></td>";
 
 	$nctable .= "</tr>";
 }
@@ -205,7 +197,7 @@ p {
 	<tr class="h"><td class="b h" id="usercols">What do the username colours mean?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
-			<p>They reflect the gender setting and group of the user.</p>
+			<p>They reflect the group of the user.</p>
 			<p><table style="text-align:center"><?php echo $nctable; ?></table></p>
 			<p><?=($config['perusercolor'] ? "Keep in mind that some users might have a specific colour assigned to them." : '') ?></p>
 		</td>
