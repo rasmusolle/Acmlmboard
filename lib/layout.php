@@ -318,15 +318,10 @@ function fieldselect($field, $checked, $choices) {
 function themelist() {
 	global $sql, $loguser;
 
-	$t = $sql->query("SELECT `theme`, COUNT(*) AS 'count' FROM `users` GROUP BY `theme`");
-	while ($x = $sql->fetch($t))
-		$themeuser[$x['theme']] = intval($x['count']);
-
 	$themes = unserialize(file_get_contents("themes_serial.txt"));
 	$themelist = array();
 	foreach ($themes as $t) {
-		$themeusers = isset($themeuser[$t[1]]) ? $themeuser[$t[1]] : 0;
-		$themelist[$t[1]] = $t[0] . ($themeusers ? (" [$themeusers user" . ($themeusers == 1 ? "" : "s") . "]") : "");
+		$themelist[$t[1]] = $t[0];
 	}
 
 	return $themelist;
