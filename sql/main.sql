@@ -44,15 +44,13 @@ CREATE TABLE `forums` (
   `lastuser` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `lastid` int(11) NOT NULL,
   `private` int(1) NOT NULL,
-  `trash` int(1) NOT NULL,
   `readonly` int(1) NOT NULL DEFAULT '0',
-  `announce` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `private`, `trash`, `readonly`, `announce`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	1,	0,	0),
-(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum					',	0,	0,	0,	0,	0,	1,	1,	0,	0);
+INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `private`, `readonly`) VALUES
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0),
+(2,	2,	1,	'General Staff Forum',	'Generic Staff Forum',	0,	0,	0,	0,	0,	1,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
 CREATE TABLE `forumsread` (

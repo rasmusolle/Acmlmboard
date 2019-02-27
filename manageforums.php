@@ -45,7 +45,6 @@ if (isset($_POST['savecat'])) {
 	$descr = stripslashes($_POST['descr']);
 	$ord = (int)$_POST['ord'];
 	$private = isset($_POST['private']) ? 1 : 0;
-	$trash = isset($_POST['trash']) ? 1 : 0;
 	$readonly = isset($_POST['readonly']) ? 1 : 0;
 
 	if (!trim($title))
@@ -55,14 +54,14 @@ if (isset($_POST['savecat'])) {
 			$fid = $sql->resultq("SELECT MAX(id) FROM forums");
 			if (!$fid) $fid = 0;
 			$fid++;
-			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,trash,readonly) VALUES (?,?,?,?,?,?,?,?)",
-				array($fid, $cat, $title, $descr, $ord, $private, $trash, $readonly));
+			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,readonly) VALUES (?,?,?,?,?,?,?)",
+				array($fid, $cat, $title, $descr, $ord, $private, $readonly));
 		} else {
 			$fid = (int)$fid;
 			if (!$sql->resultp("SELECT COUNT(*) FROM forums WHERE id=?",array($fid)))
 				die(header('Location: manageforums.php'));
-			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, trash=?, readonly=? WHERE id=?",
-				array($cat, $title, $descr, $ord, $private, $trash, $readonly, $fid));
+			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, readonly=? WHERE id=?",
+				array($cat, $title, $descr, $ord, $private, $readonly, $fid));
 		}
 		saveperms('forums', $fid);
 		die(header('Location: manageforums.php?fid='.$fid));
@@ -123,7 +122,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 } else if (isset($_GET['fid']) && $fid = $_GET['fid']) {
 	// forum editor
 	if ($fid == 'new') {
-		$forum = array('id' => 0, 'cat' => 1, 'title' => '', 'descr' => '', 'ord' => 0, 'private' => 0, 'trash' => 0, 'readonly' => 0);
+		$forum = array('id' => 0, 'cat' => 1, 'title' => '', 'descr' => '', 'ord' => 0, 'private' => 0, 'readonly' => 0);
 	} else {
 		$fid = (int)$fid;
 		$forum = $sql->fetchp("SELECT * FROM forums WHERE id=?",array($fid));
@@ -154,7 +153,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 				<td class="b n2">
 					<label><input type="checkbox" name="private" value="1" <?php echo ($forum['private'] ? ' checked="checked"':''); ?>> Private forum</label>
 					<label><input type="checkbox" name="readonly" value="1"<?=($forum['readonly'] ? ' checked="checked"' : '')?>> Read-only</label>
-					<label><input type="checkbox" name="trash" value="1"<?=($forum['trash'] ? ' checked="checked"':'')?>> Trash forum</label>
 				</td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
