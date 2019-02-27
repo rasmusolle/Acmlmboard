@@ -1,9 +1,4 @@
 <?php
-
-/* forum.php *************************************
-  Changelog
-  0221  blackhole89    modified queries and $status calculation to use the new "threads read" system
- */
 require('lib/common.php');
 
 $page = isset($_GET['page']) && $page > 0 ? (int)$_GET['page'] : 1;
@@ -15,13 +10,12 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	if ($log) {
 		$forum = $sql->fetchq("SELECT f.*, r.time rtime FROM forums f "
-				. "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) "
-				. "WHERE f.id=$fid AND f.id IN " . forums_with_view_perm());
+			. "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) "
+			. "WHERE f.id=$fid AND f.id IN " . forums_with_view_perm());
 		if (!$forum['rtime'])
 			$forum['rtime'] = 0;
 	} else
 		$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
-
 
 	if (!isset($forum['id'])) {
 		error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
@@ -38,19 +32,16 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*,
     (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
-			. "FROM threads t "
-			. "LEFT JOIN users u1 ON u1.id=t.user "
-			. "LEFT JOIN users u2 ON u2.id=t.lastuser "
-			. "LEFT JOIN polls p ON p.id=t.id "
-			. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id])" : '')
-			. "WHERE t.forum=$fid AND t.announce=0 "
-			. "ORDER BY t.sticky DESC, t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
-	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
-" . "  <td class=\"nb\" align=\"right\">" . $editforumlink . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td>
-" . "</table>
-";
+		. "FROM threads t "
+		. "LEFT JOIN users u1 ON u1.id=t.user "
+		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
+		. "LEFT JOIN polls p ON p.id=t.id "
+		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id])" : '')
+		. "WHERE t.forum=$fid AND t.announce=0 "
+		. "ORDER BY t.sticky DESC, t.lastdate DESC "
+		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
+	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
+	<td class=\"nb\" align=\"right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td></table>";
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	checknumeric($uid);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$uid");
@@ -58,31 +49,27 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle,
-
-    (NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread" : '') . ' '
-			. "FROM threads t "
-			. "LEFT JOIN users u1 ON u1.id=t.user "
-			. "LEFT JOIN users u2 ON u2.id=t.lastuser "
-			. "LEFT JOIN polls p ON p.id=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
-					. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. "WHERE t.user=$uid "
-			. "AND f.id IN " . forums_with_view_perm() . " "
-			. "ORDER BY t.sticky DESC, t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
+		(NOT ISNULL(p.id)) ispoll" . ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread " : ' ')
+		. "FROM threads t "
+		. "LEFT JOIN users u1 ON u1.id=t.user "
+		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
+		. "LEFT JOIN polls p ON p.id=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
+			. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
+		. "LEFT JOIN categories c ON f.cat=c.id "
+		. "WHERE t.user=$uid "
+		. "AND f.id IN " . forums_with_view_perm() . " "
+		. "ORDER BY t.sticky DESC, t.lastdate DESC "
+		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 
 	$forum['threads'] = $sql->resultq("SELECT count(*) "
-			. "FROM threads t "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. "WHERE t.user=$uid "
-			. "AND f.id IN " . forums_with_view_perm() . " ");
-	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']) . "</td>
-" . "</table>
-";
+		. "FROM threads t "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON f.cat=c.id "
+		. "WHERE t.user=$uid "
+		. "AND f.id IN " . forums_with_view_perm() . " ");
+	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Threads by ".($user['displayname'] ? $user['displayname'] : $user['name'])."</td></table>";
 } elseif ($time = $_GET['time']) {
 	checknumeric($time);
 	$mintime = ctime() - $time;
@@ -90,26 +77,25 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	pageheader('Latest posts');
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid,
-
-    (NOT ISNULL(p.id)) ispoll, f.title ftitle" . ($log ? ', (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread' : '') . ' '
-			. "FROM threads t "
-			. "LEFT JOIN users u1 ON u1.id=t.user "
-			. "LEFT JOIN users u2 ON u2.id=t.lastuser "
-			. "LEFT JOIN polls p ON p.id=t.id "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
-					. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
-			. "WHERE t.lastdate>$mintime "
-			. "  AND f.id IN " . forums_with_view_perm() . " "
-			. "ORDER BY t.lastdate DESC "
-			. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
+		(NOT ISNULL(p.id)) ispoll, f.title ftitle" . ($log ? ', (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread ' : ' ')
+		. "FROM threads t "
+		. "LEFT JOIN users u1 ON u1.id=t.user "
+		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
+		. "LEFT JOIN polls p ON p.id=t.id "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON f.cat=c.id "
+		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
+			. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
+		. "WHERE t.lastdate>$mintime "
+		. "  AND f.id IN " . forums_with_view_perm() . " "
+		. "ORDER BY t.lastdate DESC "
+		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 	$forum['threads'] = $sql->resultq("SELECT count(*) "
-			. "FROM threads t "
-			. "LEFT JOIN forums f ON f.id=t.forum "
-			. "LEFT JOIN categories c ON f.cat=c.id "
-			. "WHERE t.lastdate>$mintime "
-			. "AND f.id IN " . forums_with_view_perm() . " ");
+		. "FROM threads t "
+		. "LEFT JOIN forums f ON f.id=t.forum "
+		. "LEFT JOIN categories c ON f.cat=c.id "
+		. "WHERE t.lastdate>$mintime "
+		. "AND f.id IN " . forums_with_view_perm() . " ");
 
 	function timelink($timev) {
 		global $time;
@@ -119,10 +105,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 			return " <a href=forum.php?time=$timev>" . timeunits2($timev) . '</a> ';
 	}
 
-	$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - Latest posts</td>
-" . "</table>
-";
+	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Latest posts</td></table>";
 } else {
 	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 }
@@ -136,44 +119,37 @@ if ($forum['threads'] <= $loguser['tpp']) {
 	$fpagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
 	for ($p = 1; $p <= 1 + floor(($forum[threads] - 1) / $loguser[tpp]); $p++)
 		if ($p == $page)
-			$fpagelist.=" $p";
+			$fpagelist .= " $p";
 		elseif ($fid)
-			$fpagelist.=" <a href=forum.php?id=$fid&page=$p>$p</a>";
+			$fpagelist .= " <a href=forum.php?id=$fid&page=$p>$p</a>";
 		elseif ($uid)
-			$fpagelist.=" <a href=forum.php?user=$uid&page=$p>$p</a>";
+			$fpagelist .= " <a href=forum.php?user=$uid&page=$p>$p</a>";
 		elseif ($time)
-			$fpagelist.=" <a href=forum.php?time=$time&page=$p>$p</a>";
-	$fpagelist.='</div>';
+			$fpagelist .= " <a href=forum.php?time=$time&page=$p>$p</a>";
+	$fpagelist .= '</div>';
 	$fpagebr = '<br>';
 }
 
 echo $topbot;
 if (isset($time)) {
 	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
-          By Threads | <a href=thread.php?time=$time>By Posts</a></div><br>";
+		By Threads | <a href=thread.php?time=$time>By Posts</a></div><br>";
 	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
 			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
 			. "</div>";
 }
-echo "<br>
-" . "<table class=\"c1\">";
-
-if ($fid) {
-	echo announcement_row(3, 4);
-}
-
-echo "
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" width=17>&nbsp;</td>
-" . ($showforum ?
-				"    <td class=\"b h\">Forum</td>" : '') . "
-" . "    <td class=\"b h\">Title</td>
-" . "    <td class=\"b h\" width=130>Started by</td>
-" . "    <td class=\"b h\" width=50>Replies</td>
-" . "    <td class=\"b h\" width=50>Views</td>
-" . "    <td class=\"b h\" width=130>Last post</td>
-";
-
+?><br>
+<table class="c1">
+	<?=($fid ? announcement_row(3, 4) : '')?>
+	<tr class="h">
+		<td class="b h" width=17>&nbsp;</td>
+		<?=($showforum ? '<td class="b h">Forum</td>' : '') ?>
+		<td class="b h">Title</td>
+		<td class="b h" width=130>Started by</td>
+		<td class="b h" width=50>Replies</td>
+		<td class="b h" width=50>Views</td>
+		<td class="b h" width=130>Last post</td>
+	</tr><?php
 $lsticky = 0;
 for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	$pagelist = '';
@@ -188,22 +164,12 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	}
 
 	$status = '';
-	$statalt = '';
-	if ($thread['closed']) {
-		$status .= 'o';
-		$statalt = 'OFF';
-	}
+	if ($thread['closed']) $status .= 'o';
 
 	if ($log) {
-		if (!$thread['isread']) {
-			$status .= 'n';
-			$statalt = 'NEW';
-		}
+		if (!$thread['isread']) $status .= 'n';
 	} else {
-		if ($thread['lastdate'] > (ctime() - 3600)) {
-			$status.='n';
-			$statalt = 'NEW';
-		}
+		if ($thread['lastdate'] > (ctime() - 3600)) $status .= 'n';
 	}
 
 	if ($status)
@@ -220,26 +186,24 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		$tr = ($i % 2 ? 'n2' : 'n3');
 
 	if (!$thread['sticky'] && $lsticky)
-		echo
-				"  <tr class=\"c\">
-" . "    <td class=\"b\" colspan=" . ($showforum ? 8 : 7) . " style='font-size:1px'>&nbsp;</td>
-";
+		echo '<tr class="c"><td class="b" colspan='.($showforum ? 8 : 7).' style="font-size:1px">&nbsp;</td>';
 	$lsticky = $thread['sticky'];
 
-	echo "<tr class=\"$tr\" align=\"center\">
-" . "    <td class=\"b n1\">$status</td>
-" . ($showforum ?
-					"    <td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '') . "
-" . "    <td class=\"b\" align=\"left\">" . ($thread['ispoll'] ? "<img src=img/poll.png height=10>" : "") . "<a href=thread.php?id=$thread[id]>" . forcewrap(htmlval($thread['title'])) . "</a>$pagelist</td>
-" . "    <td class=\"b\">" . userlink($thread, 'u1') . "</td>
-" . "    <td class=\"b\">$thread[replies]</td>
-" . "    <td class=\"b\">$thread[views]</td>
-" . "    <td class=\"b\"><nobr>" . cdate($dateformat, $thread['lastdate']) . "</nobr><br><font class=sfont>by&nbsp;" . userlink($thread, 'u2') . "&nbsp;<a href='thread.php?pid=$thread[lastid]#$thread[lastid]'>&raquo;</a></font></td>
-";
+	?><tr class="<?=$tr ?>" align="center">
+		<td class="b n1"><?=$status ?></td>
+		<?=($showforum ? "<td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '')?>
+		<td class="b" align="left">
+			<?=($thread['ispoll'] ? '<img src="img/poll.png" height=10>' : '') ?>
+			<a href="thread.php?id=<?=$thread['id'] ?>"><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
+		<td class="b"><?=userlink($thread, 'u1') ?></td>
+		<td class="b"><?=$thread['replies'] ?></td>
+		<td class="b"><?=$thread['views'] ?></td>
+		<td class="b">
+			<nobr><?=cdate($dateformat, $thread['lastdate']) ?></nobr><br>
+			<font class="sfont">by <?=userlink($thread, 'u2') ?> <a href="thread.php?pid=<?=$thread['lastid'] ?>#<?=$thread['lastid'] ?>">&raquo;</a></font>
+		</td>
+	</tr><?php
 }
-echo "</table>
-" . "$fpagelist$fpagebr
-" . "$topbot
-";
+echo "</table>$fpagelist$fpagebr$topbot";
 pagefooter();
 ?>
