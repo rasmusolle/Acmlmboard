@@ -142,7 +142,8 @@ for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 
 RenderTable($data, $headers);
 
-echo '<br>'.$pagelist.'<br>';
+if ($pagelist)
+	echo '<br>'.$pagelist.'<br>';
 pagefooter();
 
 function mlink($sort, $sex, $pow, $ppp, $page = 1, $orderby, $customnc, $displayn) {
