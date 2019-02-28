@@ -7,7 +7,7 @@ $what = (isset($_GET['what']) ? $_GET['what'] : 'needle');
 
 function ipfmt($a) {
 	$expl = explode(".",$a);
-	$dot = "<font~color=#808080>.</font>";
+	$dot = "<span~style='color:#808080'>.</span>";
 	for ($i = 0; $i < 4; $i++) {
 		if (!isset($expl[$i])) {
 			$expl[$i] = '*';
@@ -68,8 +68,8 @@ if (!has_perm('edit-ip-bans')) {
 	while ($i = $sql->fetch($ipbans)) {
 		?>
 		<tr>
-			<td class="b n1"><font face='courier new'><?php echo ipfmt($i['ipmask']); ?></font></td>
-			<td class="b n2" align="center"><font color="<?php echo ($i['hard'] ? "red\">Yes" : "green\">No"); ?></font></td>
+			<td class="b n1"><span style="font-family:'Courier New',monospace"><?php echo ipfmt($i['ipmask']); ?></span></td>
+			<td class="b n2" align="center"><span style="color:<?=($i['hard'] ? "red\">Yes" : "green\">No") ?></span></td>
 			<td class="b n2" align="center">
 				<?php echo ($i['expires'] ? cdate($loguser['dateformat'],$i['expires'])."&nbsp;".cdate($loguser['timeformat'],$i['expires']) : "never"); ?>
 			</td>

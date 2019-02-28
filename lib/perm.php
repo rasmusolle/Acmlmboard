@@ -270,7 +270,7 @@ function grouplink($gid) {
 
 	$group = $usergroups[$gid];
 	if ($group['default'] != 1)
-		return "<font color='#".$group['nc']."'>".$group['title']."</font>";
+		return "<span style='color:#".$group['nc']."'>".$group['title']."</span>";
 	else return "";
 }
 

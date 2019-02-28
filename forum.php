@@ -160,7 +160,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 			else if (substr($pagelist, -1) != ".")
 				$pagelist.=" ...";
 		}
-		$pagelist = " <font class=sfont>(pages: $pagelist)</font>";
+		$pagelist = " <span class=sfont>(pages: $pagelist)</span>";
 	}
 
 	$status = '';
@@ -200,7 +200,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		<td class="b"><?=$thread['views'] ?></td>
 		<td class="b">
 			<nobr><?=cdate($dateformat, $thread['lastdate']) ?></nobr><br>
-			<font class="sfont">by <?=userlink($thread, 'u2') ?> <a href="thread.php?pid=<?=$thread['lastid'] ?>#<?=$thread['lastid'] ?>">&raquo;</a></font>
+			<span class="sfont">by <?=userlink($thread, 'u2') ?> <a href="thread.php?pid=<?=$thread['lastid'] ?>#<?=$thread['lastid'] ?>">&raquo;</a></span>
 		</td>
 	</tr><?php
 }

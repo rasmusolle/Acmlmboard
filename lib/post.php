@@ -225,7 +225,7 @@ function forcewrap($text) {
 function posttoolbutton($e, $name, $title, $leadin, $leadout, $names = "") {
 	if ($names == "")
 		$names = $name;
-	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('$e','tbk$names','$leadin','$leadout')\"><font size='0.1'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></font></a></td>";
+	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('$e','tbk$names','$leadin','$leadout')\"><span style='font-size:9pt'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></span></a></td>";
 }
 
 function posttoolbar() {

@@ -33,7 +33,7 @@ if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
 if ($config['lockdown']) {
 	//lock down
 	if (has_perm('bypass-lockdown'))
-		echo "<h1><font color=\"red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></font></h1>";
+		echo "<h1><span style=\"color:red\"><center>LOCKDOWN!! LOCKDOWN!! LOCKDOWN!!</center></span></h1>";
 	else {
 		echo <<<HTML
 <body style="background-color:#C02020;padding:5em;color:#ffffff;margin:auto;max-width:50em;">

@@ -272,7 +272,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist()))
 .	((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
 .	fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
-		<br><font class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</font>')
+		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) 
 .		catheader('Personal information')
 .	fieldrow('Sex', fieldoption('sex', $user['sex'], array('Male', 'Female', 'N/A')))

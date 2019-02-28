@@ -223,7 +223,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 			if ($thread['replies'] >= $loguser['ppp']){
 				for ($p = 1; $p <= 1+floor($thread['replies'] / $loguser['ppp']); $p++)
 					$pagelist .= " <a href=thread.php?id=$thread[id]&page=$p>$p</a>";
-				$pagelist = " <font class=sfont>(pages: $pagelist)</font>";
+				$pagelist = " <span class=sfont>(pages: $pagelist)</span>";
 			}
 			$status = '';
 			if ($thread['closed']) $status .= 'off';
@@ -251,7 +251,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 				<td class="b"><?php echo $thread['views']; ?></td>
 				<td class="b">
 					<nobr><?php echo cdate($dateformat,$thread['lastdate']); ?></nobr><br>
-					<font class="sfont">by <?php echo userlink($thread,'u2'); ?></font>
+					<span class="sfont">by <?php echo userlink($thread,'u2'); ?></span>
 				</td>
 			<?php
 		}

@@ -28,7 +28,7 @@ while ($ncr = $sql->fetch($ncx)) {
 	$nctable .= "<tr>";
 	
 	$nc = $ncr["nc"];
-	$nctable .= "<td class='b n1' width='200'><b><font color='#$nc'>".$ncr['title']."</font></b></td>";
+	$nctable .= "<td class='b n1' width='200'><b><span style='color:#$nc'>".$ncr['title']."</span></b></td>";
 
 	$nctable .= "</tr>";
 }

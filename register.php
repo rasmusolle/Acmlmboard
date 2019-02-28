@@ -135,7 +135,7 @@ if(!empty($err)) noticemsg("Error", $err);
 			<td class="b">&nbsp;</td>
 			<td class="b">
 				<input type="submit" class="submit" name="action" value="Register">
-				<font class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</font>
+				<span class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</span>
 			</td>
 		</tr>
 	</table>
