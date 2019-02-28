@@ -49,11 +49,10 @@ if (!$log) {
 	$loguser = array();
 	$loguser['id'] = 0;
 	$loguser['group_id'] = 1;
-	$loguser['tzoff'] = 0;
 	$loguser['timezone'] = "UTC";
 	$loguser['fontsize'] = $defaultfontsize; //2/22/2007 xkeeper - guests have "normal" by default, like everyone else
-	$loguser['dateformat'] = "m-d-y";
-	$loguser['timeformat'] = "h:i A";
+	$loguser['dateformat'] = "Y-m-d";
+	$loguser['timeformat'] = "H:i";
 	$loguser['signsep'] = 0;
 	$loguser['theme'] = $defaulttheme;
 	$loguser['ppp'] = 20;
@@ -63,11 +62,8 @@ if (!$log) {
 date_default_timezone_set($loguser['timezone']);
 dobirthdays(); //Called here to account for timezone bugs.
 
-if ($loguser['ppp'] < 1)
-	$loguser['ppp'] = 20;
-if ($loguser['tpp'] < 1)
-	$loguser['tpp'] = 20;
-
+if ($loguser['ppp'] < 1) $loguser['ppp'] = 20;
+if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired. - SquidEmpress
 $defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
