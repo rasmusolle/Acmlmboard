@@ -267,7 +267,7 @@ function permtable($bind, $id) {
 		$gtitle = htmlspecialchars($group['title']);
 
 		$pf = $group['primary'] ? '<strong' : '<span';
-		if ($group['nc2']) $pf .= ' style="color: #'.htmlspecialchars($group['nc2']).';"';
+		if ($group['nc']) $pf .= ' style="color: #'.htmlspecialchars($group['nc']).';"';
 		$pf .= '>';
 		$sf = $group['primary'] ? '</strong>' : '</span>';
 		$gtitle = "{$pf}{$gtitle}{$sf}";
