@@ -69,14 +69,14 @@ if ($act == 'delete') {
 		if (empty($title))
 			$errmsg = 'You must enter a name for the group.';
 		else {
-			$values = array($title, $_POST['nc0'], $_POST['nc1'], $_POST['nc2'], $parentid, $default, $banned, $sortorder, $visible,
+			$values = array($title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible,
 			$primary, $_POST['description']);
 
 			if ($act == 'new')
 				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?,?,?)", $values);
 			else {
 				$values[] = $_GET['id'];
-				$sql->prepare("UPDATE `group` SET `title`=?,`nc0`=?,`nc1`=?,`nc2`=?,`inherit_group_id`=?,`default`=?,`banned`=?,
+				$sql->prepare("UPDATE `group` SET `title`=?,`nc`=?,`inherit_group_id`=?,`default`=?,`banned`=?,
 					`sortorder`=?,`visible`=?,`primary`=?,`description`=? WHERE id=?", $values);
 			}
 			die(header('Location: editgroups.php'));
@@ -95,7 +95,7 @@ if ($act == 'new' || $act == 'edit') {
 	);
 
 	if ($act == 'new') {
-		$group = array('id'=>0, 'title'=>'', 'nc0'=>'', 'nc1'=>'', 'nc2'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0, 'description'=>'');
+		$group = array('id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0, 'description'=>'');
 		$pagebar['title'] = 'New group';
 	} else {
 		$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?",array($_GET['id']));
@@ -160,12 +160,11 @@ if ($act == 'new' || $act == 'edit') {
 		'sort' => array('caption'=>'Order', 'width'=>'32px', 'align'=>'center'),
 		'id' => array('caption'=>'#', 'width'=>'32px', 'align'=>'center'),
 		'name' => array('caption'=>'Name', 'align'=>'center'),
-		'descr' => array('caption'=>'Description', 'align'=>'left'),
 		'parent' => array('caption'=>'Parent group', 'align'=>'center'),
-		'ncolors' => array('caption'=>'Username colors', 'width'=>'175px', 'align'=>'center'),
+		'ncolors' => array('caption'=>'Username colors', 'width'=>'150px', 'align'=>'center'),
 		'misc' => array('caption'=>'Default?', 'width'=>'120px', 'align'=>'center'),
 		'bmisc' => array('caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'),
-		'actions' => array('caption'=>'', 'align'=>'right'),
+		'actions' => array('caption'=>'', 'width'=>'210px', 'align'=>'right'),
 	);
 
 	$groups = $sql->query("SELECT g.*, pg.title parenttitle FROM `group` g LEFT JOIN `group` pg ON pg.id=g.inherit_group_id ORDER BY sortorder");
@@ -179,7 +178,7 @@ if ($act == 'new' || $act == 'edit') {
 		if ($group['nc'])
 			$ncolors = "<strong style=\"color: #{$group['nc']};\">Username</strong>";
 		else
-			$ncolors = '<small>(none set)</small>';
+			$ncolors = '-';
 
 		$misc = '-';
 		if ($group['default'])
@@ -199,7 +198,6 @@ if ($act == 'new' || $act == 'edit') {
 			'sort' => $group['sortorder'],
 			'id' => $group['id'],
 			'name' => $name,
-			'descr' => htmlspecialchars($group['description']),
 			'parent' => $group['parenttitle'] ? htmlspecialchars($group['parenttitle']) : '<small>(none)</small>',
 			'ncolors' => $ncolors,
 			'misc' => $misc,
