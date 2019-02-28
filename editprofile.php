@@ -207,7 +207,6 @@ if ($act == 'Edit profile') {
 			. setfield('theme') . ','
 			. setfield('blocklayouts') . ','
 			. setfield('emailhide') . ','
-			. (has_perm("show-online") || has_perm("edit-user-show-online") ? (setfield('hidden') . ',') : '')
 			. setfield('timezone') . ','
 			. "tzoff=$tztotal,"
 			. "birth='$birthday',"
@@ -299,8 +298,6 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
 .	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')))
 .	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')));
-	if ($user['id'] == $loguser['id'] && has_perm("show-online") || has_perm("edit-user-show-online"))
-		echo fieldrow('Hide from Online Views', fieldoption('hidden', $user['hidden'], array('Show me online', 'Never show me online')));
 
 	echo catheader('&nbsp;'); ?>
 	<tr class="n1"><td class="b">&nbsp;</td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>

@@ -265,23 +265,18 @@ HTML;
 	}
 	echo "</table><br>";
 
-	$hiddencheck = "AND `hidden`='0' ";
-	if (has_perm('view-hidden-users')) {
-		$hiddencheck = "";
-	}
- 
 	if ($fid) {
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden`
-							FROM `users`
-							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck AND `lastforum`='$fid'
-							ORDER BY `name`");
+		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`
+			FROM `users`
+			WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") AND `lastforum`='$fid'
+			ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
 			$onuserlog = ($user['lastpost'] <= $user['lastview']);
 			$offline1 = ($onuserlog ? "" : "[");
 			$offline2 = ($onuserlog ? "" : "]");
-			$onuserlist .= ($onusercount ? ", " : "") . $offline1 . ($user['hidden'] ? "(" . userlink($user) . ")" : userlink($user)) . $offline2;
+			$onuserlist .= ($onusercount ? ", " : "") . $offline1 . userlink($user) . $offline2;
 			$onusercount++;
 		}
 
@@ -350,20 +345,15 @@ HTML;
 		$count['h'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (ctime() - 3600) . "'");
 		$lastuser = $sql->fetchq("SELECT " . userfields() . " FROM `users` ORDER BY `id` DESC LIMIT 1");
 
-		$hiddencheck = "AND `hidden`='0' ";
-		if (has_perm('view-hidden-users')) {
-			$hiddencheck = "";
-		}
-
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`, `hidden` FROM `users`
-							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") $hiddencheck ORDER BY `name`");
+		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview` FROM `users`
+							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
 			$onuserlog = ($user['lastpost'] <= $user['lastview']);
 			$offline1 = ($onuserlog ? "" : "[");
 			$offline2 = ($onuserlog ? "" : "]");
-			$onuserlist.=($onusercount ? ", " : "") . $offline1 . ($user['hidden'] ? '(' . userlink($user) . ')' : userlink($user)) . $offline2;
+			$onuserlist.=($onusercount ? ", " : "") . $offline1 . userlink($user) . $offline2;
 			$onusercount++;
 		}
 

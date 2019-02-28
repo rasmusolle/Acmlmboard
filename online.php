@@ -9,21 +9,9 @@ checknumeric($time);
 if (!$time)
 	$time = 300;
 
-$hiddencheck = "AND hidden=0 ";
-if (has_perm('view-hidden-users')) {
-	$hiddencheck = "";
-}
-$users = $sql->query("SELECT * FROM users "
-					."WHERE lastview>".(ctime()-$time)." $hiddencheck"
-					."ORDER BY lastview DESC");
-$guests = $sql->query("SELECT g.* FROM guests g "
-					."WHERE g.date>".(ctime()-$time)." "
-					."AND g.bot=0 "
-					."ORDER BY g.date DESC");
-$bots = $sql->query("SELECT * FROM guests "
-					."WHERE date>".(ctime()-$time)." "
-					."AND bot=1 "
-					."ORDER BY date DESC");
+$users = $sql->query("SELECT * FROM users WHERE lastview > ".(ctime()-$time)." ORDER BY lastview DESC");
+$guests = $sql->query("SELECT g.* FROM guests g WHERE g.date > ".(ctime()-$time)." AND g.bot=0 ORDER BY g.date DESC");
+$bots = $sql->query("SELECT * FROM guests WHERE date > ".(ctime()-$time)." AND bot=1 ORDER BY date DESC");
 ?>
 Online users during the last <?php echo str_replace('.', '', timeunits2($time)); ?>:
 <div style="margin-top: 3px; margin-bottom: 3px; display:block">
@@ -45,7 +33,7 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 	?>
 	<tr class="<?php echo $tr; ?>" align="center">
 		<td class="b n1"><?php echo $i; ?>.</td>
-		<td class="b" align="left"><?php echo ($user['hidden'] ? '(' . userlink($user) . ')' : userlink($user)); ?></td>
+		<td class="b" align="left"><?=userlink($user); ?></td>
 		<td class="b"><?php echo cdate($loguser['timeformat'], $user['lastview']); ?></td>
 		<td class="b"><?php echo ($user['lastpost'] ? cdate($dateformat, $user['lastpost']) : '-'); ?></td>
 		<?=(has_perm('view-user-urls') ? '<td class="b" align="left">'
