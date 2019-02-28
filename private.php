@@ -4,17 +4,9 @@ require('lib/common.php');
 $rdmsg = "";
 if (isset($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<script language=\"javascript\">
-	function dismiss()
-	{
-		document.getElementById(\"postmes\").style['display'] = \"none\";
-	}
-</script>
-	<div id=\"postmes\" onclick=\"dismiss()\" title=\"Click to dismiss.\"><br>
-" . "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
+	$rdmsg = "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] == - 1) {
-		$rdmsg .= "Sent!<div style=\"float: right\"><a style=\"cursor: pointer;\" onclick=\"dismiss()\">[x]</a></td></tr>
-" . "<tr><td class=\"b n1\" align=\"left\">The private message has been sent successfully.</td></tr></table></div>";
+		$rdmsg .= "Sent!</td></tr><tr><td class=\"b n1\">The private message has been sent successfully.</td></tr></table>";
 	}
 }
 needs_login(1);
@@ -23,7 +15,6 @@ if (!$page) $page = 1;
 
 if (!isset($_GET['view'])) $_GET['view'] = 'read';
 if (!isset($_GET['action'])) $_GET['action'] = 'read';
-
 
 if ($_GET['view'] == 'sent') {
 	$tablehead = 'To';
@@ -83,17 +74,11 @@ if ($sent)
 else
 	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=sent>View sent";
 
-if ($showdel)
-	$link2 = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=".$_GET['view'].">View normal";
-else
-	$link2 = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=".$_GET['view'].">View deleted";
-
 $topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - $title</td>
 " . "  <td class=\"nb\" align=\"right\"><a href=private.php$link</a> | <a href=sendprivate.php>Send new</a></td>
 " . "</table>
 ";
-
 
 if ($pmsgc <= $loguser['tpp'])
 	$fpagelist = '<br>';
@@ -114,7 +99,7 @@ else {
 }
 
 echo $topbot.'<br>';
-if (ISSET($_COOKIE['pstbon'])) {
+if (isset($_COOKIE['pstbon'])) {
 	echo $rdmsg;
 }
 ?>
@@ -123,7 +108,7 @@ if (ISSET($_COOKIE['pstbon'])) {
 		<td class="b h" width="17">&nbsp;</td>
 		<td class="b h" width="17">&nbsp;</td>
 		<td class="b h">Title</td>
-		<td class="b h" width="130"><?php echo $tablehead; ?></td>
+		<td class="b h" width="130"><?=$tablehead; ?></td>
 		<td class="b h" width="130">Sent on</td>
 	</tr>
 	<?php
@@ -136,14 +121,14 @@ if (ISSET($_COOKIE['pstbon'])) {
 
 		$tr = ($i % 2 ? 'n2' : 'n3');
 		?>
-		<tr class="<?php echo $tr; ?>" align="center">
+		<tr class="<?=$tr; ?>" align="center">
 			<td class="b n2">
-				<a href="private.php?action=del&id=<?php echo $pmsg['id'] ?>&showdel=<?php echo $showdel; ?>&view=<?php echo $_GET['view']; ?>"><img src="img/smilies/no.png" align=absmiddle></a>
+				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$_GET['view'] ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 			</td>
 			<td class="b n1"><?php echo $status; ?></td>
-			<td class="b" align="left"><a href=showprivate.php?id=<?php echo $pmsg['id']; ?>><?php echo forcewrap(htmlval($pmsg['title'])); ?></a></td>
-			<td class="b"><?php echo userlink($pmsg, 'u') ?></td>
-			<td class="b"><nobr><?php echo cdate($dateformat, $pmsg['date']) ?></nobr></td>
+			<td class="b" align="left"><a href=showprivate.php?id=<?=$pmsg['id']; ?>><?=forcewrap(htmlval($pmsg['title'])); ?></a></td>
+			<td class="b"><?=userlink($pmsg, 'u') ?></td>
+			<td class="b"><nobr><?=cdate($dateformat, $pmsg['date']) ?></nobr></td>
 		</tr>
 		<?php
 	}
