@@ -1,5 +1,4 @@
 <?php
-
 require('lib/common.php');
 
 needs_login(1);
@@ -23,7 +22,6 @@ if ($action == "update") {
 pageheader('Advanced login cookie setup');
 
 $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
-
 ?>
 <table class="c1" style='width:200px!important'>
 	<tr class="h">
@@ -40,22 +38,19 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 		<td class="b n2" align="center"><?=$dsegments[$i] ?></td>
 	<?php } ?>
 </table><br>
-
 <form action="lcookie.php" method="post">
 	<input type="hidden" name="action" value="update">
 	<table class="c1">
-		<tr class="h">
-			<td class="b h">Modify allowed ranges</td>
-		</tr><tr class="n1">
+		<tr class="h"><td class="b h">Modify allowed ranges</td></tr>
+		<tr class="n1">
 			<td class="b n2">
 				<input type="text" name="ranges" value="<?=implode(",", array_slice($dsegments, 2)) ?>" style="width:80%">
 				<input type="submit" class="submit" name value="Update">
-				<br><font class="sfont">Data must be provided as comma-separated IPs without spaces,
-				each potentially ending in a single * wildcard. (e.g. <font color='#C0C020'>127.*,10.0.*,1.2.3.4</font>)
-				</font>
+				<br><span class="sfont">Data must be provided as comma-separated IPs without spaces,
+				each potentially ending in a single * wildcard. (e.g. <span style="color:#C0C020">127.*,10.0.*,1.2.3.4</span>)
+				</span>
 			</td>
 		</tr>
 	</table>
 </form>
-
 <?php pagefooter(); ?>
