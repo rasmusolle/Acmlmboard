@@ -24,30 +24,36 @@ function movethread($id, $forum) {
 	$sql->query("UPDATE threads SET forum=$forum WHERE id=$id");
 
 	$last1 = $sql->fetchq("SELECT lastdate,lastuser,lastid "
-						. "FROM threads "
-						. "WHERE forum=$thread[forum] "
-						. "ORDER BY lastdate DESC LIMIT 1");
+		."FROM threads "
+		."WHERE forum=$thread[forum] "
+		."ORDER BY lastdate DESC LIMIT 1");
 	$last2 = $sql->fetchq("SELECT lastdate,lastuser,lastid "
-						. "FROM threads "
-						. "WHERE forum=$forum "
-						. "ORDER BY lastdate DESC LIMIT 1");
+		."FROM threads "
+		."WHERE forum=$forum "
+		."ORDER BY lastdate DESC LIMIT 1");
 	if ($last1)
 		$sql->query("UPDATE forums "
-				  . "SET posts=posts-($thread[replies]+1), "
-				  . "threads=threads-1, "
-				  . "lastdate=$last1[lastdate], "
-				  . "lastuser=$last1[lastuser], "
-				  . "lastid=$last1[lastid] "
-				  . "WHERE id=$thread[forum]");
+			."SET posts=posts-($thread[replies]+1), "
+			."threads=threads-1, "
+			. "lastdate=$last1[lastdate], "
+			. "lastuser=$last1[lastuser], "
+			."lastid=$last1[lastid] "
+			."WHERE id=$thread[forum]");
 
 	if ($last2)
 		$sql->query("UPDATE forums "
-                   ."SET posts=posts+($thread[replies]+1), "
-                   ."threads=threads+1, "
-                   ."lastdate=$last2[lastdate], "
-                   ."lastuser=$last2[lastuser], "
-				   ."lastid=$last2[lastid] "
-                   ."WHERE id=$forum");
+			."SET posts=posts+($thread[replies]+1), "
+			."threads=threads+1, "
+			."lastdate=$last2[lastdate], "
+			."lastuser=$last2[lastuser], "
+			."lastid=$last2[lastid] "
+			."WHERE id=$forum");
+}
+
+function getforumbythread($tid) {
+	global $sql;
+	static $cache;
+	return isset($cache[$tid]) ? $cache[$tid] : $cache[$tid] = $sql->resultq("SELECT forum FROM threads WHERE id='$tid'");
 }
 
 ?>
