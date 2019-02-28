@@ -130,8 +130,7 @@ function can_edit_post($post) {
 	if (isset($post['user']) && $post['user'] == $loguser['id'] && has_perm('update-own-post')) return true;
 	else if (has_perm('update-post')) return true;
 	else if (isset($post['tforum']) && can_edit_forum_posts($post['tforum'])) return true;
-
-  return false;
+	return false;
 }
 
 function can_edit_group_assets($gid) {

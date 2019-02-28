@@ -55,9 +55,6 @@ function checkctitle($uid) {
 	if (has_perm('edit-titles'))
 		return true;
 
-	if (has_perm_with_bindvalue('edit-user-title', $uid))
-		return true;
-
 	return false;
 }
 

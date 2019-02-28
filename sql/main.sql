@@ -191,7 +191,6 @@ INSERT INTO `perm` (`id`, `title`, `description`, `permcat_id`, `permbind_id`) V
 ('edit-user-customnickcolor',	'Edit User Custom Nick Color',	'',	3,	'users'),
 ('edit-user-displayname',	'Edit User Displayname',	'',	3,	'users'),
 ('edit-user-show-online',	'Edit User Show Online',	'',	3,	''),
-('edit-user-title',	'Edit User Title',	'',	3,	'users'),
 ('edit-users',	'Edit Users',	'',	3,	''),
 ('has-customusercolor',	'Can Edit Custom Username Color',	'',	3,	''),
 ('has-displayname',	'Can Use Displayname',	'',	3,	''),
