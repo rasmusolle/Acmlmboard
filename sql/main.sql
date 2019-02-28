@@ -49,7 +49,7 @@ CREATE TABLE `forums` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `forums` (`id`, `cat`, `ord`, `title`, `descr`, `threads`, `posts`, `lastdate`, `lastuser`, `lastid`, `private`, `readonly`) VALUES
-(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0,	0),
+(1,	1,	1,	'General Forum',	'General topics forum',	0,	0,	0,	0,	0,	0,	0),
 (2,	2,	1,	'General Staff Forum',	'Generic Staff Forum',	0,	0,	0,	0,	0,	1,	0);
 
 DROP TABLE IF EXISTS `forumsread`;
@@ -128,17 +128,17 @@ CREATE TABLE `misc` (
   PRIMARY KEY (`field`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `misc` (`field`, `intval`, `txtval`, `emailaddress`) VALUES
-('views',	0,	'',	'0'),
-('maxpostsday',	0,	'',	'0'),
-('maxpostsdaydate',	0,	'',	'0'),
-('maxpostshour',	0,	'',	'0'),
-('maxpostshourdate',	0,	'',	'0'),
-('maxusers',	0,	'',	'0'),
-('maxusersdate',	0,	'',	'0'),
-('maxuserstext',	0,	'',	'0'),
-('botviews',	0,	'',	'0'),
-('attention',	0,	'',	'0');
+INSERT INTO `misc` (`field`, `intval`, `txtval`) VALUES
+('views',	0,	''),
+('maxpostsday',	0,	''),
+('maxpostsdaydate',	0,	''),
+('maxpostshour',	0,	''),
+('maxpostshourdate',	0,	''),
+('maxusers',	0,	''),
+('maxusersdate',	0,	''),
+('maxuserstext',	0,	''),
+('botviews',	0,	''),
+('attention',	0,	'');
 
 DROP TABLE IF EXISTS `perm`;
 CREATE TABLE `perm` (
