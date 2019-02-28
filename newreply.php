@@ -21,9 +21,6 @@ $thread = $sql->fetchq('SELECT t.*, f.title ftitle, f.private fprivate, f.readon
 		. 'LEFT JOIN forums f ON f.id=t.forum '
 		. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
 
-if ($act != "Submit") {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
-}
 $toolbar = posttoolbar();
 
 $threadlink = "<a href=thread.php?id=$tid>Back to thread</a>";
@@ -139,7 +136,9 @@ if ($err) {
 					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
-		</table><?php
+		</table>
+	</form>
+	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script><?php
 }elseif ($act == 'Submit') {
 	checknumeric($_POST['nolayout']);
 

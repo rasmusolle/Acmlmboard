@@ -39,14 +39,9 @@ else
 	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
 
 if ($act != "Submit") {
-	echo '<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>';
 	$toolbar = posttoolbar();
 
 	if ($ispoll) {
-		?>
-		<script type="text/javascript" src="lib/js/jscolor.js"></script>
-		<script type="text/javascript" src="lib/js/polleditor.js"></script>
-		<?php
 		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="jscolor" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
 	}
 }
@@ -138,6 +133,8 @@ if (isset($err)) {
 						<label for="ch">Allow changing one's vote</label>
 					</td>
 				</tr>
+				<script type="text/javascript" src="lib/js/jscolor.js"></script>
+				<script type="text/javascript" src="lib/js/polleditor.js"></script>
 			<?php } ?>
 			<tr>
 				<td class="b n1" align="center" width=120>Format:</td>
@@ -161,6 +158,7 @@ if (isset($err)) {
 			</tr>
 		</table>
 	</form>
+	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);

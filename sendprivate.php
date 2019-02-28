@@ -9,10 +9,6 @@ if (!isset($_POST['action'])) $_POST['action'] = null;
 if (!isset($_GET['pid'])) $_GET['pid'] = -1;
 if (!isset($_GET['uid'])) $_GET['uid'] = -1;
 
-if ($act != 'Submit') {
-	echo '<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>';
-}
-
 $top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';
 
 $toolbar = posttoolbar();
@@ -76,6 +72,7 @@ if (!$act = $_POST['action']) {
 			</tr>
 		</table>
 	</form>
+	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);

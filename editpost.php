@@ -34,9 +34,7 @@ $thread = $sql->fetchq('SELECT p.user puser, t.*, f.title ftitle, f.private fpri
 ."WHERE p.id=$pid AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce>=1))");
 
 if (!$thread) $pid = 0;
-if ($act != "Submit") {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
-}
+
 $toolbar = posttoolbar();
 
 if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
@@ -103,6 +101,7 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
+	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
 <?php
 } else if ($act == 'Preview') {
 	$_POST['message'] = stripslashes($_POST['message']);
@@ -140,6 +139,7 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
+	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
 	<?php
 } else if ($act == 'Submit') {
 	$message = $sql->escape($_POST['message']);
