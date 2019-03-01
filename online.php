@@ -65,7 +65,7 @@ for ($i = 1; $guest = $sql->fetch($guests); $i++) {
 			<a href="<?php echo $guest['url']; ?>"><?php echo str_replace(array("%20","_"), " ", $guest['url']); ?></a>
 			<?php echo ($guest['ipbanned'] ? " (IP banned)" : ""); ?>
 		</td>
-		<?php echo (has_perm("view-post-ips") ? '<td class="b">' . flagip($guest['ip']) . '</td>' : ''); ?>
+		<?php echo (has_perm("view-post-ips") ? '<td class="b">' . $guest['ip'] . '</td>' : ''); ?>
 	</tr>
 	<?php
 }
@@ -97,7 +97,7 @@ for ($i = 1; $guest = $sql->fetch($bots); $i++) {
 			<a href=<?php echo $guest['url']; ?>><?php echo $guest['url']; ?></a>
 			<?php echo ($guest['ipbanned'] ? " (IP banned)" : ""); ?>
 		</td>
-		<?php echo (has_perm("view-post-ips") ? '<td class="b">' . flagip($guest['ip']) . '</td>' : ''); ?>
+		<?php echo (has_perm("view-post-ips") ? '<td class="b">' . $guest['ip'] . '</td>' : ''); ?>
 	</tr>
 <?php } ?>
 </table><?php
