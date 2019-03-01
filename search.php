@@ -229,7 +229,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 			if ($thread['closed']) $status .= 'off';
 
 			if ($log) if (isset($thread['isread']) && !$thread['isread']) $status .= 'new';
-			else if ($thread['lastdate'] > (ctime() - 3600)) $status .= 'new';
+			else if ($thread['lastdate'] > (time() - 3600)) $status .= 'new';
 
 			if ($status) $status = '<img src="img/status/$status.png">';
 			else $status = '&nbsp;';

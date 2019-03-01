@@ -72,7 +72,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Threads by ".($user['displayname'] ? $user['displayname'] : $user['name'])."</td></table>";
 } elseif ($time = $_GET['time']) {
 	checknumeric($time);
-	$mintime = ctime() - $time;
+	$mintime = time() - $time;
 
 	pageheader('Latest posts');
 
@@ -169,7 +169,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	if ($log) {
 		if (!$thread['isread']) $status .= 'n';
 	} else {
-		if ($thread['lastdate'] > (ctime() - 3600)) $status .= 'n';
+		if ($thread['lastdate'] > (time() - 3600)) $status .= 'n';
 	}
 
 	if ($status)

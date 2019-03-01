@@ -39,7 +39,7 @@ $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $uid");
 
 //Concatenation like in ABXD
 if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
-	$tempban = ctime() + ($_POST['tempbanned']);
+	$tempban = time() + ($_POST['tempbanned']);
 	$tempban = "Banned until " . date("m-d-y h:i A",$tempban);
 	if ($_POST['tempbanned'] > 0) {
 		$banreason = $tempban;

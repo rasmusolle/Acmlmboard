@@ -15,7 +15,7 @@ if ($time < 1)
 $query = 'SELECT '.userfields('u').',u.posts,u.regdate,COUNT(*) num '
 	.'FROM users u '
 	.'LEFT JOIN posts p ON p.user=u.id '
-	.'WHERE p.date>' . (ctime() - $time)
+	.'WHERE p.date>' . (time() - $time)
 	.' GROUP BY u.id ORDER BY num DESC';
 $users = $sql->query($query);
 

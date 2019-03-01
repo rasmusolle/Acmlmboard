@@ -58,11 +58,11 @@ else if (!can_create_forum_thread($forum)) {
 
 	$err = "    You have no permissions to create threads in this forum!<br>$forumlink";
 }
-else if ($user['lastpost'] > ctime() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
+else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
 	$err = "    Don't post threads so fast, wait a little longer.<br>
 " . "    $forumlink";
 
-else if ($user['lastpost'] > ctime() - $config['secafterpost'] && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
+else if ($user['lastpost'] > time() - $config['secafterpost'] && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
 	$err = "    You must wait ".$config['secafterpost']." seconds before posting a thread.<br>
 " . "    $forumlink";
 
@@ -164,14 +164,14 @@ if (isset($err)) {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
 
-	$post['date'] = ctime();
+	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = ++ $user['posts'];
 	$post['text'] = $_POST['message'];
 	$post['nolayout'] = isset($_POST['nolayout']);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
-	$post['ulastpost'] = ctime();
+	$post['ulastpost'] = time();
 
 	if ($ispoll) {
 		$_POST['question'] = stripslashes($_POST['question']);
@@ -263,14 +263,14 @@ if (isset($err)) {
 		$modclose = $announce;
 	}
 
-	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . ctime() . " " . "WHERE id=$userid");
-	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . ctime() . ",$userid,$announce,$modclose,$modstick)");
+	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " " . "WHERE id=$userid");
+	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . time() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) " . "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) " . "VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
 	if (!$announce) {
-		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
+		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
 	}
 	$sql->query("UPDATE threads SET lastid=$pid WHERE id=$tid");
 

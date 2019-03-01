@@ -78,14 +78,14 @@ if (!$act = $_POST['action']) {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
 
-	$post['date'] = ctime();
+	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = 0;
 	$post['text'] = $_POST['message'];
 	$post['nolayout'] = $_POST['nolayout'];
 	foreach ($loguser as $field => $val)
 		$post['u' . $field] = $val;
-	$post['ulastpost'] = ctime();
+	$post['ulastpost'] = time();
 
 	pageheader('Send private message');
 	?>
@@ -144,7 +144,7 @@ if (!$act = $_POST['action']) {
 		} else {
 			checknumeric($_POST['nolayout']);
 			$sql->query("INSERT INTO pmsgs (date,ip,userto,userfrom,unread,title,nolayout) "
-				."VALUES ('" . ctime() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "',$_POST[nolayout])");
+				."VALUES ('" . time() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "',$_POST[nolayout])");
 			$pid = $sql->insertid();
 			$sql->query("INSERT INTO pmsgstext (id,text) VALUES ($pid,'$_POST[message]')");
 

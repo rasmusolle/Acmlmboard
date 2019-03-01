@@ -106,14 +106,14 @@ if (isset($err)) {
 } else if ($act == 'Preview') {
 	$_POST['message'] = stripslashes($_POST['message']);
 	$euser = $sql->fetchq("SELECT * FROM users WHERE id=$post[id]");
-	$post['date'] = ctime();
+	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = $euser['posts']++;
 	$post['nolayout'] = (isset($_POST['nolayout']) ? $_POST['nolayout'] : 0);
 	$post['text'] = $_POST['message'];
 	foreach($euser as $field => $val)
 		$post['u'.$field] = $val;
-	$post['ulastpost'] = ctime();
+	$post['ulastpost'] = time();
 
 	pageheader('Edit post',$thread['forum']);
 	echo $top . ' - Preview';
@@ -150,7 +150,7 @@ if (isset($err)) {
 	checknumeric($_POST['nolayout']);
 
 	$rev++;
-	$sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".ctime().")");
+	$sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".time().")");
 	$sql->query("UPDATE posts SET nolayout='$_POST[nolayout]' WHERE id='$pid'");
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");

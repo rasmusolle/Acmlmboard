@@ -175,7 +175,7 @@ if ($viewmode == "thread") {
 
 	//mark thread as read // 2007-02-21 blackhole89
 	if ($log && $thread['lastdate'] > $thread['frtime'])
-		$sql->query("REPLACE INTO threadsread VALUES ($loguser[id],$thread[id]," . ctime() . ")");
+		$sql->query("REPLACE INTO threadsread VALUES ($loguser[id],$thread[id]," . time() . ")");
 
 	//check for having to mark the forum as read too
 	if ($log) {
@@ -187,7 +187,7 @@ if ($viewmode == "thread") {
 		//if $readstate[n] is 1, MySQL did not create a group for threads where ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') is 0;
 		//thus, all threads in the forum are read. Mark it as such.
 		if ($readstate['n'] == 1)
-			$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$thread[fid]," . ctime() . ')');
+			$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$thread[fid]," . time() . ')');
 	}
 
 	//select top revision // 2007-03-08 blackhole89
@@ -246,7 +246,7 @@ if ($viewmode == "thread") {
 		. "WHERE p.announce=1 AND t.announce=1  "
 			) - 1;
 } elseif ($viewmode == "time") {
-	$mintime = ctime() - $timeval;
+	$mintime = time() - $timeval;
 
 	pageheader('Latest posts');
 

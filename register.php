@@ -63,7 +63,7 @@ if ($act == 'Register') {
 		$name = $sql->escape($name);
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
 		$query_string = sprintf("INSERT INTO users (name,pass,regdate,lastview,ip,sex,timezone,fontsize,theme) VALUES ('%s', '%s', %d, %d, '%s', %d, '%s', %d, '%s');",
-		$name, $salted_password, ctime(), ctime(), $userip, $sex, $timezone, $defaultfontsize, $defaulttheme);
+		$name, $salted_password, time(), time(), $userip, $sex, $timezone, $defaultfontsize, $defaulttheme);
 		$res = $sql->query($query_string);
 		if ($res) {
 			$id = $sql->insertid();
@@ -80,8 +80,8 @@ if ($act == 'Register') {
 			$sql->prepare("UPDATE users SET group_id=? WHERE id=?",array($ugid,$id));
 
 			// [Mega-Mario] mark existing threads and forums as read
-			$sql->prepare("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", array($id, ctime()));
-			$sql->prepare("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", array($id, ctime()));
+			$sql->prepare("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", array($id, time()));
+			$sql->prepare("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", array($id, time()));
 
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);

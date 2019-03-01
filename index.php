@@ -22,11 +22,11 @@ if ($log && $action == 'markread') {
 				. "WHERE t.forum=$fid "
 				. "AND r.uid=" . $loguser['id']);
 		//add new forumsread entry
-		$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$fid," . ctime() . ')');
+		$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$fid," . time() . ')');
 	} else {
 		//mark all read
 		$sql->query("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
-		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . ctime() . " FROM forums f");
+		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
 	}
 
 	header('Location: index.php');
@@ -78,7 +78,7 @@ while ($forum = $sql->fetch($forums)) {
 	else
 		$lastpost = 'None';
 
-	if ($forum['lastdate'] > ($log ? $forum['rtime'] : ctime() - 3600)) {
+	if ($forum['lastdate'] > ($log ? $forum['rtime'] : time() - 3600)) {
 		if ($log) {
 			$thucount = $sql->resultq("SELECT count(*) FROM threads t"
 					. " LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id])"

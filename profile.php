@@ -31,7 +31,7 @@ $group = $sql->fetchp("SELECT * FROM `group` WHERE id=?", array($user['group_id'
 
 pageheader("Profile for " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
-$days = (ctime() - $user['regdate']) / 86400;
+$days = (time() - $user['regdate']) / 86400;
 $pfound = $sql->resultq("SELECT count(*) FROM `posts` WHERE `user`='$uid'");
 $pavg = sprintf("%1.02f", $user['posts'] / $days);
 $tfound = $sql->resultq("SELECT count(*) FROM `threads` WHERE `user`='$uid'");
@@ -58,16 +58,16 @@ else
 	$topthreads = $config['topthreads'];
 
 if ($user['posts'])
-	$pprojdate = ctime() + (ctime() - $user['regdate']) * ($topposts - $user['posts']) / ($user['posts']);
-if (!$user['posts'] or $user['posts'] >= $topposts or $pprojdate > 2000000000 or $pprojdate < ctime())
+	$pprojdate = time() + (time() - $user['regdate']) * ($topposts - $user['posts']) / ($user['posts']);
+if (!$user['posts'] or $user['posts'] >= $topposts or $pprojdate > 2000000000 or $pprojdate < time())
 	$pprojdate = "";
 else
 	$pprojdate = " -- Projected date for $topposts posts: " . date("m-d-y h:i A", $pprojdate);
 
 
 if ($user['threads'])
-	$tprojdate = ctime() + (ctime() - $user['regdate']) * ($topthreads - $user['threads']) / ($user['threads']);
-if (!$user['threads'] or $user['threads'] >= $topthreads or $tprojdate > 2000000000 or $tprojdate < ctime())
+	$tprojdate = time() + (time() - $user['regdate']) * ($topthreads - $user['threads']) / ($user['threads']);
+if (!$user['threads'] or $user['threads'] >= $topthreads or $tprojdate > 2000000000 or $tprojdate < time())
 	$tprojdate = "";
 else
 	$tprojdate = " -- Projected date for $topthreads threads: " . date("m-d-y h:i A", $tprojdate);
@@ -147,7 +147,7 @@ if ($user['url'][0] == "!") {
 	$user['ssl'] = 1;
 }
 
-$post['date'] = ctime();
+$post['date'] = time();
 $post['ip'] = $user['ip'];
 $post['num'] = 0; //$user[posts];  #2/26/2007 xkeeper - threadpost can hide "1/" now
 
@@ -276,12 +276,12 @@ if (!empty($_COOKIE['pstbon'])) {
 	</tr><tr>
 		<td class="b n1"><b>Last post</b></td>
 		<td class="b n2">
-			<?=($user['lastpost'] ? cdate($dateformat, $user['lastpost']) . " (" . timeunits(ctime() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
+			<?=($user['lastpost'] ? cdate($dateformat, $user['lastpost']) . " (" . timeunits(time() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
 		</td>
 	</tr><tr>
 		<td class="b n1"><b>Last view</b></td>
 		<td class="b n2">
-			<?=cdate($dateformat, $user['lastview']) ?> (<?=timeunits(ctime() - $user['lastview']) ?> ago)
+			<?=cdate($dateformat, $user['lastview']) ?> (<?=timeunits(time() - $user['lastview']) ?> ago)
 			<?=($user['url'] ? "<br>at <a href='" . htmlval($user['url']) . "'>" . htmlval($user['url']) . "</a>" : '') ?>
 			<?=($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') ?>
 		</td>

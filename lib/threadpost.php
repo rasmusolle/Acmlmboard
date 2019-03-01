@@ -123,7 +123,7 @@ HTML;
 		<td class='b n1 sfont $sbar' style="border-top:0;">
 HTML;
 
-	$lastpost = ($post['ulastpost'] ? timeunits(ctime() - $post['ulastpost']) : 'none');
+	$lastpost = ($post['ulastpost'] ? timeunits(time() - $post['ulastpost']) : 'none');
 	$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
 
 	if ($post['usign']) {
@@ -143,7 +143,7 @@ HTML;
 <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
 <br>
 <br>Last post: $lastpost
-<br>Last view: " . timeunits(ctime() - $post['ulastview']);
+<br>Last view: " . timeunits(time() - $post['ulastview']);
 			$text .= "</td>
 <td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
 </table>";

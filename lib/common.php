@@ -67,7 +67,7 @@ if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired. - SquidEmpress
 $defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
-$sql->query('UPDATE users SET group_id=' . $defaultgroup . ', title="", tempbanned="0" WHERE tempbanned<' . ctime() . ' AND tempbanned>0');
+$sql->query('UPDATE users SET group_id=' . $defaultgroup . ', title="", tempbanned="0" WHERE tempbanned<' . time() . ' AND tempbanned>0');
 
 $dateformat = "$loguser[dateformat] $loguser[timeformat]";
 
@@ -80,11 +80,11 @@ if ($bot) {
 	load_bot_permset();
 }
 if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
-	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (ctime() - 300));
+	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (time() - 300));
 	if ($log) {
-		$sql->query("UPDATE `users` SET `lastview`=" . ctime() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
+		$sql->query("UPDATE `users` SET `lastview`=" . time() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
 	} else {
-		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . ctime() . ",'$userip','" . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
+		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . time() . ",'$userip','" . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
 	}
 
 	//[blackhole89]
@@ -111,7 +111,7 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 							(SELECT COUNT(*) FROM users) u,
 							(SELECT COUNT(*) FROM threads) t,
 							(SELECT COUNT(*) FROM posts) p");
-	$date = date("m-d-y", ctime());
+	$date = date("m-d-y", time());
 }
 
 //[KAWA] ABXD-style theme system
@@ -139,7 +139,7 @@ if (is_file("theme/" . $theme . "/" . $theme . ".css")) {
 
 $logofile = $defaultlogo;
 
-$sql->query('DELETE FROM ipbans WHERE expires<'.ctime().' AND expires>0');
+$sql->query('DELETE FROM ipbans WHERE expires<'.time().' AND expires>0');
 
 $r = $sql->query("SELECT * FROM ipbans WHERE '$userip' LIKE ipmask");
 if (@$sql->numrows($r) > 0) {
@@ -235,7 +235,7 @@ HTML;
 					| <a href="online.php">Online users</a>
 					| <a href="search.php">Search</a>
 				</td>
-				<td class="b"><div style="width: 150px"><?=cdate($dateformat, ctime())?></div></td>
+				<td class="b"><div style="width: 150px"><?=cdate($dateformat, time())?></div></td>
 				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
 <?php
 	if ($log) {
@@ -291,7 +291,7 @@ HTML;
 	if ($fid) {
 		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`
 			FROM `users`
-			WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") AND `lastforum`='$fid'
+			WHERE (`lastview` > " . (time() - 300) . " OR `lastpost` > " . (time() - 300) . ") AND `lastforum`='$fid'
 			ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
@@ -309,7 +309,7 @@ HTML;
 		//[Scrydan] Changed from the commented code below to save a query.
 		$numbots = 0;
 		$numguests = 0;
-		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (ctime() - 300) . "'")) {
+		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (time() - 300) . "'")) {
 			if($data = $sql->fetch($result)) {
 				$numbots = $data['bot_count'];
 				$numguests = $data['guest_count'] - $numbots;
@@ -364,12 +364,12 @@ HTML;
 			Birthdays today: $birthdaystoday";
 		}
 
-		$count['d'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (ctime() - 86400) . "'");
-		$count['h'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (ctime() - 3600) . "'");
+		$count['d'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (time() - 86400) . "'");
+		$count['h'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (time() - 3600) . "'");
 		$lastuser = $sql->fetchq("SELECT " . userfields() . " FROM `users` ORDER BY `id` DESC LIMIT 1");
 
 		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview` FROM `users`
-							WHERE (`lastview` > " . (ctime() - 300) . " OR `lastpost` > " . (ctime() - 300) . ") ORDER BY `name`");
+							WHERE (`lastview` > " . (time() - 300) . " OR `lastpost` > " . (time() - 300) . ") ORDER BY `name`");
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
@@ -386,15 +386,15 @@ HTML;
 
 		if ($count['d'] > $maxpostsday) {
 			$sql->query("UPDATE `misc` SET `intval`='$count[d]' WHERE `field`='maxpostsday'");
-			$sql->query("UPDATE `misc` SET `intval`='" . ctime() . "' WHERE `field`='maxpostsdaydate'");
+			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxpostsdaydate'");
 		}
 		if ($count['h'] > $maxpostshour) {
 			$sql->query("UPDATE `misc` SET `intval`='$count[h]' WHERE `field`='maxpostshour'");
-			$sql->query("UPDATE `misc` SET `intval`='" . ctime() . "' WHERE `field`='maxpostshourdate'");
+			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxpostshourdate'");
 		}
 		if ($onusercount > $maxusers) {
 			$sql->query("UPDATE `misc` SET `intval`='$onusercount' WHERE `field`='maxusers'");
-			$sql->query("UPDATE `misc` SET `intval`='" . ctime() . "' WHERE `field`='maxusersdate'");
+			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxusersdate'");
 			$sql->query("UPDATE `misc` SET `txtval`='" . addslashes($onuserlist) . "' WHERE `field`='maxuserstext'");
 		}
 
@@ -402,7 +402,7 @@ HTML;
 
 		$numbots = 0;
 		$numguests = 0;
-		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (ctime() - 300) . "'")) {
+		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (time() - 300) . "'")) {
 			if($data = $sql->fetch($result)) {
 				$numbots = $data['bot_count'];
 				$numguests = $data['guest_count'] - $numbots;
@@ -416,8 +416,8 @@ HTML;
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
 
-		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (ctime() - 86400) . "'");
-		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (ctime() - 86400) . "'");
+		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (time() - 86400) . "'");
+		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (time() - 86400) . "'");
 
 		?>
 		<table class="c1">
@@ -465,7 +465,7 @@ function noticemsg($name, $msg) {
 	?><table class="c1">
 		<tr class="h"><td class="b h center"><?php echo $name; ?></td></tr>
 		<tr><td class="b n1 center"><?php echo $msg; ?></td></tr>
-	</table><br><?php
+	</table><?php
 }
 
 function error($name, $msg) {

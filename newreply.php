@@ -35,13 +35,13 @@ if (!$thread) {
 if ($act == 'Submit') {
 	$lastpost = $sql->fetchq("SELECT `id`,`user`,`date` FROM `posts` WHERE `thread`=$thread[id] ORDER BY `id` DESC LIMIT 1");
 	$message = $sql->escape($_POST['message']);
-	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - 86400) && !has_perm('consecutive-posts'))
+	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - 86400) && !has_perm('consecutive-posts'))
 		$err = "You can't double post until it's been at least one day!<br>$threadlink";
-	if ($lastpost['user'] == $userid && $lastpost['date'] >= (ctime() - $config['secafterpost']) && !has_perm('consecutive-posts'))
+	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - $config['secafterpost']) && !has_perm('consecutive-posts'))
 		$err = "You must wait $config[secafterpost] seconds before posting consecutively.<br>$threadlink";
 	if (strlen(trim($message)) == 0)
 		$err = "Your post is empty! Enter a message and try again.<br>$threadlink";
-	if ($user['regdate'] > (ctime() - $config['secafterpost']))
+	if ($user['regdate'] > (time() - $config['secafterpost']))
 		$err = "You must wait {$config['secafterpost']} seconds before posting on a freshly registered account.<br>$threadlink";
 }
 
@@ -80,7 +80,7 @@ if ($err) {
 		$_POST['message'] = stripslashes($_POST['message']);
 	}
 
-	$post['date'] = ctime();
+	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = ++$user['posts'];
 	if ($act == 'Preview')
@@ -92,7 +92,7 @@ if ($err) {
 	$post['nolayout'] = (isset($_POST['nolayout']) ? $_POST['nolayout'] : null);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
-	$post['ulastpost'] = ctime();
+	$post['ulastpost'] = time();
 
 	if ($act == 'Preview') {
 		pageheader('New reply', $thread['forum']);
@@ -145,13 +145,13 @@ if ($err) {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
 
-	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . ctime() . " WHERE id=$userid");
+	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . time() . " WHERE id=$userid");
 	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout) "
-			. "VALUES ($userid,$tid," . ctime() . ",'$userip',$user[posts],$_POST[nolayout])");
+			. "VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],$_POST[nolayout])");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
-	$sql->query("UPDATE threads SET replies=replies+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid$modext WHERE id=$tid");
-	$sql->query("UPDATE forums SET posts=posts+1,lastdate=" . ctime() . ",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
+	$sql->query("UPDATE threads SET replies=replies+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid$modext WHERE id=$tid");
+	$sql->query("UPDATE forums SET posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
 
 	//2007-02-21 //blackhole89 - nuke entries of this thread in the "threadsread" table
 	$sql->query("DELETE FROM threadsread WHERE tid='$thread[id]' AND NOT (uid='$userid')");

@@ -9,9 +9,9 @@ checknumeric($time);
 if (!$time)
 	$time = 300;
 
-$users = $sql->query("SELECT * FROM users WHERE lastview > ".(ctime()-$time)." ORDER BY lastview DESC");
-$guests = $sql->query("SELECT g.* FROM guests g WHERE g.date > ".(ctime()-$time)." AND g.bot=0 ORDER BY g.date DESC");
-$bots = $sql->query("SELECT * FROM guests WHERE date > ".(ctime()-$time)." AND bot=1 ORDER BY date DESC");
+$users = $sql->query("SELECT * FROM users WHERE lastview > ".(time()-$time)." ORDER BY lastview DESC");
+$guests = $sql->query("SELECT g.* FROM guests g WHERE g.date > ".(time()-$time)." AND g.bot=0 ORDER BY g.date DESC");
+$bots = $sql->query("SELECT * FROM guests WHERE date > ".(time()-$time)." AND bot=1 ORDER BY date DESC");
 ?>
 Online users during the last <?php echo str_replace('.', '', timeunits2($time)); ?>:
 <div style="margin-top: 3px; margin-bottom: 3px; display:block">

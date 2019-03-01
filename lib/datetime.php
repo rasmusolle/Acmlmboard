@@ -5,10 +5,6 @@ function usectime() {
 }
 $start = usectime();
 
-function ctime() {
-	return time();
-}
-
 function timeunits($sec) {
 	if ($sec < 60) return "$sec sec.";
 	if ($sec < 3600) return floor($sec / 60) . ' min.';
