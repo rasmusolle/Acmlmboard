@@ -87,13 +87,6 @@ textarea,input,select,button{
   font: 1em verdana;
 }
 
-.radio{
-  border: none;
-  background: none;
-  color: #DDDDDD;
-  font: 1em verdana;
-}
-
 .submit{
   border: #a3516a ridge 3px;
   color: #dd88a2;

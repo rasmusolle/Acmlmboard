@@ -92,13 +92,6 @@ select {
 	font: 1em verdana;
 }
 
-.radio {
-	border: none;
-	background: none;
-	color: #DDDDDD;
-	font: 1em verdana;
-}
-
 .submit {
 	border: #643007 outset 2px;
 	background: url("wood.jpg") #643007;
