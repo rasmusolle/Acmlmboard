@@ -412,7 +412,7 @@ if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] 
 	$renamefield .= "<input type=\"button\" class=\"submit\" value=\"Cancel\" onclick=\"hidethreadedit(); return false;\">";
 	$renamefield = addcslashes($renamefield, "'"); //because of javascript, single quotes will gum up the works
 
-	echo "<script language=\"javascript\">
+	echo "<script>
 function trashConfirm(e) {
 	if (confirm(\"Are you sure you want to trash this thread?\"));
 	else {
@@ -427,7 +427,7 @@ function trashConfirm(e) {
 		<span id=\"moptions\">$opt options: $stick $close $trash $edit </span>
 		<span id=\"mappend\"></span>
 		<span id=\"canceledit\"></span>
-		<script type=\"text/javascript\">
+		<script>
 function submitmod(act){
 	document.getElementById('action').value=act;
 	document.getElementById('mod').submit();
@@ -522,7 +522,7 @@ while ($post = $sql->fetch($posts)) {
 echo "$pagelist$pagebr<br>";
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
-	echo "<script language=\"javascript\" type=\"text/javascript\" src=\"lib/js/tools.js\"></script>";
+	echo "<script src=\"lib/js/tools.js\"></script>";
 	$toolbar = posttoolbar();
 
 	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {

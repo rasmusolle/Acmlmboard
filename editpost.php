@@ -101,7 +101,7 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
-	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
+	<script src="lib/js/tools.js"></script>
 <?php
 } else if ($act == 'Preview') {
 	$_POST['message'] = stripslashes($_POST['message']);
@@ -139,7 +139,7 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
-	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
+	<script src="lib/js/tools.js"></script>
 	<?php
 } else if ($act == 'Submit') {
 	$message = $sql->escape($_POST['message']);

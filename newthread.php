@@ -133,8 +133,8 @@ if (isset($err)) {
 						<label for="ch">Allow changing one's vote</label>
 					</td>
 				</tr>
-				<script type="text/javascript" src="lib/js/jscolor.js"></script>
-				<script type="text/javascript" src="lib/js/polleditor.js"></script>
+				<script src="lib/js/jscolor.js"></script>
+				<script src="lib/js/polleditor.js"></script>
 			<?php } ?>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
@@ -158,7 +158,7 @@ if (isset($err)) {
 			</tr>
 		</table>
 	</form>
-	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
+	<script src="lib/js/tools.js"></script>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);

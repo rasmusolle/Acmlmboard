@@ -138,7 +138,7 @@ if ($err) {
 			</tr>
 		</table>
 	</form>
-	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script><?php
+	<script src="lib/js/tools.js"></script><?php
 }elseif ($act == 'Submit') {
 	checknumeric($_POST['nolayout']);
 

@@ -72,7 +72,7 @@ if (!$act = $_POST['action']) {
 			</tr>
 		</table>
 	</form>
-	<script language="javascript" type="text/javascript" src="lib/js/tools.js"></script>
+	<script src="lib/js/tools.js"></script>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
