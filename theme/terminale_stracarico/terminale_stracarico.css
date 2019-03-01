@@ -32,9 +32,6 @@ td.h {
 tr.h td, tr.c td {
 	text-align: left;
 }
-td.nb {
-	color: #28DF10;
-}
 
 .sfont {
 	font-size: 11px;
