@@ -151,13 +151,13 @@ if (@$sql->numrows($r) > 0) {
 	$i = $sql->fetch($r);
 	if ($i['hard']) {
 		pageheader('IP banned');
-		echo '<table class="c1"><tr class="n2"><td class="b n1" align="center">Sorry, but your IP address has been banned.</td></tr></table>';
+		echo '<table class="c1"><tr class="n2"><td class="b n1 center">Sorry, but your IP address has been banned.</td></tr></table>';
 		pagefooter();
 		die();
     } else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup['id'])) {
 		if (!strstr($_SERVER['PHP_SELF'], "login.php")) {
 			pageheader('IP restricted');
-			echo '<table class="c1"><tr class="n2"><td class="b n1" align="center">Access from your IP address has been limited.<br><a href=login.php>Login</a></table>';
+			echo '<table class="c1"><tr class="n2"><td class="b n1 center">Access from your IP address has been limited.<br><a href=login.php>Login</a></table>';
 			pagefooter();
 			die();
 		}
@@ -189,15 +189,15 @@ function pageheader($pagetitle = "", $fid = 0) {
 
 	if ($t != "")
 		$extratitle = <<<HTML
-<table class="c1" width="100%" align="center">
+<table class="c1 center" width="100%">
 	<tr class="h"><td class="b h">News</td></tr>
-	<tr class="n2" align="center"><td class="b sfont">$t</td></tr>
+	<tr class="n2 center"><td class="b sfont">$t</td></tr>
 </table>
 HTML;
 
 	if ($extratitle) {
 		$boardlogo = <<<HTML
-<table width=100%><tr align="center">
+<table width=100%><tr class="center">
 	<td class="nb" valign="center">$boardlogo</td>
 	<td class="nb" valign="center" width="300">$extratitle</td>
 </tr></table>
@@ -222,8 +222,8 @@ HTML;
 	</head>
 	<body style="font-size:<?=$loguser['fontsize']?>%" onload="prettyPrint()">
 		<table class="c1">
-			<tr class="nt n2" align="center"><td class="b n1" align="center" colspan="3"><?=$boardlogo?></td></tr>
-			<tr class="n2" align="center">
+			<tr class="nt n2 center"><td class="b n1 center" colspan="3"><?=$boardlogo?></td></tr>
+			<tr class="n2 center">
 				<td class="b"><div style="width: 150px">Views: <?=number_format($views) ?></div></td>
 				<td class="b" width="100%">
 					<a href="./">Main</a>
@@ -236,7 +236,7 @@ HTML;
 					| <a href="search.php">Search</a>
 				</td>
 				<td class="b"><div style="width: 150px"><?=cdate($dateformat, ctime())?></div></td>
-				<tr class="n1" align="center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
+				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
 <?php
 	if ($log) {
 		$unreadpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `unread`=1 AND `del_to`='0'");
@@ -326,7 +326,7 @@ HTML;
 		?>
 		<table class="c1">
 			<tr class="n1">
-				<td class="b n1" align="center"><?php echo $onuserlist; ?></td>
+				<td class="b n1 center"><?php echo $onuserlist; ?></td>
 			</tr>
 		</table><br>
 		<?php
@@ -359,8 +359,8 @@ HTML;
 		if (count($birthdays)) {
 			$birthdaystoday = implode(", ", $birthdays);
 			$birthdaybox = "
-			<tr class=\"n1\" align=\"center\">
-			<td class=\"b n2\" align=\"center\">
+			<tr class=\"n1 center\">
+			<td class=\"b n2 center\">
 			Birthdays today: $birthdaystoday";
 		}
 
@@ -427,11 +427,11 @@ HTML;
 					<table style="width:100%">
 						<tr>
 							<td class="nb" width="170"></td>
-							<td class="nb" align="center"><span class="white-space:nowrap">
+							<td class="nb center"><span class="white-space:nowrap">
 									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total.<br><?php echo $count['d']; ?> new posts
 									today, <?php echo $count['h']; ?> last hour.<br>
 							</span></td>
-							<td class="nb" align="right" width="170">
+							<td class="nb right" width="170">
 								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
 							</td>
 						</tr>
@@ -439,7 +439,7 @@ HTML;
 				</td>
 			</tr>
 			<tr>
-				<td class="b n2" align="center"><?php echo $onuserlist; ?></td>
+				<td class="b n2 center"><?php echo $onuserlist; ?></td>
 			</tr>
 		</table><br>
 		<?php
@@ -463,8 +463,8 @@ function pagestats() {
 
 function noticemsg($name, $msg) {
 	?><table class="c1">
-		<tr class="h"><td class="b h" align="center"><?php echo $name; ?></td></tr>
-		<tr><td class="b n1" align="center"><?php echo $msg; ?></td></tr>
+		<tr class="h"><td class="b h center"><?php echo $name; ?></td></tr>
+		<tr><td class="b n1 center"><?php echo $msg; ?></td></tr>
 	</table><br><?php
 }
 

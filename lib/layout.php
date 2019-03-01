@@ -126,7 +126,7 @@ function RenderForm($form) {
 		$rowhead = "\t\t<tr class=\"h\">\n%s\t\t</tr>\n";
 		$cell = "\t\t\t<td class=\"b n2\">\n%s\t\t\t</td>\n";
 		$cellhead = "\t\t\t<td class=\"b h\" colspan=\"2\">%s</td>\n";
-		$celltitle = "\t\t\t<td align=\"center\" class=\"b n1\">%s</td>\n";
+		$celltitle = "\t\t\t<td class=\"b n1 center\">%s</td>\n";
 		$cellaction = "\t\t\t<td class=\"b\">\n%s\t\t\t</td>\n";
 		$select = "\t\t\t\t<select id=%s name=%s>\n%s\t\t\t\t</select>\n";
 		$option = "\t\t\t\t\t<option value=%s %s>%s</option>\n";
@@ -254,7 +254,7 @@ function RenderPageBar($pagebar) {
 	if (!empty($pagebar['breadcrumb']))
 		RenderBreadcrumb($pagebar['breadcrumb']);
 	echo $pagebar['title'];
-	echo "</td><td align=right class=nb>";
+	echo "</td><td class='nb right'>";
 	if (!empty($pagebar['actions']))
 		RenderActions($pagebar['actions']);
 	else
@@ -278,7 +278,7 @@ function catheader($title) {
 
 function fieldrow($title, $input) {
 	return "  <tr>
-" . "    <td class=\"b n1\" align=\"center\">$title:</td>
+" . "    <td class=\"b n1 center\">$title:</td>
 " . "    <td class=\"b n2\">" . stripslashes($input) . "</td>";
 }
 
@@ -355,8 +355,8 @@ function announcement_row($aleftspan, $arightspan) {
 			$anlink = "No announcements";
 		}
 		?><tr class="h"><td class="b" colspan="<?=$aleftspan + $arightspan ?>">Announcements</td></tr>
-		<tr class="n1" align="center"><td class="b" colspan=<?=(has_perm('create-forum-announcements') ? "$aleftspan" : ($aleftspan + $arightspan)) ?> align=left><?=$anlink ?></td>
-		<?=(has_perm('create-forum-announcements') ? "<td class=\"b\" colspan=$arightspan align=right><a href=newthread.php?announce=1>New Announcement</a></td>" : "") ?>
+		<tr class="n1 center"><td class="b left" colspan=<?=(has_perm('create-forum-announcements') ? "$aleftspan" : ($aleftspan + $arightspan)) ?>><?=$anlink ?></td>
+		<?=(has_perm('create-forum-announcements') ? "<td class=\"b right\" colspan=$arightspan><a href=newthread.php?announce=1>New Announcement</a></td>" : "") ?>
 		</tr><?php
 	}
 }

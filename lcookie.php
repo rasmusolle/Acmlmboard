@@ -30,12 +30,12 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 		<td class="b h">Field</td>
 		<td class="b h">Value</td>
 	</tr><tr class="n1">
-		<td class="b n1" align="center">generating IP</td>
-		<td class="b n2" align="center"><?=$dsegments[0] ?></td>
+		<td class="b n1 center">generating IP</td>
+		<td class="b n2 center"><?=$dsegments[0] ?></td>
 	</tr><?php for ($i = 2; $i < count($dsegments);  $i++) { ?>
 	<tr class="n1">
-		<td class="b n1" align="center">allowed range</td>
-		<td class="b n2" align="center"><?=$dsegments[$i] ?></td>
+		<td class="b n1 center">allowed range</td>
+		<td class="b n2 center"><?=$dsegments[$i] ?></td>
 	<?php } ?>
 </table><br>
 <form action="lcookie.php" method="post">

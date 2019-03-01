@@ -41,7 +41,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "ORDER BY t.sticky DESC, t.lastdate DESC "
 		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
-	<td class=\"nb\" align=\"right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td></table>";
+	<td class=\"nb right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a> | <a href=\"newthread.php?id=$fid&ispoll=1\" class=\"newpoll\">New poll</a>" : "") . "</td></table>";
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	checknumeric($uid);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$uid");
@@ -189,10 +189,10 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		echo '<tr class="c"><td class="b" colspan='.($showforum ? 8 : 7).' style="font-size:1px">&nbsp;</td>';
 	$lsticky = $thread['sticky'];
 
-	?><tr class="<?=$tr ?>" align="center">
+	?><tr class="<?=$tr ?> center">
 		<td class="b n1"><?=$status ?></td>
 		<?=($showforum ? "<td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '')?>
-		<td class="b" align="left">
+		<td class="b left">
 			<?=($thread['ispoll'] ? '<img src="img/poll.png" height=10>' : '') ?>
 			<a href="thread.php?id=<?=$thread['id'] ?>"><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
 		<td class="b"><?=userlink($thread, 'u1') ?></td>

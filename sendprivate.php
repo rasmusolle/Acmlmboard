@@ -47,19 +47,19 @@ if (!$act = $_POST['action']) {
 				<td class="b h" colspan="2">Send message</td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width="120">Send to:</td>
+				<td class="b n1 center" width="120">Send to:</td>
 				<td class="b n2"><input type="text" name="userto" size="25" maxlength=25 value="<?php echo htmlval($userto); ?>"></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center">Title:</td>
+				<td class="b n1 center">Title:</td>
 				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?php echo htmlval((isset($title) ? $title : '')); ?>"></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width="120">Format:</td>
+				<td class="b n1 center" width="120">Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?php echo htmlval((isset($quotetext) ? $quotetext : '')); ?></textarea></td>
 			</tr>
 			<tr class="n1">
@@ -104,19 +104,19 @@ if (!$act = $_POST['action']) {
 				<td class="b h" colspan="2">Send message</td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width="120">Send to:</td>
+				<td class="b n1 center" width="120">Send to:</td>
 				<td class="b n2"><input type="text" name="userto" size=25 maxlength=25 value="<?php echo htmlval((isset($_POST['userto']) ? $_POST['userto'] : '')); ?>"></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center">Title:</td>
+				<td class="b n1 center">Title:</td>
 				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?php echo htmlval($_POST['title']); ?>"></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width="120">Format:</td>
+				<td class="b n1 center" width="120">Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?php echo htmlval($_POST['message']); ?></textarea></td>
 			</tr>
 			<tr class="n1">

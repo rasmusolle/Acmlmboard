@@ -45,7 +45,7 @@ global $user;
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
 if (!$user) {
-	?><table class="c1"><td class="b n1" align="center">
+	?><table class="c1"><td class="b n1 center">
 		This user doesn't exist!<br><a href="./">Back to main</a>
 	</table><?php
 	die(pagefooter());

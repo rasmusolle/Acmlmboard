@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 	<div id="pleasewait">
 		<table class="c1">
 			<tr class="h"><td class="b h">Results</td></tr>
-			<tr><td class="b n1" style="padding:25" align="center">Search in progress...</td></tr>
+			<tr><td class="b n1 center" style="padding:25">Search in progress...</td></tr>
 		</table>
 	</div>
 	<div id="youwaited" style="display:none">
@@ -243,9 +243,9 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 				echo '<tr class="c">
 				<td class="b" colspan="' . ($showforum ? 8 : 7) . '" style="font-size:1px">&nbsp;</td>';
 			$lsticky = $thread['sticky'];
-			?><tr class="<?php echo $tr; ?>" align="center">
+			?><tr class="<?php echo $tr; ?> center">
 				<td class="b n1"><?php echo $status; ?></td>
-				<td class="b" align="left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
+				<td class="b left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
 				<td class="b"><?php echo userlink($thread,'u1'); ?></td>
 				<td class="b"><?php echo $thread['replies']; ?></td>
 				<td class="b"><?php echo $thread['views']; ?></td>

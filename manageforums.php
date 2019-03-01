@@ -98,18 +98,18 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		<table class="c1">
 			<tr class="h"><td class="b h" colspan="2"><?php echo ($cid == 'new' ? 'Create' : 'Edit'); ?> category</td></tr>
 			<tr>
-				<td class="b n1" align="center">Title:</td>
+				<td class="b n1 center">Title:</td>
 				<td class="b n2"><input type="text" name="title" value="<?php echo htmlspecialchars($cat['title']); ?>" size="50" maxlength="500"></td>
 			</tr><tr>
-				<td class="b n1" align="center">Display order:</td>
+				<td class="b n1 center">Display order:</td>
 				<td class="b n2"><input type="text" name="ord" value="<?php echo $cat['ord']; ?>" size="4" maxlength="10"></td>
 			</tr><tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2"><label><input type="checkbox" name="private" value="1" <?php echo ($cat['private'] ? 'checked="checked"' : ''); ?>> Private category</label></td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
 					<input type="submit" class="submit" name="savecat" value="Save category">
 						<?php echo ($cid == 'new' ? '' : '<input type="submit" class="submit" name="delcat" value="Delete category" onclick="if (!confirm("Really delete this category?")) return false;"> '); ?>
@@ -137,19 +137,19 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		<table class="c1">
 			<tr class="h"><td class="b h" colspan="2"><?php echo ($fid == 'new' ? 'Create' : 'Edit'); ?> forum</td></tr>
 			<tr>
-				<td class="b n1" align="center">Title:</td>
+				<td class="b n1 center">Title:</td>
 				<td class="b n2"><input type="text" name="title" value="<?php echo htmlspecialchars($forum['title']); ?>" size="50" maxlength="500"></td>
 			</tr><tr>
-				<td class="b n1" align="center">Description:<br><small>HTML allowed.</small></td>
+				<td class="b n1 center">Description:<br><small>HTML allowed.</small></td>
 				<td class="b n2"><textarea wrap="virtual" name="descr" rows="3" cols="50"><?php echo htmlspecialchars($forum['descr']); ?></textarea></td>
 			</tr><tr>
-				<td class="b n1" align="center">Category:</td>
+				<td class="b n1 center">Category:</td>
 				<td class="b n2"><?php echo $catlist; ?></td>
 			</tr><tr>
-				<td class="b n1" align="center">Display order:</td>
+				<td class="b n1 center">Display order:</td>
 				<td class="b n2"><input type="text" name="ord" value="<?php echo $forum['ord']; ?>" size="4" maxlength="10"></td>
 			</tr><tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
 					<label><input type="checkbox" name="private" value="1" <?php echo ($forum['private'] ? ' checked="checked"':''); ?>> Private forum</label>
 					<label><input type="checkbox" name="readonly" value="1"<?=($forum['readonly'] ? ' checked="checked"' : '')?>> Read-only</label>
@@ -157,7 +157,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>
-				<td class="b n1" align="center">&nbsp;</td>
+				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
 					<input type="submit" class="submit" name="saveforum" value="Save forum">
 					<?php ($fid == 'new' ? '' : '<input type="submit" class="submit" name="delforum" value="Delete forum" onclick="if (!confirm("Really delete this forum?")) return false;">'); ?>

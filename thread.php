@@ -7,9 +7,9 @@ if (!empty($_COOKIE['pstbon'])) {
 	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
 	$rdmsg = "<br><table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
 	if ($_COOKIE['pstbon'] >= 1) {
-		$rdmsg .= "Post Successful</td></tr><tr><td class=\"b n1\" align=\"left\">Post successful.</td></tr></table></div><br>";
+		$rdmsg .= "Post Successful</td></tr><tr><td class=\"b n1 left\">Post successful.</td></tr></table></div><br>";
 	} else {
-		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\" align=\"left\">Post was edited successfully.</td></tr></table>";
+		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1 left\">Post was edited successfully.</td></tr></table>";
 	}
 }
 
@@ -329,7 +329,7 @@ if ($viewmode == "thread") {
 
 	$topbot = "<table width=100%><tr>
 		<td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> - " . htmlval($thread['title']) . "</td>
-		<td class=\"nb\" align=\"right\">$newreply</td></tr></table>";
+		<td class=\"nb right\">$newreply</td></tr></table>";
 }elseif ($viewmode == "user") {
 	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Posts by ".userlink($user, "")."</td></table>";
 } elseif ($viewmode == "announce") {
@@ -338,7 +338,7 @@ if ($viewmode == "thread") {
 	else
 		$newreply = "";
 
-	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb\" align=\"right\">$newreply</td></tr></table>";
+	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb right\">$newreply</td></tr></table>";
 } elseif ($viewmode == "time") {
 	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Latest posts</td></tr></table>";
 	$timeval = $_GET['time'];
@@ -532,10 +532,10 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 <form action="newreply.php" method="post">
 	<tr class="h"><td class="b h" colspan=2>Warp Whistle Reply</a></td>
 	<tr>
-		<td class="b n1" align="center" width=120>Format:</td>
+		<td class="b n1 center" width=120>Format:</td>
 		<td class="b n2"><table><tr class='toolbar'><?=$toolbar ?></table>
 	</tr><tr>
-		<td class="b n1" align="center" width=120>Reply:</td>
+		<td class="b n1 center" width=120>Reply:</td>
 		<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=8 cols=80></textarea></td>
 	</tr><tr class="n1">
 		<td class="b"></td>

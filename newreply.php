@@ -118,11 +118,11 @@ if ($err) {
 				<td class="b h" colspan="2">Reply</td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width=120>Format:</td>
+				<td class="b n1 center" width=120>Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width=120>Post:</td>
+				<td class="b n1 center" width=120>Post:</td>
 				<td class="b n2">
 					<textarea name=message id='message' rows=20 cols=80><?=htmlval($post['text']) ?></textarea>
 				</td>

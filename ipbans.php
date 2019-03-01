@@ -52,7 +52,7 @@ if (!has_perm('edit-ip-bans')) {
 						      "0" => "never")); ?></td>
 				<td class="b n1">Comment</td>
 				<td class="b n2" style="width:100%"><input type="text" name="reason" style="width:100%">
-				<td class="b n2" align="center" colspan="8"><input type="submit" class="submit" value='Add IP ban'>
+				<td class="b n2 center" colspan="8"><input type="submit" class="submit" value='Add IP ban'>
 		</table>
 	</form><br>
 	<table class="c1">
@@ -69,13 +69,13 @@ if (!has_perm('edit-ip-bans')) {
 		?>
 		<tr>
 			<td class="b n1"><span style="font-family:'Courier New',monospace"><?php echo ipfmt($i['ipmask']); ?></span></td>
-			<td class="b n2" align="center"><span style="color:<?=($i['hard'] ? "red\">Yes" : "green\">No") ?></span></td>
-			<td class="b n2" align="center">
+			<td class="b n2 center"><span style="color:<?=($i['hard'] ? "red\">Yes" : "green\">No") ?>"></span></td>
+			<td class="b n2 center">
 				<?php echo ($i['expires'] ? cdate($loguser['dateformat'],$i['expires'])."&nbsp;".cdate($loguser['timeformat'],$i['expires']) : "never"); ?>
 			</td>
-			<td class="b n2" align="center"><?php echo $i['banner']; ?></td>
+			<td class="b n2 center"><?php echo $i['banner']; ?></td>
 			<td class="b n2"><?php echo stripslashes($i['reason']); ?></td>
-			<td class="b n2" align="center">
+			<td class="b n2 center">
 				<a href="ipbans.php?action=del&what=<?php echo urlencode(encryptpwd($i['ipmask'].",".$i['expires'])); ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 			</td>
 		</tr>

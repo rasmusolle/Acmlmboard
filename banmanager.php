@@ -96,17 +96,17 @@ RenderPageBar($pagebar);
 if (isset($_GET['unban'])) {
 	?><form action="banmanager.php?id=$uid" method="post" enctype="multipart/form-data"><table class="c1">
 		<tr class="h"><td class="b">Unban User</td></tr>
-		<tr class="n1"><td class="b n1" align="center"><input type="submit" class="submit" name="unbanuser" value="Unban User"></td></tr>
+		<tr class="n1"><td class="b n1 center"><input type="submit" class="submit" name="unbanuser" value="Unban User"></td></tr>
 	</table><?php
 } else {
 	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data">
 	<table class="c1">
         <?=catheader('Ban User') ?>
 		<tr>
-			<td class="b n1" align="center">Reason:</td>
+			<td class="b n1 center">Reason:</td>
 			<td class="b n2"><input type="text" name="title" class="right"></td>
 		</tr><tr>
-			<td class="b n1" align="center">Expires?</td>
+			<td class="b n1 center">Expires?</td>
 			<td class="b n2"><?=fieldselect("tempbanned",0,array("600"=>"10 minutes",
 				"3600"=>"1 hour","10800"=>"3 hours","86400"=>"1 day","172800"=>"2 days",
 				"259200"=>"3 days","604800"=>"1 week","1209600"=>"2 weeks","2419200"=>"1 month",

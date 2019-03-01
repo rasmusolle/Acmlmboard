@@ -31,12 +31,12 @@ Online users during the last <?php echo str_replace('.', '', timeunits2($time));
 for ($i = 1; $user = $sql->fetch($users); $i++) {
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
-	<tr class="<?php echo $tr; ?>" align="center">
+	<tr class="<?php echo $tr; ?> center">
 		<td class="b n1"><?php echo $i; ?>.</td>
-		<td class="b" align="left"><?=userlink($user); ?></td>
+		<td class="b left"><?=userlink($user); ?></td>
 		<td class="b"><?php echo cdate($loguser['timeformat'], $user['lastview']); ?></td>
 		<td class="b"><?php echo ($user['lastpost'] ? cdate($dateformat, $user['lastpost']) : '-'); ?></td>
-		<?=(has_perm('view-user-urls') ? '<td class="b" align="left">'
+		<?=(has_perm('view-user-urls') ? '<td class="b left">'
 			. ($user['url'] ? "<a href=$user[url]>" . str_replace(array('%20','_'), ' ', $user['url']) . '</a>' : '-')
 			. "</td>" : '') ?>
 		<?=(has_perm("view-post-ips") ? '<td class="b">'.$user['ip'].'</td>':'') ?>
@@ -57,11 +57,11 @@ Guests:
 for ($i = 1; $guest = $sql->fetch($guests); $i++) {
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
-	<tr class="<?php echo $tr; ?>" align="center">
+	<tr class="<?php echo $tr; ?> center">
 		<td class="b n1"><?php echo $i; ?>.</td>
-		<td class="b" align="left"><span title="<?php echo htmlspecialchars($guest['useragent']); ?>" style=white-space:nowrap><?php echo htmlspecialchars(substr($guest['useragent'], 0, 65)); ?></span></td>
+		<td class="b left"><span title="<?php echo htmlspecialchars($guest['useragent']); ?>" style=white-space:nowrap><?php echo htmlspecialchars(substr($guest['useragent'], 0, 65)); ?></span></td>
 		<td class="b"><?php echo cdate($loguser['timeformat'], $guest['date']); ?></td>
-		<td class="b" align="left">
+		<td class="b left">
 			<a href="<?php echo $guest['url']; ?>"><?php echo str_replace(array("%20","_"), " ", $guest['url']); ?></a>
 			<?php echo ($guest['ipbanned'] ? " (IP banned)" : ""); ?>
 		</td>
@@ -84,15 +84,15 @@ Bots:
 for ($i = 1; $guest = $sql->fetch($bots); $i++) {
 	$tr = ($i % 2 ? 'n2' : 'n3');
 	?>
-	<tr class="<?php echo $tr; ?>" align="center">
+	<tr class="<?php echo $tr; ?> center">
 		<td class="b n1"><?php echo $i; ?>.</td>
-		<td class="b" align="left">
+		<td class="b left">
 			<span title="<?php echo htmlspecialchars($guest['useragent']); ?>" style=white-space:nowrap>
 				<?php echo htmlspecialchars(substr($guest['useragent'], 0, 50)); ?>
 			</span>
 		</td>
 		<td class="b"><?php echo cdate($loguser['timeformat'], $guest['date']); ?></td>
-		<td class="b" align="left">
+		<td class="b left">
 			<span style='float:right'><?php echo sslicon($guest['ssl']); ?></span>
 			<a href=<?php echo $guest['url']; ?>><?php echo $guest['url']; ?></a>
 			<?php echo ($guest['ipbanned'] ? " (IP banned)" : ""); ?>

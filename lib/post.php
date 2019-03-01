@@ -118,7 +118,6 @@ function postfilter($msg) {
 	$msg = preg_replace_callback("'\[thread=([0-9]+)\]'si", "get_threadlink", $msg);
 	$msg = preg_replace_callback("'\[username=([[A-Za-z0-9 _\-%]+)\]'si", "get_username_link", $msg);
 
-
 	$msg = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href=\\1>\\2</a>', $msg);
 
 	$msg = preg_replace("'\[reply=\"(.*?)\" id=\"(.*?)\"\]'si", '<blockquote><span class="quotedby"><small><i><a href=showprivate.php?id=\\2>Sent by \\1</a></i></small></span><hr>', $msg);

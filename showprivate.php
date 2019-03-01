@@ -40,7 +40,7 @@ pageheader($pmsgs['title']);
 
 $topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - <a href=private.php" . (! $tologuser ? '?id=' . $pmsgs['userto'] : '') . ">Private messages</a> - " . htmlval($pmsgs['title']) . "</td>
-" . "  <td class=\"nb\" align=\"right\">
+" . "  <td class=\"nb right\">
 " . "    <a href=sendprivate.php?pid=$pid>Reply</a>
 " . "  </td>
 " . "</table>

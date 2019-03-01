@@ -15,7 +15,7 @@ if ($regdis['intval'] == 1) {
 	<table class="c1">
 		<tr class="h"><td class="b h" colspan="2">Registration is disabled</td></tr>
 		<tr>
-			<td class="b n1" align="center" width="120">
+			<td class="b n1 center" width="120">
 				<?php echo $reason; ?> For more information please read the board announcements.
 			</td>
 		</tr>
@@ -113,13 +113,13 @@ if(!empty($err)) noticemsg("Error", $err);
 		<tr class="h">
 			<td class="b h" colspan="2">Register</td>
 		</tr><tr>
-			<td class="b n1" align="center" width=150>Username:</td>
+			<td class="b n1 center" width=150>Username:</td>
 			<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
 		</tr><tr>
-			<td class="b n1" align="center">Password:</td>
+			<td class="b n1 center">Password:</td>
 			<td class="b n2"><input type="password" name=pass size=13 maxlength=32></td>
 		</tr><tr>
-			<td class="b n1" align="center">Password (again):</td>
+			<td class="b n1 center">Password (again):</td>
 			<td class="b n2"><input type="password" name=pass2 size=13 maxlength=32></td>
 		</tr>
 		<?php
@@ -127,7 +127,7 @@ if(!empty($err)) noticemsg("Error", $err);
 		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
 		if ($config['registrationpuzzle']) { ?>
 			<tr>
-				<td class="b n1" align="center" width="120"><?php echo $puzzle; ?></td>
+				<td class="b n1 center" width="120"><?php echo $puzzle; ?></td>
 				<td class="b n2"><input type="text" name="puzzle" size="13" maxlength="20"></td>
 			</tr>
 		<?php } ?>

@@ -86,10 +86,10 @@ if (isset($err)) {
 		<input type="hidden" name=passenc value="<?=$pass ?>">
 		<tr class="h"><td class="b h" colspan=2>Edit Post</td></tr>
 		<tr>
-			<td class="b n1" align="center" width=120>Format:</td>
+			<td class="b n1 center" width=120>Format:</td>
 			<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 		</tr><tr>
-			<td class="b n1" align="center" width=120>Post:</td>
+			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=20 cols=80><?=$quotetext ?></textarea></td>
 		</tr><tr class="n1">
 			<td class="b">&nbsp;</td>
@@ -123,10 +123,10 @@ if (isset($err)) {
 	<form action=editpost.php method=post><table class="c1">
 		<tr class="h"><td class="b h" colspan=2>Post</td></tr>
 		<tr>
-			<td class="b n1" align="center" width=120>Format:</td>
+			<td class="b n1 center" width=120>Format:</td>
 			<td class="b n2"><table><tr><?=$toolbar ?></tr></table>
 		</tr><tr>
-			<td class="b n1" align="center" width=120>Post:</td>
+			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name=message id='message' rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>
 		</tr><tr class="n1">
 			<td class="b">&nbsp;</td>

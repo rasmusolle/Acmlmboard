@@ -210,7 +210,7 @@ if (has_perm("block-layout")) {
 		}
 
 		if ($blockmessage) {
-			echo '<table class="c1"><td class="b n1" align="center">'.$blockmessage.'</table><br>';
+			echo '<table class="c1"><td class="b n1 center">'.$blockmessage.'</table><br>';
 		}
 	}
 

@@ -104,18 +104,18 @@ if (isset($err)) {
 				<td class="b h" colspan="2"><?php echo $typecap; ?></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
+				<td class="b n1 center"><?php echo $typecap; ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
 			<?php
 			if ($ispoll) {
 				?>
 				<tr>
-					<td class="b n1" align="center">Poll question:</td>
+					<td class="b n1 center">Poll question:</td>
 					<td class="b n2"><input type="text" name="question" size="100" maxlength="100" value="<?php echo htmlval(isset($_POST['question']) ? $_POST['question'] : ''); ?>"></td>
 				</tr>
 				<tr>
-					<td class="b n1" align="center">Poll choices:</td>
+					<td class="b n1 center">Poll choices:</td>
 					<td class="b n2">
 						<div id="polloptions">
 							<?php echo sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)); ?>
@@ -125,7 +125,7 @@ if (isset($err)) {
 					</td>
 				</tr>
 				<tr>
-					<td class="b n1" align="center">Options:</td>
+					<td class="b n1 center">Options:</td>
 					<td class="b n2">
 						<input type="checkbox" name="multivote" value="1" id="mv">
 						<label for="mv">Allow multiple voting</label> |
@@ -137,11 +137,11 @@ if (isset($err)) {
 				<script type="text/javascript" src="lib/js/polleditor.js"></script>
 			<?php } ?>
 			<tr>
-				<td class="b n1" align="center" width=120>Format:</td>
+				<td class="b n1 center" width=120>Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width=120>Post:</td>
+				<td class="b n1 center" width=120>Post:</td>
 				<td class="b n2">
 					<textarea name=message id='message' rows=20 cols=80></textarea>
 				</td>
@@ -182,10 +182,10 @@ if (isset($err)) {
 " . "    <td class=\"b n1\" colspan=2>" . htmlval($_POST['question']) . "
 ";
 		$pollin = "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Poll question:</td>
+" . "  <td class=\"b n1 center\">Poll question:</td>
 " . "  <td class=\"b n2\"><input type=\"text\" name=question size=100 maxlength=100 value=\"" . htmlval($_POST[question]) . "\"></td>
 " . "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Poll choices:</td>
+" . "  <td class=\"b n1 center\">Poll choices:</td>
 " . "  <td class=\"b n2\"><div id=\"polloptions\">
 ";
 
@@ -206,7 +206,7 @@ if (isset($err)) {
 		$pollin .= "  </div>
 " . "  <button type=\"button\" class=\"submit\" id=addopt onclick=\"addOption();return false;\">Add choice</button></td>
 " . "<tr>
-" . "  <td class=\"b n1\" align=\"center\">Options:</td>
+" . "  <td class=\"b n1 center\">Options:</td>
 " . "  <td class=\"b n2\"><input type=\"checkbox\" name=multivote " . ($_POST[multivote] ? "checked" : "") . " value=1 id=mv><label for=mv>Allow multiple voting</label> | <input type=\"checkbox\" name=changeable " . ($_POST[changeable] ? "checked" : "") . " value=1 id=ch><label for=ch>Allow changing one's vote</label>
 ";
 		$pollprev .= "</table>";
@@ -224,16 +224,16 @@ if (isset($err)) {
 				<td class="b h" colspan=2><?php echo $typecap; ?></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center"><?php echo $typecap; ?> title:</td>
+				<td class="b n1 center"><?php echo $typecap; ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
 			</tr>
 			<?php echo (isset($pollin) ? $pollin : ''); ?>
 			<tr>
-				<td class="b n1" align="center" width=120>Format:</td>
+				<td class="b n1 center" width=120>Format:</td>
 				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
 			</tr>
 			<tr>
-				<td class="b n1" align="center" width=120>Post:</td>
+				<td class="b n1 center" width=120>Post:</td>
 				<td class="b n2">
 					<textarea name=message id='message' rows=20 cols=80><?=htmlval($_POST['message']) ?></textarea>
 				</td>

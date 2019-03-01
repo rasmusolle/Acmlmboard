@@ -43,9 +43,9 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	$post_overall += $user['posts'];
 	$tr = ($i % 2 ? 'n1': 'n2');
 	?>
-	<tr class="<?php echo $tr; ?>" align="center">
+	<tr class="<?php echo $tr; ?> center">
 		<td class="b"><?php echo $i; ?>.</td>
-		<td class="b" align="left"><?php echo userlink($user); ?></td>
+		<td class="b left"><?php echo userlink($user); ?></td>
 		<td class="b"><?php echo cdate($dateformat,$user['regdate']); ?></td>
 		<td class="b"><b><?php echo $user['num']; ?></b></td>
 		<td class="b"><b><?php echo $user['posts'] ?></b></td>
@@ -55,7 +55,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 }
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
-	<tr class="<?php echo $tr; ?>" align="center">
+	<tr class="<?php echo $tr; ?> center">
 		<td class="nb"><b><?php echo $j; ?></b></td>
 		<td class="nb"></td>
 		<td class="nb"></td>

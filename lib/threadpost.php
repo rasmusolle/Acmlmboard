@@ -52,7 +52,7 @@ function threadpost($post, $pthread = '') {
 	<td class="b n1" style="border-left:0">
 		<table width="100%">
 			<td class="nb sfont">(post deleted)</td>
-			<td class="nb sfont" align="right">$postlinks</td>
+			<td class="nb sfont right">$postlinks</td>
 		</table>
 	</td>
 </tr></table>
@@ -116,7 +116,7 @@ HTML;
 		<td class="b n1 $tbar1" style="border-bottom:0; border-right:0; min-width: 180px;" height=17>$ulink</td>
 		<td class="b n1 $tbar2" style="border-left:0" width=100%>
 			<table width=100%>
-				<tr><td class="nb sfont">Posted on $pdate $threadlink $revisionstr</td><td class="nb sfont" align="right">$postlinks</td></tr>
+				<tr><td class="nb sfont">Posted on $pdate $threadlink $revisionstr</td><td class="nb sfont right">$postlinks</td></tr>
 			</table>
 		</td>
 	</tr><tr valign=top>

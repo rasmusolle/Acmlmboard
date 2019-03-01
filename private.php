@@ -76,7 +76,7 @@ else
 
 $topbot = "<table width=100%>
 " . "  <td class=\"nb\"><a href=./>Main</a> - $title</td>
-" . "  <td class=\"nb\" align=\"right\"><a href=private.php$link</a> | <a href=sendprivate.php>Send new</a></td>
+" . "  <td class=\"nb right\"><a href=private.php$link</a> | <a href=sendprivate.php>Send new</a></td>
 " . "</table>
 ";
 
@@ -121,12 +121,12 @@ if (isset($_COOKIE['pstbon'])) {
 
 		$tr = ($i % 2 ? 'n2' : 'n3');
 		?>
-		<tr class="<?=$tr; ?>" align="center">
+		<tr class="<?=$tr; ?> center">
 			<td class="b n2">
 				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$_GET['view'] ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 			</td>
 			<td class="b n1"><?php echo $status; ?></td>
-			<td class="b" align="left"><a href=showprivate.php?id=<?=$pmsg['id']; ?>><?=forcewrap(htmlval($pmsg['title'])); ?></a></td>
+			<td class="b left"><a href=showprivate.php?id=<?=$pmsg['id']; ?>><?=forcewrap(htmlval($pmsg['title'])); ?></a></td>
 			<td class="b"><?=userlink($pmsg, 'u') ?></td>
 			<td class="b"><nobr><?=cdate($dateformat, $pmsg['date']) ?></nobr></td>
 		</tr>

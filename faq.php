@@ -198,7 +198,7 @@ p {
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			<p>They reflect the group of the user.</p>
-			<p><table style="text-align:center"><?php echo $nctable; ?></table></p>
+			<p><table class="center"><?php echo $nctable; ?></table></p>
 			<p><?=($config['perusercolor'] ? "Keep in mind that some users might have a specific colour assigned to them." : '') ?></p>
 		</td>
 	</tr>

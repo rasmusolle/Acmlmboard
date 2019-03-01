@@ -95,9 +95,9 @@ while ($forum = $sql->fetch($forums)) {
 	}
 
 	?>
-	<tr align="center">
+	<tr class="center">
 		<td class="b n1"><?php echo $status; ?></td>
-		<td class="b n2" align="left">
+		<td class="b n2 left">
 			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>"><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
 			<br><span class=sfont><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']); ?></span>
 		</td>

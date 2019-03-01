@@ -25,7 +25,7 @@ if ($mlinkstext == '') $mlinkstext = "There's no board management tools you're a
 <table class="c1">
 	<tr class="h"><td class="b">Board management tools</td></tr>
 	<tr>
-		<td class="b n1" align="center">
+		<td class="b n1 center">
 			<br><?php echo $mlinkstext; ?><br><br>
 		</td>
 	</tr>

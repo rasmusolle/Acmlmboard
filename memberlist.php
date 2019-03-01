@@ -60,20 +60,20 @@ while ($group = $sql->fetch($activegroups)) {
 	<tr class="h"><td class="b h" colspan="2"><?php echo $num . ' user' . ($num > 1 ? 's' : ''); ?> found.</td></tr>
 	<tr>
 		<td class="b n1" width="105">Sort by:</td>
-		<td class="b n2" align="center">
+		<td class="b n2 center">
 			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby); ?> Posts</a> |
 			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby); ?> Username</a> |
 			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby); ?> Registration date</a>
 		</td>
 	</tr><tr>
 		<td class="b n1">Order by:</td>
-		<td class="b n2" align="center">
+		<td class="b n2 center">
 			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd') . "Descending</a> |"; ?>
 			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a') . "Ascending</a>"; ?>
 		</td>
 	</tr><tr>
 		<td class="b n1">Sex:</td>
-		<td class="b n2" align="center">
+		<td class="b n2 center">
 			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby) . "Male</a> | " .
 			mlink($sort, 'f', $pow, $ppp, $page, $orderby) . "Female</a> | " .
 			mlink($sort, 'n', $pow, $ppp, $page, $orderby) . "N/A</a> | ";
@@ -81,7 +81,7 @@ while ($group = $sql->fetch($activegroups)) {
 			echo mlink($sort, '', $pow, $ppp, $page, $orderby) . "All</a>"; ?>
 	<tr>
 		<td class="b n1">Group:</td>
-		<td class="b n2" align="center">
+		<td class="b n2 center">
 			<?php $c = 0;
 			foreach ($groups as $k => $v) {
 			$c++;
