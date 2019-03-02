@@ -220,7 +220,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 
 pagefooter();
 
-
 function rec_grouplist($parent, $level, $tgroups, $groups) {
 	$total = count($tgroups);
 	foreach ($tgroups as $g) {

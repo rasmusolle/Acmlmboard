@@ -74,10 +74,10 @@ else
 
 if ($pfound && $thread) {
 	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a>
-                     (<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
+		(<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
 } else if ($pfound && $threadhack['announce'] && $threadhack['forum'] == 0) {
 	$lastpostlink = "<br>in <a href=\"thread.php?pid=$threadhack[id]#$threadhack[id]\">" . forcewrap(htmlval($threadhack['ttitle'])) . "</a>
-                     (<a href=\"thread.php?announce=0\">Announcements</a>)";
+		(<a href=\"thread.php?announce=0\">Announcements</a>)";
 } else if ($user['posts'] == 0) {
 	$lastpostlink = "";
 } else {

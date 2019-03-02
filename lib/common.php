@@ -107,10 +107,7 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$views = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='views'");
 	$botviews = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='botviews'");
 
-	$count = $sql->fetchq("SELECT
-							(SELECT COUNT(*) FROM users) u,
-							(SELECT COUNT(*) FROM threads) t,
-							(SELECT COUNT(*) FROM posts) p");
+	$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
 	$date = date("m-d-y", time());
 }
 
@@ -154,7 +151,7 @@ if (@$sql->numrows($r) > 0) {
 		echo '<table class="c1"><tr class="n2"><td class="b n1 center">Sorry, but your IP address has been banned.</td></tr></table>';
 		pagefooter();
 		die();
-    } else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup['id'])) {
+	} else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup['id'])) {
 		if (!strstr($_SERVER['PHP_SELF'], "login.php")) {
 			pageheader('IP restricted');
 			echo '<table class="c1"><tr class="n2"><td class="b n1 center">Access from your IP address has been limited.<br><a href=login.php>Login</a></table>';
@@ -323,18 +320,11 @@ HTML;
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
 
-		?>
-		<table class="c1">
-			<tr class="n1">
-				<td class="b n1 center"><?php echo $onuserlist; ?></td>
-			</tr>
-		</table><br>
-		<?php
+		?><table class="c1"><tr class="n1"><td class="b n1 center"><?php echo $onuserlist; ?></td></tr></table><br><?php
 	} else if ($showonusers) {
 		//[KAWA] Copypastadaption from ABXD, with added activity limiter.
 		$birthdaylimit = 86400 * 30;
-		$rbirthdays = $sql->query("SELECT `birth`, " . userfields() . "
-								FROM `users`
+		$rbirthdays = $sql->query("SELECT `birth`, " . userfields() . " FROM `users`
 								WHERE `birth` LIKE '" . date('m-d') . "%' AND `lastview` > " . (time() - $birthdaylimit) . " ORDER BY `name`");
 		$birthdays = array();
 		while ($user = $sql->fetch($rbirthdays)) {
@@ -358,10 +348,7 @@ HTML;
 		$birthdaybox = '';
 		if (count($birthdays)) {
 			$birthdaystoday = implode(", ", $birthdays);
-			$birthdaybox = "
-			<tr class=\"n1 center\">
-			<td class=\"b n2 center\">
-			Birthdays today: $birthdaystoday";
+			$birthdaybox = "<tr class=\"n1 center\"><td class=\"b n2 center\">Birthdays today: $birthdaystoday</td></tr>";
 		}
 
 		$count['d'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (time() - 86400) . "'");
@@ -415,9 +402,6 @@ HTML;
 		if ($numbots > 0) {
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
-
-		$activeusers = $sql->resultq("SELECT COUNT(*) FROM `users` WHERE `lastpost` > '" . (time() - 86400) . "'");
-		$activethreads = $sql->resultq("SELECT COUNT(*) FROM `threads` WHERE `lastdate` > '" . (time() - 86400) . "'");
 
 		?>
 		<table class="c1">

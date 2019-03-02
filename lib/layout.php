@@ -22,18 +22,18 @@ function redirect($url, $msg) {
  * Parameters:
  * `headers`
  * An associative array of column definitions:
- *    key                -> column key
- *    value['caption']   -> display text for the column header
- *    value['width']     -> (optional) specify a fixed width size (CSS width:)
- *    value['color']     -> (optional) color for the column data cells
- *                          which corresponds to CSS '.n' classes)
- *    value['align']     -> (optional) CSS text-align: for the data cells
- *    value['hidden']    -> (optional)
+ *		key				-> column key
+ *	value['caption']	-> display text for the column header
+ *	value['width']		-> (optional) specify a fixed width size (CSS width:)
+ *	value['color']		-> (optional) color for the column data cells
+ *							which corresponds to CSS '.n' classes)
+ *	value['align']		-> (optional) CSS text-align: for the data cells
+ *	value['hidden']		-> (optional)
  *
  * `data`
  * An associative array of cell data values:
- *    key                -> column key (must match the header column key)
- *    value              -> cell value
+ *	key				-> column key (must match the header column key)
+ *	value				-> cell value
  *
  */
 function RenderTable($data, $headers) {
@@ -272,14 +272,11 @@ function setfield($field) {
 }
 
 function catheader($title) {
-	return "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>$title</td>";
+	return "<tr class=\"h\"><td class=\"b h\" colspan=2>$title</td>";
 }
 
 function fieldrow($title, $input) {
-	return "  <tr>
-" . "    <td class=\"b n1 center\">$title:</td>
-" . "    <td class=\"b n2\">" . stripslashes($input) . "</td>";
+	return "<tr><td class=\"b n1 center\">$title:</td><td class=\"b n2\">" . stripslashes($input) . "</td>";
 }
 
 function fieldinput($avatarsize, $max, $field) {

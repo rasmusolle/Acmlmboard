@@ -97,19 +97,12 @@ if ($err) {
 	if ($act == 'Preview') {
 		pageheader('New reply', $thread['forum']);
 		echo "$top - Preview
-" . "<br>
-" . "<table class=\"c1\">
-" . "  <tr class=\"h\">
-" . "    <td class=\"b h\" colspan=2>Post preview
-" . "</table>
-" . threadpost($post) . "
-" . "<br>
-";
+<br><table class=\"c1\"><tr class=\"h\"><td class=\"b h\" colspan=2>Post preview</table>
+".threadpost($post)."
+<br>";
 	} else {
 		pageheader('New reply', $thread['forum']);
-		echo "$top
-" . "<br><br>
-";
+		echo "$top<br><br>";
 	}
 	?>
 	<form action="newreply.php" method="post">

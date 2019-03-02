@@ -101,7 +101,7 @@ if (isset($_GET['unban'])) {
 } else {
 	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data">
 	<table class="c1">
-        <?=catheader('Ban User') ?>
+		<?=catheader('Ban User') ?>
 		<tr>
 			<td class="b n1 center">Reason:</td>
 			<td class="b n2"><input type="text" name="title" class="right"></td>

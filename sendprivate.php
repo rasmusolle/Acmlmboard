@@ -91,11 +91,7 @@ if (!$act = $_POST['action']) {
 	?>
 	$top - Preview
 <br><br>
-	<table class="c1">
-  		<tr class="h">
-    		<td class="b h" colspan=2>Message preview</td>
-    	</tr>
-	</table>
+	<table class="c1"><tr class="h"><td class="b h" colspan=2>Message preview</td></tr></table>
 	<?php echo threadpost($post); ?>
 	<br>
 	<form action="sendprivate.php" method="post">

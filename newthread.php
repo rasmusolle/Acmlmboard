@@ -48,42 +48,31 @@ if ($act != "Submit") {
 
 $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
-if (!$forum) {
+if (!$forum)
 	error("Error", "Forum does not exist. <br> <a href=./>Back to main</a>");
-}
 else if ($announce && !has_perm('create-forum-announcements'))
 	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
-
-else if (!can_create_forum_thread($forum)) {
-
-	$err = "    You have no permissions to create threads in this forum!<br>$forumlink";
-}
+else if (!can_create_forum_thread($forum))
+	$err = "You have no permissions to create threads in this forum!<br>$forumlink";
 else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
-	$err = "    Don't post threads so fast, wait a little longer.<br>
-" . "    $forumlink";
-
+	$err = "Don't post threads so fast, wait a little longer.<br>$forumlink";
 else if ($user['lastpost'] > time() - $config['secafterpost'] && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
-	$err = "    You must wait ".$config['secafterpost']." seconds before posting a thread.<br>
-" . "    $forumlink";
+	$err = "You must wait ".$config['secafterpost']." seconds before posting a thread.<br>$forumlink";
 
 // 2007-02-19 //blackhole89 - table breach protection
 if ($act == 'Submit') {
 	$title = $_POST['title'];
 	$message = $sql->escape($_POST['message']);
 	if (($tdepth = tvalidate($message)) != 0)
-		$err = "    This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>
-" . "    $forumlink";
+		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$forumlink";
 	if (strlen(trim(str_replace(" ", "", $title))) < 4)
-		$err = "    You need to enter a longer $type title.<br>
-" . "    $forumlink";
+		$err = "You need to enter a longer $type title.<br>$forumlink";
 	if ($ispoll && (! isset($_POST['opt']) || count($_POST['opt']) < 2))
-		$err = "    You must add atleast two choices to your poll.<br>
-" . "    $forumlink";
+		$err = "You must add atleast two choices to your poll.<br>$forumlink";
 	else if ($ispoll) {
 		foreach ($_POST['opt'] as $id => $text)
 			if (trim($text) == '' || $_POST['col'][$id] == '')
-				$err = "You must fill in all poll choices' fields.<br>
-" . "$forumlink";
+				$err = "You must fill in all poll choices' fields.<br>$forumlink";
 	}
 }
 
@@ -177,17 +166,12 @@ if (isset($err)) {
 		$_POST['question'] = stripslashes($_POST['question']);
 		$numopts = $_POST['numopts'];
 		checknumeric($numopts);
-		$pollprev = "<br><table class=\"c1\">
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b n1\" colspan=2>" . htmlval($_POST['question']) . "
-";
+		$pollprev = "<br><table class=\"c1\"><tr class=\"n1\"><td class=\"b n1\" colspan=2>" . htmlval($_POST['question']);
 		$pollin = "<tr>
-" . "  <td class=\"b n1 center\">Poll question:</td>
-" . "  <td class=\"b n2\"><input type=\"text\" name=question size=100 maxlength=100 value=\"" . htmlval($_POST[question]) . "\"></td>
-" . "<tr>
-" . "  <td class=\"b n1 center\">Poll choices:</td>
-" . "  <td class=\"b n2\"><div id=\"polloptions\">
-";
+	<td class=\"b n1 center\">Poll question:</td>
+	<td class=\"b n2\"><input type=\"text\" name=question size=100 maxlength=100 value=\"" . htmlval($_POST['question']) . "\"></td>
+<tr>
+	<td class=\"b n1 center\">Poll choices:</td><td class=\"b n2\"><div id=\"polloptions\">";
 
 		if (isset($_POST['opt'])) {
 			foreach ($_POST['opt'] as $id => $text) {
@@ -198,7 +182,7 @@ if (isset($err)) {
 				
 				$colori = str_pad(dechex($r), 2, "0", STR_PAD_LEFT) . str_pad(dechex($g), 2, "0", STR_PAD_LEFT) . str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
 
-				$pollin .= "    " . sprintf($optfield, $text, $r, $g, $b) . "\n";
+				$pollin .= sprintf($optfield, $text, $r, $g, $b) . "\n";
 				$pollprev .= "<tr class=\"n2\"><td class=\"b n2\" width=200>{$text} $h<td class=\"b n3\"><div style=\"width:100%;background-color:#$colori;\"><span style=\"padding-right:10em;\"></span></div>";
 			}
 		}

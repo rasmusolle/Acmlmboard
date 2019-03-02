@@ -35,8 +35,7 @@ if (!has_perm('edit-ip-bans')) {
 	}
 	$ipbans = $sql->query("SELECT * FROM ipbans");
 	if (isset($err)) noticemsg("Error", $err);
-    ?>
-    <form action="ipbans.php?action=add" method="post">
+	?><form action="ipbans.php?action=add" method="post">
 		<table class="c1">
 			<tr class="h"><td class="b h" colspan="9">New IP ban</td></tr>
 			<tr>
@@ -46,10 +45,10 @@ if (!has_perm('edit-ip-bans')) {
 				<td class="b n2"><input type="checkbox" name="hard" value="1"></td>
 				<td class="b n1">Expires?</td>
 				<td class="b n2"><?php echo fieldselect("expires",0,array("600"=>"10 minutes",
-						      "3600" => "1 hour", "10800" => "3 hours", "86400" => "1 day",
-						      "172800" => "2 days", "259200" => "3 days", "604800" => "1 week",
-						      "1209600" => "2 weeks", "2419200" => "1 month", "4838400" => "2 months",
-						      "0" => "never")); ?></td>
+							"3600" => "1 hour", "10800" => "3 hours", "86400" => "1 day",
+							"172800" => "2 days", "259200" => "3 days", "604800" => "1 week",
+							"1209600" => "2 weeks", "2419200" => "1 month", "4838400" => "2 months",
+							"0" => "never")); ?></td>
 				<td class="b n1">Comment</td>
 				<td class="b n2" style="width:100%"><input type="text" name="reason" style="width:100%">
 				<td class="b n2 center" colspan="8"><input type="submit" class="submit" value='Add IP ban'>

@@ -16,11 +16,7 @@ if ($log && $action == 'markread') {
 	if ($fid != 'all') {
 		checknumeric($fid);
 		//delete obsolete threadsread entries
-		$sql->query("DELETE r "
-				. "FROM threadsread r "
-				. "LEFT JOIN threads t ON t.id=r.tid "
-				. "WHERE t.forum=$fid "
-				. "AND r.uid=" . $loguser['id']);
+		$sql->query("DELETE r FROM threadsread r LEFT JOIN threads t ON t.id=r.tid WHERE t.forum=$fid AND r.uid=" . $loguser['id']);
 		//add new forumsread entry
 		$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$fid," . time() . ')');
 	} else {
@@ -28,15 +24,12 @@ if ($log && $action == 'markread') {
 		$sql->query("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
 		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
 	}
-
 	header('Location: index.php');
 }
 
 pageheader();
 
-$categs = $sql->query("SELECT * "
-		. "FROM categories "
-		. "ORDER BY ord,id");
+$categs = $sql->query("SELECT * FROM categories ORDER BY ord,id");
 while ($c = $sql->fetch($categs)) {
 	if (can_view_cat($c))
 		$categ[$c['id']] = $c;

@@ -51,7 +51,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b"><b><?php echo $user['posts'] ?></b></td>
 	</tr>
 	<?php
-    $j++;
+	$j++;
 }
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
