@@ -133,15 +133,6 @@ if ($user['email'] && !$user['emailhide']) {
 	$email = "";
 }
 
-if ($user['homeurl'] && $user['homename'])
-	$homepage = "<a href=\"" . htmlval($user['homeurl']) . "\">" . htmlval($user['homename']) . "</a> - " . htmlval($user['homeurl']);
-elseif ($user['homeurl'] && !$user['homename'])
-	$homepage = "<a href=\"" . htmlval($user['homeurl']) . "\">" . htmlval($user['homeurl']) . "</a>";
-elseif (!$user['homeurl'] && $user['homename'])
-	$homepage = $user['homeurl'];
-else
-	$homepage = "";
-
 if ($user['url'][0] == "!") {
 	$user['url'] = substr($user['url'], 1);
 	$user['ssl'] = 1;
@@ -290,13 +281,25 @@ if (!empty($_COOKIE['pstbon'])) {
 <br>
 <table class="c1">
 	<tr class="h">
-		<td class="b h" colspan="2">Contact information</td>
+		<td class="b h" colspan="2">User information</td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Real name</b></td>
+		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
+	</tr><tr>
+		<td class="b n1" width="110"><b>Sex</b></td>
+		<td class="b n2"><?=$sex[$user['sex']] ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Location</b></td>
+		<td class="b n2"><?=($user['location'] ? htmlval($user['location']) : "") ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Birthday</b></td>
+		<td class="b n2"><?=$birthday . ' ' . $age ?></td>
+	</tr><tr>
+		<td class="b n1"><b>Bio</b></td>
+		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>
 	</tr><tr>
 		<td class="b n1" width="110"><b>Email address</b></td>
 		<td class="b n2"><?=$email ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Homepage</b></td>
-		<td class="b n2"><?=$homepage ?></td>
 	</tr>
 </table>
 <br>
@@ -309,33 +312,11 @@ if (!empty($_COOKIE['pstbon'])) {
 	</tr><tr>
 		<td class="b n1" width="110"><b>Time offset</b></td>
 		<td class="b n2">
-			<?=sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) ?> from you
-			<br>(current time: <?=$userct ?>)
+			<?=sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) ?> from you (Current time: <?=$userct ?>)
 		</td>
 	</tr><tr>
 		<td class="b n1"><b>Items per page</b></td>
 		<td class="b n2"><?=$user['ppp'] ?> posts, <?=$user['tpp'] ?> threads</td>
-	</tr>
-</table>
-<br>
-<table class="c1">
-	<tr class="h">
-		<td class="b h" colspan="2">Personal information</td>
-	</tr><tr>
-		<td class="b n1" width="110"><b>Real name</b></td>
-		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Location</b></td>
-		<td class="b n2"><?=($user['location'] ? htmlval($user['location']) : "") ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Birthday</b></td>
-		<td class="b n2"><?=$birthday . $age ?></td>
-	</tr><tr>
-		<td class="b n1" width="110"><b>Sex</b></td>
-		<td class="b n2"><?=$sex[$user['sex']] ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Bio</b></td>
-		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>
 	</tr>
 </table>
 <br>

@@ -79,9 +79,8 @@ function HTMLAttribEncode($string) {
 }
 
 function EmailObscurer($emailin) {
-	$email = htmlval($email);
-	$email = str_replace("@", "<b>&#64;</b>", $emailin);
-	$email = str_replace(".", "<b>&#46;</b>", $email);
+	$email = str_replace("@", "<b> (at) </b>", $emailin);
+	$email = str_replace(".", "<b> (dot) </b>", $email);
 	return $email;
 }
 

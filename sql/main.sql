@@ -412,8 +412,6 @@ CREATE TABLE `users` (
   `realname` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `homeurl` varchar(255) NOT NULL,
-  `homename` varchar(255) NOT NULL,
   `usepic` tinyint(4) NOT NULL DEFAULT '0',
   `head` text NOT NULL,
   `sign` text NOT NULL,

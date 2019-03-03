@@ -195,8 +195,6 @@ if ($act == 'Edit profile') {
 			. setfield('realname') . ','
 			. setfield('location') . ','
 			. setfield('email') . ','
-			. setfield('homeurl') . ','
-			. setfield('homename') . ','
 			. setfield('head') . ','
 			. setfield('sign') . ','
 			. setfield('bio') . ','
@@ -269,20 +267,18 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
 		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) 
-.		catheader('Personal information')
+.		catheader('User information')
 .	fieldrow('Sex', fieldoption('sex', $user['sex'], array('Male', 'Female', 'N/A')))
 .	fieldrow('Real name', fieldinput(40, 60, 'realname'))
 .	fieldrow('Location', fieldinput(40, 60, 'location'))
 .	fieldrow('Birthday', $birthinput)
 .	fieldrow('Bio', fieldtext(5, 80, 'bio'))
+.	fieldrow('Email address', fieldinput(40, 60, 'email'))
+.	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')))
 .		catheader('Post layout')
 .	fieldrow('Header', fieldtext(5, 80, 'head'))
 .	fieldrow('Signature', fieldtext(5, 80, 'sign'))
 .	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], array('Display', 'Hide'))) 
-.		catheader('Contact information')
-.	fieldrow('Email address', fieldinput(40, 60, 'email'))
-.	fieldrow('Homepage URL', fieldinput(40, 200, 'homeurl'))
-.	fieldrow('Homepage name', fieldinput(40, 60, 'homename'))
 .		catheader('Options')
 .	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
 .	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
@@ -292,8 +288,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Font size', fieldinput(3, 3, 'fontsize'))
 .	fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
 .	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
-.	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')))
-.	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')));
+.	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')));
 
 	echo catheader('&nbsp;'); ?>
 	<tr class="n1"><td class="b">&nbsp;</td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
