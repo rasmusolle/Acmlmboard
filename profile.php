@@ -48,30 +48,6 @@ $threadhack = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `t`.`forum`, 
 							LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
 							WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `t`.`forum`='0'");
 
-if (!$config['topposts'])
-	$topposts = 5000;
-else
-	$topposts = $config['topposts'];
-if (!$config['topthreads'])
-	$topthreads = 200;
-else
-	$topthreads = $config['topthreads'];
-
-if ($user['posts'])
-	$pprojdate = time() + (time() - $user['regdate']) * ($topposts - $user['posts']) / ($user['posts']);
-if (!$user['posts'] or $user['posts'] >= $topposts or $pprojdate > 2000000000 or $pprojdate < time())
-	$pprojdate = "";
-else
-	$pprojdate = " -- Projected date for $topposts posts: " . date("m-d-y h:i A", $pprojdate);
-
-
-if ($user['threads'])
-	$tprojdate = time() + (time() - $user['regdate']) * ($topthreads - $user['threads']) / ($user['threads']);
-if (!$user['threads'] or $user['threads'] >= $topthreads or $tprojdate > 2000000000 or $tprojdate < time())
-	$tprojdate = "";
-else
-	$tprojdate = " -- Projected date for $topthreads threads: " . date("m-d-y h:i A", $tprojdate);
-
 if ($pfound && $thread) {
 	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a>
 		(<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
@@ -257,10 +233,10 @@ if (!empty($_COOKIE['pstbon'])) {
 		<td class="b n2"><?=$group['title'] ?></td>
 	</tr><tr>
 		<td class="b n1" width="110"><b>Total posts</b></td>
-		<td class="b n2"><?=$user['posts'] ?> (<?=$pfound ?> found, <?=$pavg ?> per day)<?=$pprojdate ?></td>
+		<td class="b n2"><?=$user['posts'] ?> (<?=$pfound ?> found, <?=$pavg ?> per day)</td>
 	</tr><tr>
 		<td class="b n1"><b>Total threads</b></td>
-		<td class="b n2"><?=$user['threads'] ?> (<?=$tfound ?> found, <?=$tavg ?> per day)<?=$tprojdate ?></td>
+		<td class="b n2"><?=$user['threads'] ?> (<?=$tfound ?> found, <?=$tavg ?> per day)</td>
 	</tr><tr>
 		<td class="b n1"><b>Registered on</b></td>
 		<td class="b n2"><?=cdate($dateformat, $user['regdate']) ?> (<?=timeunits($days * 86400) ?> ago)</td>
