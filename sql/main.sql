@@ -399,7 +399,6 @@ CREATE TABLE `users` (
   `tempbanned` int(12) NOT NULL,
   `canreport` tinyint(4) NOT NULL DEFAULT '1',
   `sex` tinyint(4) NOT NULL DEFAULT '2',
-  `tzoff` float NOT NULL DEFAULT '0',
   `dateformat` varchar(15) NOT NULL DEFAULT 'Y-m-d',
   `timeformat` varchar(15) NOT NULL DEFAULT 'H:i',
   `ppp` smallint(3) unsigned NOT NULL DEFAULT '20',

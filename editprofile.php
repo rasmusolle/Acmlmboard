@@ -106,10 +106,7 @@ if ($act == 'Edit profile') {
 	$pass = $_POST['pass'];
 	if (!strlen($_POST['pass2']))
 		$pass = "";
-	if (isset($tztotal))
-		$tztotal = $_POST['tzoffH'] * 3600 + $_POST['tzoffM'] * 60 * ($_POST['tzoffH'] < 0 ? -1 : 1);
-	else
-		$tztotal = -1;
+
 	//Validate birthday values.
 	if (!$_POST['birthM'] || !$_POST['birthD']) //Reject if any are missing.
 		$birthday = -1;
@@ -208,7 +205,6 @@ if ($act == 'Edit profile') {
 			. setfield('blocklayouts') . ','
 			. setfield('emailhide') . ','
 			. setfield('timezone') . ','
-			. "tzoff=$tztotal,"
 			. "birth='$birthday',"
 			. "usepic=$usepic,"
 			. "dateformat='$dateformat',"
