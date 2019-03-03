@@ -48,26 +48,26 @@ if (!$act = $_POST['action']) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Send to:</td>
-				<td class="b n2"><input type="text" name="userto" size="25" maxlength=25 value="<?php echo htmlval($userto); ?>"></td>
+				<td class="b n2"><input type="text" name="userto" size="25" maxlength=25 value="<?=htmlval($userto) ?>"></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?php echo htmlval((isset($title) ? $title : '')); ?>"></td>
+				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?=htmlval((isset($title) ? $title : '')) ?>"></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Format:</td>
-				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">&nbsp;</td>
-				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?php echo htmlval((isset($quotetext) ? $quotetext : '')); ?></textarea></td>
+				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval((isset($quotetext) ? $quotetext : '')) ?></textarea></td>
 			</tr>
 			<tr class="n1">
 				<td class="b">&nbsp;</td>
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?>>Disable post layout
+					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?=(isset($_POST['nolayout']) ? "checked" : "") ?>>Disable post layout
 				</td>
 			</tr>
 		</table>
@@ -92,7 +92,7 @@ if (!$act = $_POST['action']) {
 	$top - Preview
 <br><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Message preview</td></tr></table>
-	<?php echo threadpost($post); ?>
+	<?=threadpost($post) ?>
 	<br>
 	<form action="sendprivate.php" method="post">
 		<table class="c1">
@@ -101,26 +101,26 @@ if (!$act = $_POST['action']) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Send to:</td>
-				<td class="b n2"><input type="text" name="userto" size=25 maxlength=25 value="<?php echo htmlval((isset($_POST['userto']) ? $_POST['userto'] : '')); ?>"></td>
+				<td class="b n2"><input type="text" name="userto" size=25 maxlength=25 value="<?=htmlval((isset($_POST['userto']) ? $_POST['userto'] : '')) ?>"></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?php echo htmlval($_POST['title']); ?>"></td>
+				<td class="b n2"><input type="text" name="title" size="80" maxlength="255" value="<?=htmlval($_POST['title']) ?>"></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Format:</td>
-				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">&nbsp;</td>
-				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?php echo htmlval($_POST['message']); ?></textarea></td>
+				<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval($_POST['message']) ?></textarea></td>
 			</tr>
 			<tr class="n1">
 				<td class="b">&nbsp;</td>
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?php echo (isset($_POST['nolayout']) ? "checked" : "") ?> >Disable post layout
+					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?=(isset($_POST['nolayout']) ? "checked" : "") ?> >Disable post layout
 				</td>
 			</tr>
 		</table>

@@ -34,4 +34,4 @@ if (isset($err))
 	<td class="b"><input type="submit" class="submit" name="action" value="Login"></td>
 </tr>
 </table></form>
-<?php pagefooter(); ?>
+<?php pagefooter() ?>

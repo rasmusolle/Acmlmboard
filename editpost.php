@@ -135,7 +135,7 @@ if (isset($err)) {
 				<input type="hidden" name="pid" value="<?=$pid?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
-				<input type="checkbox" name=nolayout id=nolayout value=1 ".($post[nolayout]?"checked":"")."><label for=nolayout>Disable post layout</label>
+				<input type="checkbox" name=nolayout id=nolayout value=1 "<?=($post['nolayout']?"checked":"")?>><label for=nolayout>Disable post layout</label>
 			</td>
 		</tr>
 	</table></form>

@@ -44,16 +44,16 @@ if (!isset($_GET['p'])) $_GET['p'] = '';
 			<table>
 				<tr>
 					<td>Search for:</td>
-					<td><input type="text" name="q" size=40 value="<?php echo htmlspecialchars(stripslashes($_GET['q']), ENT_QUOTES); ?>"></td>
+					<td><input type="text" name="q" size=40 value="<?=htmlspecialchars(stripslashes($_GET['q']), ENT_QUOTES) ?>"></td>
 				</tr><tr>
 					<td>Forum:</td>
-					<td><?php echo $fsel; ?></td>
+					<td><?=$fsel ?></td>
 				</tr><tr>
 					<td>Thread creator:</td>
-					<td><input type="text" name="t" size=20 value="<?php echo htmlspecialchars(stripslashes($_GET['t']), ENT_QUOTES); ?>"></td>
+					<td><input type="text" name="t" size=20 value="<?=htmlspecialchars(stripslashes($_GET['t']), ENT_QUOTES) ?>"></td>
 				</tr><tr>
 					<td>Post creator:</td>
-					<td><input type="text" name="p" size=20 value="<?php echo htmlspecialchars(stripslashes($_GET['p']), ENT_QUOTES); ?>"></td>
+					<td><input type="text" name="p" size=20 value="<?=htmlspecialchars(stripslashes($_GET['p']), ENT_QUOTES) ?>"></td>
 				</tr><tr>
 					<td></td>
 					<td>
@@ -243,15 +243,15 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 				echo '<tr class="c">
 				<td class="b" colspan="' . ($showforum ? 8 : 7) . '" style="font-size:1px">&nbsp;</td>';
 			$lsticky = $thread['sticky'];
-			?><tr class="<?php echo $tr; ?> center">
-				<td class="b n1"><?php echo $status; ?></td>
-				<td class="b left"><?php echo (isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : ""); ?><a href=thread.php?id=<?php echo $thread['id']; ?>><?php echo forcewrap(htmlval($thread['title'])); ?></a><?php echo $pagelist; ?></td>
-				<td class="b"><?php echo userlink($thread,'u1'); ?></td>
-				<td class="b"><?php echo $thread['replies']; ?></td>
-				<td class="b"><?php echo $thread['views']; ?></td>
+			?><tr class="<?=$tr ?> center">
+				<td class="b n1"><?=$status ?></td>
+				<td class="b left"><?=(isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : "") ?><a href=thread.php?id=<?=$thread['id'] ?>><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
+				<td class="b"><?=userlink($thread,'u1') ?></td>
+				<td class="b"><?=$thread['replies'] ?></td>
+				<td class="b"><?=$thread['views'] ?></td>
 				<td class="b">
-					<nobr><?php echo cdate($dateformat,$thread['lastdate']); ?></nobr><br>
-					<span class="sfont">by <?php echo userlink($thread,'u2'); ?></span>
+					<nobr><?=cdate($dateformat,$thread['lastdate']) ?></nobr><br>
+					<span class="sfont">by <?=userlink($thread,'u2') ?></span>
 				</td>
 			<?php
 		}
@@ -262,7 +262,7 @@ if (isset($_GET['action']) && $_GET['action'] == "Search" && strlen($_GET['q']) 
 				if ($p == $page) $fpagelist .= " $p";
 				else $fpagelist .= ' <a href=search.php?q="' . urlencode($_GET['q']) . '"&action=Search&w=0&f=0&t=&p=&page=' . $p . '>' . $p . '</a>';
 		}
-		?></table><?php echo $fpagelist;
+		?></table><?=$fpagelist;
 	}
 	?></div><script>document.getElementById('pleasewait').style.display='none';
 	document.getElementById('youwaited').style.display='block';</script><?php

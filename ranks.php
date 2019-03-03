@@ -62,10 +62,10 @@ foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 		}
 	}
 	?><tr>
-		<td class="b n1"><?php echo (($usercount - $idlecount) ? $rank['str'] : '???'); ?></td>
-		<td class="b n2 center"><?php echo (($usercount - $idlecount) ? $neededposts : '???'); ?></td>
-		<td class="b n2 center"><?php echo $usercount; ?></td>
-		<td class="b n1 center"><?php echo (isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : ""); ?></td>
+		<td class="b n1"><?=(($usercount - $idlecount) ? $rank['str'] : '???') ?></td>
+		<td class="b n2 center"><?=(($usercount - $idlecount) ? $neededposts : '???') ?></td>
+		<td class="b n2 center"><?=$usercount ?></td>
+		<td class="b n1 center"><?=(isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : "") ?></td>
 	</tr><?php
 	unset($usersonthisrank);
 	$i++;

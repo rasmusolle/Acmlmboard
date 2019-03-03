@@ -8,7 +8,8 @@ $smilietext = "<table>";
 $x = 0;
 foreach ($smilies as $smily) {
 	if ($x == 0) $smilietext .= "<tr>";
-	$smilietext .= "<td width='35'>$smily[text]</td><td width='27'><img src='$smily[url]'/></td><td width='5'></td>";
+	$smily['text'] = htmlspecialchars($smily['text']);
+	$smilietext .= "<td style='width:35px'>$smily[text]</td><td style='width:27px'><img src='$smily[url]' alt='$smily[text]'/></td>";
 	$x++;
 	$x %= $smiliewidth;
 	if ($x == 0) $smilietext .= "</tr>";
@@ -28,7 +29,7 @@ while ($ncr = $sql->fetch($ncx)) {
 	$nctable .= "<tr>";
 	
 	$nc = $ncr["nc"];
-	$nctable .= "<td class='b n1' width='200'><b><span style='color:#$nc'>".$ncr['title']."</span></b></td>";
+	$nctable .= "<td class='b n1'><b><span style='color:#$nc'>".$ncr['title']."</span></b></td>";
 
 	$nctable .= "</tr>";
 }
@@ -111,9 +112,9 @@ p {
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			<p>There are some smilies here, a chart is below to show what smilies are supported.</p>
-			<?php echo $smilietext; ?>
+			<?=$smilietext ?>
 			<p>Likewise, a selection of BBCode is supported. See the chart below.</p>
-			<p><table>
+			<table>
 				<tr>
 					<td class="b h">Tag</td>
 					<td class="b h">Effect</td>
@@ -128,7 +129,7 @@ p {
 					<td class="b n2" style="text-decoration:underline">Underlined Text</td>
 				</tr><tr>
 					<td class="b n1">[s]<i>text</i>[/s]</td>
-					<td class="b n2"><?php echo '<s>Striked-out Text</s>'; ?></td>
+					<td class="b n2"><?='<s>Striked-out Text</s>' ?></td>
 				</tr><tr>
 					<td class="b n1">[color=<b>hexcolor</b>]<i>text</i>[/color]</td>
 					<td class="b n2"><span style="color: #BCDE9A">Custom color Text</span></td>
@@ -157,7 +158,7 @@ p {
 					<td class="b n1">[youtube]<i>video id</i>[/youtube]</td>
 					<td class="b n2">Creates an embeded YouTube video.</td>
 				</tr>
-	 		</table></p>
+	 		</table>
 			<p>Also, most HTML tags are able to be used in your posts.</p>
 		</td>
 	</tr>
@@ -166,7 +167,7 @@ p {
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			<p>If you have an IRC client like <a href="https://hexchat.github.io">HexChat</a>, you can join a chatroom related to this board.<br>
-			The IRC channel is <?=$config['channel']; ?> at <?=$config['network']; ?>.</p>
+			The IRC channel is <?=$config['channel'] ?> at <?=$config['network'] ?>.</p>
 		</td>
 	</tr>
 	<?php } ?>
@@ -198,7 +199,7 @@ p {
 	<tr>
 		<td class="b n1" style="padding:10px!important;">
 			<p>They reflect the group of the user.</p>
-			<p><table class="center"><?php echo $nctable; ?></table></p>
+			<table class="center"><?=$nctable ?></table>
 			<p><?=($config['perusercolor'] ? "Keep in mind that some users might have a specific colour assigned to them." : '') ?></p>
 		</td>
 	</tr>

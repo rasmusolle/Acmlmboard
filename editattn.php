@@ -22,7 +22,7 @@ if (!has_perm('edit-attentions-box')) {
 			<tr class="h"><td class="b h">Edit news box</td></tr>
 			<tr class="n1">
 				<td class="b center">
-					<textarea name="txtval" rows="8" cols="120"><?php echo $attndata; ?></textarea>
+					<textarea name="txtval" rows="8" cols="120"><?=$attndata ?></textarea>
 					<br><input type="submit" class="submit" name="action" value="Submit">
 				</td>
 			</tr>

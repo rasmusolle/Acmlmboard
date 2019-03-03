@@ -112,7 +112,7 @@ if ($err) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>
@@ -126,7 +126,7 @@ if ($err) {
 					<input type="hidden" name=tid value=<?=$tid ?>>
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?=($post['nolayout'] ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>

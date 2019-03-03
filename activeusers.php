@@ -21,9 +21,9 @@ $users = $sql->query($query);
 
 ?>
 <table class="c1" style="width:auto">
-	<tr class="h"><td class="b">Active users during the last <?php echo timeunits2($time); ?>:
+	<tr class="h"><td class="b">Active users during the last <?=timeunits2($time) ?>:
 	<tr class="n1"><td class="b n1">
-<?php echo timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000); ?>
+<?=timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000) ?>
 </table><br>
 <table class="c1">
 	<tr class="h">
@@ -43,24 +43,24 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	$post_overall += $user['posts'];
 	$tr = ($i % 2 ? 'n1': 'n2');
 	?>
-	<tr class="<?php echo $tr; ?> center">
-		<td class="b"><?php echo $i; ?>.</td>
-		<td class="b left"><?php echo userlink($user); ?></td>
-		<td class="b"><?php echo cdate($dateformat,$user['regdate']); ?></td>
-		<td class="b"><b><?php echo $user['num']; ?></b></td>
-		<td class="b"><b><?php echo $user['posts'] ?></b></td>
+	<tr class="<?=$tr ?> center">
+		<td class="b"><?=$i ?>.</td>
+		<td class="b left"><?=userlink($user) ?></td>
+		<td class="b"><?=cdate($dateformat,$user['regdate']) ?></td>
+		<td class="b"><b><?=$user['num'] ?></b></td>
+		<td class="b"><b><?=$user['posts'] ?></b></td>
 	</tr>
 	<?php
 	$j++;
 }
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
-	<tr class="<?php echo $tr; ?> center">
-		<td class="nb"><b><?php echo $j; ?></b></td>
+	<tr class="<?=$tr ?> center">
+		<td class="nb"><b><?=$j ?></b></td>
 		<td class="nb"></td>
 		<td class="nb"></td>
-		<td class="b"><b><?php echo $post_total; ?></b></td>
-		<td class="b"><b><?php echo $post_overall; ?></b></td>
+		<td class="b"><b><?=$post_total ?></b></td>
+		<td class="b"><b><?=$post_overall ?></b></td>
 	</tr>
 </table>
 <?php

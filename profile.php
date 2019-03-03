@@ -334,4 +334,4 @@ if (!empty($_COOKIE['pstbon'])) {
 		<?=$banuser . " " . $editpermissions . " " . $secondarygroups ?>
 	</td></tr>
 </table>
-<?php pagefooter(); ?>
+<?php pagefooter() ?>

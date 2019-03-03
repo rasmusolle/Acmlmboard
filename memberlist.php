@@ -57,28 +57,27 @@ while ($group = $sql->fetch($activegroups)) {
 
 ?>
 <table class="c1">
-	<tr class="h"><td class="b h" colspan="2"><?php echo $num . ' user' . ($num > 1 ? 's' : ''); ?> found.</td></tr>
+	<tr class="h"><td class="b h" colspan="2"><?=$num . ' user' . ($num > 1 ? 's' : '') ?> found.</td></tr>
 	<tr>
 		<td class="b n1" width="105">Sort by:</td>
 		<td class="b n2 center">
-			<?php echo mlink('', $sex, $pow, $ppp, $page, $orderby); ?> Posts</a> |
-			<?php echo mlink('name', $sex, $pow, $ppp, $page, $orderby); ?> Username</a> |
-			<?php echo mlink('reg', $sex, $pow, $ppp, $page, $orderby); ?> Registration date</a>
+			<?=mlink('', $sex, $pow, $ppp, $page, $orderby) ?> Posts</a> |
+			<?=mlink('name', $sex, $pow, $ppp, $page, $orderby) ?> Username</a> |
+			<?=mlink('reg', $sex, $pow, $ppp, $page, $orderby) ?> Registration date</a>
 		</td>
 	</tr><tr>
 		<td class="b n1">Order by:</td>
 		<td class="b n2 center">
-			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'd') . "Descending</a> |"; ?>
-			<?php echo mlink($sort, $sex, $pow, $ppp, $page, 'a') . "Ascending</a>"; ?>
+			<?=mlink($sort, $sex, $pow, $ppp, $page, 'd') . "Descending</a> |" ?>
+			<?=mlink($sort, $sex, $pow, $ppp, $page, 'a') . "Ascending</a>" ?>
 		</td>
 	</tr><tr>
 		<td class="b n1">Sex:</td>
 		<td class="b n2 center">
-			<?php echo mlink($sort, 'm', $pow, $ppp, $page, $orderby) . "Male</a> | " .
+			<?=mlink($sort, 'm', $pow, $ppp, $page, $orderby) . "Male</a> | " .
 			mlink($sort, 'f', $pow, $ppp, $page, $orderby) . "Female</a> | " .
-			mlink($sort, 'n', $pow, $ppp, $page, $orderby) . "N/A</a> | ";
-
-			echo mlink($sort, '', $pow, $ppp, $page, $orderby) . "All</a>"; ?>
+			mlink($sort, 'n', $pow, $ppp, $page, $orderby) . "N/A</a> | " .
+			mlink($sort, '', $pow, $ppp, $page, $orderby) . "All</a>" ?>
 	<tr>
 		<td class="b n1">Group:</td>
 		<td class="b n2 center">
@@ -88,7 +87,7 @@ while ($group = $sql->fetch($activegroups)) {
 				echo $v . " | ";
 			}
 			echo mlink($sort, $sex, '-1', $ppp, $page, $orderby) . "All Staff</a> | " .
-			mlink($sort, $sex, '', $ppp, $page, $orderby) . "All</a>"; ?>
+			mlink($sort, $sex, '', $ppp, $page, $orderby) . "All</a>" ?>
 		</td>
 	</tr>
 </table><br>

@@ -90,10 +90,10 @@ if (isset($err)) {
 	<form action="newthread.php<?=($ispoll ? "?ispoll=$ispoll" : "") ?>" method="post">
 		<table class="c1">
 			<tr class="h">
-				<td class="b h" colspan="2"><?php echo $typecap; ?></td>
+				<td class="b h" colspan="2"><?=$typecap ?></td>
 			</tr>
 			<tr>
-				<td class="b n1 center"><?php echo $typecap; ?> title:</td>
+				<td class="b n1 center"><?=$typecap ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
 			<?php
@@ -101,14 +101,14 @@ if (isset($err)) {
 				?>
 				<tr>
 					<td class="b n1 center">Poll question:</td>
-					<td class="b n2"><input type="text" name="question" size="100" maxlength="100" value="<?php echo htmlval(isset($_POST['question']) ? $_POST['question'] : ''); ?>"></td>
+					<td class="b n2"><input type="text" name="question" size="100" maxlength="100" value="<?=htmlval(isset($_POST['question']) ? $_POST['question'] : '') ?>"></td>
 				</tr>
 				<tr>
 					<td class="b n1 center">Poll choices:</td>
 					<td class="b n2">
 						<div id="polloptions">
-							<?php echo sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)); ?>
-							<?php echo sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)); ?>
+							<?=sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)) ?>
+							<?=sprintf($optfield, '', rand(0, 255), rand(0, 255), rand(0, 255)) ?>
 						</div>
 						<button type="button" class="submit" id="addopt" onclick="addOption();return false;">Add choice</button>
 					</td>
@@ -127,7 +127,7 @@ if (isset($err)) {
 			<?php } ?>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>
@@ -138,11 +138,11 @@ if (isset($err)) {
 			<tr class="n1">
 				<td class="b">&nbsp;</td>
 				<td class="b">
-					<input type="hidden" name="fid" value="<?php echo $fid; ?>">
-					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
+					<input type="hidden" name="fid" value="<?=$fid ?>">
+					<input type="hidden" name="announce" value="<?=$announce ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo (isset($_POST['nolayout']) ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?=(isset($_POST['nolayout']) ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>
@@ -200,21 +200,21 @@ if (isset($err)) {
 	echo "$top - Preview " . (isset($pollprev) ? $pollprev : '');
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
-	<?php echo threadpost($post); ?>
+	<?=threadpost($post) ?>
 	<br>
-	<form action="newthread.php?ispoll=<?php echo $ispoll; ?>" method="post">
+	<form action="newthread.php?ispoll=<?=$ispoll ?>" method="post">
 		<table class="c1">
 			<tr class="h">
-				<td class="b h" colspan=2><?php echo $typecap; ?></td>
+				<td class="b h" colspan=2><?=$typecap ?></td>
 			</tr>
 			<tr>
-				<td class="b n1 center"><?php echo $typecap; ?> title:</td>
+				<td class="b n1 center"><?=$typecap ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
 			</tr>
-			<?php echo (isset($pollin) ? $pollin : ''); ?>
+			<?=(isset($pollin) ? $pollin : '') ?>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?php echo $toolbar; ?></tr></table></td>
+				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>
@@ -225,11 +225,11 @@ if (isset($err)) {
 			<tr class="n1">
 				<td class="b">&nbsp;</td>
 				<td class="b">
-					<input type="hidden" name=fid value=<?php echo $fid; ?>>
-					<input type="hidden" name="announce" value="<?php echo $announce; ?>">
+					<input type="hidden" name=fid value=<?=$fid ?>>
+					<input type="hidden" name="announce" value="<?=$announce ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?php echo ($post['nolayout'] ? "checked" : ""); ?>><label for=nolayout>Disable post layout</label>
+					<input type="checkbox" name=nolayout id=nolayout value=1 <?=($post['nolayout'] ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>

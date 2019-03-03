@@ -45,7 +45,7 @@ $cat = -1;
 
 ?>
 <table class="c1">
-	<?php echo announcement_row(2, 3); ?>
+	<?=announcement_row(2, 3) ?>
 	<tr class="h">
 		<td class="b h" width=17>&nbsp;</td>
 		<td class="b h">Forum</td>
@@ -62,7 +62,7 @@ while ($forum = $sql->fetch($forums)) {
 	if ($forum['cat'] != $cat) {
 		$cat = $forum['cat'];
 		?><tr class="c">
-			<td class="b" colspan="5"><?php echo ($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])); ?></td>
+			<td class="b" colspan="5"><?=($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])) ?></td>
 		</tr><?php
 	}
 
@@ -89,14 +89,14 @@ while ($forum = $sql->fetch($forums)) {
 
 	?>
 	<tr class="center">
-		<td class="b n1"><?php echo $status; ?></td>
+		<td class="b n1"><?=$status ?></td>
 		<td class="b n2 left">
-			<?php echo ($forum['private'] ? '(' : ''); ?><a href="forum.php?id=<?php echo $forum['id']; ?>"><?php echo $forum['title']; ?></a><?php echo ($forum['private'] ? ')' : ''); ?>
-			<br><span class=sfont><?php echo str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']); ?></span>
+			<?=($forum['private'] ? '(' : '') ?><a href="forum.php?id=<?=$forum['id'] ?>"><?=$forum['title'] ?></a><?=($forum['private'] ? ')' : '') ?>
+			<br><span class=sfont><?=str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) ?></span>
 		</td>
-		<td class="b n1"><?php echo $forum['threads']; ?></td>
-		<td class="b n1"><?php echo $forum['posts']; ?></td>
-		<td class="b n2"><?php echo $lastpost; ?></td>
+		<td class="b n1"><?=$forum['threads'] ?></td>
+		<td class="b n1"><?=$forum['posts'] ?></td>
+		<td class="b n2"><?=$lastpost ?></td>
 	<?php
 }
 ?></table><?php

@@ -16,7 +16,7 @@ if ($regdis['intval'] == 1) {
 		<tr class="h"><td class="b h" colspan="2">Registration is disabled</td></tr>
 		<tr>
 			<td class="b n1 center" width="120">
-				<?php echo $reason; ?> For more information please read the board announcements.
+				<?=$reason ?> For more information please read the board announcements.
 			</td>
 		</tr>
 	</table>
@@ -88,7 +88,7 @@ if ($act == 'Register') {
 
 			?><span style='text-align:center;'>
 				If you aren't redirected, then please <a href="./">go here.</a>
-				<?php echo '<meta http-equiv="refresh" content="1;url=./">'; ?>
+				<?='<meta http-equiv="refresh" content="1;url=./">' ?>
 			</span><?php
 			die();
 		} else {
@@ -127,7 +127,7 @@ if(!empty($err)) noticemsg("Error", $err);
 		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
 		if ($config['registrationpuzzle']) { ?>
 			<tr>
-				<td class="b n1 center" width="120"><?php echo $puzzle; ?></td>
+				<td class="b n1 center" width="120"><?=$puzzle ?></td>
 				<td class="b n2"><input type="text" name="puzzle" size="13" maxlength="20"></td>
 			</tr>
 		<?php } ?>
@@ -140,4 +140,4 @@ if(!empty($err)) noticemsg("Error", $err);
 		</tr>
 	</table>
 </form>
-<?php pagefooter(); ?>
+<?php pagefooter() ?>

@@ -28,7 +28,7 @@ echo '<?xml version="1.0"?>';
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
 	<title><?=$boardtitle?></title>
 	<copyright>Posts are owned by the poster. Acmlmboard <?=$abversion?> software Copyright 2005-2015 <?=$boardprog?></copyright>
-	<generator>Acmlmboard <?=$abversion?> (<?=$abdate?>)</generator>
+	<generator>Acmlmboard <?=$abversion?></generator>
 	<ttl>5</ttl>
 	<atom:link href="<?=$config['base']?><?=$url?>" rel="self" type="application/rss+xml" />
 	<language>en</language>
@@ -51,5 +51,5 @@ echo '<?xml version="1.0"?>';
 		<category><?=$t['ftitle']?></category>
 		<guid><?=$config['base']?><?=$config['path']?>thread.php?pid=<?=$t['lastid']?>#<?=$t['lastid']?></guid>
 	</item>
-<?php } while($t = $sql->fetch($threads)); ?>
+<?php } while($t = $sql->fetch($threads)) ?>
 </channel></rss>

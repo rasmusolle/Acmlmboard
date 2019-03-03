@@ -280,7 +280,7 @@ HTML;
 	if ($log) {
 		?><form action="login.php" method="post" name="logout">
 			<input type="hidden" name="action" value="logout">
-			<input type="hidden" name="p" value="<?php echo md5($pwdsalt2 . $loguser['pass'] . $pwdsalt); ?>">
+			<input type="hidden" name="p" value="<?=md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) ?>">
 		</form><?php
 	}
 	echo "</table><br>";
@@ -320,7 +320,7 @@ HTML;
 			$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
 		}
 
-		?><table class="c1"><tr class="n1"><td class="b n1 center"><?php echo $onuserlist; ?></td></tr></table><br><?php
+		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
 	} else if ($showonusers) {
 		//[KAWA] Copypastadaption from ABXD, with added activity limiter.
 		$birthdaylimit = 86400 * 30;
@@ -405,25 +405,25 @@ HTML;
 
 		?>
 		<table class="c1">
-			<?php echo $birthdaybox; ?>
+			<?=$birthdaybox ?>
 			<tr>
 				<td class="b n1">
 					<table style="width:100%">
 						<tr>
 							<td class="nb" width="170"></td>
 							<td class="nb center"><span class="white-space:nowrap">
-									<?php echo $count['t']; ?> threads and <?php echo $count['p']; ?> posts total.<br><?php echo $count['d']; ?> new posts
-									today, <?php echo $count['h']; ?> last hour.<br>
+									<?=$count['t'] ?> threads and <?=$count['p'] ?> posts total.<br><?=$count['d'] ?> new posts
+									today, <?=$count['h'] ?> last hour.<br>
 							</span></td>
 							<td class="nb right" width="170">
-								<?php echo $count['u']; ?> registered users<br> Newest: <?php echo userlink($lastuser); ?>
+								<?=$count['u'] ?> registered users<br> Newest: <?=userlink($lastuser) ?>
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
-				<td class="b n2 center"><?php echo $onuserlist; ?></td>
+				<td class="b n2 center"><?=$onuserlist ?></td>
 			</tr>
 		</table><br>
 		<?php
@@ -447,8 +447,8 @@ function pagestats() {
 
 function noticemsg($name, $msg) {
 	?><table class="c1">
-		<tr class="h"><td class="b h center"><?php echo $name; ?></td></tr>
-		<tr><td class="b n1 center"><?php echo $msg; ?></td></tr>
+		<tr class="h"><td class="b h center"><?=$name ?></td></tr>
+		<tr><td class="b n1 center"><?=$msg ?></td></tr>
 	</table><?php
 }
 
@@ -467,11 +467,11 @@ function pagefooter() {
 		<tr>
 			<td class="b n2 sfont">
   				<span style="float:right; text-align:right;">
-  					<?php pagestats(); ?>
+  					<?php pagestats() ?>
 				</span>
 				<a href="http://github.com/rasmusolle/acmlmboard"><img src="img/poweredbyacmlm.png" title="Acmlmboard 2" style="float:left; margin-right:4px;"></a>
-				Acmlmboard v<?php echo $abversion ?><br>
-				&copy; 2005-2019 <?php echo $boardprog; ?>
+				Acmlmboard v<?=$abversion ?><br>
+				&copy; 2005-2019 <?=$boardprog ?>
 			</td>
 		</tr>
 	</table><?php

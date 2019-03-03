@@ -96,28 +96,28 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	}
 	?><form action="" method="POST">
 		<table class="c1">
-			<tr class="h"><td class="b h" colspan="2"><?php echo ($cid == 'new' ? 'Create' : 'Edit'); ?> category</td></tr>
+			<tr class="h"><td class="b h" colspan="2"><?=($cid == 'new' ? 'Create' : 'Edit') ?> category</td></tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" value="<?php echo htmlspecialchars($cat['title']); ?>" size="50" maxlength="500"></td>
+				<td class="b n2"><input type="text" name="title" value="<?=htmlspecialchars($cat['title']) ?>" size="50" maxlength="500"></td>
 			</tr><tr>
 				<td class="b n1 center">Display order:</td>
-				<td class="b n2"><input type="text" name="ord" value="<?php echo $cat['ord']; ?>" size="4" maxlength="10"></td>
+				<td class="b n2"><input type="text" name="ord" value="<?=$cat['ord'] ?>" size="4" maxlength="10"></td>
 			</tr><tr>
 				<td class="b n1 center">&nbsp;</td>
-				<td class="b n2"><label><input type="checkbox" name="private" value="1" <?php echo ($cat['private'] ? 'checked="checked"' : ''); ?>> Private category</label></td>
+				<td class="b n2"><label><input type="checkbox" name="private" value="1" <?=($cat['private'] ? 'checked="checked"' : '') ?>> Private category</label></td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>
 				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
 					<input type="submit" class="submit" name="savecat" value="Save category">
-						<?php echo ($cid == 'new' ? '' : '<input type="submit" class="submit" name="delcat" value="Delete category" onclick="if (!confirm("Really delete this category?")) return false;"> '); ?>
+						<?=($cid == 'new' ? '' : '<input type="submit" class="submit" name="delcat" value="Delete category" onclick="if (!confirm("Really delete this category?")) return false;"> ') ?>
 					<button type="button" class="submit" id="back" onclick="window.location='manageforums.php';">Back</button>
 				</td>
 			</tr>
 		</table><br>
-		<?php permtable('categories', $cid); ?>
+		<?php permtable('categories', $cid) ?>
 	</form><?php
 } else if (isset($_GET['fid']) && $fid = $_GET['fid']) {
 	// forum editor
@@ -135,23 +135,23 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 
 	?><form action="" method="POST">
 		<table class="c1">
-			<tr class="h"><td class="b h" colspan="2"><?php echo ($fid == 'new' ? 'Create' : 'Edit'); ?> forum</td></tr>
+			<tr class="h"><td class="b h" colspan="2"><?=($fid == 'new' ? 'Create' : 'Edit') ?> forum</td></tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" value="<?php echo htmlspecialchars($forum['title']); ?>" size="50" maxlength="500"></td>
+				<td class="b n2"><input type="text" name="title" value="<?=htmlspecialchars($forum['title']) ?>" size="50" maxlength="500"></td>
 			</tr><tr>
 				<td class="b n1 center">Description:<br><small>HTML allowed.</small></td>
-				<td class="b n2"><textarea wrap="virtual" name="descr" rows="3" cols="50"><?php echo htmlspecialchars($forum['descr']); ?></textarea></td>
+				<td class="b n2"><textarea wrap="virtual" name="descr" rows="3" cols="50"><?=htmlspecialchars($forum['descr']) ?></textarea></td>
 			</tr><tr>
 				<td class="b n1 center">Category:</td>
-				<td class="b n2"><?php echo $catlist; ?></td>
+				<td class="b n2"><?=$catlist ?></td>
 			</tr><tr>
 				<td class="b n1 center">Display order:</td>
-				<td class="b n2"><input type="text" name="ord" value="<?php echo $forum['ord']; ?>" size="4" maxlength="10"></td>
+				<td class="b n2"><input type="text" name="ord" value="<?=$forum['ord'] ?>" size="4" maxlength="10"></td>
 			</tr><tr>
 				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
-					<label><input type="checkbox" name="private" value="1" <?php echo ($forum['private'] ? ' checked="checked"':''); ?>> Private forum</label>
+					<label><input type="checkbox" name="private" value="1" <?=($forum['private'] ? ' checked="checked"':'') ?>> Private forum</label>
 					<label><input type="checkbox" name="readonly" value="1"<?=($forum['readonly'] ? ' checked="checked"' : '')?>> Read-only</label>
 				</td>
 			</tr>
@@ -160,12 +160,12 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 				<td class="b n1 center">&nbsp;</td>
 				<td class="b n2">
 					<input type="submit" class="submit" name="saveforum" value="Save forum">
-					<?php ($fid == 'new' ? '' : '<input type="submit" class="submit" name="delforum" value="Delete forum" onclick="if (!confirm("Really delete this forum?")) return false;">'); ?>
+					<?php ($fid == 'new' ? '' : '<input type="submit" class="submit" name="delforum" value="Delete forum" onclick="if (!confirm("Really delete this forum?")) return false;">') ?>
 					<button type="button" class="submit" id="back" onclick="window.location='manageforums.php';">Back</button>
 				</td>
 			</tr>
 		</table><br>
-		<?php permtable('forums', $fid); ?>
+		<?php permtable('forums', $fid) ?>
 	</form><?php
 } else {
 	// main page -- category/forum listing
@@ -201,7 +201,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<td class="nb" style="width:50%; vertical-align:top;">
 				<table class="c1">
 					<tr class="h"><td class="b h">Categories</td></tr>
-					<?php echo $catlist; ?>
+					<?=$catlist ?>
 					<tr class="h"><td class="b h">&nbsp;</td></tr>
 					<tr><td class="b n1"><a href="?cid=new">New category</a></td></tr>
 				</table>
@@ -209,7 +209,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<td class="nb" style="width:50%; vertical-align:top;">
 				<table class="c1">
 					<tr class="h"><td class="b h">Forums</td></tr>
-					<?php echo $forumlist; ?>
+					<?=$forumlist ?>
 					<tr class="h"><td class="b h">&nbsp;</td></tr>
 					<tr><td class="b n1"><a href="?fid=new">New forum</a></td></tr>
 				</table>
@@ -289,19 +289,19 @@ function permtable($bind, $id) {
 			$permlist .= "<label><input type=\"checkbox\" name=\"perm[{$gid}][{$pid}]\" value=1 class=\"perm_{$gid}\"{$check}> {$ptitle}</label> ";
 		}
 
-		?><tr class="n<?php echo $c; ?>">
-			<td class="b" style="width:200px;"><span style="white-space:nowrap;"><?php echo str_repeat('&nbsp; &nbsp; ', $group['indent']) . $gtitle; ?></span></td>
-			<td class="b" style="width:100px;"><?php echo $inherit; ?></td>
-			<td class="b"><?php echo $permlist; ?></td>
+		?><tr class="n<?=$c ?>">
+			<td class="b" style="width:200px;"><span style="white-space:nowrap;"><?=str_repeat('&nbsp; &nbsp; ', $group['indent']) . $gtitle ?></span></td>
+			<td class="b" style="width:100px;"><?=$inherit ?></td>
+			<td class="b"><?=$permlist ?></td>
 		</tr><?php
 
 		$c = ($c == 1) ? 2 : 1;
 	}
 
-	?><tr class="n<?php echo $c; ?>">
+	?><tr class="n<?=$c ?>">
 		<td class="b">&nbsp;</td>
 		<td class="b" colspan="2">
-			<input type="submit" class="submit" name="save<?php echo ($bind == 'forums' ? 'forum' : 'cat'); ?>" value="Save <?php echo ($bind == 'forums' ? 'forum' : 'category'); ?>">
+			<input type="submit" class="submit" name="save<?=($bind == 'forums' ? 'forum' : 'cat') ?>" value="Save <?=($bind == 'forums' ? 'forum' : 'category') ?>">
 		</td>
 	</tr></table><?php
 }
