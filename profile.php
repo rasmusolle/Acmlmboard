@@ -229,10 +229,10 @@ if (!empty($_COOKIE['pstbon'])) {
 		<td class="b h" colspan="2">General information</td>
 	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Group</b></td>
+		<td class="b n1" width="120"><b>Group</b></td>
 		<td class="b n2"><?=$group['title'] ?></td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Total posts</b></td>
+		<td class="b n1"><b>Total posts</b></td>
 		<td class="b n2"><?=$user['posts'] ?> (<?=$pfound ?> found, <?=$pavg ?> per day)</td>
 	</tr><tr>
 		<td class="b n1"><b>Total threads</b></td>
@@ -259,10 +259,10 @@ if (!empty($_COOKIE['pstbon'])) {
 	<tr class="h">
 		<td class="b h" colspan="2">User information</td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Real name</b></td>
+		<td class="b n1" width="120"><b>Real name</b></td>
 		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Sex</b></td>
+		<td class="b n1"><b>Sex</b></td>
 		<td class="b n2"><?=$sex[$user['sex']] ?></td>
 	</tr><tr>
 		<td class="b n1"><b>Location</b></td>
@@ -283,10 +283,10 @@ if (!empty($_COOKIE['pstbon'])) {
 	<tr class="h">
 		<td class="b h" colspan="2">User settings</td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Theme</b></td>
+		<td class="b n1" width="120"><b>Theme</b></td>
 		<td class="b n2"><?=htmlval($themename) ?></td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Time offset</b></td>
+		<td class="b n1"><b>Time offset</b></td>
 		<td class="b n2">
 			<?=sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) ?> from you (Current time: <?=$userct ?>)
 		</td>
