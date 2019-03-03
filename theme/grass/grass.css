@@ -1,12 +1,10 @@
 /* META
 Grassy grass (RasmusOlle)
-
 */
-A:link    {color: #a5ff40}
-A:visited {color: #a5ff40}
-A:hover   {color: #FFFFFF}
-
-A:link, A:visited, A:active, A:hover {
+a:link    {color: #a5ff40}
+a:visited {color: #a5ff40}
+a:hover   {color: #FFFFFF}
+a {
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -15,10 +13,6 @@ body {
 	background: url(grass_city_main_sc.png) #202004;
 	color: white;
 	font-family: verdana, geneva, sans-serif;
-}
-
-table.c1, table.c2 {
-	background: black;
 }
 
 tr.h {

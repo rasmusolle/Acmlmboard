@@ -1,12 +1,11 @@
 /* META
 Standard
 */
-A:link    {color: #FFC040}
-A:visited {color: #FFC040}
-A:active  {color: #FFEA60}
-A:hover   {color: #FFFFFF}
-
-A:link, A:visited, A:active, A:hover {
+a:link    {color: #FFC040}
+a:visited {color: #FFC040}
+a:active  {color: #FFEA60}
+a:hover   {color: #FFFFFF}
+a:link, a:visited, a:active, a:hover {
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -17,17 +16,11 @@ body {
 	font-family: verdana, geneva, sans-serif;
 }
 
-table {
-	color: white;
-}
-
 table.c1 {
-	background: black;
 	border: #666699 1px solid;
 }
 
 table.c2 {
-	background: black;
 	border: #333355 1px solid;
 }
 
@@ -46,21 +39,19 @@ tr.c {
 
 td.b {
 	border: #000000 1px solid;
-	padding: 1px;
 }
 
 td.nb {
 	border: 0px none;
-	padding: 1px;
 }
 
-td.h {
-	padding: 1px;
+td {
+	padding: 2px;
 }
 
-tr.n1, td.n1 { background: #303678; }
-tr.n2, td.n2 { background: #24285C; }
-tr.n3, td.n3 { background: #1F224F; }
+.n1 { background: #303678; }
+.n2 { background: #24285C; }
+.n3 { background: #1F224F; }
 
 .sfont {
 	font-size: 0.9em;

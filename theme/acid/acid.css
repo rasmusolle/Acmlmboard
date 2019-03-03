@@ -1,14 +1,11 @@
 /* META
 Acid (Ice Man)
-
 */
-
 a:link, a:visited, a:active {
 	text-decoration: none;
 	font-weight: bold;
 	color: #6FC600;
 }
-
 a:hover {
 	color: #B3FF00;
 	text-decoration: none;
@@ -20,7 +17,6 @@ body {
 	color: #B4BFAA;
 	margin: 0.0 auto;
 	padding: 0.0;
-	height: 100.0%;
 	background-color:#050505;
 	width: 99%;
 }
@@ -28,17 +24,9 @@ body {
 table {
 	font-family: Verdana, Tahoma, Arial, sans-serif;
 	color: #B4BFAA;
-	margin: auto;
-	width: 100%;
 }
 
-table.c1 {
-	width: 100%;
-	background: black;
-	border: 0px none;
-}
-
-table.c2 {
+table.c1, table.c2 {
 	width: 100%;
 	background: black;
 	border: 0px none;
@@ -46,12 +34,9 @@ table.c2 {
 
 tr.h {
 	background-position: center;
-	vertical-align:middle;
-	color:#B4BFAA;
-	letter-spacing:1px;
-	font: 10px Verdana, Tahoma, Arial, sans-serif;
+	color: #B4BFAA;
+	font: 12px Verdana, Tahoma, Arial, sans-serif;
 	font-weight: bold;
-	padding:8px 0px 6px 5px;
 	background-color: #1D1D1D;
 	background-image: url(cellh.gif);
 	height: 30px;
@@ -68,50 +53,23 @@ tr.h a:hover {
 }
 
 tr.c {
-	font-weight:bold;
-	color:#B4BFAA;
-	padding:8px;
-	margin:0px;
+	font-weight: bold;
+	color: #B4BFAA;
 	background-color: #1D1D1D;
 	background-image: url(cellc.gif);
 	height: 28px;
-	text-align:left;
 }
 
 td.b {
 	border-left: #2E2E2E 1px solid;
 	border-top: #2E2E2E 1px solid;
+}
+
+td.b, td.nb, td.h {
 	padding: 1px;
 }
 
-td.nb {
-	border: 0px none;
-	padding: 1px;
-}
-
-td.h {
-	border-left: 0;
-	border-right: 0;
-	padding: 1px;
-}
-
-tr.n1,td.n1 {
-	background-color: #1D1D1D;
-	border-bottom: #000000 1px solid;
-	border-left: #2E2E2E 1px solid;
-	padding: 3px;
-	border-spacing: 2px;
-}
-
-tr.n2,td.n2 {
-	background-color: #1D1D1D;
-	border-bottom: #000000 1px solid;
-	border-left: #2E2E2E 1px solid;
-	padding: 3px;
-	border-spacing: 2px;
-}
-
-tr.n3,td.n3 {
+tr.n1, td.n1, tr.n2, td.n2, tr.n3, td.n3 {
 	background-color: #1D1D1D;
 	border-bottom: #000000 1px solid;
 	border-left: #2E2E2E 1px solid;
@@ -132,27 +90,8 @@ select, textarea, input, button {
 	background-color: #0A0A0A;
 }
 
-.radio {
-	border: none;
-	background: none;
-	color: #000000;
-}
-
 .submit {
-	border: 3px solid #B4FF00;
-}
-
-.center {
-	text-align: center;
-}
-
-.right {
-	text-align: right;
-}
-
-blockquote {
-	border: #000000 1px solid;
-	padding: 3px;
+	border: 2px solid #B4FF00;
 }
 
 hr {
@@ -160,13 +99,4 @@ hr {
 	background-color :#000000;
 	border: 0px;
 	height: 1px;
-}
-
-form {
-	margin: 0px;
-	padding: 0px;
-}
-
-ul, ol {
-	margin: 0px;
 }

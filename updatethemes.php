@@ -16,10 +16,7 @@ foreach ($themes as $f) {
 			$d = substr($matches[2], 0, -2);
 			echo "Got a hit on ".$f."! Its name is \"$n\".<br>";
 			$f2 = str_replace(".css", "", str_replace(".php", "", $themename[1]));
-			if ($d != "")
-				$newlist[] = array($n, $f2, $d);
-			else
-				$newlist[] = array($n, $f2);
+			$newlist[] = array($n, $f2);
 		}
 	}
 }
