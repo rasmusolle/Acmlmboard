@@ -247,10 +247,10 @@ if (isset($err)) {
 		$modclose = $announce;
 	}
 
-	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " " . "WHERE id=$userid");
-	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) " . "VALUES ('$_POST[title]',$fid,$userid," . time() . ",$userid,$announce,$modclose,$modstick)");
+	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " WHERE id=$userid");
+	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES ('$_POST[title]',$fid,$userid," . time() . ",$userid,$announce,$modclose,$modstick)");
 	$tid = $sql->insertid();
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) " . "VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
 	$pid = $sql->insertid();
 	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
 	if (!$announce) {
