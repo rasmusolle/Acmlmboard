@@ -264,15 +264,6 @@ function needs_login($head=0) {
 	}
 }
 
-function grouplink($gid) {
-	global $usergroups;
-
-	$group = $usergroups[$gid];
-	if ($group['default'] != 1)
-		return "<span style='color:#".$group['nc']."'>".$group['title']."</span>";
-	else return "";
-}
-
 function can_create_forum_thread($forum) {
 	global $log;
 	if ($forum['readonly'] && !has_perm('override-readonly-forums')) return false;
