@@ -144,7 +144,7 @@ if (!$act = $_POST['action']) {
 			$pid = $sql->insertid();
 			$sql->query("INSERT INTO pmsgstext (id,text) VALUES ($pid,'$_POST[message]')");
 
-			redirect("private.php", - 1);
+			redirect("private.php");
 		}
 	} elseif (!$userto) {
 		$msg = "That user doesn't exist!<br>Go back or <a href=sendprivate.php>try again</a>";

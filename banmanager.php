@@ -57,7 +57,7 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	$sql->query("UPDATE users SET title='$banreason' WHERE id='$user[id]'");
 	$sql->query("UPDATE users SET tempbanned='" . ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0) . "' WHERE id='$user[id]'");
 
-	redirect("profile.php?id=$user[id]",-1);
+	redirect("profile.php?id=$user[id]");
 	die(pagefooter());
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
 	if ($user['group_id'] != $bannedgroup['id']) {
@@ -68,7 +68,7 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	$sql->query("UPDATE users SET title='' WHERE id='$user[id]'");
 	$sql->query("UPDATE users SET tempbanned='0' WHERE id='$user[id]'");
 
-	redirect("profile.php?id=$user[id]",-2);
+	redirect("profile.php?id=$user[id]");
 	die(pagefooter());
 }
 
@@ -94,7 +94,7 @@ if (isset($_GET['unban'])) {
 RenderPageBar($pagebar);
 
 if (isset($_GET['unban'])) {
-	?><form action="banmanager.php?id=$uid" method="post" enctype="multipart/form-data"><table class="c1">
+	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data"><table class="c1">
 		<tr class="h"><td class="b">Unban User</td></tr>
 		<tr class="n1"><td class="b n1 center"><input type="submit" class="submit" name="unbanuser" value="Unban User"></td></tr>
 	</table><?php

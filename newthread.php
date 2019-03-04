@@ -278,7 +278,7 @@ if (isset($err)) {
 		$shortlink = "t=$tid";
 	}
 
-	redirect($viewlink, $c);
+	redirect($viewlink);
 }
 
 pagefooter();

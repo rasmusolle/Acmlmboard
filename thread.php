@@ -1,17 +1,6 @@
 <?php
-
 require('lib/common.php');
 require('lib/threadpost.php');
-$rdmsg = "";
-if (!empty($_COOKIE['pstbon'])) {
-	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<br><table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
-	if ($_COOKIE['pstbon'] >= 1) {
-		$rdmsg .= "Post Successful</td></tr><tr><td class=\"b n1 left\">Post successful.</td></tr></table></div><br>";
-	} else {
-		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1 left\">Post was edited successfully.</td></tr></table>";
-	}
-}
 
 function timelink($time) {
 	global $timeval;
@@ -511,11 +500,6 @@ while ($post = $sql->fetch($posts)) {
 	if (isset($thread['forum']) && can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 
-	if (isset($_REQUEST['pid'])) {
-		if (isset($_COOKIE['pstbon']) && $post['id'] == $_REQUEST['pid'] && $_COOKIE['pstbon'] == "-1") {
-			echo $rdmsg;
-		}
-	}
 	echo "<br>".threadpost($post);
 }
 
@@ -524,10 +508,6 @@ echo "$pagelist$pagebr<br>";
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	echo "<script src=\"lib/js/tools.js\"></script>";
 	$toolbar = posttoolbar();
-
-	if (isset($_COOKIE['pstbon']) && $_COOKIE['pstbon'] >= 1) {
-		echo $rdmsg;
-	}
 	?><table class="c1">
 <form action="newreply.php" method="post">
 	<tr class="h"><td class="b h" colspan=2>Warp Whistle Reply</a></td>

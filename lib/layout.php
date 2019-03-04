@@ -4,8 +4,7 @@ function urlcreate($url, $query) {
 	return $url . '?' . http_build_query($query);
 }
 
-function redirect($url, $msg) {
-	header("Set-Cookie: pstbon=" . $msg . "; Max-Age=60; Version=1");
+function redirect($url) {
 	header("Location: " . $url);
 	die();
 }

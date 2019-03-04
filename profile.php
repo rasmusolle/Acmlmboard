@@ -1,21 +1,6 @@
 <?php
-
 require("lib/common.php");
 require("lib/threadpost.php");
-
-$rdmsg = "";
-if (!empty($_COOKIE['pstbon'])) {
-	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<table class=\"c1\" width=\"100%\"><tr class=\"h\"><td class=\"b h\">";
-	if ($_COOKIE['pstbon'] == -1) {
-		$rdmsg .= "Edit Successful</a></td></tr><tr><td class=\"b n1\">User has been banned.</td></tr></table>";
-	} elseif ($_COOKIE['pstbon'] < -1) {
-		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\">User has been unbanned.</td></tr></table>";
-	} else {
-		$rdmsg .= "Edit Successful</td></tr><tr><td class=\"b n1\">Profile was edited successfully.</td></tr></table>";
-	}
-	$rdmsg .= "<br>";
-}
 
 $uid = isset($_GET['id']) ? (int)$_GET['id'] : -1;
 if($uid < 0) {
@@ -220,9 +205,6 @@ if ($userdisplayname || $usercnickcolor) {
 $sex = array('Male', 'Female', 'N/A');
 
 print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
-if (!empty($_COOKIE['pstbon'])) {
-	print $rdmsg;
-}
 ?>
 <table class="c1">
 	<tr class="h">

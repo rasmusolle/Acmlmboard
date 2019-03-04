@@ -155,7 +155,7 @@ if (isset($err)) {
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");
 
-	redirect("thread.php?pid=$pid#edit","-1");
+	redirect("thread.php?pid=$pid#edit");
 } else if ($act == 'delete' || $act == 'undelete') {
 	if(!(can_delete_forum_posts($thread['forum']))) {
 		pageheader('Edit post',$thread['forum']);
@@ -163,7 +163,7 @@ if (isset($err)) {
 		noticemsg("Error", "You do not have the permission to do this.");
 	} else {
 		$sql->query("UPDATE posts SET deleted=".($act=='delete'?1:0)." WHERE id='$pid'");
-		redirect("thread.php?pid=$pid#edit",-1);
+		redirect("thread.php?pid=$pid#edit");
 	}
 }
 

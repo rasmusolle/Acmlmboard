@@ -1,15 +1,8 @@
 <?php
 require('lib/common.php');
 
-$rdmsg = "";
-if (isset($_COOKIE['pstbon'])) {
-	header("Set-Cookie: pstbon=" . $_COOKIE['pstbon'] . "; Max-Age=1; Version=1");
-	$rdmsg = "<table class=\"c1\" width=\"100%\" id=\"edit\"><tr class=\"h\"><td class=\"b h\">";
-	if ($_COOKIE['pstbon'] == - 1) {
-		$rdmsg .= "Sent!</td></tr><tr><td class=\"b n1\">The private message has been sent successfully.</td></tr></table>";
-	}
-}
 needs_login(1);
+
 $page = (isset($_GET['page']) ? $_GET['page'] : null);
 if (!$page) $page = 1;
 
@@ -99,9 +92,6 @@ else {
 }
 
 echo $topbot.'<br>';
-if (isset($_COOKIE['pstbon'])) {
-	echo $rdmsg;
-}
 ?>
 <table class="c1">
 	<tr class="h">

@@ -149,7 +149,7 @@ if ($err) {
 	//2007-02-21 //blackhole89 - nuke entries of this thread in the "threadsread" table
 	$sql->query("DELETE FROM threadsread WHERE tid='$thread[id]' AND NOT (uid='$userid')");
 
-	redirect("thread.php?pid=$pid#$pid", $c);
+	redirect("thread.php?pid=$pid#$pid");
 }
 
 pagefooter();
