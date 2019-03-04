@@ -6,39 +6,14 @@ body {
 	background: hsl(210, 20%, 15%) url(noise-texture.png);
 	color: white;
 	font-family: "Verdana", "Lucida Grande", sans-serif;
-}
-
-a, a span {
-	     -o-transition: color .2s ease-in-out;
-		-ms-transition: color .2s ease-in-out;
-	        transition: color .2s ease-in-out;
-	   -moz-transition: color .2s ease-in-out;
-	-webkit-transition: color .2s ease-in-out;
+	margin: auto;
+	width: 98% !important;
 }
 
 a					{ text-decoration: none; font-weight: bold; }
 a:link, a:visited	{ color: hsl(210, 80%, 65%); }
 a:hover				{ color: hsl(210, 80%, 80%); }
 a:active			{ color: hsl(210, 80%, 75%); }
-
-table {
-	overflow: hidden;
-	border-collapse: separate;
-	border-spacing: 0px;
-}
-
-h3 {
-	font-family: "Verdana", "Lucida Grande", sans-serif;
-	font-size: 1.2em; /* 12pt; */
-	font-weight: bold;
-	margin: 0;
-}
-
-h4 {
-	font-family: "Verdana", "Lucida Grande", sans-serif;
-	font-size: 1em; /* 10pt; */
-	margin: 0;
-}
 
 td {
 	padding: 2px 4px 2px 4px;
@@ -47,7 +22,6 @@ td {
 tr.c td, tr.h td {
 	background: linear-gradient(hsl(210, 50%, 15%) 0px, hsl(210, 50%, 50%) 2px, hsl(210, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
 	padding-top: 4px;
-	color: #FFFFFF;
 	font-weight: bold;
 	font-size: .85em;
 }
@@ -71,8 +45,6 @@ table.c1 {
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.45);
 	border-radius: 8px;
 	border: 1px solid hsl(210, 20%, 7.5%);
-	margin: auto;
-	width: 98% !important;
 }
 
 .sfont {

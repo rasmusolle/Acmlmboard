@@ -14,15 +14,17 @@ body {
 	font-family: Consolas, Arial, sans-serif;
 	color: #28DF10;
 }
-td.b {
+table.c1, td.b {
 	border: #28DF10 solid 2px;
 }
-td.n1, td.n2, td.h, tr.c, td.b {
+.n1, .n2, .n3, td.h, tr.c, td.b {
 	background: #111111;
-	padding: 4px;
 }
 td.h {
 	font-weight: bold;
+}
+td {
+	padding: 4px;
 }
 
 .sfont {

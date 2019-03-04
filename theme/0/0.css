@@ -16,10 +16,6 @@ body {
 	font-family: verdana, geneva, sans-serif;
 }
 
-table.c1 {
-	border: #666699 1px solid;
-}
-
 tr.h {
 	background: #636594;
 	font-size: 1em;
@@ -33,7 +29,7 @@ tr.c {
 	color: #EEEEEE;
 }
 
-td.b {
+table.c1, td.b {
 	border: #000000 1px solid;
 }
 

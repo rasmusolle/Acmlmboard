@@ -1,8 +1,7 @@
 /* META
 Grassy grass (RasmusOlle)
 */
-a:link    {color: #a5ff40}
-a:visited {color: #a5ff40}
+a:link, a:visited {color: #a5ff40}
 a:hover   {color: #FFFFFF}
 a {
 	text-decoration: none;
@@ -29,7 +28,7 @@ td {
 	padding: 2px;
 }
 
-td.b {
+table.c1, td.b {
 	border: #000000 1px solid;
 }
 

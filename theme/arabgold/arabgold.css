@@ -27,7 +27,7 @@ tr.c {
 	color: #EEEEEE;
 }
 
-td.b {
+table.c1, td.b {
 	border: #000000 1px solid;
 }
 
