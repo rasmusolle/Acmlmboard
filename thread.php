@@ -422,7 +422,7 @@ function trashConfirm(e) {
 </script>";
 
 	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\" id=\"mod\">
-<table class=\"c2\"><tr class=\"n2\">
+<table class=\"c1\"><tr class=\"n2\">
 	<td class=\"b n3\">
 		<span id=\"moptions\">$opt options: $stick $close $trash $edit </span>
 		<span id=\"mappend\"></span>

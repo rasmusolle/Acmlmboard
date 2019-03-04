@@ -19,7 +19,7 @@ body {
 	width: 98%;
 }
 
-table.c1, table.c2 {
+table.c1 {
 	text-shadow: 0 0 0 black;
     box-shadow: 0 0 4px 2px #000;
 }

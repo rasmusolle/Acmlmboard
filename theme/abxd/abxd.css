@@ -71,16 +71,6 @@ table.c1 {
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.45);
 	border-radius: 8px;
 	border: 1px solid hsl(210, 20%, 7.5%);
-}
-
-table.c2 {
-	background: linear-gradient(hsl(210, 20%, 15%), hsl(210, 20%, 10%) 120px);
-	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.45);
-	border-radius: 8px;
-	border: 1px solid hsl(210, 20%, 7.5%);
-}
-
-table.c1, table.c2 {
 	margin: auto;
 	width: 98% !important;
 }

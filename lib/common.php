@@ -463,7 +463,7 @@ function error($name, $msg) {
 function pagefooter() {
 	global $abversion, $boardprog;
 	?><br>
-	<table class="c2">
+	<table class="c1">
 		<tr>
 			<td class="b n2 sfont">
   				<span style="float:right; text-align:right;">
