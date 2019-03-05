@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-require('lib/threadpost.php');
 
 needs_login(1);
 

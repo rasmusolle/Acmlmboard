@@ -1,6 +1,5 @@
 <?php
 require("lib/common.php");
-require("lib/threadpost.php");
 
 $uid = isset($_GET['id']) ? (int)$_GET['id'] : -1;
 if($uid < 0) {

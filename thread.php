@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-require('lib/threadpost.php');
 
 function timelink($time) {
 	global $timeval;

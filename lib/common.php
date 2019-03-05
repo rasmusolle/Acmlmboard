@@ -1,5 +1,11 @@
 <?php
-require("lib/function.php");
+if (!file_exists('lib/config.php')) {
+	die('Please install Acmlmboard.');
+}
+
+foreach (glob("lib/*.php") as $filename)
+	if ($filename != 'lib/config.sample.php')
+		require_once($filename);
 
 header("Content-type: text/html; charset=utf-8");
 

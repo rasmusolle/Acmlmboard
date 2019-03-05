@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-require('lib/threadpost.php');
 
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : null);
 

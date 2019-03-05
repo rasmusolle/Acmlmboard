@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-require('lib/threadpost.php');
 
 $_GET['act'] = (isset($_GET['act']) ? $_GET['act'] : 'needle');
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : '');

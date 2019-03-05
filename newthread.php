@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-require('lib/threadpost.php');
 
 if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }
 checknumeric($announce);
