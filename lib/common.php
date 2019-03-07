@@ -167,6 +167,13 @@ if (@$sql->numrows($r) > 0) {
 	}
 }
 
+/**
+ * Print page header
+ *
+ * @param string $pagetitle Title of page.
+ * @param integer $fid Forum ID of the page.
+ * @return void
+ */
 function pageheader($pagetitle = "", $fid = 0) {
 	global $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl,
 	$theme, $themefile, $logofile, $url, $config, $favicon, $showonusers, $count, $pwdsalt, $pwdsalt2, $bot;
@@ -436,6 +443,12 @@ HTML;
 	}
 }
 
+/**
+ * Check for whether $var is numeric. If it's not, $var is set to 0.
+ *
+ * @param mixed $var The variable to check.
+ * @return bool Is it numeric?
+ */
 function checknumeric(&$var) {
 	if (!is_numeric($var)) {
 		$var = 0;
@@ -444,6 +457,11 @@ function checknumeric(&$var) {
 	return true;
 }
 
+/**
+ * Print page statistics.
+ *
+ * @return void
+ */
 function pagestats() {
 	global $start, $sql;
 	$time = usectime() - $start;
@@ -451,6 +469,13 @@ function pagestats() {
 		MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }
 
+/**
+ * Print a notice message.
+ *
+ * @param string $name Header text
+ * @param string $msg Message
+ * @return void
+ */
 function noticemsg($name, $msg) {
 	?><table class="c1">
 		<tr class="h"><td class="b h center"><?=$name ?></td></tr>
@@ -458,6 +483,13 @@ function noticemsg($name, $msg) {
 	</table><?php
 }
 
+/**
+ * Print an error message.
+ *
+ * @param string $name Header text
+ * @param string $msg Message
+ * @return void
+ */
 function error($name, $msg) {
 	pageheader('Error');
 	echo "<br>";
@@ -466,6 +498,11 @@ function error($name, $msg) {
 	die();
 }
 
+/**
+ * Print page footer.
+ *
+ * @return void
+ */
 function pagefooter() {
 	global $abversion, $boardprog;
 	?><br>
