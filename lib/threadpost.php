@@ -124,7 +124,7 @@ HTML;
 HTML;
 
 	$lastpost = ($post['ulastpost'] ? timeunits(time() - $post['ulastpost']) : 'none');
-	$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
+	$picture = ($post['uusepic'] ? "<br><img src=\"userpic/{$post['uid']}\">" : '');
 
 	if ($post['usign']) {
 		$signsep = $post['usignsep'] ? '' : '____________________<br>';
@@ -136,7 +136,7 @@ HTML;
 	}
 
 	$text .= postfilter($post['utitle']);
-	$text .= "<br>$picture
+	$text .= "$picture
 <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
 <br>
 <br>Since: " . cdate('Y-m-d', $post['uregdate']) . "

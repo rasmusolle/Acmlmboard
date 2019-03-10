@@ -3,10 +3,10 @@ require('lib/common.php');
 
 needs_login(1);
 
-if (!isset($act)) $act = 'needle';
-if (!isset($_POST['action'])) $_POST['action'] = null;
-if (!isset($_GET['pid'])) $_GET['pid'] = -1;
-if (!isset($_GET['uid'])) $_GET['uid'] = -1;
+//if (!isset($act)) $act = 'needle';
+//if (!isset($_POST['action'])) $_POST['action'] = null;
+//if (!isset($_GET['pid'])) $_GET['pid'] = -1;
+//if (!isset($_GET['uid'])) $_GET['uid'] = -1;
 
 $top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';
 

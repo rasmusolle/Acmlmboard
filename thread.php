@@ -205,7 +205,7 @@ if ($viewmode == "thread") {
 		. "ORDER BY p.id "
 		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 
-	$thread[replies] = $sql->resultq("SELECT count(*) "
+	$thread['replies'] = $sql->resultq("SELECT count(*) "
 		. "FROM posts p "
 		. "LEFT JOIN threads t ON p.thread=t.id "
 		. "LEFT JOIN forums f ON f.id=t.forum "
