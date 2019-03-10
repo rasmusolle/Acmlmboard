@@ -111,7 +111,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	}
 
 	$views = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='views'");
-	$botviews = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='botviews'");
 
 	$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
 	$date = date("m-d-y", time());
@@ -175,7 +174,7 @@ if (@$sql->numrows($r) > 0) {
  * @return void
  */
 function pageheader($pagetitle = "", $fid = 0) {
-	global $dateformat, $sql, $log, $loguser, $sqlpass, $views, $botviews, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl,
+	global $dateformat, $sql, $log, $loguser, $sqlpass, $views, $sqluser, $boardtitle, $extratitle, $boardlogo, $homepageurl,
 	$theme, $themefile, $logofile, $url, $config, $favicon, $showonusers, $count, $pwdsalt, $pwdsalt2, $bot;
 
 	if (ini_get("register_globals")) {
@@ -384,24 +383,6 @@ HTML;
 			$offline2 = ($onuserlog ? "" : "]");
 			$onuserlist.=($onusercount ? ", " : "") . $offline1 . userlink($user) . $offline2;
 			$onusercount++;
-		}
-
-		$maxpostsday = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="maxpostsday"');
-		$maxpostshour = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="maxpostshour"');
-		$maxusers = $sql->resultq('SELECT `intval` FROM `misc` WHERE `field`="maxusers"');
-
-		if ($count['d'] > $maxpostsday) {
-			$sql->query("UPDATE `misc` SET `intval`='$count[d]' WHERE `field`='maxpostsday'");
-			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxpostsdaydate'");
-		}
-		if ($count['h'] > $maxpostshour) {
-			$sql->query("UPDATE `misc` SET `intval`='$count[h]' WHERE `field`='maxpostshour'");
-			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxpostshourdate'");
-		}
-		if ($onusercount > $maxusers) {
-			$sql->query("UPDATE `misc` SET `intval`='$onusercount' WHERE `field`='maxusers'");
-			$sql->query("UPDATE `misc` SET `intval`='" . time() . "' WHERE `field`='maxusersdate'");
-			$sql->query("UPDATE `misc` SET `txtval`='" . addslashes($onuserlist) . "' WHERE `field`='maxuserstext'");
 		}
 
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? 's' : '') . ' online' . ($onusercount > 0 ? ': ' : '') . $onuserlist;

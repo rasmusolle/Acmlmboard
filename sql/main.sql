@@ -130,13 +130,6 @@ CREATE TABLE `misc` (
 
 INSERT INTO `misc` (`field`, `intval`, `txtval`) VALUES
 ('views',	0,	''),
-('maxpostsday',	0,	''),
-('maxpostsdaydate',	0,	''),
-('maxpostshour',	0,	''),
-('maxpostshourdate',	0,	''),
-('maxusers',	0,	''),
-('maxusersdate',	0,	''),
-('maxuserstext',	0,	''),
 ('botviews',	0,	''),
 ('attention',	0,	'');
 
