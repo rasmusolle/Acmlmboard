@@ -109,7 +109,7 @@ for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 		"id" => $user['id'] . '.',
 		"pic" => $picture,
 		"name" => userlink($user),
-		"reg" => cdate($dateformat, $user['regdate']),
+		"reg" => date($dateformat, $user['regdate']),
 		"posts" => $user['posts'],
 	);
 }

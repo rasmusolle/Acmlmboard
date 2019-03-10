@@ -345,7 +345,7 @@ function announcement_row($aleftspan, $arightspan) {
 
 	if (isset($announcement['title']) || has_perm('create-forum-announcements')) {
 		if (isset($announcement['title'])) {
-			$anlink = "<a href=thread.php?announce>" . $announcement['title'] . "</a> -- Posted by " . userlink($announcement['user']) . " on " . cdate($dateformat, $announcement['date']);
+			$anlink = "<a href=thread.php?announce>" . $announcement['title'] . "</a> -- Posted by " . userlink($announcement['user']) . " on " . date($dateformat, $announcement['date']);
 		} else {
 			$anlink = "No announcements";
 		}

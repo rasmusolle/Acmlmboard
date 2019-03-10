@@ -46,7 +46,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	<tr class="<?=$tr ?> center">
 		<td class="b"><?=$i ?>.</td>
 		<td class="b left"><?=userlink($user) ?></td>
-		<td class="b"><?=cdate($dateformat,$user['regdate']) ?></td>
+		<td class="b"><?=date($dateformat,$user['regdate']) ?></td>
 		<td class="b"><b><?=$user['num'] ?></b></td>
 		<td class="b"><b><?=$user['posts'] ?></b></td>
 	</tr>

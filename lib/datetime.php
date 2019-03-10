@@ -24,8 +24,4 @@ function timeunits2($sec) {
 	return $str;
 }
 
-function cdate($format,$date) {
-	global $loguser;
-	return date($format,$date);
-}
 ?>

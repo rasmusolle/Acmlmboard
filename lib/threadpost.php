@@ -75,7 +75,7 @@ HTML;
 		$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
 
 	if (isset($post['revision']) && $post['revision'] >= 2)
-		$revisionstr = " (rev. {$post['revision']} of " . cdate($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
+		$revisionstr = " (rev. {$post['revision']} of " . date($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
 
 	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 	if (isset($post['isannounce'])) {
@@ -108,7 +108,7 @@ HTML;
 	$sbar = (!$isBlocked) ? "sidebar" . $post['uid'] : "";
 	$mbar = (!$isBlocked) ? "mainbar" . $post['uid'] : "";
 	$ulink = userlink($post, 'u');
-	$pdate = cdate($dateformat, $post['date']);
+	$pdate = date($dateformat, $post['date']);
 	$text = <<<HTML
 <table class="c1" id="{$post['id']}">
 	$postheaderrow
@@ -139,7 +139,7 @@ HTML;
 	$text .= "$picture
 <br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
 <br>
-<br>Since: " . cdate('Y-m-d', $post['uregdate']) . "
+<br>Since: " . date('Y-m-d', $post['uregdate']) . "
 <br>
 <br>Last post: $lastpost
 <br>Last view: " . timeunits(time() - $post['ulastview']);

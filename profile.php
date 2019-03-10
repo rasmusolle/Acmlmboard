@@ -220,16 +220,16 @@ print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 		<td class="b n2"><?=$user['threads'] ?> (<?=$tfound ?> found, <?=$tavg ?> per day)</td>
 	</tr><tr>
 		<td class="b n1"><b>Registered on</b></td>
-		<td class="b n2"><?=cdate($dateformat, $user['regdate']) ?> (<?=timeunits($days * 86400) ?> ago)</td>
+		<td class="b n2"><?=date($dateformat, $user['regdate']) ?> (<?=timeunits($days * 86400) ?> ago)</td>
 	</tr><tr>
 		<td class="b n1"><b>Last post</b></td>
 		<td class="b n2">
-			<?=($user['lastpost'] ? cdate($dateformat, $user['lastpost']) . " (" . timeunits(time() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
+			<?=($user['lastpost'] ? date($dateformat, $user['lastpost']) . " (" . timeunits(time() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
 		</td>
 	</tr><tr>
 		<td class="b n1"><b>Last view</b></td>
 		<td class="b n2">
-			<?=cdate($dateformat, $user['lastview']) ?> (<?=timeunits(time() - $user['lastview']) ?> ago)
+			<?=date($dateformat, $user['lastview']) ?> (<?=timeunits(time() - $user['lastview']) ?> ago)
 			<?=($user['url'] ? "<br>at <a href='" . htmlval($user['url']) . "'>" . htmlval($user['url']) . "</a>" : '') ?>
 			<?=($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') ?>
 		</td>

@@ -214,7 +214,7 @@ if ($_GET['w'] == 1) {
 			<td class="b"><?=$thread['replies'] ?></td>
 			<td class="b"><?=$thread['views'] ?></td>
 			<td class="b">
-				<nobr><?=cdate($dateformat,$thread['lastdate']) ?></nobr><br>
+				<nobr><?=date($dateformat,$thread['lastdate']) ?></nobr><br>
 				<span class="sfont">by <?=userlink($thread,'u2') ?></span>
 			</td>
 		<?php

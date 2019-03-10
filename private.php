@@ -118,7 +118,7 @@ echo $topbot.'<br>';
 			<td class="b n1"><?=$status ?></td>
 			<td class="b left"><a href=showprivate.php?id=<?=$pmsg['id'] ?>><?=forcewrap(htmlval($pmsg['title'])) ?></a></td>
 			<td class="b"><?=userlink($pmsg, 'u') ?></td>
-			<td class="b"><nobr><?=cdate($dateformat, $pmsg['date']) ?></nobr></td>
+			<td class="b"><nobr><?=date($dateformat, $pmsg['date']) ?></nobr></td>
 		</tr>
 		<?php
 	}

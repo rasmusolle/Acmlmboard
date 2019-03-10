@@ -70,7 +70,7 @@ if (!has_perm('edit-ip-bans')) {
 			<td class="b n1"><span style="font-family:'Courier New',monospace"><?=ipfmt($i['ipmask']) ?></span></td>
 			<td class="b n2 center"><span style="color:<?=($i['hard'] ? "red\">Yes" : "green\">No") ?>"></span></td>
 			<td class="b n2 center">
-				<?=($i['expires'] ? cdate($loguser['dateformat'],$i['expires'])."&nbsp;".cdate($loguser['timeformat'],$i['expires']) : "never") ?>
+				<?=($i['expires'] ? date($loguser['dateformat'],$i['expires'])."&nbsp;".date($loguser['timeformat'],$i['expires']) : "never") ?>
 			</td>
 			<td class="b n2 center"><?=$i['banner'] ?></td>
 			<td class="b n2"><?=stripslashes($i['reason']) ?></td>

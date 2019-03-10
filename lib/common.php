@@ -244,7 +244,7 @@ HTML;
 					| <a href="online.php">Online users</a>
 					| <a href="search.php">Search</a>
 				</td>
-				<td class="b"><div style="width: 150px"><?=cdate($dateformat, time())?></div></td>
+				<td class="b"><div style="width: 150px"><?=date($dateformat, time())?></div></td>
 				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
 <?php
 	if ($log) {

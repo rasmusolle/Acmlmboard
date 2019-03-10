@@ -199,7 +199,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		<td class="b"><?=$thread['replies'] ?></td>
 		<td class="b"><?=$thread['views'] ?></td>
 		<td class="b">
-			<nobr><?=cdate($dateformat, $thread['lastdate']) ?></nobr><br>
+			<nobr><?=date($dateformat, $thread['lastdate']) ?></nobr><br>
 			<span class="sfont">by <?=userlink($thread, 'u2') ?> <a href="thread.php?pid=<?=$thread['lastid'] ?>#<?=$thread['lastid'] ?>">&raquo;</a></span>
 		</td>
 	</tr><?php

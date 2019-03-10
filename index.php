@@ -67,7 +67,7 @@ while ($forum = $sql->fetch($forums)) {
 	}
 
 	if ($forum['posts'] > 0 && $forum['lastdate'] > 0)
-		$lastpost = '<nobr>' . cdate($dateformat, $forum['lastdate']) . '</nobr><br><span class=sfont>by&nbsp;' . userlink($forum, 'u') . "&nbsp;<a href='thread.php?pid=" . $forum['lastid'] . "#" . $forum['lastid'] . "'>&raquo;</a></span>";
+		$lastpost = '<nobr>' . date($dateformat, $forum['lastdate']) . '</nobr><br><span class=sfont>by&nbsp;' . userlink($forum, 'u') . "&nbsp;<a href='thread.php?pid=" . $forum['lastid'] . "#" . $forum['lastid'] . "'>&raquo;</a></span>";
 	else
 		$lastpost = 'None';
 
