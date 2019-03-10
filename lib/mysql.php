@@ -31,7 +31,7 @@ class mysql {
 		if ($this->debug_mode && isset($_GET['sqldebug']))
 			echo "{$this->queries} $query<br>";
 
-		$start = usectime();
+		$start = microtime(true);
 		if (($res = $this->db->query($query)) !== FALSE) {
 			$this->queries++;
 			if (is_object($res)) {
@@ -43,7 +43,7 @@ class mysql {
 			echo $this->error();
 		}
 
-		$this->time+=usectime() - $start;
+		$this->time+=microtime(true) - $start;
 		return $res;
 	}
 
@@ -91,7 +91,7 @@ class mysql {
 	}
 
 	function fetch($result) {
-		$start = usectime();
+		$start = microtime(true);
 
 		if (!isset($result) || $result === false)
 			return null;
@@ -99,12 +99,12 @@ class mysql {
 		if ($res = $result->fetch_assoc())
 			$this->rowsf++;
 
-		$this->time+=usectime() - $start;
+		$this->time+=microtime(true) - $start;
 		return $res;
 	}
 
 	function result($result, $row = 0, $col = 0) {
-		$start = usectime();
+		$start = microtime(true);
 
 		$res = null;
 		if ($result) {
@@ -115,7 +115,7 @@ class mysql {
 			}
 		}
 
-		$this->time+=usectime() - $start;
+		$this->time+=microtime(true) - $start;
 		return $res;
 	}
 

@@ -3,6 +3,8 @@ if (!file_exists('lib/config.php')) {
 	die('Please install Acmlmboard.');
 }
 
+$start = microtime(true);
+
 foreach (glob("lib/*.php") as $filename)
 	if ($filename != 'lib/config.sample.php')
 		require_once($filename);
@@ -451,7 +453,7 @@ function checknumeric(&$var) {
  */
 function pagestats() {
 	global $start, $sql;
-	$time = usectime() - $start;
+	$time = microtime(true) - $start;
 	echo sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
 		MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
 }

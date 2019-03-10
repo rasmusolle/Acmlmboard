@@ -1,9 +1,4 @@
 <?php
-function usectime() {
-	$t = gettimeofday();
-	return $t['sec'] + $t['usec'] / 1000000;
-}
-$start = usectime();
 
 function timeunits($sec) {
 	if ($sec < 60) return "$sec sec.";
