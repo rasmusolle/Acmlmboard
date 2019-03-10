@@ -262,6 +262,8 @@ function permtable($bind, $id) {
 	<?php
 	$c = 1;
 	foreach ($groups as $group) {
+		if ($group['default'] == -1) break;
+
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);
 
@@ -327,6 +329,8 @@ function saveperms($bind, $id) {
 
 	// apply the new perms
 	foreach ($usergroups as $gid=>$group) {
+		if (is_root_gid($gid)) continue;
+
 		if ($_POST['inherit'][$gid])
 			continue;
 
