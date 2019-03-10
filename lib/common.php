@@ -296,7 +296,13 @@ HTML;
 			<input type="hidden" name="p" value="<?=md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) ?>">
 		</form><?php
 	}
-	echo "</table><br>";
+	echo "</table>";
+
+	if (!function_exists('mcrypt_encrypt')) {
+		echo '<p style="color:red;text-align:center">Warning: Cookie encryption has been disabled since mcrypt has not been installed.<br>This could cause security issues.</p>';
+	} else {
+		echo '<br>';
+	}
 
 	if ($fid) {
 		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`
