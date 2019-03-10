@@ -259,18 +259,10 @@ CREATE TABLE `pmsgs` (
   `ip` char(15) NOT NULL,
   `userto` mediumint(9) unsigned NOT NULL,
   `userfrom` mediumint(9) unsigned NOT NULL,
-  `unread` tinyint(4) NOT NULL,
+  `unread` tinyint(4) NOT NULL DEFAULT '1',
   `del_from` tinyint(1) NOT NULL DEFAULT '0',
   `del_to` tinyint(1) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `pmsgstext`;
-CREATE TABLE `pmsgstext` (
-  `id` int(11) unsigned NOT NULL DEFAULT '0',
-  `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

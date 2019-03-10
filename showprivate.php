@@ -23,10 +23,9 @@ if (!$pid) {
 	error("Error", "Private message does not exist. <br> <a href=./>Back to main</a>");
 }
 
-$pmsgs = $sql->fetchq("SELECT ".userfields('u','u').",$fieldlist p.*, pt.* "
+$pmsgs = $sql->fetchq("SELECT ".userfields('u','u').",$fieldlist p.* "
 	."FROM pmsgs p "
 	."LEFT JOIN users u ON u.id=p.userfrom "
-	."LEFT JOIN pmsgstext pt ON p.id=pt.id "
 	."WHERE p.id=$pid");
 $tologuser = ($pmsgs['userto'] == $loguser['id']);
 

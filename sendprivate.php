@@ -18,13 +18,12 @@ if (!has_perm('create-pms'))
 if (!$act = $_POST['action']) {
 	if ($pid = $_GET['pid']) {
 		checknumeric($pid);
-		$post = $sql->fetchq("SELECT IF(u.displayname='',u.name,u.displayname) name, p.title, pt.text "
+		$post = $sql->fetchq("SELECT IF(u.displayname='',u.name,u.displayname) name, p.title, p.text "
 			."FROM pmsgs p "
-			."LEFT JOIN pmsgstext pt ON p.id=pt.id "
 			."LEFT JOIN users u ON p.userfrom=u.id "
 			."WHERE p.id=$pid" . (!has_perm('view-user-pms') ? " AND (p.userfrom=".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''));
 		if ($post) {
-			$quotetext = '[reply="'.$post['name'].'" id="'.$pid.'"]'.$post['text'].'[/quote]\n';
+			$quotetext = '[reply="'.$post['name'].'" id="'.$pid.'"]'.$post['text'].'[/quote]' . PHP_EOL;
 			$title = 'Re:' . $post['title'];
 			$userto = $post['name'];
 		}
@@ -87,8 +86,8 @@ if (!$act = $_POST['action']) {
 	$post['ulastpost'] = time();
 
 	pageheader('Send private message');
-	?>
-	$top - Preview
+	echo $top;
+	?> - Preview
 <br><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Message preview</td></tr></table>
 	<?=threadpost($post) ?>
@@ -138,10 +137,8 @@ if (!$act = $_POST['action']) {
 			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
 		} else {
 			checknumeric($_POST['nolayout']);
-			$sql->query("INSERT INTO pmsgs (date,ip,userto,userfrom,unread,title,nolayout) "
-				."VALUES ('" . time() . "','$userip','$userto','" . $loguser['id'] . "',1,'" . $_POST['title'] . "',$_POST[nolayout])");
-			$pid = $sql->insertid();
-			$sql->query("INSERT INTO pmsgstext (id,text) VALUES ($pid,'$_POST[message]')");
+			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,message,nolayout) VALUES (?,?,?,?,?,?,?)",
+				array(time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message'],$_POST['nolayout']));
 
 			redirect("private.php");
 		}
