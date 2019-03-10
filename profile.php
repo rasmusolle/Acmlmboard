@@ -144,8 +144,8 @@ $rblock = $sql->query($qblock);
 $isblocked = $sql->numrows($rblock);
 $blocklayoutlink = '';
 
-if (has_perm("block-layout")) {
-	if (isset($_GET['block']) && $log) {
+if ($log) {
+	if (isset($_GET['block'])) {
 		$block = (int) $_GET['block'];
 
 		if ($block && !$isblocked) {

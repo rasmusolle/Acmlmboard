@@ -272,7 +272,7 @@ function can_create_forum_thread($forum) {
 
 	//can create public threads
 	if (!has_perm('create-public-thread')) return false;
-	if (!has_perm('post-offline') && !$log) return false;
+	if (!$log) return false;
 
 	//and if the forum is private
 	if ($forum['private']) {
@@ -290,7 +290,7 @@ function can_create_forum_post($forum) {
 
 	//can create public threads
 	if (!has_perm('create-public-post')) return false;
-	if (!has_perm('post-offline') && !$log) return false;
+	if (!$log) return false;
 
 	//and if the forum is private
 	if ($forum['private']) {
