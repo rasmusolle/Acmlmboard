@@ -187,7 +187,6 @@ if ($act == 'Edit profile') {
 			. setfield('ppp') . ','
 			. setfield('tpp') . ','
 			. setfield('signsep') . ','
-			. setfield('longpages') . ','
 			. setfield('rankset') . ','
 			. (checkctitle($targetuserid) && !isset($_POST['permaban']) ? (setfield('title') . ',') : '')
 			. setfield('realname') . ','
@@ -281,7 +280,6 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
 .	fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
 .	fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
-.	fieldrow('Long pagelists', fieldoption('longpages', $user['longpages'], array('Abbreviate as needed', 'Always display in entirety')))
 .	fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
 .	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
 .	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')));

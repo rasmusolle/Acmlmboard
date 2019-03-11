@@ -155,7 +155,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	$pagelist = '';
 	if ($thread['replies'] >= $loguser['ppp']) {
 		for ($p = 1; $p <= ($pmax = (1 + floor($thread['replies'] / $loguser['ppp']))); $p++) {
-			if ($loguser['longpages'] || $p < 7 || $p > ($pmax - 7) || !($p % 10))
+			if ($p < 7 || $p > ($pmax - 7) || !($p % 10))
 				$pagelist.=" <a href=thread.php?id=$thread[id]&page=$p>$p</a>";
 			else if (substr($pagelist, -1) != ".")
 				$pagelist.=" ...";

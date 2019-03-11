@@ -375,7 +375,6 @@ CREATE TABLE `users` (
   `timeformat` varchar(15) NOT NULL DEFAULT 'H:i',
   `ppp` smallint(3) unsigned NOT NULL DEFAULT '20',
   `tpp` smallint(3) unsigned NOT NULL DEFAULT '20',
-  `longpages` int(1) NOT NULL DEFAULT '0',
   `theme` varchar(32) NOT NULL DEFAULT 'bmatrix',
   `birth` varchar(10) NOT NULL DEFAULT '-1',
   `rankset` int(10) NOT NULL DEFAULT '1',
