@@ -73,5 +73,3 @@ function unpacksafenumeric($s, $fallback = -1) {
 	else
 		return $a[0];
 }
-
-?>

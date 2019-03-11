@@ -127,4 +127,3 @@ echo $topbot.'<br>';
 <?php
 echo "$fpagelist $topbot";
 pagefooter();
-?>

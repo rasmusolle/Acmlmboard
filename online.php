@@ -42,5 +42,3 @@ function timelink($timex) {
 	global $time;
 	return ($time == $timex ? " " . timeunits2($timex) . " " : " <a href=online.php?time=$timex>" . timeunits2($timex) . '</a> ');
 }
-
-?>

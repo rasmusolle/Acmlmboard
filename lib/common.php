@@ -504,5 +504,3 @@ function pagefooter() {
 		</tr>
 	</table><?php
 }
-
-?>

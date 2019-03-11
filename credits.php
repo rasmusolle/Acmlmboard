@@ -14,4 +14,4 @@ pageheader("Credits");
 		</ul>
 	</td></tr>
 </table>
-<?php pagefooter() ?>
+<?php pagefooter();

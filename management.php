@@ -29,6 +29,4 @@ if ($mlinkstext == '') $mlinkstext = "There's no board management tools you're a
 		</td>
 	</tr>
 </table>
-<?php
-pagefooter();
-?>
+<?php pagefooter();

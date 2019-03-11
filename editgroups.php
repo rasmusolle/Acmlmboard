@@ -213,4 +213,3 @@ if ($act == 'new' || $act == 'edit') {
 }
 
 pagefooter();
-?>

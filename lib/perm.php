@@ -407,5 +407,3 @@ function threadlink_by_id($tid) {
 	if ($thread) return "<a href=thread.php?id=$thread[id]>".forcewrap(htmlval($thread[title]))."</a>";
 	else return 0;
 }
-
-?>

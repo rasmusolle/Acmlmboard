@@ -72,4 +72,3 @@ foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 }
 ?></table><?php
 pagefooter();
-?>

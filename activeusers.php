@@ -71,4 +71,3 @@ function timelink($timex){
 	global $time;
 	return ($time == $timex ? " <span style='font-weight:bold;font-family:Verdana'>".timeunits2($timex)."</span> " : " <a href=activeusers.php?time=$timex>".timeunits2($timex).'</a> ');
 }
-?>

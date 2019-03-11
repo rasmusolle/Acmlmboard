@@ -93,5 +93,3 @@ $rankset_data['Mario'] = array(
 	array('p' => 4900, 'str' => '<img src=img/ranks/luigistar.gif><br>Star Luigi'),
 	array('p' => 5000, 'str' => '<img src=img/ranks/mariostar.gif><br>Star Mario')
 );
-
-?>

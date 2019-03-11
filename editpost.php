@@ -167,4 +167,3 @@ if (isset($err)) {
 }
 
 pagefooter();
-?>

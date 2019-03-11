@@ -232,5 +232,3 @@ function userdisp($user, $u = '') {
 
 	return $userdisname;
 }
-
-?>

@@ -340,5 +340,3 @@ function saveperms($bind, $id) {
 				VALUES (?,?,?,?,?,?)", array($gid, 'group', $perm, $bind, $id, $myperms[$perm]?0:1));
 	}
 }
-
-?>

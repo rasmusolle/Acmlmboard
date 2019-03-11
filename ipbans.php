@@ -84,4 +84,3 @@ if (!has_perm('edit-ip-bans')) {
 }
 
 pagefooter();
-?>

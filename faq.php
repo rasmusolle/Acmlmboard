@@ -204,7 +204,4 @@ p {
 		</td>
 	</tr>
 </table>
-<?php
-pagefooter();
-
-?>
+<?php pagefooter();

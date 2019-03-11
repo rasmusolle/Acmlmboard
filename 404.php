@@ -8,4 +8,4 @@ pageheader('404');
 		<p class="center">The requested page wasn't found.</p>
 	</td></tr>
 </table>
-<?php pagefooter() ?>
+<?php pagefooter();

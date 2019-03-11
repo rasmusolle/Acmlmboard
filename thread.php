@@ -532,4 +532,3 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 echo "$userbar$topbot";
 
 pagefooter();
-?>

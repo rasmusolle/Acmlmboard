@@ -290,4 +290,3 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 }
 
 pagefooter();
-?>

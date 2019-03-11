@@ -289,4 +289,4 @@ print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 		<?=$banuser . " " . $editpermissions . " " . $secondarygroups ?>
 	</td></tr>
 </table>
-<?php pagefooter() ?>
+<?php pagefooter();

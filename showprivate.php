@@ -50,4 +50,3 @@ $pmsgs['num'] = 0;
 echo $topbot . '<br>' . threadpost($pmsgs) . '<br>' . $topbot;
 
 pagefooter();
-?>

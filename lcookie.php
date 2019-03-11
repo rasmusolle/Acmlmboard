@@ -53,4 +53,4 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 		</tr>
 	</table>
 </form>
-<?php pagefooter() ?>
+<?php pagefooter();

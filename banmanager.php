@@ -119,4 +119,3 @@ if (isset($_GET['unban'])) {
 }
 
 pagefooter();
-?>

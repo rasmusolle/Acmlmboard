@@ -134,4 +134,3 @@ $spatulas = array(
 	"Value2"
 );
 $spaturand = array_rand($spatulas);
-?>

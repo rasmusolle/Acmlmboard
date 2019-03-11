@@ -154,4 +154,3 @@ if (!$act = $_POST['action']) {
 }
 
 pagefooter();
-?>

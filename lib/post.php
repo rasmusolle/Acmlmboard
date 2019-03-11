@@ -242,5 +242,3 @@ function posttoolbar() {
 			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
 			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt");
 }
-
-?>

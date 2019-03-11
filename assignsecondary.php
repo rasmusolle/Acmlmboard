@@ -87,5 +87,5 @@ if (empty($action)) {
 	);
 	RenderForm($form);
 }
+
 pagefooter();
-?>

@@ -18,5 +18,3 @@ function timeunits2($sec) {
 	if (substr($str,-1) == ' ') $str = substr_replace($str,'',-1);
 	return $str;
 }
-
-?>

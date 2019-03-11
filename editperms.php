@@ -291,5 +291,3 @@ function PermTable($permset) {
 
 	return "<table style=\"width:100%;\">\n<tr>\n{$ret}</tr>\n</table>\n";
 }
-
-?>

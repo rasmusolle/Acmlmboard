@@ -149,5 +149,3 @@ HTML;
 
 	return $text;
 }
-
-?>

@@ -286,4 +286,3 @@ if (isset($err)) {
 }
 
 pagefooter();
-?>

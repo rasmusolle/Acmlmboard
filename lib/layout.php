@@ -358,5 +358,3 @@ function announcement_row($aleftspan, $arightspan) {
 		</tr><?php
 	}
 }
-
-?>

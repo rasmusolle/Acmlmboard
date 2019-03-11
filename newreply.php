@@ -154,4 +154,3 @@ if ($err) {
 }
 
 pagefooter();
-?>

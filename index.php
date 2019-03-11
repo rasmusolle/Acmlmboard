@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_GET['p'])) header("Location: thread.php?pid={$_GET['p']}#{$_GET['p']}");
 if (isset($_GET['t'])) header("Location: thread.php?id={$_GET['t']}");
 if (isset($_GET['u'])) header("Location: profile.php?id={$_GET['u']}");
@@ -101,4 +100,3 @@ while ($forum = $sql->fetch($forums)) {
 }
 ?></table><?php
 pagefooter();
-?>

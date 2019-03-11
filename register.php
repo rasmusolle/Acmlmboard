@@ -1,5 +1,4 @@
 <?php
-
 require('lib/common.php');
 
 $regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field='regdisable'");
@@ -140,4 +139,4 @@ if(!empty($err)) noticemsg("Error", $err);
 		</tr>
 	</table>
 </form>
-<?php pagefooter() ?>
+<?php pagefooter();

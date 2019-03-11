@@ -24,4 +24,4 @@ pageheader("Edit news");
 		</tr>
 	</table>
 </form>
-<?php pagefooter(); ?>
+<?php pagefooter();

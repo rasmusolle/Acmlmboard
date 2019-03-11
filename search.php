@@ -230,5 +230,4 @@ if ($_GET['w'] == 1) {
 }
 ?></div><script>document.getElementById('pleasewait').style.display='none';
 document.getElementById('youwaited').style.display='block';</script><?php
-
-?>
+pagefooter();

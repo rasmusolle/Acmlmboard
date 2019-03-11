@@ -206,4 +206,3 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 }
 echo "</table>$fpagelist$fpagebr$topbot";
 pagefooter();
-?>
