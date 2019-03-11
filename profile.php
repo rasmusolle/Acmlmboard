@@ -44,12 +44,10 @@ if ($pfound && $thread) {
 	$lastpostlink = "<br>in <i>(restricted forum)</i>";
 }
 
-//[KAWA] Adapting to new theme system...
-$themes = unserialize(file_get_contents("themes_serial.txt"));
-$themename = $themes[0][0];
-foreach ($themes as $theme) {
-	if ($theme[1] == $user['theme']) {
-		$themename = $theme[0];
+$themes = themelist();
+foreach ($themes as $k => $v) {
+	if ((string)$k == $user['theme']) {
+		$themename = $v;
 		break;
 	}
 }
