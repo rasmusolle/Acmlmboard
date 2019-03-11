@@ -1,16 +1,14 @@
 <?php
-
 require('lib/common.php');
 pageheader('Memberlist');
 
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'posts';
 $sex = isset($_REQUEST['sex']) ? $_REQUEST['sex'] : '';
 $pow = isset($_REQUEST['pow']) ? $_REQUEST['pow'] : '';
-$ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : 50;
 $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : '';
 $orderby = isset($_REQUEST['orderby']) ? $_REQUEST['orderby'] : '';
 
-if ($ppp < 1) $ppp = 50;
+$ppp = 50;
 if ($page < 1) $page = 1;
 
 if ($orderby == 'a') $sortby = " ASC";
@@ -27,9 +25,9 @@ if ($sex == 'n') $where = 'sex=2';
 
 if ($pow != '' && is_numeric($pow)) {
 	if ($pow == '-1')
-		$where.=" AND `group_id` =  ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT `id` FROM `group` WHERE `perm_id` = \"show-as-staff\") AND `x_type` =\"group\")";
+		$where .= " AND `group_id` =  ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT `id` FROM `group` WHERE `perm_id` = 'show-as-staff') AND `x_type` = 'group')";
 	else
-		$where.=" AND group_id=$pow";
+		$where .= " AND group_id=$pow";
 }
 
 $users = $sql->query("SELECT * FROM users WHERE $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
@@ -43,7 +41,7 @@ else {
 		if ($p == $page)
 			$pagelist.=" $p";
 		else
-			$pagelist.=' ' . mlink($sort, $sex, $pow, $ppp, $p, $orderby, $displayn) . "$p</a>";
+			$pagelist.=' ' . mlink($sort, $sex, $pow, $p, $orderby) . "$p</a>";
 }
 
 $activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
@@ -52,42 +50,38 @@ $groups = array();
 $gc = 0;
 while ($group = $sql->fetch($activegroups)) {
 	$grouptitle = "<span style=\"color:#" . $group['nc'] . ";\">" . $group['title'] . "</span>";
-	$groups[$gc++] = mlink($sort, $sex, $group['id'], $ppp, $page, $orderby) . $grouptitle . "</a>";
+	$groups[$gc++] = mlink($sort, $sex, $group['id'], $page, $orderby) . $grouptitle . "</a>";
 }
 
 ?>
 <table class="c1">
-	<tr class="h"><td class="b h" colspan="2"><?=$num . ' user' . ($num > 1 ? 's' : '') ?> found.</td></tr>
+	<tr class="h"><td class="b h" colspan="2">Memberlist</td></tr>
 	<tr>
-		<td class="b n1" width="105">Sort by:</td>
+		<td class="b n1" width="60">Sort by:</td>
 		<td class="b n2 center">
-			<?=mlink('', $sex, $pow, $ppp, $page, $orderby) ?> Posts</a> |
-			<?=mlink('name', $sex, $pow, $ppp, $page, $orderby) ?> Username</a> |
-			<?=mlink('reg', $sex, $pow, $ppp, $page, $orderby) ?> Registration date</a>
-		</td>
-	</tr><tr>
-		<td class="b n1">Order by:</td>
-		<td class="b n2 center">
-			<?=mlink($sort, $sex, $pow, $ppp, $page, 'd') . "Descending</a> |" ?>
-			<?=mlink($sort, $sex, $pow, $ppp, $page, 'a') . "Ascending</a>" ?>
+			<?=mlink('', $sex, $pow, $page, $orderby) ?> Posts</a> |
+			<?=mlink('name', $sex, $pow, $page, $orderby) ?> Username</a> |
+			<?=mlink('reg', $sex, $pow, $page, $orderby) ?> Registration date</a> |
+			<?=mlink($sort, $sex, $pow, $page, 'd') ?>&#x25BC;</a>
+			<?=mlink($sort, $sex, $pow, $page, 'a') ?>&#x25B2;</a>
 		</td>
 	</tr><tr>
 		<td class="b n1">Sex:</td>
 		<td class="b n2 center">
-			<?=mlink($sort, 'm', $pow, $ppp, $page, $orderby) . "Male</a> | " .
-			mlink($sort, 'f', $pow, $ppp, $page, $orderby) . "Female</a> | " .
-			mlink($sort, 'n', $pow, $ppp, $page, $orderby) . "N/A</a> | " .
-			mlink($sort, '', $pow, $ppp, $page, $orderby) . "All</a>" ?>
-	<tr>
+			<?=mlink($sort, 'm', $pow, $page, $orderby) ?> Male</a> |
+			<?=mlink($sort, 'f', $pow, $page, $orderby) ?> Female</a> |
+			<?=mlink($sort, 'n', $pow, $page, $orderby) ?> N/A</a> |
+			<?=mlink($sort, '', $pow, $page, $orderby) ?> All</a>
+	</tr><tr>
 		<td class="b n1">Group:</td>
 		<td class="b n2 center">
 			<?php $c = 0;
 			foreach ($groups as $k => $v) {
-			$c++;
+				$c++;
 				echo $v . " | ";
 			}
-			echo mlink($sort, $sex, '-1', $ppp, $page, $orderby) . "All Staff</a> | " .
-			mlink($sort, $sex, '', $ppp, $page, $orderby) . "All</a>" ?>
+			echo mlink($sort, $sex, '-1', $page, $orderby) . "All Staff</a> | " .
+			mlink($sort, $sex, '', $page, $orderby) . "All</a>" ?>
 		</td>
 	</tr>
 </table><br>
@@ -103,7 +97,7 @@ $headers = array(
 );
 $data = array();
 for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
-	$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>" : '<img src=img/_.png width=60 height=60>');
+	$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>" : '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width=60 height=60>');
 
 	$data[] = array(
 		"id" => $user['id'] . '.',
@@ -120,15 +114,12 @@ if ($pagelist)
 	echo '<br>'.$pagelist.'<br>';
 pagefooter();
 
-function mlink($sort, $sex, $pow, $ppp, $page = 1, $orderby) {
+function mlink($sort, $sex, $pow, $page = 1, $orderby) {
 	return '<a href=memberlist.php?'
 			. ($sort ? "sort=$sort" : '')
 			. ($sex ? "&sex=$sex" : '')
 			. ($pow != '' ? "&pow=$pow" : '')
-			. ($ppp != 50 ? "&ppp=$ppp" : '')
 			. ($page != 1 ? "&page=$page" : '')
 			. ($orderby != '' ? "&orderby=$orderby" : '')
 			. '>';
 }
-
-?>
