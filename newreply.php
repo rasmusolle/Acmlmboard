@@ -1,6 +1,8 @@
 <?php
 require('lib/common.php');
 
+needs_login(1);
+
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : null);
 
 if ($act = $_POST['action']) {
@@ -33,12 +35,11 @@ if (!$thread) {
 }
 if ($act == 'Submit') {
 	$lastpost = $sql->fetchq("SELECT `id`,`user`,`date` FROM `posts` WHERE `thread`=$thread[id] ORDER BY `id` DESC LIMIT 1");
-	$message = $sql->escape($_POST['message']);
 	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - 86400) && !has_perm('consecutive-posts'))
 		$err = "You can't double post until it's been at least one day!<br>$threadlink";
 	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - $config['secafterpost']) && !has_perm('consecutive-posts'))
 		$err = "You must wait $config[secafterpost] seconds before posting consecutively.<br>$threadlink";
-	if (strlen(trim($message)) == 0)
+	if (strlen(trim($_POST['message'])) == 0)
 		$err = "Your post is empty! Enter a message and try again.<br>$threadlink";
 	if ($user['regdate'] > (time() - $config['secafterpost']))
 		$err = "You must wait {$config['secafterpost']} seconds before posting on a freshly registered account.<br>$threadlink";
@@ -138,10 +139,11 @@ if ($err) {
 	$user['posts']++;
 
 	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . time() . " WHERE id=$userid");
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout) "
-			. "VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],$_POST[nolayout])");
+	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,nolayout) VALUES (?,?,?,?,?,?)",
+		array($userid,$tid,time(),$userip,$user['posts'],$_POST['nolayout']));
 	$pid = $sql->insertid();
-	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
+	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
+		array($pid,$_POST['message']));
 	$sql->query("UPDATE threads SET replies=replies+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid$modext WHERE id=$tid");
 	$sql->query("UPDATE forums SET posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
 

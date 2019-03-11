@@ -1,6 +1,8 @@
 <?php
 require('lib/common.php');
 
+needs_login(1);
+
 if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }
 checknumeric($announce);
 
@@ -60,11 +62,9 @@ else if ($user['lastpost'] > time() - $config['secafterpost'] && $act == 'Submit
 
 // 2007-02-19 //blackhole89 - table breach protection
 if ($act == 'Submit') {
-	$title = $_POST['title'];
-	$message = $sql->escape($_POST['message']);
-	if (($tdepth = tvalidate($message)) != 0)
+	if (($tdepth = tvalidate($_POST['message'])) != 0)
 		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$forumlink";
-	if (strlen(trim(str_replace(" ", "", $title))) < 4)
+	if (strlen(trim(str_replace(" ", "", $_POST['title']))) < 4)
 		$err = "You need to enter a longer $type title.<br>$forumlink";
 	if ($ispoll && (! isset($_POST['opt']) || count($_POST['opt']) < 2))
 		$err = "You must add atleast two choices to your poll.<br>$forumlink";
@@ -247,25 +247,30 @@ if (isset($err)) {
 	}
 
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " WHERE id=$userid");
-	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES ('$_POST[title]',$fid,$userid," . time() . ",$userid,$announce,$modclose,$modstick)");
+	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES (?,?,?,?,?,?,?,?)",
+		array($_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick));
 	$tid = $sql->insertid();
-	$sql->query("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) VALUES ($userid,$tid," . time() . ",'$userip',$user[posts],'$_POST[nolayout]',$announce)");
+	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) VALUES (?,?,?,?,?,?,?)",
+		array($userid,$tid,time(),$userip,$user['posts'],$_POST['nolayout'],$announce));
 	$pid = $sql->insertid();
-	$sql->query("INSERT INTO poststext (id,text) VALUES ($pid,'$message')");
+	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
+		array($pid,$_POST['message']));
 	if (!$announce) {
 		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
 	}
 	$sql->query("UPDATE threads SET lastid=$pid WHERE id=$tid");
 
 	if ($ispoll) {
-		$sql->query("INSERT INTO polls (id,question,multivote,changeable) VALUES ($tid,'{$_POST['question']}','{$_POST['multivote']}','{$_POST['changeable']}')");
+		$sql->prepare("INSERT INTO polls (id,question,multivote,changeable) VALUES (?,?,?,?)",
+			array($tid,$_POST['question'],$_POST['multivote'],$_POST['changeable']));
 
 		foreach ($_POST['opt'] as $id => $_text) {
 			$color = stripslashes($_POST['col'][$id]);
 			list ($r, $g, $b) = sscanf(strtolower($color), '%02x%02x%02x');
 			$text = $sql->escape($_text);
 
-			$sql->query("INSERT INTO polloptions (`poll`,`option`,r,g,b) VALUES ($tid,'{$text}'," . (int) $r . "," . (int) $g . "," . (int) $b . ")");
+			$sql->prepare("INSERT INTO polloptions (`poll`,`option`,r,g,b) VALUES (?,?,?,?,?)",
+				array($tid,$text,(int)$r,(int)$g,(int)$b));
 		}
 	}
 

@@ -45,7 +45,7 @@ if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
 }
 
 if ($act == 'Submit') {
-	if (($tdepth = tvalidate($message)) != 0)
+	if (($tdepth = tvalidate($_POST['message'])) != 0)
 		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$threadlink";
 }
 
@@ -91,7 +91,7 @@ if (isset($err)) {
 			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=20 cols=80><?=$quotetext ?></textarea></td>
 		</tr><tr class="n1">
-			<td class="b">&nbsp;</td>
+			<td class="b"></td>
 			<td class="b">
 				<input type="hidden" name=pid value=<?=$pid ?>>
 				<input type="submit" class="submit" name="action" value="Submit">
@@ -141,7 +141,6 @@ if (isset($err)) {
 	<script src="lib/js/tools.js"></script>
 	<?php
 } else if ($act == 'Submit') {
-	$message = $sql->escape($_POST['message']);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 
 	$rev = $sql->fetchq("SELECT MAX(revision) m FROM poststext WHERE id=$pid");
@@ -149,7 +148,8 @@ if (isset($err)) {
 	checknumeric($_POST['nolayout']);
 
 	$rev++;
-	$sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES ($pid,'$message',$rev,$userid,".time().")");
+	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)",
+		array($pid,$_POST['message'],$rev,$userid,time()));
 	$sql->query("UPDATE posts SET nolayout='$_POST[nolayout]' WHERE id='$pid'");
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");
