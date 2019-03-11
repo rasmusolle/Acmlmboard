@@ -58,7 +58,6 @@ if (!$log) {
 	$loguser['id'] = 0;
 	$loguser['group_id'] = 1;
 	$loguser['timezone'] = "UTC";
-	$loguser['fontsize'] = $defaultfontsize; //2/22/2007 xkeeper - guests have "normal" by default, like everyone else
 	$loguser['dateformat'] = "Y-m-d";
 	$loguser['timeformat'] = "H:i";
 	$loguser['signsep'] = 0;
@@ -228,7 +227,7 @@ HTML;
 		<link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
 		<script type="text/javascript" src="lib/prettify/prettify.js"></script>
 	</head>
-	<body style="font-size:<?=$loguser['fontsize']?>%" onload="prettyPrint()">
+	<body onload="prettyPrint()">
 		<table class="c1">
 			<tr class="nt n2 center"><td class="b n1 center" colspan="3"><?=$boardlogo?></td></tr>
 			<tr class="n2 center">

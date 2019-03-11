@@ -98,8 +98,6 @@ if ($act == 'Edit profile') {
 		$error .= "- Table tag count mismatch in custom title.<br />";
 	}
 
-	if ($_POST['fontsize'] < 30) $_POST['fontsize'] = 30;
-	if ($_POST['fontsize'] > 999) $_POST['fontsize'] = 999;
 	if ($_POST['sex'] < 0) $_POST['sex'] = 0;
 	if ($_POST['sex'] > 2) $_POST['sex'] = 2;
 
@@ -198,7 +196,6 @@ if ($act == 'Edit profile') {
 			. setfield('head') . ','
 			. setfield('sign') . ','
 			. setfield('bio') . ','
-			. setfield('fontsize') . ','
 			. setfield('theme') . ','
 			. setfield('blocklayouts') . ','
 			. setfield('emailhide') . ','
@@ -285,7 +282,6 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
 .	fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
 .	fieldrow('Long pagelists', fieldoption('longpages', $user['longpages'], array('Abbreviate as needed', 'Always display in entirety')))
-.	fieldrow('Font size', fieldinput(3, 3, 'fontsize'))
 .	fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
 .	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
 .	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')));

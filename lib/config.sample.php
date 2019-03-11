@@ -18,7 +18,6 @@ $boardtitle = "Insert title here"; // This is what will be displayed at the top 
 $defaultlogo = "theme/abII.png"; // Replace with the logo of your choice. Note: This is used if a theme doesn't have it's own logo. It is replaced per theme depending on the theme used.
 $favicon = "theme/fav.png"; // Replace with your favicon of choice
 $defaulttheme = "new"; // Select the default theme to be used. This will also be showed to users who are not logged in.
-$defaultfontsize = 90; // Overall font scale of the board. Default is 90%
 $homepageurl = "http://something/"; // This defines the link for the header image.
 $boardlogo = "<a href='$homepageurl'><img src='$defaultlogo' title='$boardtitle'></a>"; // This defines the logo. Recommended you leave this the default.
 

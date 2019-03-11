@@ -62,8 +62,8 @@ if ($act == 'Register') {
 	if (empty($err)) {
 		$name = $sql->escape($name);
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
-		$query_string = sprintf("INSERT INTO users (name,pass,regdate,lastview,ip,sex,timezone,fontsize,theme) VALUES ('%s', '%s', %d, %d, '%s', %d, '%s', %d, '%s');",
-		$name, $salted_password, time(), time(), $userip, $sex, $timezone, $defaultfontsize, $defaulttheme);
+		$query_string = sprintf("INSERT INTO users (name,pass,regdate,lastview,ip,sex,timezone,theme) VALUES ('%s', '%s', %d, %d, '%s', %d, '%s', '%s');",
+		$name, $salted_password, time(), time(), $userip, $sex, $timezone, $defaulttheme);
 		$res = $sql->query($query_string);
 		if ($res) {
 			$id = $sql->insertid();
