@@ -12,7 +12,7 @@ if (has_perm("edit-ip-bans"))
 if (has_perm("edit-groups"))
 	$mlinks[] = array('url' => "editgroups.php", 'title' => 'Manage groups');
 if (has_perm("edit-attentions-box"))
-	$mlinks[] = array('url' => "editattn.php", 'title' => 'Edit attention box');
+	$mlinks[] = array('url' => "editattn.php", 'title' => 'Edit news box');
 
 //Inspired by Tierage's dashboard.php in Blargboard Plus. - SquidEmpress
 $mlinkstext = '';
