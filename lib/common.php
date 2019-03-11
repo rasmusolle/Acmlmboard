@@ -118,9 +118,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 	$date = date("m-d-y", time());
 }
 
-//[KAWA] ABXD-style theme system
-$themelist = unserialize(file_get_contents("themes_serial.txt"));
-
 //Config definable theme override
 if ($config['override_theme']) {
 	$theme = $config['override_theme'];
@@ -137,7 +134,7 @@ if (is_file("theme/" . $theme . "/" . $theme . ".css")) {
 	//then try PHP
 	$themefile = $theme . ".php";
 } else { //then fall back to Standard
-	$theme = $themelist[0][1];
+	$theme = '0';
 	$themefile = $theme . ".css";
 }
 

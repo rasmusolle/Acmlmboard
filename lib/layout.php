@@ -311,12 +311,15 @@ function fieldselect($field, $checked, $choices) {
 }
 
 function themelist() {
-	global $sql, $loguser;
-
-	$themes = unserialize(file_get_contents("themes_serial.txt"));
-	$themelist = array();
-	foreach ($themes as $t) {
-		$themelist[$t[1]] = $t[0];
+	$themes = glob('theme/*', GLOB_ONLYDIR);
+	sort($themes);
+	foreach ($themes as $f) {
+		$themename = explode("/",$f);
+		if (file_exists("theme/$themename[1]/$themename[1].css")) {
+			if (preg_match("~/* META\n(.*?)\n~s", str_replace("\r\n", "\n", file_get_contents("theme/$themename[1]/$themename[1].css")), $matches)) {
+				$themelist[str_replace(".css", "", str_replace(".php", "", $themename[1]))] = $matches[1];
+			}
+		}
 	}
 
 	return $themelist;

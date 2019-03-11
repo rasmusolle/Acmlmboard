@@ -4,7 +4,6 @@ require('lib/common.php');
 pageheader('Management');
 
 $mlinks = array();
-//$mlinks[] = array('url' => "updatethemes.php", 'title' => 'Update Themes');
 if (has_perm("edit-forums"))
 	$mlinks[] = array('url' => "manageforums.php", 'title' => 'Manage forums');
 if (has_perm("edit-ip-bans"))
