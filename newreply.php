@@ -22,8 +22,6 @@ $thread = $sql->fetchq('SELECT t.*, f.title ftitle, f.private fprivate, f.readon
 		. 'LEFT JOIN forums f ON f.id=t.forum '
 		. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
 
-$toolbar = posttoolbar();
-
 $threadlink = "<a href=thread.php?id=$tid>Back to thread</a>";
 $err = '';
 if (!$thread) {
@@ -112,7 +110,7 @@ if ($err) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+				<td class="b n2"><?=posttoolbar() ?></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>

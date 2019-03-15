@@ -228,7 +228,8 @@ function posttoolbutton($e, $name, $title, $leadin, $leadout, $names = "") {
 }
 
 function posttoolbar() {
-	return posttoolbutton("message", "B", "Bold", "[b]", "[/b]")
+	return '<table><tr>'
+			. posttoolbutton("message", "B", "Bold", "[b]", "[/b]")
 			. posttoolbutton("message", "I", "Italic", "[i]", "[/i]")
 			. posttoolbutton("message", "U", "Underline", "[u]", "[/u]")
 			. posttoolbutton("message", "S", "Strikethrough", "[s]", "[/s]")
@@ -240,5 +241,6 @@ function posttoolbar() {
 			. posttoolbutton("message", ";", "Code", "[code]", "[/code]", "cd")
 			. "<td class=\"nb n2\">&nbsp;</td>"
 			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
-			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt");
+			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt")
+			. '</tr></table>';
 }

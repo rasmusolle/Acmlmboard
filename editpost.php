@@ -34,8 +34,6 @@ $thread = $sql->fetchq('SELECT p.user puser, t.*, f.title ftitle, f.private fpri
 
 if (!$thread) $pid = 0;
 
-$toolbar = posttoolbar();
-
 if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
 	$err = "You can't edit a post in closed threads!<br>$threadlink";
 } else if (!can_edit_post(array('user' => $thread['puser'], 'tforum' => $thread['forum']))) {
@@ -86,7 +84,7 @@ if (isset($err)) {
 		<tr class="h"><td class="b h" colspan=2>Edit Post</td></tr>
 		<tr>
 			<td class="b n1 center" width=120>Format:</td>
-			<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=20 cols=80><?=$quotetext ?></textarea></td>
@@ -123,7 +121,7 @@ if (isset($err)) {
 		<tr class="h"><td class="b h" colspan=2>Post</td></tr>
 		<tr>
 			<td class="b n1 center" width=120>Format:</td>
-			<td class="b n2"><table><tr><?=$toolbar ?></tr></table>
+			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name=message id='message' rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>

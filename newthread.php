@@ -40,8 +40,6 @@ else
 	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
 
 if ($act != "Submit") {
-	$toolbar = posttoolbar();
-
 	if ($ispoll) {
 		$optfield = '<div><input type="text" name="opt[]" size=40 maxlength=40 value="%s"> - Color: <input class="jscolor" name="col[]" value="%02X%02X%02X"> - <button class="submit" onclick="removeOption(this.parentNode);return false;">Remove</button></div>';
 	}
@@ -126,7 +124,7 @@ if (isset($err)) {
 			<?php } ?>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+				<td class="b n2"><?=posttoolbar() ?></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>
@@ -213,7 +211,7 @@ if (isset($err)) {
 			<?=(isset($pollin) ? $pollin : '') ?>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+				<td class="b n2"><?=posttoolbar() ?></td>
 			</tr>
 			<tr>
 				<td class="b n1 center" width=120>Post:</td>

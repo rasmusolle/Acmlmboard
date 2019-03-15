@@ -5,8 +5,6 @@ needs_login(1);
 
 $top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';
 
-$toolbar = posttoolbar();
-
 if (!has_perm('create-pms'))
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 
@@ -51,7 +49,7 @@ if (!isset($_POST['action'])) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Format:</td>
-				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+				<td class="b n2"><?=posttoolbar() ?></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">&nbsp;</td>
@@ -104,7 +102,7 @@ if (!isset($_POST['action'])) {
 			</tr>
 			<tr>
 				<td class="b n1 center" width="120">Format:</td>
-				<td class="b n2"><table><tr><?=$toolbar ?></tr></table></td>
+				<td class="b n2"><?=posttoolbar() ?></td>
 			</tr>
 			<tr>
 				<td class="b n1 center">&nbsp;</td>
