@@ -3,11 +3,6 @@ require('lib/common.php');
 
 needs_login(1);
 
-//if (!isset($act)) $act = 'needle';
-//if (!isset($_POST['action'])) $_POST['action'] = null;
-//if (!isset($_GET['pid'])) $_GET['pid'] = -1;
-//if (!isset($_GET['uid'])) $_GET['uid'] = -1;
-
 $top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';
 
 $toolbar = posttoolbar();
@@ -15,8 +10,9 @@ $toolbar = posttoolbar();
 if (!has_perm('create-pms'))
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 
-if (!$act = $_POST['action']) {
-	if ($pid = $_GET['pid']) {
+if (!isset($_POST['action'])) {
+	$userto = '';
+	if (isset($_GET['pid']) && $pid = $_GET['pid']) {
 		checknumeric($pid);
 		$post = $sql->fetchq("SELECT IF(u.displayname='',u.name,u.displayname) name, p.title, p.text "
 			."FROM pmsgs p "
@@ -29,11 +25,12 @@ if (!$act = $_POST['action']) {
 		}
 	}
 
-	if ($uid = $_GET['uid']) {
+	if (isset($_GET['uid']) && $uid = $_GET['uid']) {
 		checknumeric($uid);
 		$userto = $sql->resultq("SELECT IF(displayname='',name,displayname) name FROM users WHERE id=$uid");
-	} elseif (!isset($userto))
+	} elseif (!isset($userto)) {
 		$userto = $_POST['userto'];
+	}
 
 	pageheader('Send private message');
 	echo $top;
@@ -72,7 +69,7 @@ if (!$act = $_POST['action']) {
 	</form>
 	<script src="lib/js/tools.js"></script>
 	<?php
-} elseif ($act == 'Preview') {
+} elseif ($_POST['action'] == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
 	$_POST['message'] = stripslashes($_POST['message']);
 
@@ -124,7 +121,7 @@ if (!$act = $_POST['action']) {
 		</table>
 	</form>
 	<?php
-} elseif ($act == 'Submit') {
+} elseif ($_POST['action'] == 'Submit') {
 	$userto = $sql->resultq("SELECT id FROM users WHERE name LIKE '".$_POST['userto']."' OR displayname LIKE '".$_POST['userto']."'");
 
 	if ($userto && $_POST['message']) {
@@ -137,7 +134,7 @@ if (!$act = $_POST['action']) {
 			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
 		} else {
 			checknumeric($_POST['nolayout']);
-			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,message,nolayout) VALUES (?,?,?,?,?,?,?)",
+			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text,nolayout) VALUES (?,?,?,?,?,?,?)",
 				array(time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message'],$_POST['nolayout']));
 
 			redirect("private.php");
