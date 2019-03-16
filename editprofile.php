@@ -153,10 +153,10 @@ if ($act == 'Edit profile') {
 
 	if (checkcusercolor($targetuserid)) {
 		//Validate Custom username color is a 6 digit hex RGB color
-		$custom_usercolor = $_POST['nick_color'];
+		$_POST['nick_color'] = ltrim($_POST['nick_color'], '#');
 
-		if ($custom_usercolor != "") {
-			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $custom_usercolor)) {
+		if ($_POST['nick_color'] != "") {
+			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color'])) {
 				$error .= "- Custom usercolor is not a valid RGB hex color.<br />";
 			}
 		}
@@ -241,8 +241,9 @@ if (empty($act)) {
 Month: <input type=\"text\" name=birthM size=2 maxlength=2 value=$birthM>
 Day: <input type=\"text\" name=birthD size=2 maxlength=2 value=$birthD>
 Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
-	//http://jscolor.com/try.php
-	$colorinput = "<script src=lib/js/jscolor.js></script><input type=\"text\" name=nick_color class=jscolor value=" . $user['nick_color'] . "><input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>";
+
+	$colorinput = "<input type=\"color\" name=\"nick_color\" value=#" . $user['nick_color'] . ">
+<input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>";
 
 	echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'><table class=\"c1\">" .
 		catheader('Login information')
