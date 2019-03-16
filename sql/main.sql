@@ -267,37 +267,6 @@ CREATE TABLE `pmsgs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `polloptions`;
-CREATE TABLE `polloptions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `poll` int(11) NOT NULL,
-  `option` varchar(255) NOT NULL,
-  `r` smallint(3) NOT NULL,
-  `g` smallint(3) NOT NULL,
-  `b` smallint(3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `poll` (`poll`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `polls`;
-CREATE TABLE `polls` (
-  `id` int(11) NOT NULL,
-  `question` varchar(255) NOT NULL,
-  `multivote` int(1) NOT NULL DEFAULT '0',
-  `changeable` int(1) NOT NULL DEFAULT '0',
-  KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `pollvotes`;
-CREATE TABLE `pollvotes` (
-  `id` int(11) NOT NULL,
-  `user` int(11) NOT NULL,
-  UNIQUE KEY `id_2` (`id`,`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

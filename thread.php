@@ -117,45 +117,13 @@ if ($viewmode == "thread") {
 			. "SET views=views+1 $action "
 			. "WHERE id=$tid");
 
-	$thread = $sql->fetchq("SELECT t.*, NOT ISNULL(p.id) ispoll, p.question, p.multivote, p.changeable, f.title ftitle, t.forum fid" . ($log ? ', r.time frtime' : '') . ' '
+	$thread = $sql->fetchq("SELECT t.*, NOT f.title ftitle, t.forum fid" . ($log ? ', r.time frtime' : '') . ' '
 			. "FROM threads t LEFT JOIN forums f ON f.id=t.forum "
 			. ($log ? "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) " : '')
-			. "LEFT JOIN polls p ON p.id=t.id "
 			. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
 
 	if (!isset($thread['id'])) {
 		error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
-	}
-
-	if ($thread['ispoll']) {
-		if (isset($_GET['act']) && $_GET['act'] == "vote" && $log) {
-			$vote = unpacksafenumeric($_GET['vote']);
-			if ($vote > -1) {
-				if ($thread['multivote']) {
-					if ($thread['changeable']) {
-						//changeable multivotes toggle
-						$res = $sql->query("DELETE FROM pollvotes WHERE user='$loguser[id]' AND id='$vote'");
-						if (!$sql->affectedrows()) $sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
-					} else
-						$sql->query("REPLACE INTO pollvotes VALUES($vote,$loguser[id])");
-				} else if ($thread['changeable']) {
-					$sql->query("DELETE v FROM pollvotes v LEFT JOIN polloptions o ON o.id=v.id WHERE v.user=$loguser[id] AND o.poll=$tid");
-					$sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
-				} else {
-					$res = $sql->resultq("SELECT COUNT(*) FROM pollvotes v LEFT JOIN polloptions o ON o.id=v.id WHERE v.user='$loguser[id]' AND o.poll=$tid");
-					if (!$res) $sql->query("INSERT INTO pollvotes VALUES($vote,$loguser[id])");
-				}
-
-				$redir = 'Location: thread.php?';
-				if ($pid)
-					$redir .= "pid={$pid}#{$pid}";
-				else {
-					$redir .= 'id=' . $tid;
-					if (isset($_REQUEST['page'])) $redir .= '&page=' . $_REQUEST['page'];
-				}
-				die(header($redir));
-			}
-		}
 	}
 
 	//append thread's title to page title
@@ -289,30 +257,6 @@ if ($viewmode == "thread") {
 			$newreply = "Thread closed";
 		else
 			$newreply = "<a href=\"newreply.php?id=$tid\" class=\"newreply\">New reply</a>";
-	}
-	$poll = '';
-	if ($thread['ispoll']) {
-		$poll = "<br><table class=\"c1\">
-" . "  <tr class=\"n1\">
-" . "    <td class=\"b n1\" colspan=3>" . htmlval($thread['question']) . "
-";
-		$opts = $sql->query("SELECT o.*,(COUNT(*) & (NOT ISNULL(v.user))*1023) c,((NOT ISNULL(w.user))*1) s FROM polloptions o LEFT JOIN pollvotes v ON v.id=o.id LEFT JOIN pollvotes w ON w.user='$loguser[id]' AND w.id=o.id WHERE poll=$tid GROUP BY o.id");
-		$total = $sql->resultq("SELECT COUNT(DISTINCT v.user) FROM polloptions o, pollvotes v WHERE o.poll=$tid AND v.id=o.id");
-		$mytotal = $log ? $sql->resultq("SELECT COUNT(*) FROM polloptions o, pollvotes v WHERE o.poll=$tid AND v.id=o.id AND v.user='$loguser[id]'") : 0;
-		while ($opt = $sql->fetch($opts)) {
-			$h = $opt['s'] ? "*" : "";
-			$cond = $log && (($thread['multivote'] && !$opt['s']) || $thread['changeable'] || !$mytotal);
-			$percentage = ($total != 0 ? min(100, ($opt['c'] / $total) * 100) : 100);
-			$color = str_pad(dechex($opt['r']), 2, "0", STR_PAD_LEFT) . str_pad(dechex($opt['g']), 2, "0", STR_PAD_LEFT) . str_pad(dechex($opt['b']), 2, "0", STR_PAD_LEFT);
-			$poll .= "<tr class=\"n2\"><td class=\"b n2\" width=200>"
-			.($cond ? ("<a href=thread.php?id=$tid&act=vote&vote=".urlencode(packsafenumeric($opt['id'])).">") : "")
-			.htmlval($opt['option']).($cond ? "</a>" : "")." $h
-			<td class=\"b n3\"><div style=\"width:" . sprintf("%.2f%%", $percentage) . ";background-color:#$color;\"><span style=\"padding-right:10em;\"></span></div></td><td class=\"b n3\" width=60>".sprintf("%.2f%%", $percentage)."</td>";
-		}
-		$poll.=
-				"  <tr class=\"n2\"><td class=\"b sfont\" colspan=3>Multiple voting is " . ($thread['multivote'] ? "" : "not") . " allowed. Changing your vote is " . ($thread['changeable'] ? "" : "not") . " allowed. $total " . ($total == 1 ? "user has" : "users have") . " voted so far.
-" . "</table>
-";
 	}
 
 	$topbot = "<table width=100%><tr>
@@ -479,7 +423,7 @@ if (isset($timeval)) {
 			. "</div>";
 }
 
-echo "$modlinks $pagelist " . (isset($poll) ? $poll : '');
+echo "$modlinks $pagelist";
 while ($post = $sql->fetch($posts)) {
 	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {

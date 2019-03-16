@@ -209,7 +209,7 @@ if ($_GET['w'] == 1) {
 		$lsticky = $thread['sticky'];
 		?><tr class="<?=$tr ?> center">
 			<td class="b n1"><?=$status ?></td>
-			<td class="b left"><?=(isset($thread['ispoll']) ? '<img src=img/poll.png height=10>' : "") ?><a href=thread.php?id=<?=$thread['id'] ?>><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
+			<td class="b left"><a href=thread.php?id=<?=$thread['id'] ?>><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
 			<td class="b"><?=userlink($thread,'u1') ?></td>
 			<td class="b"><?=$thread['replies'] ?></td>
 			<td class="b"><?=$thread['views'] ?></td>
