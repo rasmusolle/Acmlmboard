@@ -521,7 +521,6 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 			<input type="hidden" name="tid" value="<?=$tid ?>">
 			<input type="submit" class="submit" name="action" value="Submit">
 			<input type="submit" class="submit" name="action" value="Preview">
-			<input type="checkbox" name="nolayout" id="nolayout" value=1><label for="nolayout">Disable post layout</label>
 		</td>
 	</tr>
 </form></table><br>

@@ -87,7 +87,6 @@ if ($err) {
 		$post['text'] = $quotetext;
 	if ($log && !$act)
 		$pass = md5($pwdsalt2 . $loguser['pass'] . $pwdsalt);
-	$post['nolayout'] = (isset($_POST['nolayout']) ? $_POST['nolayout'] : null);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = time();
@@ -124,21 +123,18 @@ if ($err) {
 					<input type="hidden" name=tid value=<?=$tid ?>>
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?=($post['nolayout'] ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>
 	</form>
 	<script src="lib/js/tools.js"></script><?php
 }elseif ($act == 'Submit') {
-	checknumeric($_POST['nolayout']);
-
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
 
 	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . time() . " WHERE id=$userid");
-	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,nolayout) VALUES (?,?,?,?,?,?)",
-		array($userid,$tid,time(),$userip,$user['posts'],$_POST['nolayout']));
+	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num) VALUES (?,?,?,?,?)",
+		array($userid,$tid,time(),$userip,$user['posts']));
 	$pid = $sql->insertid();
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
 		array($pid,$_POST['message']));

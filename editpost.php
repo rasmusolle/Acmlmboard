@@ -52,7 +52,7 @@ $top = '<a href=./>Main</a> '
 	.($thread['announce'] ? "- ".htmlval($thread['title'])." " : "- <a href=thread.php?id=$thread[id]>".htmlval($thread['title']).'</a> ')
 	.'- Edit post';
 
-$res = $sql->query("SELECT u.id, p.user, p.nolayout, pt.text "
+$res = $sql->query("SELECT u.id, p.user, pt.text "
 		."FROM posts p "
 		."LEFT JOIN poststext pt ON p.id=pt.id "
 		."JOIN ("
@@ -94,7 +94,6 @@ if (isset($err)) {
 				<input type="hidden" name=pid value=<?=$pid ?>>
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
-				<input type="checkbox" name="nolayout" id="nolayout" value="1" <?=($post['nolayout'] ? "checked" : "")?>> <label for="nolayout">Disable post layout</label>
 			</td>
 		</tr>
 	</table></form>
@@ -106,7 +105,6 @@ if (isset($err)) {
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = $euser['posts']++;
-	$post['nolayout'] = (isset($_POST['nolayout']) ? $_POST['nolayout'] : 0);
 	$post['text'] = $_POST['message'];
 	foreach($euser as $field => $val)
 		$post['u'.$field] = $val;
@@ -132,7 +130,6 @@ if (isset($err)) {
 				<input type="hidden" name="pid" value="<?=$pid?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
-				<input type="checkbox" name=nolayout id=nolayout value=1 "<?=($post['nolayout']?"checked":"")?>><label for=nolayout>Disable post layout</label>
 			</td>
 		</tr>
 	</table></form>
@@ -143,12 +140,10 @@ if (isset($err)) {
 
 	$rev = $sql->fetchq("SELECT MAX(revision) m FROM poststext WHERE id=$pid");
 	$rev = $rev['m'];
-	checknumeric($_POST['nolayout']);
 
 	$rev++;
 	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)",
 		array($pid,$_POST['message'],$rev,$userid,time()));
-	$sql->query("UPDATE posts SET nolayout='$_POST[nolayout]' WHERE id='$pid'");
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");
 

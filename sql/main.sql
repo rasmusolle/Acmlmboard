@@ -255,7 +255,6 @@ DROP TABLE IF EXISTS `pmsgs`;
 CREATE TABLE `pmsgs` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `date` int(11) NOT NULL DEFAULT '0',
-  `nolayout` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `userto` mediumint(9) unsigned NOT NULL,
   `userfrom` mediumint(9) unsigned NOT NULL,
@@ -263,6 +262,7 @@ CREATE TABLE `pmsgs` (
   `del_from` tinyint(1) NOT NULL DEFAULT '0',
   `del_to` tinyint(1) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
+  `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -304,7 +304,6 @@ CREATE TABLE `posts` (
   `user` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `thread` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `date` int(11) NOT NULL DEFAULT '0',
-  `nolayout` int(1) NOT NULL,
   `ip` char(15) NOT NULL,
   `num` mediumint(9) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -500,4 +499,4 @@ INSERT INTO `x_perm` (`id`, `x_id`, `x_type`, `perm_id`, `permbind_id`, `bindval
 (76,	4,	'group',	'edit-titles',	'',	0,	0),
 (77,	6,	'group',	'show-as-staff',	'',	0,	0);
 
--- 2019-03-10 18:16:26
+-- 2019-03-16 18:00:18

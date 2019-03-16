@@ -139,7 +139,6 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?=$announce ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?=(isset($_POST['nolayout']) ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>
@@ -154,7 +153,6 @@ if (isset($err)) {
 	$post['ip'] = $userip;
 	$post['num'] = ++ $user['posts'];
 	$post['text'] = $_POST['message'];
-	$post['nolayout'] = isset($_POST['nolayout']);
 	foreach ($user as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = time();
@@ -226,14 +224,11 @@ if (isset($err)) {
 					<input type="hidden" name="announce" value="<?=$announce ?>">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name=nolayout id=nolayout value=1 <?=($post['nolayout'] ? "checked" : "") ?>><label for=nolayout>Disable post layout</label>
 				</td>
 			</tr>
 		</table>
 	</form><?php
 } elseif ($act == 'Submit') {
-	checknumeric($_POST['nolayout']);
-
 	$modclose = "0";
 	$modstick = "0";
 
@@ -248,8 +243,8 @@ if (isset($err)) {
 	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES (?,?,?,?,?,?,?,?)",
 		array($_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick));
 	$tid = $sql->insertid();
-	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,nolayout,announce) VALUES (?,?,?,?,?,?,?)",
-		array($userid,$tid,time(),$userip,$user['posts'],$_POST['nolayout'],$announce));
+	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,announce) VALUES (?,?,?,?,?,?)",
+		array($userid,$tid,time(),$userip,$user['posts'],$announce));
 	$pid = $sql->insertid();
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
 		array($pid,$_POST['message']));

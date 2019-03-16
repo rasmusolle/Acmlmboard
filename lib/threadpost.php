@@ -29,9 +29,9 @@ function threadpost($post, $pthread = '') {
 			. ((strlen($post['ranktext']) >= 1) ? "<br>" : "")
 			. $post['utitle'];
 
-	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts), per-post ($post[nolayout]) and user/world (token).
+	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
-	$isBlocked = $post['nolayout'] || $loguser['blocklayouts'];
+	$isBlocked = $loguser['blocklayouts'];
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
 

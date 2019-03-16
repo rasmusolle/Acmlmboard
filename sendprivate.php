@@ -60,7 +60,6 @@ if (!isset($_POST['action'])) {
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?=(isset($_POST['nolayout']) ? "checked" : "") ?>>Disable post layout
 				</td>
 			</tr>
 		</table>
@@ -75,7 +74,6 @@ if (!isset($_POST['action'])) {
 	$post['ip'] = $userip;
 	$post['num'] = 0;
 	$post['text'] = $_POST['message'];
-	$post['nolayout'] = $_POST['nolayout'];
 	foreach ($loguser as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = time();
@@ -113,7 +111,6 @@ if (!isset($_POST['action'])) {
 				<td class="b">
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
-					<input type="checkbox" name="nolayout" id="nolayout" value="1" <?=(isset($_POST['nolayout']) ? "checked" : "") ?> >Disable post layout
 				</td>
 			</tr>
 		</table>
@@ -131,9 +128,8 @@ if (!isset($_POST['action'])) {
 		} else if (($sql->numrows($secafterpm) > 0) && (has_perm('consecutive-posts'))) {
 			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
 		} else {
-			checknumeric($_POST['nolayout']);
-			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text,nolayout) VALUES (?,?,?,?,?,?,?)",
-				array(time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message'],$_POST['nolayout']));
+			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text) VALUES (?,?,?,?,?,?)",
+				array(time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message']));
 
 			redirect("private.php");
 		}
