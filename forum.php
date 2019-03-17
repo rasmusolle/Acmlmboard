@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-$page = isset($_GET['page']) && $page > 0 ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 $fid = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $uid = isset($_GET['user']) ? (int)$_GET['user'] : 0;
 
@@ -48,7 +48,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle,"
-		. ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread " : ' ')
+		. ($log ? " (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread " : ' ')
 		. "FROM threads t "
 		. "LEFT JOIN users u1 ON u1.id=t.user "
 		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
@@ -102,7 +102,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 			return " <a href=forum.php?time=$timev>" . timeunits2($timev) . '</a> ';
 	}
 
-	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Latest posts</td></table>";
+	$topbot = "";
 } else {
 	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 }
@@ -110,11 +110,11 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 $showforum = (isset($time) ? $time : $uid);
 
 if ($forum['threads'] <= $loguser['tpp']) {
-	$fpagelist = '<br>';
+	$fpagelist = (!isset($time) ? '<br>' : '');
 	$fpagebr = '';
 } else {
 	$fpagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
-	for ($p = 1; $p <= 1 + floor(($forum[threads] - 1) / $loguser[tpp]); $p++)
+	for ($p = 1; $p <= 1 + floor(($forum['threads'] - 1) / $loguser['tpp']); $p++)
 		if ($p == $page)
 			$fpagelist .= " $p";
 		elseif ($fid)
@@ -128,13 +128,17 @@ if ($forum['threads'] <= $loguser['tpp']) {
 }
 
 echo $topbot;
+
 if (isset($time)) {
-	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
-		By Threads | <a href=thread.php?time=$time>By Posts</a></div><br>";
-	echo '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">' .
-			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
-			. "</div>";
+	?><table class="c1" style="width:auto">
+		<tr class="h"><td class="b">Latest Threads</td></tr>
+		<tr><td class="b n1 center">
+			By Threads | <a href=thread.php?time=<?=$time ?>>By Posts</a></a><br><br>
+			<?=timelink(900).'|'.timelink(3600).'|'.timelink(86400).'|'.timelink(604800) ?>
+		</td></tr>
+	</table><?php
 }
+
 ?><br>
 <table class="c1">
 	<?=($fid ? announcement_row(3, 4) : '')?>
@@ -148,6 +152,7 @@ if (isset($time)) {
 		<td class="b h" width=130>Last post</td>
 	</tr><?php
 $lsticky = 0;
+
 for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	$pagelist = '';
 	if ($thread['replies'] >= $loguser['ppp']) {
@@ -201,4 +206,5 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	</tr><?php
 }
 echo "</table>$fpagelist$fpagebr$topbot";
+
 pagefooter();

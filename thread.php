@@ -117,7 +117,7 @@ if ($viewmode == "thread") {
 			. "SET views=views+1 $action "
 			. "WHERE id=$tid");
 
-	$thread = $sql->fetchq("SELECT t.*, NOT f.title ftitle, t.forum fid" . ($log ? ', r.time frtime' : '') . ' '
+	$thread = $sql->fetchq("SELECT t.*, f.title ftitle, t.forum fid" . ($log ? ', r.time frtime' : '') . ' '
 			. "FROM threads t LEFT JOIN forums f ON f.id=t.forum "
 			. ($log ? "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) " : '')
 			. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
@@ -272,7 +272,7 @@ if ($viewmode == "thread") {
 
 	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb right\">$newreply</td></tr></table>";
 } elseif ($viewmode == "time") {
-	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Latest posts</td></tr></table>";
+	$topbot = "";
 	$timeval = $_GET['time'];
 } else {
 	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
@@ -416,11 +416,13 @@ function renametitle() {
 echo "$topbot$userbar";
 
 if (isset($timeval)) {
-	echo "<div style=\"margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block\">
-          <a href=forum.php?time=$timeval>By Threads</a> | By Posts</a></div><br>";
-	echo '' .
-			timelink(900) . '|' . timelink(3600) . '|' . timelink(86400) . '|' . timelink(604800)
-			. "</div>";
+	?><table class="c1" style="width:auto">
+		<tr class="h"><td class="b">Latest Posts</td></tr>
+		<tr><td class="b n1 center">
+			<a href="forum.php?time=<?=$timeval ?>">By Threads</a> | By Posts</a><br><br>
+			<?=timelink(900).'|'.timelink(3600).'|'.timelink(86400).'|'.timelink(604800) ?>
+		</td></tr>
+	</table><?php
 }
 
 echo "$modlinks $pagelist";
@@ -446,7 +448,7 @@ while ($post = $sql->fetch($posts)) {
 	echo "<br>".threadpost($post);
 }
 
-echo "$pagelist$pagebr<br>";
+echo "$pagelist$pagebr" . (!isset($timeval) ? '<br>' : '');
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	echo "<script src=\"lib/js/tools.js\"></script>";

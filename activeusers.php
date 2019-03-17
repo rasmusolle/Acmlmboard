@@ -21,9 +21,8 @@ $users = $sql->query($query);
 
 ?>
 <table class="c1" style="width:auto">
-	<tr class="h"><td class="b">Active users during the last <?=timeunits2($time) ?>:
-	<tr class="n1"><td class="b n1">
-<?=timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000) ?>
+	<tr class="h"><td class="b">Active users during the last <?=timeunits2($time) ?>:</td></tr>
+	<tr class="n1"><td class="b n1 center"><?=timelink(3600).'|'.timelink(86400).'|'.timelink(604800).'|'.timelink(2592000) ?></td></tr>
 </table><br>
 <table class="c1">
 	<tr class="h">
@@ -69,5 +68,5 @@ pagefooter();
 
 function timelink($timex){
 	global $time;
-	return ($time == $timex ? " <span style='font-weight:bold;font-family:Verdana'>".timeunits2($timex)."</span> " : " <a href=activeusers.php?time=$timex>".timeunits2($timex).'</a> ');
+	return ($time == $timex ? " ".timeunits2($timex)." " : " <a href=activeusers.php?time=$timex>".timeunits2($timex).'</a> ');
 }

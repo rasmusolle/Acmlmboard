@@ -12,7 +12,7 @@ $users = $sql->query("SELECT * FROM users WHERE lastview > ".(time()-$time)." OR
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Online users during the last <?=str_replace('.', '', timeunits2($time)) ?>:</td></tr>
-	<tr class="n1"><td class="b n1"><?=timelink(60).'|'.timelink(300).'|'.timelink(3600).'|'.timelink(86400) ?></td></tr>
+	<tr class="n1"><td class="b n1 center"><?=timelink(60).'|'.timelink(300).'|'.timelink(3600).'|'.timelink(86400) ?></td></tr>
 </table><br>
 <table class="c1">
 	<tr class="h">
