@@ -104,6 +104,8 @@ if ($_GET['w'] == 1) {
 		."AND f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm()." "
 		."ORDER BY p.id");
 
+	if_empty_query($posts, 'No posts found.', 1, true);
+
 	while ($post = $sql->fetch($posts)) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
@@ -182,6 +184,7 @@ if ($_GET['w'] == 1) {
 		</tr>
 	<?php
 	$lsticky = 0;
+	if_empty_query($threads, "No threads found.", 6);
 	for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		$pagelist = '';
 		if ($thread['replies'] >= $loguser['ppp']){

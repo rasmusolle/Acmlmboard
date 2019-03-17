@@ -153,6 +153,8 @@ if (isset($time)) {
 	</tr><?php
 $lsticky = 0;
 
+if_empty_query($threads, "No threads found.", ($showforum ? 7 : 6));
+
 for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	$pagelist = '';
 	if ($thread['replies'] >= $loguser['ppp']) {

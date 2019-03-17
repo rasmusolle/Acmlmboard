@@ -102,6 +102,7 @@ echo $topbot.'<br>';
 		<td class="b h" width="130">Sent on</td>
 	</tr>
 	<?php
+	if_empty_query($pmsgs, "There are no private messages here.", 5);
 	for ($i = 1; $pmsg = $sql->fetch($pmsgs); $i++) {
 		$status = '&nbsp;';
 		if ($pmsg['unread'])

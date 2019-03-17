@@ -23,6 +23,8 @@ $users = $sql->query("SELECT * FROM users WHERE lastview > ".(time()-$time)." OR
 		<?=(has_perm('view-post-ips') ? '<td class="b h" width="120">IP</td>' : '') ?>
 	</tr>
 <?php
+if_empty_query($users, "There are no users online in the given timespan.", 5);
+
 for ($i = 1; $user = $sql->fetch($users); $i++) {
 	$tr = ($i % 2 ? 'n1' : 'n2');
 	?>

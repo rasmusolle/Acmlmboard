@@ -108,7 +108,10 @@ for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 	);
 }
 
-RenderTable($data, $headers);
+if_empty_query($users, "No users found.", 0, true);
+
+if ($sql->numrows($users) > 0)
+	RenderTable($data, $headers);
 
 if ($pagelist)
 	echo '<br>'.$pagelist.'<br>';

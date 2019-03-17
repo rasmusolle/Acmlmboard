@@ -426,6 +426,10 @@ if (isset($timeval)) {
 }
 
 echo "$modlinks $pagelist";
+
+if ($sql->numrows($posts) < 1) echo '<br>';
+if_empty_query($posts, "No posts were found.", 0, true);
+
 while ($post = $sql->fetch($posts)) {
 	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {

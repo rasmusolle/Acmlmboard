@@ -358,3 +358,15 @@ function announcement_row($aleftspan, $arightspan) {
 		</tr><?php
 	}
 }
+
+/**
+ * Display $message if $result (the result of a SQL query) is empty (has no lines).
+ */
+function if_empty_query($result, $message, $colspan = 0, $table = false) {
+	global $sql;
+	if ($sql->numrows($result) < 1) {
+		if ($table) echo '<table class="c1">';
+		echo "<tr><td class=\"b n1 center\" ".($colspan != 0 ? "colspan=$colspan" : "")."><p>$message</p></td></tr>";
+		if ($table) echo '</table>';
+	}
+}
