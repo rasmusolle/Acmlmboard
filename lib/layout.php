@@ -77,12 +77,6 @@ function HTMLAttribEncode($string) {
 	return "'$pass1'";
 }
 
-function EmailObscurer($emailin) {
-	$email = str_replace("@", "<b> (at) </b>", $emailin);
-	$email = str_replace(".", "<b> (dot) </b>", $email);
-	return $email;
-}
-
 function rendernewstatus($type, $newcount = '0') {
 	switch ($type) {
 		case "n":

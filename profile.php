@@ -84,9 +84,8 @@ if ($user['birth'] != -1) {
 	$age = "";
 }
 
-//This code was done by Gywall
 if ($user['email'] && !$user['emailhide']) {
-	$email = EmailObscurer($user['email']);
+	$email = str_replace(".", "<b> (dot) </b>", str_replace("@", "<b> (at) </b>", $user['email']));
 } else {
 	$email = "";
 }
