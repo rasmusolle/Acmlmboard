@@ -12,7 +12,7 @@ $users = $sql->query("SELECT * FROM users WHERE lastview > ".(time()-$time)." OR
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Online users during the last <?=str_replace('.', '', timeunits2($time)) ?>:</td></tr>
-	<tr class="n1"><td class="b n1 center"><?=timelink(60).'|'.timelink(300).'|'.timelink(3600).'|'.timelink(86400) ?></td></tr>
+	<tr class="n1"><td class="b n1 center"><?=timelink(60,'online').' | '.timelink(300,'online').' | '.timelink(3600,'online').' | '.timelink(86400,'online') ?></td></tr>
 </table><br>
 <table class="c1">
 	<tr class="h">
@@ -39,8 +39,3 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 </table><?php
 
 pagefooter();
-
-function timelink($timex) {
-	global $time;
-	return ($time == $timex ? " " . timeunits2($timex) . " " : " <a href=online.php?time=$timex>" . timeunits2($timex) . '</a> ');
-}

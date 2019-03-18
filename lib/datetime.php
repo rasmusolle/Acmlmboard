@@ -18,3 +18,8 @@ function timeunits2($sec) {
 	if (substr($str,-1) == ' ') $str = substr_replace($str,'',-1);
 	return $str;
 }
+
+function timelink($timex, $file){
+	global $time;
+	return ($time == $timex ? timeunits2($timex) : "<a href=$file.php?time=$timex>".timeunits2($timex).'</a>');
+}

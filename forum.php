@@ -94,14 +94,6 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "WHERE t.lastdate>$mintime "
 		. "AND f.id IN " . forums_with_view_perm() . " ");
 
-	function timelink($timev) {
-		global $time;
-		if ($time == $timev)
-			return " " . timeunits2($timev) . " ";
-		else
-			return " <a href=forum.php?time=$timev>" . timeunits2($timev) . '</a> ';
-	}
-
 	$topbot = "";
 } else {
 	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
@@ -134,7 +126,7 @@ if (isset($time)) {
 		<tr class="h"><td class="b">Latest Threads</td></tr>
 		<tr><td class="b n1 center">
 			By Threads | <a href=thread.php?time=<?=$time ?>>By Posts</a></a><br><br>
-			<?=timelink(900).'|'.timelink(3600).'|'.timelink(86400).'|'.timelink(604800) ?>
+			<?=timelink(900,'forum').' | '.timelink(3600,'forum').' | '.timelink(86400,'forum').' | '.timelink(604800,'forum') ?>
 		</td></tr>
 	</table><?php
 }

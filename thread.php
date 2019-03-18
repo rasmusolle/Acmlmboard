@@ -1,14 +1,6 @@
 <?php
 require('lib/common.php');
 
-function timelink($time) {
-	global $timeval;
-	if ($timeval == $time)
-		return " " . timeunits2($time) . " ";
-	else
-		return " <a href=thread.php?time=$time>" . timeunits2($time) . '</a> ';
-}
-
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0 || $page > 1000000000000000) {
 	error("Error", "Invalid page number");
@@ -32,7 +24,7 @@ if (isset($_REQUEST['id'])) {
 	$uid = (int)$_GET['user'];
 	$viewmode = "user";
 } elseif (isset($_GET['time'])) {
-	$timeval = (int)$_GET['time'];
+	$time = (int)$_GET['time'];
 	$viewmode = "time";
 } elseif (isset($_GET['announce'])) {
 	$announcefid = (int)$_GET['announce'];
@@ -202,7 +194,7 @@ if ($viewmode == "thread") {
 		. "WHERE p.announce=1 AND t.announce=1  "
 			) - 1;
 } elseif ($viewmode == "time") {
-	$mintime = time() - $timeval;
+	$mintime = time() - $time;
 
 	pageheader('Latest posts');
 
@@ -241,7 +233,7 @@ if ($thread['replies'] < $ppp) {
 		elseif ($viewmode == "user")
 			$pagelist.=" <a href=thread.php?user=$uid&page=$p>$p</a>";
 		elseif ($viewmode == "time")
-			$pagelist.=" <a href=thread.php?time=$timeval&page=$p>$p</a>";
+			$pagelist.=" <a href=thread.php?time=$time&page=$p>$p</a>";
 		elseif ($viewmode == "announce")
 			$pagelist.=" <a href=thread.php?announce&page=$p>$p</a>";
 	$pagebr = '<br>';
@@ -273,7 +265,7 @@ if ($viewmode == "thread") {
 	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb right\">$newreply</td></tr></table>";
 } elseif ($viewmode == "time") {
 	$topbot = "";
-	$timeval = $_GET['time'];
+	$time = $_GET['time'];
 } else {
 	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
 	pagefooter();
@@ -415,12 +407,12 @@ function renametitle() {
 
 echo "$topbot$userbar";
 
-if (isset($timeval)) {
+if (isset($time)) {
 	?><table class="c1" style="width:auto">
 		<tr class="h"><td class="b">Latest Posts</td></tr>
 		<tr><td class="b n1 center">
-			<a href="forum.php?time=<?=$timeval ?>">By Threads</a> | By Posts</a><br><br>
-			<?=timelink(900).'|'.timelink(3600).'|'.timelink(86400).'|'.timelink(604800) ?>
+			<a href="forum.php?time=<?=$time ?>">By Threads</a> | By Posts</a><br><br>
+			<?=timelink(900,'thread').' | '.timelink(3600,'thread').' | '.timelink(86400,'thread').' | '.timelink(604800,'thread') ?>
 		</td></tr>
 	</table><?php
 }
@@ -437,7 +429,7 @@ while ($post = $sql->fetch($posts)) {
 			continue;
 	}
 	}
-	if (isset($uid) || isset($timeval)) {
+	if (isset($uid) || isset($time)) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
 	}
@@ -452,7 +444,7 @@ while ($post = $sql->fetch($posts)) {
 	echo "<br>".threadpost($post);
 }
 
-echo "$pagelist$pagebr" . (!isset($timeval) ? '<br>' : '');
+echo "$pagelist$pagebr" . (!isset($time) ? '<br>' : '');
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	echo "<script src=\"lib/js/tools.js\"></script>";
