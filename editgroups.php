@@ -68,15 +68,14 @@ if ($act == 'delete') {
 		if (empty($title))
 			$errmsg = 'You must enter a name for the group.';
 		else {
-			$values = array($title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible,
-			$primary, $_POST['description']);
+			$values = array($title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible, $primary);
 
 			if ($act == 'new')
-				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?,?,?)", $values);
+				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?,?)", $values);
 			else {
 				$values[] = $_GET['id'];
 				$sql->prepare("UPDATE `group` SET `title`=?,`nc`=?,`inherit_group_id`=?,`default`=?,`banned`=?,
-					`sortorder`=?,`visible`=?,`primary`=?,`description`=? WHERE id=?", $values);
+					`sortorder`=?,`visible`=?,`primary`=? WHERE id=?", $values);
 			}
 			die(header('Location: editgroups.php'));
 		}
@@ -94,7 +93,7 @@ if ($act == 'new' || $act == 'edit') {
 	);
 
 	if ($act == 'new') {
-		$group = array('id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0, 'description'=>'');
+		$group = array('id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0);
 		$pagebar['title'] = 'New group';
 	} else {
 		$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?",array($_GET['id']));
@@ -121,7 +120,6 @@ if ($act == 'new' || $act == 'edit') {
 					'title' => 'Group settings',
 					'fields' => array(
 						'title' => array('title'=>'Name', 'type'=>'text', 'length'=>255, 'size'=>50, 'value'=>$group['title']),
-						'description' => array('title'=>'Description', 'type'=>'text', 'length'=>255, 'size'=>100, 'value'=>$group['description']),
 						'inherit_group_id' => array('title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']),
 						'default' => array('title'=>'Default', 'type'=>'dropdown', 'choices'=>$defaultlist, 'value'=>$group['default']),
 						'banned' => array('title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']),
