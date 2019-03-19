@@ -16,10 +16,8 @@ if ($act == 'delete') {
 	if (!$group)
 		$errmsg = 'Cannot delete group: invalid group ID';
 	else {
-		if ($group['primary']) {
-			$usercount = $sql->resultp("SELECT COUNT(*) FROM `users` WHERE `group_id`=?", array($group['id']));
-			if ($usercount > 0) $errmsg = 'This group cannot be deleted because it is primary and contains users';
-		}
+		$usercount = $sql->resultp("SELECT COUNT(*) FROM `users` WHERE `group_id`=?", array($group['id']));
+		if ($usercount > 0) $errmsg = 'This group cannot be deleted because it contains users';
 
 		if (!$errmsg && !$caneditperms) {
 			$permcount = $sql->resultp("SELECT COUNT(*) FROM `x_perm` WHERE `x_type`='group' AND `x_id`=?", array($group['id']));
@@ -63,19 +61,18 @@ if ($act == 'delete') {
 		$sortorder = (int)$_POST['sortorder'];
 
 		$visible = $_POST['visible'] ? 1:0;
-		$primary = $_POST['primary'] ? 1:0;
 
 		if (empty($title))
 			$errmsg = 'You must enter a name for the group.';
 		else {
-			$values = array($title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible, $primary);
+			$values = array($title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible);
 
 			if ($act == 'new')
-				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?,?)", $values);
+				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?)", $values);
 			else {
 				$values[] = $_GET['id'];
 				$sql->prepare("UPDATE `group` SET `title`=?,`nc`=?,`inherit_group_id`=?,`default`=?,`banned`=?,
-					`sortorder`=?,`visible`=?,`primary`=? WHERE id=?", $values);
+					`sortorder`=?,`visible`=? WHERE id=?", $values);
 			}
 			die(header('Location: editgroups.php'));
 		}
@@ -93,7 +90,7 @@ if ($act == 'new' || $act == 'edit') {
 	);
 
 	if ($act == 'new') {
-		$group = array('id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0, 'primary'=>0);
+		$group = array('id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0);
 		$pagebar['title'] = 'New group';
 	} else {
 		$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?",array($_GET['id']));
@@ -110,7 +107,6 @@ if ($act == 'new' || $act == 'edit') {
 		$defaultlist = array(0=>'-', -1=>'For first user', 1=>'For all users');
 		$bannedlist = array(0=>'-', 1=>'Yes');
 		$visiblelist = array(1=>'Visible', 0=>'Invisible');
-		$primarylist = array(1=>'Primary', 0=>'Secondary');
 
 		$form = array(
 			'action' => '',
@@ -125,7 +121,6 @@ if ($act == 'new' || $act == 'edit') {
 						'banned' => array('title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']),
 						'sortorder' => array('title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']),
 						'visible' => array('title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']),
-						'primary' => array('title'=>'Type', 'type'=>'radio', 'choices'=>$primarylist, 'value'=>$group['primary']),
 						'nc' => array('title'=>'Username color', 'type'=>'color', 'value'=>$group['nc']),
 					)
 				),
@@ -169,8 +164,7 @@ if ($act == 'new' || $act == 'edit') {
 
 	while ($group = $sql->fetch($groups)) {
 		$name = htmlspecialchars($group['title']);
-		if ($group['primary']) $name = "<strong>{$name}</strong>";
-		if (!$group['visible']) $name = "<span style=\"opacity: 0.6;\">{$name}</span>";
+		if ($group['visible']) $name = "<strong>{$name}</strong>";
 
 		if ($group['nc'])
 			$ncolors = "<strong style=\"color: #{$group['nc']};\">Username</strong>";

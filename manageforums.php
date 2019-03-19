@@ -267,10 +267,10 @@ function permtable($bind, $id) {
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);
 
-		$pf = $group['primary'] ? '<strong' : '<span';
+		$pf = $group['visible'] ? '<strong' : '<span';
 		if ($group['nc']) $pf .= ' style="color: #'.htmlspecialchars($group['nc']).';"';
 		$pf .= '>';
-		$sf = $group['primary'] ? '</strong>' : '</span>';
+		$sf = $group['visible'] ? '</strong>' : '</span>';
 		$gtitle = "{$pf}{$gtitle}{$sf}";
 
 		$doinherit = false;

@@ -69,19 +69,18 @@ CREATE TABLE `group` (
   `banned` int(2) NOT NULL,
   `sortorder` int(11) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '0',
-  `primary` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
-INSERT INTO `group` (`id`, `title`, `nc`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`, `primary`) VALUES
-(1,	'Base User',	'',	0,	0,	0,	100,	0,	0),
-(2,	'Normal User',	'4f77ff',	1,	1,	0,	200,	1,	1),
-(3,	'Moderator',	'47B53C',	10,	0,	0,	600,	1,	1),
-(4,	'Administrator',	'd8b00d',	3,	0,	0,	700,	1,	1),
-(6,	'Root Administrator',	'AA3C3C',	0,	-1,	0,	800,	1,	1),
-(9,	'Banned',	'888888',	2,	0,	1,	0,	1,	1),
-(10,	'Staff',	'',	2,	0,	0,	300,	0,	0),
-(15,	'Bot',	'',	1,	0,	0,	50,	0,	0);
+INSERT INTO `group` (`id`, `title`, `nc`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`) VALUES
+(1,	'Base User',	'',	0,	0,	0,	100,	0),
+(2,	'Normal User',	'4f77ff',	1,	1,	0,	200,	1),
+(3,	'Moderator',	'47B53C',	10,	0,	0,	600,	1),
+(4,	'Administrator',	'd8b00d',	3,	0,	0,	700,	1),
+(6,	'Root Administrator',	'AA3C3C',	0,	-1,	0,	800,	1),
+(9,	'Banned',	'888888',	2,	0,	1,	0,	1),
+(10,	'Staff',	'',	2,	0,	0,	300,	0),
+(15,	'Bot',	'',	1,	0,	0,	50,	0);
 
 DROP TABLE IF EXISTS `guests`;
 CREATE TABLE `guests` (

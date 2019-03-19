@@ -25,7 +25,7 @@ if (has_perm('no-restrictions'))
 else
 	$blockroot = " AND `default` >= 0 ";
 
-$allgroups = $sql->query("SELECT * FROM `group` WHERE `primary`=1 $blockroot ORDER BY sortorder ASC");
+$allgroups = $sql->query("SELECT * FROM `group` WHERE `visible`=1 $blockroot ORDER BY sortorder ASC");
 $listgroup = array();
 
 while ($group = $sql->fetch($allgroups)) {
