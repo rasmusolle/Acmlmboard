@@ -30,8 +30,8 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		$editforumlink = "<a href=\"manageforums.php?fid=$fid\" class=\"editforum\">Edit Forum</a> | ";
 	}
 
-	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*,"
-		. ($log ? " (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
+	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*"
+		. ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
 		. "FROM threads t "
 		. "LEFT JOIN users u1 ON u1.id=t.user "
 		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
@@ -40,7 +40,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "ORDER BY t.sticky DESC, t.lastdate DESC "
 		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
-	<td class=\"nb right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a></td></table>" : '');
+	<td class=\"nb right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a>" : '') . '</td></table>';
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	checknumeric($uid);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$uid");
