@@ -117,11 +117,6 @@ if (has_perm('edit-permissions')) {
 		$editpermissions = "| <a href=\"editperms.php?uid=" . $user['id'] . "\">Edit user permissions</a>";
 }
 
-$secondarygroups = "";
-if (has_perm('assign-secondary-groups')) {
-	$secondarygroups = "| <a href=\"assignsecondary.php?uid=" . $user['id'] . "\">Manage secondary groups</a>";
-}
-
 $bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
 
 $banuser = "";
@@ -284,7 +279,7 @@ print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 		<?=(has_perm('create-pms') ? '| <a href="sendprivate.php?uid=' . $user['id'] . '">Send private message</a>' : "") ?>
 		<?=(has_perm('view-user-pms') ? '| <a href="private.php?id=' . $user['id'] . '">View private messages</a>' : "") ?>
 		<?=(has_perm('edit-users') ? '| <a href="editprofile.php?id=' . $user['id'] . '">Edit user</a>' : "") ?>
-		<?=$banuser . " " . $editpermissions . " " . $secondarygroups ?>
+		<?=$banuser . " " . $editpermissions ?>
 	</td></tr>
 </table>
 <?php pagefooter();

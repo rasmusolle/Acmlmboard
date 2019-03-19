@@ -141,7 +141,6 @@ CREATE TABLE `perm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
-('assign-secondary-groups',	'Assign Secondary Groups',	3,	''),
 ('ban-users',	'Ban Users',	3,	''),
 ('bypass-lockdown',	'View Board Under Lockdown',	3,	''),
 ('can-edit-group',	'Edit Group Assets',	3,	'group'),
@@ -366,16 +365,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
-DROP TABLE IF EXISTS `user_group`;
-CREATE TABLE `user_group` (
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `sortorder` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `user_group` (`user_id`, `group_id`, `sortorder`) VALUES
-(0,	1,	0);
 
 DROP TABLE IF EXISTS `x_perm`;
 CREATE TABLE `x_perm` (

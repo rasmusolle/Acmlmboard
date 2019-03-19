@@ -28,7 +28,6 @@ if ($act == 'delete') {
 
 		if (!$errmsg) {
 			$sql->prepare("DELETE FROM `group` WHERE `id`=?", array($group['id']));
-			$sql->prepare("DELETE FROM `user_group` WHERE `group_id`=?", array($group['id']));
 			$sql->prepare("DELETE FROM `x_perm` WHERE `x_type`='group' AND `x_id`=?", array($group['id']));
 			$sql->prepare("UPDATE `group` SET `inherit_group_id`=0 WHERE `inherit_group_id`=?", array($group['id']));
 			die(header('Location: editgroups.php'));

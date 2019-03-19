@@ -165,7 +165,7 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 	}
 } else if ($type == 'user') {
 	$permoverview .= '<hr>';
-	$permoverview .= '<strong>Permissions inherited from primary group \''.htmlspecialchars($permowner['group_title']).'\':</strong><br>';
+	$permoverview .= '<strong>Permissions inherited from the group \''.htmlspecialchars($permowner['group_title']).'\':</strong><br>';
 
 	$parentid = $permowner['group_id'];
 	while ($parentid > 0) {
@@ -173,19 +173,6 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 		$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
 		$permoverview .= PermTable(PermSet('group', $parentid));
 		$parentid = $parent['inherit_group_id'];
-	}
-
-	$secgroups = $sql->prepare("SELECT g.id,g.title FROM user_group ug LEFT JOIN `group` g ON ug.group_id=g.id WHERE ug.user_id=? ORDER BY ug.sortorder DESC", array($id));
-	while ($secgroup = $sql->fetch($secgroups)) {
-		$permoverview .= '<hr>';
-		$permoverview .= '<strong>Permissions inherited from secondary group \''.htmlspecialchars($secgroup['title']).'\':</strong><br>';
-		$parentid = $secgroup['id'];
-		while ($parentid > 0) {
-			$parent = $sql->fetchp("SELECT title,inherit_group_id FROM `group` WHERE id=?", array($parentid));
-			$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
-			$permoverview .= PermTable(PermSet('group', $parentid));
-			$parentid = $parent['inherit_group_id'];
-		}
 	}
 }
 

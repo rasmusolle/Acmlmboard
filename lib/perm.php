@@ -9,19 +9,12 @@ while ($g = $sql->fetch($r))
 //this processes the permission stack, in this order:
 //-user permissions
 //-user's primary group permissions, then the parent group's permissions, recursively until it reaches the top
-//-user's secondary groups in sort order descending, then recursively through parents..
 //first encountered occurence of a permission has precendence (+/-)
 function load_user_permset() {
 	global $logpermset, $loguser, $sql, $loggroups;
 
 	//load user specific permissions
 	$logpermset = perms_for_x('user',$loguser['id']);
-
-	$loggroups = secondary_groups_for_user($loguser['id']);
-	foreach ($loggroups as $gid) {
-		$logpermset = apply_group_permissions($logpermset,$gid);
-	}
-
 	$logpermset = apply_group_permissions($logpermset,$loguser['group_id']);
 }
 
@@ -32,11 +25,6 @@ function permset_for_user($userid) {
 	$permset = array();
 	//load user specific permissions
 	$permset = perms_for_x('user',$userid);
-
-	$groups = secondary_groups_for_user($userid);
-	foreach ($groups as $gid) {
-		$permset = apply_group_permissions($permset,$gid);
-	}
 
 	$permset = apply_group_permissions($permset,gid_for_user($userid));
 	return $permset;
@@ -58,7 +46,7 @@ function gid_for_user($userid) {
 function load_guest_permset() {
 	global $logpermset;
 	$logpermset = array();
-	$loggroups = secondary_groups_for_user(0);
+	$loggroups = [1];
 	foreach ($loggroups as $gid) {
 		$logpermset = apply_group_permissions($logpermset,$gid);
 	}
@@ -67,7 +55,7 @@ function load_guest_permset() {
 function load_bot_permset() {
 	global $logpermset;
 	$logpermset = array();
-	$loggroups = secondary_groups_for_user(-1);
+	$loggroups = [];
 	foreach ($loggroups as $gid) {
 		$logpermset = apply_group_permissions($logpermset,$gid);
 	}
@@ -92,17 +80,6 @@ function apply_group_permissions($permset,$gid) {
 		$gid = parent_group_for_group($gid);
 	}
 	return $permset;
-}
-
-function secondary_groups_for_user($userid) {
-	global $sql;
-	$out = array();
-	$c = 0;
-	$res = $sql->prepare("SELECT * FROM user_group WHERE user_id=? ORDER BY sortorder DESC",array($userid));
-	while ($row = $sql->fetch($res)) {
-		$out[$c++] = $row['group_id'];
-	}
-	return $out;
 }
 
 function in_permset($permset,$perm) {
