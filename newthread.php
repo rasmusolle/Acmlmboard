@@ -19,10 +19,8 @@ checknumeric($fid);
 
 if ($announce) {
 	$type = "announcement";
-	$typecap = "Announcement";
 } else {
 	$type = "thread";
-	$typecap = "Thread";
 }
 
 if ($announce && $fid == 0)
@@ -65,10 +63,10 @@ if (isset($err)) {
 	<form action="newthread.php" method="post">
 		<table class="c1">
 			<tr class="h">
-				<td class="b h" colspan="2"><?=$typecap ?></td>
+				<td class="b h" colspan="2"><?=ucfirst($type) ?></td>
 			</tr>
 			<tr>
-				<td class="b n1 center"><?=$typecap ?> title:</td>
+				<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 			</tr>
 			<tr>
@@ -115,10 +113,10 @@ if (isset($err)) {
 	<form action="newthread.php" method="post">
 		<table class="c1">
 			<tr class="h">
-				<td class="b h" colspan=2><?=$typecap ?></td>
+				<td class="b h" colspan=2><?=ucfirst($type) ?></td>
 			</tr>
 			<tr>
-				<td class="b n1 center"><?=$typecap ?> title:</td>
+				<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
 				<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
 			</tr>
 			<tr>

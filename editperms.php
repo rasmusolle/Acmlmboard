@@ -23,7 +23,6 @@ if (isset($_GET['gid'])) {
 	}
 	$permowner = $sql->fetchp("SELECT id,title,inherit_group_id FROM `group` WHERE id=?", [$id]);
 	$type = 'group';
-	$typecap = 'Group';
 } else if (isset($_GET['uid'])) {
 	$id = (int)$_GET['uid'];
 
@@ -37,17 +36,14 @@ if (isset($_GET['gid'])) {
 	}
 	$permowner = $sql->fetchp("SELECT u.id,u.name AS title,u.group_id,g.title AS group_title FROM users u LEFT JOIN `group` g ON g.id=u.group_id WHERE u.id=?", [$id]);
 	$type = 'user';
-	$typecap = 'User';
 } else if (isset($_GET['fid'])) {
 	$id = (int)$_GET['fid'];
 	$permowner = $sql->fetchp("SELECT id,title FROM forums WHERE id=?", [$id]);
 	$type = 'forum';
-	$typecap = 'Forum';
 } else {
 	$id = 0;
 	$permowner = null;
 	$type = '';
-	$typecap = '';
 }
 
 if (!$permowner) {
@@ -149,7 +145,7 @@ echo "</form><br>";
 $permset = PermSet($type, $id);
 $permsassigned = [];
 
-$permoverview = '<strong>'.$typecap.' permissions:</strong><br>';
+$permoverview = '<strong>'.ucfirst($type).' permissions:</strong><br>';
 $permoverview .= PermTable($permset);
 
 if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
