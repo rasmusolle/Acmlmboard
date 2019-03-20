@@ -32,7 +32,7 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b"><?=$i ?>.</td>
 		<td class="b left"><?=userlink($user) ?></td>
 		<td class="b"><?=date($loguser['timeformat'], $user['lastview']) ?></td>
-		<td class="b left"><?=($user['url'] ? "<a href=$user[url]>" . str_replace(array('%20','_'), ' ', $user['url']) . '</a>' : '-') ?></td>
+		<td class="b left"><?=($user['url'] ? "<a href=$user[url]>" . str_replace(['%20','_'], ' ', $user['url']) . '</a>' : '-') ?></td>
 		<?=(has_perm("view-post-ips") ? '<td class="b">'.$user['ip'].'</td>':'') ?>
 	</tr>
 <?php } ?>

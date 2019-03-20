@@ -22,7 +22,7 @@ if ($q = getenv("QUERY_STRING"))
 	$url.="?$q";
 
 $log = false;
-$logpermset = array();
+$logpermset = [];
 
 if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
 	if($user = checkuid($_COOKIE['user'], unpacklcookie($_COOKIE['pass']))) {
@@ -54,7 +54,7 @@ HTML;
 }
 
 if (!$log) {
-	$loguser = array();
+	$loguser = [];
 	$loguser['id'] = 0;
 	$loguser['group_id'] = 1;
 	$loguser['timezone'] = "UTC";
@@ -257,25 +257,25 @@ HTML;
 
 	checknumeric($fid);
 	if ($fid)
-		$markread = array("url" => "index.php?action=markread&fid=$fid", "title" => "Mark forum read");
+		$markread = ["url" => "index.php?action=markread&fid=$fid", "title" => "Mark forum read"];
 	else
-		$markread = array("url" => "index.php?action=markread&fid=all", "title" => "Mark all forums read");
+		$markread = ["url" => "index.php?action=markread&fid=all", "title" => "Mark all forums read"];
 
-	$userlinks = array();
+	$userlinks = [];
 
 	if (!$log) {
 		if (!$bot) {
-			$userlinks[] = array('url' => "register.php", 'title' => 'Register');
-			$userlinks[] = array('url' => "login.php", 'title' => 'Login');
+			$userlinks[] = ['url' => "register.php", 'title' => 'Register'];
+			$userlinks[] = ['url' => "login.php", 'title' => 'Login'];
 		}
 	} else {
-		$userlinks[] = array('url' => "javascript:document.logout.submit()", 'title' => 'Logout');
+		$userlinks[] = ['url' => "javascript:document.logout.submit()", 'title' => 'Logout'];
 	}
 	if ($log) {
 		if (has_perm("update-own-profile"))
-			$userlinks[] = array('url' => "editprofile.php", 'title' => 'Edit profile');
+			$userlinks[] = ['url' => "editprofile.php", 'title' => 'Edit profile'];
 		if (has_perm('manage-board'))
-			$userlinks[] = array('url' => 'management.php', 'title' => 'Management');
+			$userlinks[] = ['url' => 'management.php', 'title' => 'Management'];
 		$userlinks[] = $markread;
 	}
 
@@ -342,7 +342,7 @@ HTML;
 		$birthdaylimit = 86400 * 30;
 		$rbirthdays = $sql->query("SELECT `birth`, " . userfields() . " FROM `users`
 								WHERE `birth` LIKE '" . date('m-d') . "%' AND `lastview` > " . (time() - $birthdaylimit) . " ORDER BY `name`");
-		$birthdays = array();
+		$birthdays = [];
 		while ($user = $sql->fetch($rbirthdays)) {
 			$b = explode('-', $user['birth']);
 			if ($b['2'] <= 0 && $b['2'] > -2)

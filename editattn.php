@@ -6,7 +6,7 @@ if (!has_perm('edit-attentions-box')) {
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'Submit') {
-	$sql->prepare("UPDATE misc SET txtval=? WHERE field='attention'",array($_POST['txtval']));
+	$sql->prepare("UPDATE misc SET txtval=? WHERE field='attention'",[$_POST['txtval']]);
 }
 
 $attndata = $sql->resultq("SELECT txtval FROM misc WHERE field='attention'");

@@ -26,7 +26,7 @@ else
 	$blockroot = " AND `default` >= 0 ";
 
 $allgroups = $sql->query("SELECT * FROM `group` WHERE `visible`=1 $blockroot ORDER BY sortorder ASC");
-$listgroup = array();
+$listgroup = [];
 
 while ($group = $sql->fetch($allgroups)) {
 	$listgroup[$group['id']] = $group['title'];
@@ -60,7 +60,7 @@ if ($act == 'Edit profile') {
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
 	if ($fname['size'] > 0) {
-		$ftypes = array("png","jpeg","jpg","gif");
+		$ftypes = ["png","jpeg","jpg","gif"];
 		$img_data = getimagesize($fname['tmp_name']);
 		$err = "";
 		if ($img_data[0] > $avatardimx)
@@ -225,7 +225,7 @@ if ($act == 'Edit profile') {
 pageheader('Edit profile');
 
 if (empty($act)) {
-	$listtimezones = array();
+	$listtimezones = [];
 	foreach (timezone_identifiers_list() as $tz) {
 		$listtimezones[$tz] = $tz;
 	}
@@ -265,17 +265,17 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) 
 .		catheader('User information')
-.	fieldrow('Sex', fieldoption('sex', $user['sex'], array('Male', 'Female', 'N/A')))
+.	fieldrow('Sex', fieldoption('sex', $user['sex'], ['Male', 'Female', 'N/A']))
 .	fieldrow('Real name', fieldinput(40, 60, 'realname'))
 .	fieldrow('Location', fieldinput(40, 60, 'location'))
 .	fieldrow('Birthday', $birthinput)
 .	fieldrow('Bio', fieldtext(5, 80, 'bio'))
 .	fieldrow('Email address', fieldinput(40, 60, 'email'))
-.	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], array('Show my email', 'Hide my email')))
+.	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], ['Show my email', 'Hide my email']))
 .		catheader('Post layout')
 .	fieldrow('Header', fieldtext(5, 80, 'head'))
 .	fieldrow('Signature', fieldtext(5, 80, 'sign'))
-.	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], array('Display', 'Hide'))) 
+.	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide'])) 
 .		catheader('Options')
 .	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
 .	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
@@ -283,7 +283,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
 .	fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
 .	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
-.	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], array('Show everything in general', 'Block everything')));
+.	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']));
 
 	echo catheader('&nbsp;'); ?>
 	<tr class="n1"><td class="b">&nbsp;</td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>

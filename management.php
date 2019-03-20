@@ -3,15 +3,15 @@ require('lib/common.php');
 
 pageheader('Management');
 
-$mlinks = array();
+$mlinks = [];
 if (has_perm("edit-forums"))
-	$mlinks[] = array('url' => "manageforums.php", 'title' => 'Manage forums');
+	$mlinks[] = ['url' => "manageforums.php", 'title' => 'Manage forums'];
 if (has_perm("edit-ip-bans"))
-	$mlinks[] = array('url' => "ipbans.php", 'title' => 'Manage IP bans');
+	$mlinks[] = ['url' => "ipbans.php", 'title' => 'Manage IP bans'];
 if (has_perm("edit-groups"))
-	$mlinks[] = array('url' => "editgroups.php", 'title' => 'Manage groups');
+	$mlinks[] = ['url' => "editgroups.php", 'title' => 'Manage groups'];
 if (has_perm("edit-attentions-box"))
-	$mlinks[] = array('url' => "editattn.php", 'title' => 'Edit news box');
+	$mlinks[] = ['url' => "editattn.php", 'title' => 'Edit news box'];
 
 //Inspired by Tierage's dashboard.php in Blargboard Plus. - SquidEmpress
 $mlinkstext = '';

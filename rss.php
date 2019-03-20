@@ -4,7 +4,7 @@ header('Content-Type: application/rss+xml');
 require('lib/common.php');
 
 $fieldlist = '';
-$ufields = array('id','name','group_id');
+$ufields = ['id','name','group_id'];
 foreach($ufields as $field)
 	$fieldlist .= "u1.$field u1$field, u2.$field u2$field, ";
 

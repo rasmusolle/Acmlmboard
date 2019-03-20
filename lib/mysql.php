@@ -59,8 +59,8 @@ class mysql {
 		return '\'' . $this->escape($str) . '\'';
 	}
 
-	function preparesql($query, $phs = array()) {
-		$phs = array_map(array($this, 'escapeandquote'), $phs);
+	function preparesql($query, $phs = []) {
+		$phs = array_map([$this, 'escapeandquote'], $phs);
 
 		$curpos = 0;
 		$curph = count($phs) - 1;
@@ -86,7 +86,7 @@ class mysql {
 	// is an array containing the values to substitute in place
 	// of the placeholders (in order, of course).
 	// Pass NULL constant in array to get unquoted word NULL
-	function prepare($query, $phs = array()) {
+	function prepare($query, $phs = []) {
 		return $this->query($this->preparesql($query, $phs));
 	}
 

@@ -330,14 +330,14 @@ function ranklist() {
 function announcement_row($aleftspan, $arightspan) {
 	global $dateformat, $sql;
 
-	$announcement = array();
+	$announcement = [];
 
 	$ancs = $sql->fetchp("SELECT title,user,`lastdate` FROM threads
-	WHERE forum=0 AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", array());
+	WHERE forum=0 AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", []);
 	if ($ancs) {
 		$announcement['title'] = $ancs['title'];
 		$announcement['date'] = $ancs['lastdate'];
-		$announcement['user'] = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", array($ancs['user']));
+		$announcement['user'] = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", [$ancs['user']]);
 	}
 
 	if (isset($announcement['title']) || has_perm('create-forum-announcements')) {

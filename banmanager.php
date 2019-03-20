@@ -19,7 +19,7 @@ if (!has_perm('ban-users')) {
 //From editperms.php
 $id = (int)$_GET['id'];
 
-$tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",array($id));
+$tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",[$id]);
 if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
 }
@@ -79,13 +79,13 @@ if (isset($_GET['unban'])) {
 }
 
 if (isset($_GET['unban'])) {
-	$pagebar = array(
-		'breadcrumb' => array(array('href'=>'/.', 'title'=>'Main')),
-		'title' => 'Unban User');
+	$pagebar = [
+		'breadcrumb' => [['href'=>'/.', 'title'=>'Main']],
+		'title' => 'Unban User'];
 } else {
-	$pagebar = array(
-		'breadcrumb' => array(array('href'=>'/.', 'title'=>'Main')),
-		'title' => 'Ban User');
+	$pagebar = [
+		'breadcrumb' => [['href'=>'/.', 'title'=>'Main']],
+		'title' => 'Ban User'];
 }
 RenderPageBar($pagebar);
 
@@ -103,10 +103,10 @@ if (isset($_GET['unban'])) {
 			<td class="b n2"><input type="text" name="title" class="right"></td>
 		</tr><tr>
 			<td class="b n1 center">Expires?</td>
-			<td class="b n2"><?=fieldselect("tempbanned",0,array("600"=>"10 minutes",
+			<td class="b n2"><?=fieldselect("tempbanned",0,["600"=>"10 minutes",
 				"3600"=>"1 hour","10800"=>"3 hours","86400"=>"1 day","172800"=>"2 days",
 				"259200"=>"3 days","604800"=>"1 week","1209600"=>"2 weeks","2419200"=>"1 month",
-				"4838400"=>"2 months","0"=>"never")) ?></td>
+				"4838400"=>"2 months","0"=>"never"]) ?></td>
 		</tr><tr class="n1">
 			<td class="b"></td>
 			<td class="b"><input type="submit" class="submit" name="banuser" value="Ban User"></td>

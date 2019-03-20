@@ -1,7 +1,7 @@
 <?php
 
 // [Mega-Mario] preload group data, makes things a lot easier afterwards
-$usergroups = array();
+$usergroups = [];
 $r = $sql->query("SELECT * FROM `group`");
 while ($g = $sql->fetch($r))
 	$usergroups[$g['id']] = $g;
@@ -22,7 +22,7 @@ function load_user_permset() {
 
 function permset_for_user($userid) {
 	global $sql;
-	$permset = array();
+	$permset = [];
 	//load user specific permissions
 	$permset = perms_for_x('user',$userid);
 
@@ -32,20 +32,20 @@ function permset_for_user($userid) {
 
 function is_root_gid($gid) {
 	global $sql;
-	$result = $sql->resultp("SELECT `default` FROM `group` WHERE id=?",array($gid));
+	$result = $sql->resultp("SELECT `default` FROM `group` WHERE id=?",[$gid]);
 	if ($result < 0) return true;
 	return false;
 }
 
 function gid_for_user($userid) {
 	global $sql;
-	$row = $sql->fetchp("SELECT group_id FROM users WHERE id=?",array($userid));
+	$row = $sql->fetchp("SELECT group_id FROM users WHERE id=?",[$userid]);
 	return $row['group_id'];
 }
 
 function load_guest_permset() {
 	global $logpermset;
-	$logpermset = array();
+	$logpermset = [];
 	$loggroups = [1];
 	foreach ($loggroups as $gid) {
 		$logpermset = apply_group_permissions($logpermset,$gid);
@@ -54,7 +54,7 @@ function load_guest_permset() {
 
 function load_bot_permset() {
 	global $logpermset;
-	$logpermset = array();
+	$logpermset = [];
 	$loggroups = [];
 	foreach ($loggroups as $gid) {
 		$logpermset = apply_group_permissions($logpermset,$gid);
@@ -63,7 +63,7 @@ function load_bot_permset() {
 
 function title_for_perm($permid) {
 	global $sql;
-	$row = $sql->fetchp("SELECT title FROM perm WHERE id=?",array($permid));
+	$row = $sql->fetchp("SELECT title FROM perm WHERE id=?",[$permid]);
 	return $row['title'];
 }
 
@@ -217,7 +217,7 @@ function forums_with_delete_threads_perm() {
 
 function can_view_forum($forum) {
 	//must fulfill the following criteria
-	if (!can_view_cat(array('id'=>$forum['cat'], 'private'=>$forum['cprivate']))) return false;
+	if (!can_view_cat(['id'=>$forum['cat'], 'private'=>$forum['cprivate']])) return false;
 
 	//can view public forums
 	if (!has_perm('view-public-forums')) return false;
@@ -299,7 +299,7 @@ function can_delete_forum_threads($forumid) {
 
 function catid_of_forum($forumid) {
 	global $sql;
-	$row = $sql->fetchp("SELECT cat FROM forums WHERE id=?",array($forumid));
+	$row = $sql->fetchp("SELECT cat FROM forums WHERE id=?",[$forumid]);
 	return $row['cat'];
 }
 
@@ -354,33 +354,33 @@ function parent_group_for_group($groupid) {
 function perms_for_x($xtype,$xid) {
 	global $sql;
 	$res = $sql->prepare("SELECT * FROM x_perm WHERE x_type=? AND x_id=?",
-					array($xtype,$xid));
+					[$xtype,$xid]);
 
-	$out = array();
+	$out = [];
 	$c = 0;
 	while ($row = $sql->fetch($res)) {
-		$out[$c++] = array(
+		$out[$c++] = [
 			'id' => $row['perm_id'],
 			'bind_id' => $row['permbind_id'],
 			'bindvalue' => $row['bindvalue'],
 			'revoke' => $row['revoke'],
 			'xtype' => $xtype,
 			'xid' => $xid
-		);
+		];
 	}
 	return $out;
 }
 
 function forumlink_by_id($fid) {
 	global $sql;
-	$f = $sql->fetchp("SELECT id,title FROM forums WHERE id=? AND id IN ".forums_with_view_perm(),array($fid));
+	$f = $sql->fetchp("SELECT id,title FROM forums WHERE id=? AND id IN ".forums_with_view_perm(),[$fid]);
 	if ($f) return "<a href=forum.php?id=$f[id]>$f[title]</a>";
 	else return 0;
 }
 
 function threadlink_by_id($tid) {
 	global $sql;
-	$thread = $sql->fetchp("SELECT id,title FROM threads WHERE id=? AND forum IN ".forums_with_view_perm(),array($tid));
+	$thread = $sql->fetchp("SELECT id,title FROM threads WHERE id=? AND forum IN ".forums_with_view_perm(),[$tid]);
 	if ($thread) return "<a href=thread.php?id=$thread[id]>".forcewrap(htmlval($thread[title]))."</a>";
 	else return 0;
 }

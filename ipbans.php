@@ -44,11 +44,11 @@ if (!has_perm('edit-ip-bans')) {
 				<td class="b n1">Hard?</td>
 				<td class="b n2"><input type="checkbox" name="hard" value="1"></td>
 				<td class="b n1">Expires?</td>
-				<td class="b n2"><?=fieldselect("expires",0,array("600"=>"10 minutes",
+				<td class="b n2"><?=fieldselect("expires",0,["600"=>"10 minutes",
 							"3600" => "1 hour", "10800" => "3 hours", "86400" => "1 day",
 							"172800" => "2 days", "259200" => "3 days", "604800" => "1 week",
 							"1209600" => "2 weeks", "2419200" => "1 month", "4838400" => "2 months",
-							"0" => "never")) ?></td>
+							"0" => "never"]) ?></td>
 				<td class="b n1">Comment</td>
 				<td class="b n2" style="width:100%"><input type="text" name="reason" style="width:100%">
 				<td class="b n2 center" colspan="8"><input type="submit" class="submit" value='Add IP ban'>

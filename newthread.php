@@ -26,10 +26,7 @@ if ($announce) {
 }
 
 if ($announce && $fid == 0)
-	$forum = array(
-		'id' => 0,
-		'readonly' => 1
-	);
+	$forum = ['id' => 0, 'readonly' => 1];
 else
 	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
 
@@ -158,13 +155,13 @@ if (isset($err)) {
 
 	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " WHERE id=$userid");
 	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES (?,?,?,?,?,?,?,?)",
-		array($_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick));
+		[$_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick]);
 	$tid = $sql->insertid();
 	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,announce) VALUES (?,?,?,?,?,?)",
-		array($userid,$tid,time(),$userip,$user['posts'],$announce));
+		[$userid,$tid,time(),$userip,$user['posts'],$announce]);
 	$pid = $sql->insertid();
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
-		array($pid,$_POST['message']));
+		[$pid,$_POST['message']]);
 	if (!$announce) {
 		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
 	}

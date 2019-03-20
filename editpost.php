@@ -36,7 +36,7 @@ if (!$thread) $pid = 0;
 
 if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
 	$err = "You can't edit a post in closed threads!<br>$threadlink";
-} else if (!can_edit_post(array('user' => $thread['puser'], 'tforum' => $thread['forum']))) {
+} else if (!can_edit_post(['user' => $thread['puser'], 'tforum' => $thread['forum']])) {
 	$err = "You do not have permission to edit this post.<br>$threadlink";
 } else if ($pid==-1) {
 	$err = "Your PID code is invalid!<br>$threadlink";
@@ -143,7 +143,7 @@ if (isset($err)) {
 
 	$rev++;
 	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)",
-		array($pid,$_POST['message'],$rev,$userid,time()));
+		[$pid,$_POST['message'],$rev,$userid,time()]);
 
 	if ($config['log'] >= '2') $sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'".$_SERVER['REMOTE_ADDR']."','$loguser[id]','ACTION: ".addslashes("post edit ".$pid." rev ".$rev)."')");
 

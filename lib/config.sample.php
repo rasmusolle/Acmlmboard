@@ -24,14 +24,14 @@ $boardlogo = "<a href='$homepageurl'><img src='$defaultlogo' title='$boardtitle'
 // Registeration Bot Protection
 $config['registrationpuzzle'] = true;
 $puzzleAnswer = 12; // This should be changed
-$puzzleVariations = array(
+$puzzleVariations = [
 	"What is six times two?",
 	"What is twenty four minus fourteen plus two?",
 	"What is the square of 4 minus four?",
 	"What is six plus six?",
 	"What is ten thousand twenty four divided by sixteen minus fifty two?",
 	"What is twelve times one?"
-); // This also should be changed. It has to match $puzzleAnswer in this example.
+]; // This also should be changed. It has to match $puzzleAnswer in this example.
 $puzzle = $puzzleVariations[array_rand($puzzleVariations)];
 
 $config['log'] = 0; // Enables logging to the database of moderator & administrative actions. 0=off; 1=profile; 2=thread & post; 5=access
@@ -81,56 +81,56 @@ $config['samplepost'] = <<<HTML
 HTML;
 
 // List of bots (web crawlers)
-$botlist = array(
+$botlist = [
 	'ia_archiver','baidu','bingbot','duckduckbot','Exabot','Googlebot','msnbot/','Yahoo! Slurp','bot','spider'
-);
+];
 
 // List of smilies
-$smilies = array(
-	array('text' => '-_-', 'url' => 'img/smilies/annoyed.gif'),
-	array('text' => '~:o', 'url' => 'img/smilies/baby.gif'),
-	array('text' => 'o_O', 'url' => 'img/smilies/bigeyes.gif'),
-	array('text' => ':D', 'url' => 'img/smilies/biggrin.gif'),
-	array('text' => 'o_o', 'url' => 'img/smilies/blank.gif'),
-	array('text' => ';_;', 'url' => 'img/smilies/cry.gif'),
-	array('text' => '^^;;;', 'url' => 'img/smilies/cute2.gif'),
-	array('text' => '^_^', 'url' => 'img/smilies/cute.gif'),
-	array('text' => '@_@', 'url' => 'img/smilies/dizzy.gif'),
-	array('text' => 'O_O', 'url' => 'img/smilies/eek.gif'),
-	array('text' => '>:]', 'url' => 'img/smilies/evil.gif'),
-	array('text' => ':eyeshift:', 'url' => 'img/smilies/eyeshift.gif'),
-	array('text' => ':(', 'url' => 'img/smilies/frown.gif'),
-	array('text' => '8-)', 'url' => 'img/smilies/glasses.gif'),
-	array('text' => ':LOL:', 'url' => 'img/smilies/lol.gif'),
-	array('text' => '>:[', 'url' => 'img/smilies/mad.gif'),
-	array('text' => '<_<', 'url' => 'img/smilies/shiftleft.gif'),
-	array('text' => '>_>', 'url' => 'img/smilies/shiftright.gif'),
-	array('text' => 'x_x', 'url' => 'img/smilies/sick.gif'),
-	array('text' => ':)', 'url' => 'img/smilies/smile.gif'),
-	array('text' => ':P', 'url' => 'img/smilies/tongue.gif'),
-	array('text' => ':B', 'url' => 'img/smilies/vamp.gif'),
-	array('text' => ';)', 'url' => 'img/smilies/wink.gif'),
-	array('text' => ':S', 'url' => 'img/smilies/wobbly.gif'),
-	array('text' => '>_<', 'url' => 'img/smilies/yuck.gif'),
-	array('text' => ':box:', 'url' => 'img/smilies/box.png'),
-	array('text' => ':yes:', 'url' => 'img/smilies/yes.png'),
-	array('text' => ':no:', 'url' => 'img/smilies/no.png'),
-	array('text' => ':heart:', 'url' => 'img/smilies/heart.gif'),
-	array('text' => ':x', 'url' => 'img/smilies/crossmouth.gif'),
-	array('text' => ':|', 'url' => 'img/smilies/slidemouth.gif'),
-	array('text' => ':@', 'url' => 'img/smilies/dropsmile.gif'),
-	array('text' => ':-3', 'url' => 'img/smilies/wobble.gif'),
-	array('text' => 'X-P', 'url' => 'img/smilies/xp.gif'),
-	array('text' => 'X-3', 'url' => 'img/smilies/x3.gif'),
-	array('text' => 'X-D', 'url' => 'img/smilies/xd.gif'),
-	array('text' => ':o', 'url' => 'img/smilies/dramatic.gif')
-);
+$smilies = [
+	['text' => '-_-', 'url' => 'img/smilies/annoyed.gif'],
+	['text' => '~:o', 'url' => 'img/smilies/baby.gif'],
+	['text' => 'o_O', 'url' => 'img/smilies/bigeyes.gif'],
+	['text' => ':D', 'url' => 'img/smilies/biggrin.gif'],
+	['text' => 'o_o', 'url' => 'img/smilies/blank.gif'],
+	['text' => ';_;', 'url' => 'img/smilies/cry.gif'],
+	['text' => '^^;;;', 'url' => 'img/smilies/cute2.gif'],
+	['text' => '^_^', 'url' => 'img/smilies/cute.gif'],
+	['text' => '@_@', 'url' => 'img/smilies/dizzy.gif'],
+	['text' => 'O_O', 'url' => 'img/smilies/eek.gif'],
+	['text' => '>:]', 'url' => 'img/smilies/evil.gif'],
+	['text' => ':eyeshift:', 'url' => 'img/smilies/eyeshift.gif'],
+	['text' => ':(', 'url' => 'img/smilies/frown.gif'],
+	['text' => '8-)', 'url' => 'img/smilies/glasses.gif'],
+	['text' => ':LOL:', 'url' => 'img/smilies/lol.gif'],
+	['text' => '>:[', 'url' => 'img/smilies/mad.gif'],
+	['text' => '<_<', 'url' => 'img/smilies/shiftleft.gif'],
+	['text' => '>_>', 'url' => 'img/smilies/shiftright.gif'],
+	['text' => 'x_x', 'url' => 'img/smilies/sick.gif'],
+	['text' => ':)', 'url' => 'img/smilies/smile.gif'],
+	['text' => ':P', 'url' => 'img/smilies/tongue.gif'],
+	['text' => ':B', 'url' => 'img/smilies/vamp.gif'],
+	['text' => ';)', 'url' => 'img/smilies/wink.gif'],
+	['text' => ':S', 'url' => 'img/smilies/wobbly.gif'],
+	['text' => '>_<', 'url' => 'img/smilies/yuck.gif'],
+	['text' => ':box:', 'url' => 'img/smilies/box.png'],
+	['text' => ':yes:', 'url' => 'img/smilies/yes.png'],
+	['text' => ':no:', 'url' => 'img/smilies/no.png'],
+	['text' => ':heart:', 'url' => 'img/smilies/heart.gif'],
+	['text' => ':x', 'url' => 'img/smilies/crossmouth.gif'],
+	['text' => ':|', 'url' => 'img/smilies/slidemouth.gif'],
+	['text' => ':@', 'url' => 'img/smilies/dropsmile.gif'],
+	['text' => ':-3', 'url' => 'img/smilies/wobble.gif'],
+	['text' => 'X-P', 'url' => 'img/smilies/xp.gif'],
+	['text' => 'X-3', 'url' => 'img/smilies/x3.gif'],
+	['text' => 'X-D', 'url' => 'img/smilies/xd.gif'],
+	['text' => ':o', 'url' => 'img/smilies/dramatic.gif']
+];
 
-$rankset_names = array('None', 'Mario'); // List of ranksets, add any new ones here. Don't remove the "None" rankset!
+$rankset_names = ['None', 'Mario']; // List of ranksets, add any new ones here. Don't remove the "None" rankset!
 require('img/ranks/rankset.php'); // Default (Mario) rankset
 
-$spatulas = array(
+$spatulas = [
 	"Value1",
 	"Value2"
-);
+];
 $spaturand = array_rand($spatulas);

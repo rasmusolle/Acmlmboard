@@ -11,7 +11,7 @@ if(!$user) {
 	error("Error", "This user does not exist!");
 }
 
-$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?", array($user['group_id']));
+$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?", [$user['group_id']]);
 
 pageheader("Profile for " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
@@ -55,9 +55,9 @@ foreach ($themes as $k => $v) {
 if ($user['birth'] != -1) {
 	//Crudely done code.
 	//You're Goddamn right. :P - SquidEmpress
-	$monthnames = array(1 => 'January', 'February', 'March', 'April',
+	$monthnames = [1 => 'January', 'February', 'March', 'April',
 		'May', 'June', 'July', 'August',
-		'September', 'October', 'November', 'December');
+		'September', 'October', 'November', 'December'];
 	$bdec = explode("-", $user['birth']);
 	$bstr = $bdec[2] . "-" . $bdec[0] . "-" . $bdec[1];
 	$mn = intval($bdec[0]);
@@ -192,7 +192,7 @@ if ($userdisplayname || $usercnickcolor) {
 	$showrealnick = true;
 }
 
-$sex = array('Male', 'Female', 'N/A');
+$sex = ['Male', 'Female', 'N/A'];
 
 print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 ?>

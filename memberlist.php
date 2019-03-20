@@ -46,7 +46,7 @@ else {
 
 $activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
 
-$groups = array();
+$groups = [];
 $gc = 0;
 while ($group = $sql->fetch($activegroups)) {
 	$grouptitle = "<span style=\"color:#" . $group['nc'] . ";\">" . $group['title'] . "</span>";
@@ -88,24 +88,24 @@ while ($group = $sql->fetch($activegroups)) {
 <?php
 
 //[KAWA] Rebuilt this to use my new renderer. Not sure what to do about the part above though X3
-$headers = array(
-	"id" => array("caption" => "#", "width" => "32px", "align" => "center"),
-	"pic" => array("caption" => "Picture", "width" => "60px"),
-	"name" => array("caption" => "Name"),
-	"reg" => array("caption" => "Registered on", "width" => "130px"),
-	"posts" => array("caption" => "Posts", "width" => "50px"),
-);
-$data = array();
+$headers = [
+	"id" => ["caption" => "#", "width" => "32px", "align" => "center"],
+	"pic" => ["caption" => "Picture", "width" => "60px"],
+	"name" => ["caption" => "Name"],
+	"reg" => ["caption" => "Registered on", "width" => "130px"],
+	"posts" => ["caption" => "Posts", "width" => "50px"],
+];
+$data = [];
 for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
 	$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>" : '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width=60 height=60>');
 
-	$data[] = array(
+	$data[] = [
 		"id" => $user['id'] . '.',
 		"pic" => $picture,
 		"name" => userlink($user),
 		"reg" => date($dateformat, $user['regdate']),
 		"posts" => $user['posts'],
-	);
+	];
 }
 
 if_empty_query($users, "No users found.", 0, true);

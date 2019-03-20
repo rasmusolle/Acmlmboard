@@ -2,7 +2,7 @@
 
 function userlink_by_name($name) {
 	global $sql, $config;
-	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", array($name, $name));
+	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
 	if ($u)
 		return userlink($u, null);
 	else
@@ -55,15 +55,15 @@ function securityfilter($msg) {
 
 function makecode($match) {
 	$code = htmlspecialchars($match[1]);
-	$list = array("\r\n", "[", ":", ")", "_", "@", "-");
-	$list2 = array("<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;");
+	$list = ["\r\n", "[", ":", ")", "_", "@", "-"];
+	$list2 = ["<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
 	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\" style=\"background-color:#444;border:1px solid #444;white-space: PRE;\"><code class=\"prettyprint\">" . str_replace($list, $list2, $code) . "</code></table>";
 }
 
 function makeirc($match) {
 	$code = htmlspecialchars($match[1]);
-	$list = array("\r\n", "[", ":", ")", "_", "@", "-");
-	$list2 = array("<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;");
+	$list = ["\r\n", "[", ":", ")", "_", "@", "-"];
+	$list2 = ["<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
 	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code>" . str_replace($list, $list2, $code) . "</code></table>";
 }
 
@@ -251,7 +251,7 @@ function LoadBlocklayouts() {
 	if (isset($blocklayouts) || !$log)
 		return;
 
-	$blocklayouts = array();
+	$blocklayouts = [];
 	$rBlocks = $sql->query("select * from blockedlayouts where blockee = " . $loguser['id']);
 	while ($block = $sql->fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;

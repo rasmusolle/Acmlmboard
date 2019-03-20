@@ -66,7 +66,7 @@ if ($_GET['w'] == 1) {
 	$defbool = "AND";
 	$nextbool = "";
 	$searchfield = "pt.text";
-	$boldify = array();
+	$boldify = [];
 	foreach ($wordor as $numbah => $werdz) {
 		if ($lastbool == 0) {
 			$nextbool = $defbool;
@@ -86,8 +86,8 @@ if ($_GET['w'] == 1) {
 	}
 	$dastring = trim(substr($dastring, strlen($defbool)));
 	$fieldlist = '';
-	$ufields = array('id','name','posts','regdate','lastpost','lastview','location','sex',
-					'group_id','rankset','title','usepic','head','sign','displayname','enablecolor','nick_color');
+	$ufields = ['id','name','posts','regdate','lastpost','lastview','location','sex',
+					'group_id','rankset','title','usepic','head','sign','displayname','enablecolor','nick_color'];
 	foreach ($ufields as $field)
 		$fieldlist .= "u.$field u$field,";
 	if ($_GET['f'])
@@ -130,7 +130,7 @@ if ($_GET['w'] == 1) {
 	$defbool = "AND";
 	$nextbool = "";
 	$searchfield = "t.title";
-	$boldify = array();
+	$boldify = [];
 	foreach ($wordor as $numbah => $werdz) {
 		if ($lastbool == 0) {
 			$nextbool = $defbool;
@@ -150,7 +150,7 @@ if ($_GET['w'] == 1) {
 	}
 	$dastring = trim(substr($dastring, strlen($defbool)));
 	$fieldlist = '';
-	$ufields = array('id','name','sex','group_id','nick_color','enablecolor','displayname');
+	$ufields = ['id','name','sex','group_id','nick_color','enablecolor','displayname'];
 	foreach ($ufields as $field)
 		$fieldlist .= "u1.$field u1$field, u2.$field u2$field, ";
 	if ($_GET['f'])

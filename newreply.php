@@ -26,7 +26,7 @@ $threadlink = "<a href=thread.php?id=$tid>Back to thread</a>";
 $err = '';
 if (!$thread) {
 	error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
-} else if (!can_create_forum_post(array('id' => $thread['forum'], 'private' => $thread['fprivate'], 'readonly' => $thread['readonly']))) {
+} else if (!can_create_forum_post(['id' => $thread['forum'], 'private' => $thread['fprivate'], 'readonly' => $thread['readonly']])) {
 	$err = "You have no permissions to create posts in this forum!<br>$forumlink";
 } elseif ($thread['closed'] && !has_perm('override-closed')) {
 	$err = "You can't post in closed threads!<br>$threadlink";
@@ -61,7 +61,7 @@ if ($pid) {
 			. "WHERE p.id=$pid AND ISNULL(pt2.id)");
 
 	//does the user have reading access to the quoted post?
-	if (!can_view_forum(array('id' => $post['fid'], 'private' => $post['fprivate']))) {
+	if (!can_view_forum(['id' => $post['fid'], 'private' => $post['fprivate']])) {
 		$post['name'] = 'your overlord';
 		$post['text'] = "";
 	}
@@ -134,10 +134,10 @@ if ($err) {
 
 	$sql->query("UPDATE users SET posts=posts+1,lastpost=" . time() . " WHERE id=$userid");
 	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num) VALUES (?,?,?,?,?)",
-		array($userid,$tid,time(),$userip,$user['posts']));
+		[$userid,$tid,time(),$userip,$user['posts']]);
 	$pid = $sql->insertid();
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
-		array($pid,$_POST['message']));
+		[$pid,$_POST['message']]);
 	$sql->query("UPDATE threads SET replies=replies+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid$modext WHERE id=$tid");
 	$sql->query("UPDATE forums SET posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid WHERE id=$thread[forum]");
 

@@ -7,7 +7,7 @@ if ($page < 0 || $page > 1000000000000000) {
 }
 
 $fieldlist = '';
-$ufields = array('posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep');
+$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep'];
 foreach ($ufields as $field) {
 	$fieldlist.="u.$field u$field,";
 }
@@ -425,7 +425,7 @@ if_empty_query($posts, "No posts were found.", 0, true);
 while ($post = $sql->fetch($posts)) {
 	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {
-		if (!can_view_forum(array('id' => $post['fid'], 'private' => $post['fprivate'])))
+		if (!can_view_forum(['id' => $post['fid'], 'private' => $post['fprivate']]))
 			continue;
 	}
 	}

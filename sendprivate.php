@@ -129,7 +129,7 @@ if (!isset($_POST['action'])) {
 			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
 		} else {
 			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text) VALUES (?,?,?,?,?,?)",
-				array(time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message']));
+				[time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message']]);
 
 			redirect("private.php");
 		}

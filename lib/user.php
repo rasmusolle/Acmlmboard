@@ -1,7 +1,7 @@
 <?php
 
-$rankcache = array();
-$userbirthdays = array();
+$rankcache = [];
+$userbirthdays = [];
 
 function dobirthdays() { //Function for calling after we get the timezone for the user set [Gywall]
 	global $sql, $userbirthdays;
@@ -170,7 +170,7 @@ function randnickcolor() {
 }
 
 function userfields($tbl = '', $pf = '') {
-	$fields = array('id', 'name', 'displayname', 'sex', 'group_id', 'nick_color', 'enablecolor');
+	$fields = ['id', 'name', 'displayname', 'sex', 'group_id', 'nick_color', 'enablecolor'];
 
 	$ret = '';
 	foreach ($fields as $f) {
@@ -188,7 +188,7 @@ function userfields($tbl = '', $pf = '') {
 
 function userlink_by_id($uid) {
 	global $sql;
-	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", array($uid));
+	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", [$uid]);
 	return userlink($u);
 }
 
