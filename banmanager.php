@@ -81,25 +81,21 @@ if (isset($_GET['unban'])) {
 if (isset($_GET['unban'])) {
 	$pagebar = array(
 		'breadcrumb' => array(array('href'=>'/.', 'title'=>'Main')),
-		'title' => 'Unban User',
-		'actions' => array(),
-		'message' => (isset($errmsg) ? $errmsg : ''));
+		'title' => 'Unban User');
 } else {
 	$pagebar = array(
 		'breadcrumb' => array(array('href'=>'/.', 'title'=>'Main')),
-		'title' => 'Ban User',
-		'actions' => array(),
-		'message' => (isset($errmsg) ? $errmsg : ''));
+		'title' => 'Ban User');
 }
 RenderPageBar($pagebar);
 
 if (isset($_GET['unban'])) {
-	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data"><table class="c1">
+	?><br><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data"><table class="c1">
 		<tr class="h"><td class="b">Unban User</td></tr>
 		<tr class="n1"><td class="b n1 center"><input type="submit" class="submit" name="unbanuser" value="Unban User"></td></tr>
-	</table><?php
+	</table></form><br><?php
 } else {
-	?><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data">
+	?><br><form action="banmanager.php?id=<?=$uid ?>" method="post" enctype="multipart/form-data">
 	<table class="c1">
 		<?=catheader('Ban User') ?>
 		<tr>
@@ -115,7 +111,9 @@ if (isset($_GET['unban'])) {
 			<td class="b"></td>
 			<td class="b"><input type="submit" class="submit" name="banuser" value="Ban User"></td>
 		</tr>
-	</table><?php
+	</table></form><br><?php
 }
+
+RenderPageBar($pagebar);
 
 pagefooter();

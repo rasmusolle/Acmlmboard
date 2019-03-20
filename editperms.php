@@ -105,7 +105,7 @@ $pagebar = array(
 
 RenderPageBar($pagebar);
 
-echo '<form action="" method="POST">';
+echo '<br><form action="" method="POST">';
 
 $header = array('c0' => array('caption' => '&nbsp;'), 'c1' => array('caption' => '&nbsp;'));
 $data = array();

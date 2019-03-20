@@ -133,6 +133,7 @@ if ($act == 'new' || $act == 'edit') {
 		);
 
 		RenderPageBar($pagebar);
+		echo '<br>';
 		RenderForm($form);
 		echo '<br>';
 		$pagebar['message'] = '';
@@ -147,6 +148,7 @@ if ($act == 'new' || $act == 'edit') {
 	);
 
 	RenderPageBar($pagebar);
+	echo '<br>';
 
 	$header = array(
 		'sort' => array('caption'=>'Order', 'width'=>'32px', 'align'=>'center'),
