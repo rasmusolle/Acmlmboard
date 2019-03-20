@@ -3,13 +3,13 @@ require('lib/common.php');
 
 //Smilies List
 $smiliewidth = ceil(sqrt(sizeof($smilies)));
-$smilietext = "<table>";
+$smilietext = "<table class=\"smileytbl\">";
 
 $x = 0;
 foreach ($smilies as $smily) {
 	if ($x == 0) $smilietext .= "<tr>";
 	$smily['text'] = htmlspecialchars($smily['text']);
-	$smilietext .= "<td style='width:35px'>$smily[text]</td><td style='width:27px'><img src='$smily[url]' alt='$smily[text]'/></td>";
+	$smilietext .= "<td class=\"b n1\"><img src='$smily[url]' alt='$smily[text]'/> $smily[text]</td>";
 	$x++;
 	$x %= $smiliewidth;
 	if ($x == 0) $smilietext .= "</tr>";
@@ -43,6 +43,9 @@ p {
 	font-weight: bold;
 	text-decoration: underline;
 	margin-bottom: 0em;
+}
+.smileytbl td {
+	padding: 5px;
 }
 </style>
 <table class="c1">
