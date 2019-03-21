@@ -60,7 +60,6 @@ else
 	$threadcreator = 0;
 
 $action = '';
-$userbar = '';
 
 $post_c = isset($_POST['c']) ? $_POST['c'] : '';
 $act = isset($_POST['action']) ? $_POST['action'] : '';
@@ -405,7 +404,7 @@ function renametitle() {
 </form>";
 }
 
-echo "$topbot$userbar";
+echo $topbot;
 
 if (isset($time)) {
 	?><table class="c1" style="width:auto">
@@ -469,6 +468,6 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 <?php
 }
 
-echo "$userbar$topbot";
+echo $topbot;
 
 pagefooter();
