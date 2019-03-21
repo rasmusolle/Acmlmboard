@@ -240,30 +240,34 @@ if ($thread['replies'] < $ppp) {
 }
 
 if ($viewmode == "thread") {
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main'],['href' => "forum.php?id=$thread[forum]", 'title' => $thread['ftitle']]],
+		'title' => htmlval($thread['title'])
+	];
+	
 	$faccess = $sql->fetch($sql->query("SELECT id,private,readonly FROM forums WHERE id=" . (int) $thread['forum']));
 	if (can_create_forum_post($faccess)) {
 		if (has_perm('override-closed') && $thread['closed'])
-			$newreply = "<b><i>Thread closed</i></b> | <a href=\"newreply.php?id=$tid\" class=\"newreply\">New reply</a>";
-		elseif ($thread['closed'])
-			$newreply = "Thread closed";
+			$topbot['actions'] = [['title' => 'Thread closed'],['href' => "newreply.php?id=$tid", 'title' => 'New reply']];
+		else if ($thread['closed'])
+			$topbot['actions'] = [['title' => 'Thread closed']];
 		else
-			$newreply = "<a href=\"newreply.php?id=$tid\" class=\"newreply\">New reply</a>";
+			$topbot['actions'] = [['href' => "newreply.php?id=$tid", 'title' => 'New reply']];
 	}
-
-	$topbot = "<table width=100%><tr>
-		<td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> - " . htmlval($thread['title']) . "</td>
-		<td class=\"nb right\">$newreply</td></tr></table>";
-}elseif ($viewmode == "user") {
-	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Posts by ".userlink($user, "")."</td></table>";
+} elseif ($viewmode == "user") {
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main']],
+		'title' => "Posts by ".userlink($user, "")
+	];
 } elseif ($viewmode == "announce") {
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main']],
+		'title' => "Announcements"
+	];
 	if (has_perm('create-forum-announcements'))
-		$newreply = "<a href=newthread.php?announce=1>New announcement</a>";
-	else
-		$newreply = "";
-
-	$topbot = "<table width=100%><tr><td class=\"nb\"><a href=./>Main</a> - Announcements</td><td class=\"nb right\">$newreply</td></tr></table>";
+		$topbot['actions'] = [['href' => "newthread.php?announce=1", 'title' => 'New announcement']];
 } elseif ($viewmode == "time") {
-	$topbot = "";
+	$topbot = [];
 	$time = $_GET['time'];
 } else {
 	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
@@ -404,7 +408,7 @@ function renametitle() {
 </form>";
 }
 
-echo $topbot;
+RenderPageBar($topbot);
 
 if (isset($time)) {
 	?><table class="c1" style="width:auto">
@@ -468,6 +472,6 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 <?php
 }
 
-echo $topbot;
+RenderPageBar($topbot);
 
 pagefooter();

@@ -226,7 +226,11 @@ function RenderActions($actions, $ret = false) {
 		}
 		if ($i++)
 			$out.= ' | ';
-		$out .= sprintf('<a href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
+		if (isset($action['href'])) {
+			$out .= sprintf('<a href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
+		} else {
+			$out .= $action['title'];
+		}
 	}
 	if ($ret)
 		return $out;
@@ -241,21 +245,19 @@ function RenderBreadcrumb($breadcrumb) {
 }
 
 function RenderPageBar($pagebar) {
-	echo "<table width=100%>";
-	echo "<td class=nb>";
-	if (!empty($pagebar['breadcrumb']))
-		RenderBreadcrumb($pagebar['breadcrumb']);
-	echo $pagebar['title'];
-	echo "</td><td class='nb right'>";
-	if (!empty($pagebar['actions']))
-		RenderActions($pagebar['actions']);
-	else
-		echo "&nbsp;";
-	echo "</td></table>";
-	if (!empty($pagebar['message'])) {
-		echo "<table width=100% class=c1><tr><td class='center'>";
-		echo $pagebar['message'];
-		echo "</td></tr></table><br/>";
+	if (!empty($pagebar)) {
+		echo "<table width=100%><td class=nb>";
+		if (!empty($pagebar['breadcrumb']))
+			RenderBreadcrumb($pagebar['breadcrumb']);
+		echo $pagebar['title']."</td><td class='nb right'>";
+		if (!empty($pagebar['actions']))
+			RenderActions($pagebar['actions']);
+		else
+			echo "&nbsp;";
+		echo "</td></table>";
+		if (!empty($pagebar['message'])) {
+			echo "<table width=100% class=c1><tr><td class='center'>".$pagebar['message']."</td></tr></table><br/>";
+		}
 	}
 }
 
