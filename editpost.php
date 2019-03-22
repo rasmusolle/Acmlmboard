@@ -47,10 +47,18 @@ if ($act == 'Submit') {
 		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$threadlink";
 }
 
-$top = '<a href=./>Main</a> '
-	.($thread['announce'] ? "- <a href=thread.php?announce=0>Announcements</a> " : "- <a href=forum.php?id=$thread[forum]>$thread[ftitle]</a> ")
-	.($thread['announce'] ? "- ".htmlval($thread['title'])." " : "- <a href=thread.php?id=$thread[id]>".htmlval($thread['title']).'</a> ')
-	.'- Edit post';
+$topbot = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main']],
+	'title' => 'Edit post'
+];
+
+if ($thread['announce']) {
+	array_push($topbot['breadcrumb'], ['href' => 'thread.php?announce', 'title' => 'Announcements']);
+} else {
+	array_push($topbot['breadcrumb'],
+		['href' => "forum.php?id={$thread['forum']}", 'title' => $thread['ftitle']],
+		['href' => "thread.php?id={$thread['id']}", 'title' => htmlval($thread['title'])]);
+}
 
 $res = $sql->query("SELECT u.id, p.user, pt.text "
 		."FROM posts p "
@@ -73,12 +81,14 @@ if ($act == "Submit" && $post['text'] == $_POST['message']) {
 if (isset($err)) {
 	if ($act == "Submit") { pageheader('Edit post', $thread['forum']); }
 	pageheader('Edit post',$thread['forum']);
-	echo "$top - Error";
+	$topbot['title'] .= ' - Error';
+	RenderPageBar($topbot);
+	echo '<br>';
 	noticemsg("Error", $err);
 } else if (!$act) {
 	pageheader('Edit post',$thread['forum']);
-	echo $top;
-	?><br><br>
+	RenderPageBar($topbot);
+	?><br>
 	<form action="editpost.php" method="post"><table class="c1">
 		<input type="hidden" name=passenc value="<?=$pass ?>">
 		<tr class="h"><td class="b h" colspan=2>Edit Post</td></tr>
@@ -111,8 +121,9 @@ if (isset($err)) {
 	$post['ulastpost'] = time();
 
 	pageheader('Edit post',$thread['forum']);
-	echo $top . ' - Preview';
-	?><br><br>
+	$topbot['title'] .= ' - Preview';
+	RenderPageBar($topbot);
+	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</table>
 	<?=threadpost($post)?><br>
 	<form action=editpost.php method=post><table class="c1">
@@ -151,12 +162,17 @@ if (isset($err)) {
 } else if ($act == 'delete' || $act == 'undelete') {
 	if(!(can_delete_forum_posts($thread['forum']))) {
 		pageheader('Edit post',$thread['forum']);
-		echo "$top - Error";
+		$topbot['title'] .= ' - Preview';
+		RenderPageBar($topbot);
+		echo '<br>';
 		noticemsg("Error", "You do not have the permission to do this.");
 	} else {
 		$sql->query("UPDATE posts SET deleted=".($act=='delete'?1:0)." WHERE id='$pid'");
 		redirect("thread.php?pid=$pid#edit");
 	}
 }
+
+echo '<br>';
+RenderPageBar($topbot);
 
 pagefooter();

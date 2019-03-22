@@ -43,10 +43,13 @@ if ($act == 'Submit') {
 		$err = "You must wait {$config['secafterpost']} seconds before posting on a freshly registered account.<br>$threadlink";
 }
 
-$top = '<a href=./>Main</a> '
-		. "- <a href=\"forum.php?id={$thread['forum']}\">{$thread['ftitle']}</a> "
-		. "- <a href=\"thread.php?id={$thread['id']}\">" . htmlval($thread['title']) . '</a> '
-		. '- New reply';
+$topbot = [
+	'breadcrumb' => [
+		['href' => './', 'title' => 'Main'], ['href' => "forum.php?id={$thread['forum']}", 'title' => $thread['ftitle']],
+		['href' => "thread.php?id={$thread['id']}", 'title' => htmlval($thread['title'])]
+	],
+	'title' => "New reply"
+];
 
 $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : 0;
 if ($pid) {
@@ -71,7 +74,9 @@ if ($pid) {
 
 if ($err) {
 	pageheader('New reply', $thread['forum']);
-	echo "$top - Error";
+	$topbot['title'] .= ' - Error';
+	RenderPageBar($topbot);
+	echo '<br>';
 	noticemsg("Error", $err);
 } elseif ($act == 'Preview' || !$act) {
 	if ($act == 'Preview') {
@@ -93,15 +98,14 @@ if ($err) {
 
 	if ($act == 'Preview') {
 		pageheader('New reply', $thread['forum']);
-		echo "$top - Preview
-<br><table class=\"c1\"><tr class=\"h\"><td class=\"b h\" colspan=2>Post preview</table>
-".threadpost($post)."
-<br>";
+		$topbot['title'] .= ' - Preview';
+		RenderPageBar($topbot);
+		echo "<br><table class=\"c1\"><tr class=\"h\"><td class=\"b h\" colspan=2>Post preview</table>".threadpost($post);
 	} else {
 		pageheader('New reply', $thread['forum']);
-		echo "$top<br><br>";
+		RenderPageBar($topbot);
 	}
-	?>
+	?><br>
 	<form action="newreply.php" method="post">
 		<table class="c1">
 			<tr class="h">
@@ -146,5 +150,8 @@ if ($err) {
 
 	redirect("thread.php?pid=$pid#$pid");
 }
+
+echo '<br>';
+RenderPageBar($topbot);
 
 pagefooter();

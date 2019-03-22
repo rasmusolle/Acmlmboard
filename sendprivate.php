@@ -3,7 +3,10 @@ require('lib/common.php');
 
 needs_login(1);
 
-$top = '<a href=./>Main</a> - <a href=private.php>Private messages</a> - Send';
+$topbot = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "private.php", 'title' => 'Private messages']],
+	'title' => 'Send'
+];
 
 if (!has_perm('create-pms'))
 	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
@@ -31,9 +34,8 @@ if (!isset($_POST['action'])) {
 	}
 
 	pageheader('Send private message');
-	echo $top;
-	?>
-	<br><br>
+	RenderPageBar($topbot);
+	?><br>
 	<form action="sendprivate.php" method="post">
 		<table class="c1">
 			<tr class="h">
@@ -79,9 +81,9 @@ if (!isset($_POST['action'])) {
 	$post['ulastpost'] = time();
 
 	pageheader('Send private message');
-	echo $top;
-	?> - Preview
-<br><br>
+	$topbot['title'] .= ' - Preview';
+	RenderPageBar($topbot);
+	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Message preview</td></tr></table>
 	<?=threadpost($post) ?>
 	<br>
@@ -140,8 +142,13 @@ if (!isset($_POST['action'])) {
 	}
 
 	pageheader('Send private message');
-	echo "$top - Error";
+	$topbot['title'] .= ' - Error';
+	RenderPageBar($topbot);
+	echo '<br>';
 	noticemsg("Error", $msg);
 }
+
+echo '<br>';
+RenderPageBar($topbot);
 
 pagefooter();

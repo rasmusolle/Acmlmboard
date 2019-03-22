@@ -24,12 +24,6 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	//append the forum's title to the site title
 	pageheader($forum['title'], $fid);
 
-	$editforumlink = "";
-
-	if (has_perm('edit-forums')) {
-		$editforumlink = "<a href=\"manageforums.php?fid=$fid\" class=\"editforum\">Edit Forum</a> | ";
-	}
-
 	$threads = $sql->query("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*"
 		. ($log ? ", (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<'$forum[rtime]') isread" : '') . ' '
 		. "FROM threads t "
@@ -39,8 +33,13 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "WHERE t.forum=$fid AND t.announce=0 "
 		. "ORDER BY t.sticky DESC, t.lastdate DESC "
 		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
-	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a></td>
-	<td class=\"nb right\">" . (can_create_forum_thread($forum) ? " <a href=\"newthread.php?id=$fid\" class=\"newthread\">New thread</a>" : '') . '</td></table>';
+
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main']],
+		'title' => $forum['title']
+	];
+	if (can_create_forum_thread($forum))
+		$topbot['actions'] = [['href' => "newthread.php?id=$fid", 'title' => 'New thread']];
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	checknumeric($uid);
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$uid");
@@ -67,7 +66,11 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "LEFT JOIN categories c ON f.cat=c.id "
 		. "WHERE t.user=$uid "
 		. "AND f.id IN " . forums_with_view_perm() . " ");
-	$topbot = "<table width=100%><td class=\"nb\"><a href=./>Main</a> - Threads by ".($user['displayname'] ? $user['displayname'] : $user['name'])."</td></table>";
+	
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "profile.php?id=$uid", 'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])]],
+		'title' => 'Threads'
+	];
 } elseif ($time = $_GET['time']) {
 	checknumeric($time);
 	$mintime = time() - $time;
@@ -94,7 +97,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "WHERE t.lastdate>$mintime "
 		. "AND f.id IN " . forums_with_view_perm() . " ");
 
-	$topbot = "";
+	$topbot = [];
 } else {
 	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
 }
@@ -119,7 +122,7 @@ if ($forum['threads'] <= $loguser['tpp']) {
 	$fpagebr = '<br>';
 }
 
-echo $topbot;
+RenderPageBar($topbot);
 
 if (isset($time)) {
 	?><table class="c1" style="width:auto">
@@ -188,8 +191,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	?><tr class="<?=$tr ?> center">
 		<td class="b n1"><?=$status ?></td>
 		<?=($showforum ? "<td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '')?>
-		<td class="b left">
-			<a href="thread.php?id=<?=$thread['id'] ?>"><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
+		<td class="b left"><a href="thread.php?id=<?=$thread['id'] ?>"><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
 		<td class="b"><?=userlink($thread, 'u1') ?></td>
 		<td class="b"><?=$thread['replies'] ?></td>
 		<td class="b"><?=$thread['views'] ?></td>
@@ -199,6 +201,8 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		</td>
 	</tr><?php
 }
-echo "</table>$fpagelist$fpagebr$topbot";
+echo "</table>$fpagelist$fpagebr";
+
+RenderPageBar($topbot);
 
 pagefooter();

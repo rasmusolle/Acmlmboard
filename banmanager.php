@@ -78,14 +78,14 @@ if (isset($_GET['unban'])) {
 	pageheader('Ban User');
 }
 
+$pagebar = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "profile.php?id=$uid", 'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])]]
+];
+
 if (isset($_GET['unban'])) {
-	$pagebar = [
-		'breadcrumb' => [['href'=>'/.', 'title'=>'Main']],
-		'title' => 'Unban User'];
+	$pagebar['title'] = 'Unban User';
 } else {
-	$pagebar = [
-		'breadcrumb' => [['href'=>'/.', 'title'=>'Main']],
-		'title' => 'Ban User'];
+	$pagebar['title'] = 'Ban User';
 }
 RenderPageBar($pagebar);
 

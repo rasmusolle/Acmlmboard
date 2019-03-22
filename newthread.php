@@ -49,17 +49,21 @@ if ($act == 'Submit') {
 		$err = "You need to enter a longer $type title.<br>$forumlink";
 }
 
-$top = "<a href=./>Main</a> - <a href=forum.php?id=$fid>$forum[title]</a> - New $type";
+$topbot = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "forum.php?id=$fid", 'title' => $forum['title']]],
+	'title' => "New $type"
+];
 
 if (isset($err)) {
 	pageheader("New $type", $forum['id']);
-	echo "$top - Error";
+	$topbot['title'] .= ' - Error';
+	RenderPageBar($topbot);
+	echo '<br>';
 	noticemsg("Error", $err);
 } elseif (!$act) {
 	pageheader("New $type", $forum['id']);
-	echo $top;
-	?>
-	<br><br>
+	RenderPageBar($topbot);
+	?><br>
 	<form action="newthread.php" method="post">
 		<table class="c1">
 			<tr class="h">
@@ -105,7 +109,8 @@ if (isset($err)) {
 	$post['ulastpost'] = time();
 
 	pageheader("New $type", $forum['id']);
-	echo "$top - Preview";
+	$topbot['title'] .= ' - Preview';
+	RenderPageBar($topbot);
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
 	<?=threadpost($post) ?>
@@ -175,5 +180,8 @@ if (isset($err)) {
 
 	redirect($viewlink);
 }
+
+echo '<br>';
+RenderPageBar($topbot);
 
 pagefooter();

@@ -259,6 +259,10 @@ if ($viewmode == "thread") {
 		'breadcrumb' => [['href' => './', 'title' => 'Main']],
 		'title' => "Posts by ".userlink($user, "")
 	];
+	$topbot = [
+		'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "profile.php?id=$uid", 'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])]],
+		'title' => 'Posts'
+	];
 } elseif ($viewmode == "announce") {
 	$topbot = [
 		'breadcrumb' => [['href' => './', 'title' => 'Main']],

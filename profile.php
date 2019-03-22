@@ -194,9 +194,13 @@ if ($userdisplayname || $usercnickcolor) {
 
 $sex = ['Male', 'Female', 'N/A'];
 
-print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
-?>
-<table class="c1">
+$topbot = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main']],
+	'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])
+];
+
+RenderPageBar($topbot);
+?><br><table class="c1">
 	<tr class="h">
 		<td class="b h" colspan="2">General information</td>
 	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
@@ -281,5 +285,7 @@ print "<a href=\"./\">Main</a> - Profile for " . userdisp($user) . "<br><br>";
 		<?=(has_perm('edit-users') ? '| <a href="editprofile.php?id=' . $user['id'] . '">Edit user</a>' : "") ?>
 		<?=$banuser . " " . $editpermissions ?>
 	</td></tr>
-</table>
-<?php pagefooter();
+</table><br>
+<?php
+RenderPageBar($topbot);
+pagefooter();
