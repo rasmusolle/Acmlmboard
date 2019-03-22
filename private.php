@@ -35,7 +35,7 @@ checknumeric($showdel);
 if ($_GET['action'] == "del") {
 	$owner = $sql->resultq("SELECT user$fieldn2 FROM pmsgs WHERE id=$id");
 	if (has_perm('delete-user-pms') || ($owner == $loguser['id'] && has_perm('delete-own-pms'))) {
-		$sql->query($q = "UPDATE pmsgs SET del_$fieldn2=" . ((int) ! $showdel) . " WHERE id=$id");
+		$sql->query($q = "UPDATE pmsgs SET del_$fieldn2=" . ((int) !$showdel) . " WHERE id=$id");
 	} else {
 		error("Error", "You are not allowed to (un)delete that message.<br> <a href=./>Back to main</a>");
 	}
@@ -62,16 +62,17 @@ $pmsgs = $sql->query("SELECT " . userfields('u', 'u') . ", p.* "
 					."ORDER BY p.unread DESC, p.date DESC "
 					."LIMIT " . (($page - 1) * $loguser['tpp']) . ", " . $loguser['tpp']);
 
-if ($sent)
-	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . ">View received";
-else
-	$link = '?' . ($id != $loguser['id'] ? "id=$id&" : '') . "view=sent>View sent";
+$topbot = [
+	'breadcrumb' => [['href' => './', 'title' => 'Main']],
+	'title' => $title
+];
 
-$topbot = "<table width=100%>
-" . "  <td class=\"nb\"><a href=./>Main</a> - $title</td>
-" . "  <td class=\"nb right\"><a href=private.php$link</a> | <a href=sendprivate.php>Send new</a></td>
-" . "</table>
-";
+if ($sent)
+	$topbot['actions'] = [['href' => 'private.php?'.($id != $loguser['id'] ? "id=$id&" : ''), 'title' => "View received"]];
+else
+	$topbot['actions'] = [['href' => 'private.php?'.($id != $loguser['id'] ? "id=$id&" : '').'view=sent', 'title' => "View sent"]];
+
+$topbot['actions'][] = ['href' => 'sendprivate.php', 'title' => 'Send new'];
 
 if ($pmsgc <= $loguser['tpp'])
 	$fpagelist = '<br>';
@@ -91,8 +92,8 @@ else {
 	$fpagelist .= '</div>';
 }
 
-echo $topbot.'<br>';
-?>
+RenderPageBar($topbot);
+?><br>
 <table class="c1">
 	<tr class="h">
 		<td class="b h" width="17">&nbsp;</td>
@@ -107,7 +108,7 @@ echo $topbot.'<br>';
 		$status = '&nbsp;';
 		if ($pmsg['unread'])
 			$status = rendernewstatus("n");
-		if (! $pmsg['title'])
+		if (!$pmsg['title'])
 			$pmsg['title'] = '(untitled)';
 
 		$tr = ($i % 2 ? 'n2' : 'n3');
@@ -126,5 +127,6 @@ echo $topbot.'<br>';
 	?>
 </table>
 <?php
-echo "$fpagelist $topbot";
+echo $fpagelist;
+RenderPageBar($topbot);
 pagefooter();
