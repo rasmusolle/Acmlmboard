@@ -226,6 +226,7 @@ HTML;
 		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
 		<link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
 		<script type="text/javascript" src="lib/prettify/prettify.js"></script>
+		<script src="lib/js/tools.js"></script>
 	</head>
 	<body onload="prettyPrint()">
 		<table class="c1">

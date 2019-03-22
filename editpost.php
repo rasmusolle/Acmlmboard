@@ -107,7 +107,6 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
-	<script src="lib/js/tools.js"></script>
 <?php
 } else if ($act == 'Preview') {
 	$_POST['message'] = stripslashes($_POST['message']);
@@ -144,7 +143,6 @@ if (isset($err)) {
 			</td>
 		</tr>
 	</table></form>
-	<script src="lib/js/tools.js"></script>
 	<?php
 } else if ($act == 'Submit') {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");

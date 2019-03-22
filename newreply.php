@@ -130,8 +130,7 @@ if ($err) {
 				</td>
 			</tr>
 		</table>
-	</form>
-	<script src="lib/js/tools.js"></script><?php
+	</form><?php
 }elseif ($act == 'Submit') {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;

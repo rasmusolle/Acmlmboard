@@ -94,7 +94,6 @@ if (isset($err)) {
 			</tr>
 		</table>
 	</form>
-	<script src="lib/js/tools.js"></script>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);

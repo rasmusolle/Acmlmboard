@@ -454,7 +454,6 @@ while ($post = $sql->fetch($posts)) {
 echo "$pagelist$pagebr" . (!isset($time) ? '<br>' : '');
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
-	echo "<script src=\"lib/js/tools.js\"></script>";
 	?><table class="c1">
 <form action="newreply.php" method="post">
 	<tr class="h"><td class="b h" colspan=2>Warp Whistle Reply</a></td>
