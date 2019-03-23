@@ -13,7 +13,7 @@ if ($act = $_POST['action']) {
 	$user = $loguser;
 } else {
 	$user = $loguser;
-	$fid = $_GET['id'];
+	$fid = (isset($_GET['id']) ? $_GET['id'] : 0);
 }
 checknumeric($fid);
 
@@ -50,9 +50,15 @@ if ($act == 'Submit') {
 }
 
 $topbot = [
-	'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "forum.php?id=$fid", 'title' => $forum['title']]],
+	'breadcrumb' => [['href' => './', 'title' => 'Main']],
 	'title' => "New $type"
 ];
+
+if (!$announce) {
+	$topbot['breadcrumb'][] = ['href' => "forum.php?id=$fid", 'title' => $forum['title']];
+} else {
+	$topbot['breadcrumb'][] = ['href' => "forum.php?announce", 'title' => 'Announcements'];
+}
 
 if (isset($err)) {
 	pageheader("New $type", $forum['id']);

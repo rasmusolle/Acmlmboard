@@ -252,7 +252,7 @@ function can_create_forum_thread($forum) {
 	if (!$log) return false;
 
 	//and if the forum is private
-	if ($forum['private']) {
+	if (isset($forum['private']) && $forum['private']) {
 		//can view the forum
 		if (!has_perm('create-all-private-forum-threads') && !has_perm_with_bindvalue('create-private-forum-thread',$forum['id'])) return false;
 	}
