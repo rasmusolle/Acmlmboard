@@ -98,8 +98,8 @@ if ($act == 'Edit profile') {
 		$error .= "- Table tag count mismatch in custom title.<br />";
 	}
 
-	if ($_POST['sex'] < 0) $_POST['sex'] = 0;
-	if ($_POST['sex'] > 2) $_POST['sex'] = 2;
+	if ($_POST['gender'] < 0) $_POST['gender'] = 0;
+	if ($_POST['gender'] > 2) $_POST['gender'] = 2;
 
 	$pass = $_POST['pass'];
 	if (!strlen($_POST['pass2']))
@@ -183,7 +183,7 @@ if ($act == 'Edit profile') {
 			. (checkcdisplayname($targetuserid) ? (setfield('displayname') . ',') : '')
 			. (checkcusercolor($targetuserid) ? (setfield('nick_color') . ',') : '')
 			. (checkcusercolor($targetuserid) ? (setfield('enablecolor') . ',') : '')
-			. setfield('sex') . ','
+			. setfield('gender') . ','
 			. setfield('ppp') . ','
 			. setfield('tpp') . ','
 			. setfield('signsep') . ','
@@ -265,7 +265,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) 
 .		catheader('User information')
-.	fieldrow('Sex', fieldoption('sex', $user['sex'], ['Male', 'Female', 'N/A']))
+.	fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
 .	fieldrow('Real name', fieldinput(40, 60, 'realname'))
 .	fieldrow('Location', fieldinput(40, 60, 'location'))
 .	fieldrow('Birthday', $birthinput)

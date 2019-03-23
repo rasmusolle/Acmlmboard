@@ -192,7 +192,7 @@ if ($userdisplayname || $usercnickcolor) {
 	$showrealnick = true;
 }
 
-$sex = ['Male', 'Female', 'N/A'];
+$gender = ['Male', 'Female', 'N/A'];
 
 $topbot = [
 	'breadcrumb' => [['href' => './', 'title' => 'Main']],
@@ -238,8 +238,8 @@ RenderPageBar($topbot);
 		<td class="b n1" width="120"><b>Real name</b></td>
 		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
 	</tr><tr>
-		<td class="b n1"><b>Sex</b></td>
-		<td class="b n2"><?=$sex[$user['sex']] ?></td>
+		<td class="b n1"><b>Gender</b></td>
+		<td class="b n2"><?=$gender[$user['gender']] ?></td>
 	</tr><tr>
 		<td class="b n1"><b>Location</b></td>
 		<td class="b n2"><?=($user['location'] ? htmlval($user['location']) : "") ?></td>

@@ -41,8 +41,8 @@ if ($act == 'Register') {
 
 	$dupe = $sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", [$cname,$cname]);
 
-	$sex = (int)$_POST['sex'];
-	if ($sex < 0 || $sex > 2) $sex = 1;
+	$gender = (int)$_POST['gender'];
+	if ($gender < 0 || $gender > 2) $gender = 1;
 
 	$timezone = $_POST['timezone'];
 
@@ -61,9 +61,8 @@ if ($act == 'Register') {
 	if (empty($err)) {
 		$name = $sql->escape($name);
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
-		$query_string = sprintf("INSERT INTO users (name,pass,regdate,lastview,ip,sex,timezone,theme) VALUES ('%s', '%s', %d, %d, '%s', %d, '%s', '%s');",
-		$name, $salted_password, time(), time(), $userip, $sex, $timezone, $defaulttheme);
-		$res = $sql->query($query_string);
+		$res = $sql->prepare("INSERT INTO users (name,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?);",
+			$name, $salted_password, time(), time(), $userip, $gender, $timezone, $defaulttheme);
 		if ($res) {
 			$id = $sql->insertid();
 
@@ -97,7 +96,7 @@ if ($act == 'Register') {
 }
 
 pageheader('Register');
-$listsex = ['Male','Female','N/A'];
+$listgender = ['Male','Female','N/A'];
 
 $listtimezones = [];
 foreach (timezone_identifiers_list() as $tz) {
@@ -116,18 +115,18 @@ if(!empty($err)) noticemsg("Error", $err);
 			<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
 		</tr><tr>
 			<td class="b n1 center">Password:</td>
-			<td class="b n2"><input type="password" name=pass size=13 maxlength=32></td>
+			<td class="b n2"><input type="password" name=pass size=25 maxlength=32></td>
 		</tr><tr>
 			<td class="b n1 center">Password (again):</td>
-			<td class="b n2"><input type="password" name=pass2 size=13 maxlength=32></td>
+			<td class="b n2"><input type="password" name=pass2 size=25 maxlength=32></td>
 		</tr>
 		<?php
-		echo fieldrow('Sex',fieldoption('sex',2,$listsex));
+		echo fieldrow('Gender',fieldoption('gender',2,$listgender));
 		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
 		if ($config['registrationpuzzle']) { ?>
 			<tr>
 				<td class="b n1 center" width="120"><?=$puzzle ?></td>
-				<td class="b n2"><input type="text" name="puzzle" size="13" maxlength="20"></td>
+				<td class="b n2"><input type="text" name="puzzle" size="25" maxlength="20"></td>
 			</tr>
 		<?php } ?>
 		<tr class="n1">

@@ -170,7 +170,7 @@ function randnickcolor() {
 }
 
 function userfields($tbl = '', $pf = '') {
-	$fields = ['id', 'name', 'displayname', 'sex', 'group_id', 'nick_color', 'enablecolor'];
+	$fields = ['id', 'name', 'displayname', 'group_id', 'nick_color', 'enablecolor'];
 
 	$ret = '';
 	foreach ($fields as $f) {
