@@ -26,7 +26,7 @@ else $id = 0;
 checknumeric($id);
 
 if (!has_perm('view-own-pms') && $id == 0) {
-	error("Error", "You are not allowed to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You are not allowed to do this!", true);
 }
 
 $showdel = isset($_GET['showdel']);
@@ -37,7 +37,7 @@ if ($_GET['action'] == "del") {
 	if (has_perm('delete-user-pms') || ($owner == $loguser['id'] && has_perm('delete-own-pms'))) {
 		$sql->query($q = "UPDATE pmsgs SET del_$fieldn2=" . ((int) !$showdel) . " WHERE id=$id");
 	} else {
-		error("Error", "You are not allowed to (un)delete that message.<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "You are not allowed to (un)delete that message.", true);
 	}
 	$id = 0;
 }

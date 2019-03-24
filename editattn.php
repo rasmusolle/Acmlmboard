@@ -2,7 +2,7 @@
 require('lib/common.php');
 
 if (!has_perm('edit-attentions-box')) {
-	error('Error', 'You have no permissions to do this!<br> <a href=./>Back to main</a>');
+	noticemsg('Error', 'You have no permissions to do this!', true);
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'Submit') {

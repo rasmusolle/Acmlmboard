@@ -10,16 +10,16 @@ require('lib/common.php');
 $permlist = null;
 
 if (!has_perm('edit-permissions')) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 if (isset($_GET['gid'])) {
 	$id = (int)$_GET['gid'];
 	if ((is_root_gid($id) || (!can_edit_group_assets($id) && $id!=$loguser['group_id'])) && !has_perm('no-restrictions')) {
-		error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "You have no permissions to do this!", true);
 	}
 	if ($loguser['group_id'] == $id && !has_perm('edit-own-permissions')) {
-		error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "You have no permissions to do this!", true);
 	}
 	$permowner = $sql->fetchp("SELECT id,title,inherit_group_id FROM `group` WHERE id=?", [$id]);
 	$type = 'group';
@@ -28,11 +28,11 @@ if (isset($_GET['gid'])) {
 
 	$tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",[$id]);
 	if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
-		error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "You have no permissions to do this!", true);
 	}
 
 	if ($id == $loguser['id'] && !has_perm('edit-own-permissions')) {
-		error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "You have no permissions to do this!", true);
 	}
 	$permowner = $sql->fetchp("SELECT u.id,u.name AS title,u.group_id,g.title AS group_title FROM users u LEFT JOIN `group` g ON g.id=u.group_id WHERE u.id=?", [$id]);
 	$type = 'user';
@@ -47,7 +47,7 @@ if (isset($_GET['gid'])) {
 }
 
 if (!$permowner) {
-	error("Error", "Invalid {$type} ID.");
+	noticemsg("Error", "Invalid {$type} ID.", true);
 }
 
 $errmsg = '';

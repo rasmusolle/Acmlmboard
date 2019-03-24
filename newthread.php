@@ -31,7 +31,7 @@ else
 $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
 if (!$forum)
-	error("Error", "Forum does not exist. <br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Forum does not exist.", true);
 else if ($announce && !has_perm('create-forum-announcements'))
 	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
 else if (!can_create_forum_thread($forum))

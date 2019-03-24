@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
 }
 
 if (!has_perm('ban-users')) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 //From editperms.php
@@ -21,13 +21,13 @@ $id = (int)$_GET['id'];
 
 $tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",[$id]);
 if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 if ($uid = $_GET['id']) {
 	checknumeric($uid);
 	$numid = $sql->fetchq("SELECT `id` FROM `users` WHERE `id`='$uid'");
-	if (!$numid) error("Error", "Invalid user ID.");
+	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
 $bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
@@ -61,7 +61,7 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	die(pagefooter());
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
 	if ($user['group_id'] != $bannedgroup['id']) {
-		error("Error", "This user is not a Banned User.<br> <a href=./>Back to main</a> ");
+		noticemsg("Error", "This user is not a Banned User.", true);
 	}
 
 	$sql->query("UPDATE users SET group_id='$defaultgroup[id]' WHERE id='$user[id]'");

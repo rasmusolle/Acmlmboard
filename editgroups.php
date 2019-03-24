@@ -2,7 +2,7 @@
 require('lib/common.php');
 
 if (!has_perm('edit-groups')) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 $act = (isset($_GET['act']) ? $_GET['act'] : '');

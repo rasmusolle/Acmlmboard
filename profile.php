@@ -3,12 +3,12 @@ require("lib/common.php");
 
 $uid = isset($_GET['id']) ? (int)$_GET['id'] : -1;
 if($uid < 0) {
-	error("Error", "You must specify a user ID!");
+	noticemsg("Error", "You must specify a user ID!", true);
 }
 
 $user = $sql->fetchq("SELECT * FROM `users` WHERE `id` = '$uid'");
 if(!$user) {
-	error("Error", "This user does not exist!");
+	noticemsg("Error", "This user does not exist!", true);
 }
 
 $group = $sql->fetchp("SELECT * FROM `group` WHERE id=?", [$user['group_id']]);

@@ -9,7 +9,7 @@ $topbot = [
 ];
 
 if (!has_perm('create-pms'))
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 
 if (!isset($_POST['action'])) {
 	$userto = '';

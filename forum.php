@@ -18,7 +18,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
 
 	if (!isset($forum['id'])) {
-		error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
+		noticemsg("Error", "Forum does not exist.", true);
 	}
 
 	//append the forum's title to the site title
@@ -99,7 +99,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	$topbot = [];
 } else {
-	error("Error", "Forum does not exist.<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Forum does not exist.", true);
 }
 
 $showforum = (isset($time) ? $time : $uid);

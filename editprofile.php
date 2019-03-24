@@ -17,7 +17,7 @@ if (!can_edit_user($targetuserid)) {
 }
 
 if ($targetuserid == 0) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 if (has_perm('no-restrictions'))
@@ -45,9 +45,7 @@ global $user;
 $user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
 
 if (!$user) {
-	?><table class="c1"><td class="b n1 center">
-		This user doesn't exist!<br><a href="./">Back to main</a>
-	</table><?php
+	noticemsg("Error", "This user doesn't exist!", true);
 	die(pagefooter());
 }
 

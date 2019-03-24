@@ -25,7 +25,7 @@ $thread = $sql->fetchq('SELECT t.*, f.title ftitle, f.private fprivate, f.readon
 $threadlink = "<a href=thread.php?id=$tid>Back to thread</a>";
 $err = '';
 if (!$thread) {
-	error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Thread does not exist.", true);
 } else if (!can_create_forum_post(['id' => $thread['forum'], 'private' => $thread['fprivate'], 'readonly' => $thread['readonly']])) {
 	$err = "You have no permissions to create posts in this forum!<br>$forumlink";
 } elseif ($thread['closed'] && !has_perm('override-closed')) {

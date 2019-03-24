@@ -460,28 +460,20 @@ function pagestats() {
  *
  * @param string $name Header text
  * @param string $msg Message
+ * @param bool $error Is it an error? (Break the page loading)
  * @return void
  */
-function noticemsg($name, $msg) {
+function noticemsg($name, $msg, $error = false) {
+	if ($error) {
+		pageheader('Error');
+	}
 	?><table class="c1">
 		<tr class="h"><td class="b h center"><?=$name ?></td></tr>
-		<tr><td class="b n1 center"><?=$msg ?></td></tr>
+		<tr><td class="b n1 center"><?=$msg ?><?=($error ? "<br><a href=./>Back to main</a>" : '') ?></td></tr>
 	</table><?php
-}
-
-/**
- * Print an error message.
- *
- * @param string $name Header text
- * @param string $msg Message
- * @return void
- */
-function error($name, $msg) {
-	pageheader('Error');
-	echo "<br>";
-	noticemsg($name, $msg);
-	pagefooter();
-	die();
+	if ($error) {
+		pagefooter(); die();
+	}
 }
 
 /**

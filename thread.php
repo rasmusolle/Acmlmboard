@@ -3,7 +3,7 @@ require('lib/common.php');
 
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0 || $page > 1000000000000000) {
-	error("Error", "Invalid page number");
+	noticemsg("Error", "Invalid page number", true);
 }
 
 $fieldlist = '';
@@ -14,7 +14,7 @@ foreach ($ufields as $field) {
 
 $ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : $loguser['ppp'];
 if ($ppp < 0 || $ppp > 1000000000000000) {
-	error("Error", "Invalid posts per page number");
+	noticemsg("Error", "Invalid posts per page number", true);
 }
 
 if (isset($_REQUEST['id'])) {
@@ -35,7 +35,7 @@ elseif (isset($_GET['pid'])) {
 	$pid = (int)$_GET['pid'];
 	$numpid = $sql->fetchq("SELECT t.id tid FROM posts p LEFT JOIN threads t ON p.thread=t.id WHERE p.id=$pid");
 	if (!$numpid) {
-		error("Error", "Thread post does not exist. <br> <a href=./>Back to main</a>");
+		noticemsg("Error", "Thread post does not exist.", true);
 	}
 	$isannounce = $sql->resultq("SELECT announce FROM posts WHERE id=$pid");
 	if ($isannounce) {
@@ -51,7 +51,7 @@ elseif (isset($_GET['pid'])) {
 		$viewmode = "thread";
 	}
 } else {
-	error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Thread does not exist.", true);
 }
 
 if ($viewmode == "thread")
@@ -86,7 +86,7 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 	} elseif ($act == 'move') {
 		editthread($tid, '', $_POST['arg']);
 	} else {
-		error("Error", "Unknown action.");
+		noticemsg("Error", "Unknown action.", true);
 	}
 
 	if ($config['log'] >= '2')
@@ -114,7 +114,7 @@ if ($viewmode == "thread") {
 			. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
 
 	if (!isset($thread['id'])) {
-		error("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
+		noticemsg("Error", "Thread does not exist.", true);
 	}
 
 	//append thread's title to page title
@@ -274,7 +274,7 @@ if ($viewmode == "thread") {
 	$topbot = [];
 	$time = $_GET['time'];
 } else {
-	noticemsg("Error", "Thread does not exist. <br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Thread does not exist.<br><a href=./>Back to main</a>");
 	pagefooter();
 	die();
 }

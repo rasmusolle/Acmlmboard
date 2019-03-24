@@ -3,7 +3,7 @@ require('lib/common.php');
 needs_login(1);
 
 if (!has_perm('view-own-pms')) {
-	error("Error", "You have no permissions to do this!<br> <a href=./>Back to main</a>");
+	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 $fieldlist = '';
@@ -15,7 +15,7 @@ if ($pid = $_GET['id'])
 	checknumeric($pid);
 
 if (!$pid) {
-	error("Error", "Private message does not exist. <br> <a href=./>Back to main</a>");
+	noticemsg("Error", "Private message does not exist.", true);
 }
 
 $pmsgs = $sql->fetchq("SELECT ".userfields('u','u').",$fieldlist p.* "
@@ -25,7 +25,7 @@ $pmsgs = $sql->fetchq("SELECT ".userfields('u','u').",$fieldlist p.* "
 $tologuser = ($pmsgs['userto'] == $loguser['id']);
 
 if (((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && !has_perm('view-user-pms')))
-	error("Error", "Private message does not exist. <br><a href=./>Back to main</a>");
+	noticemsg("Error", "Private message does not exist.", true);
 elseif ($tologuser && $pmsgs['unread'])
 	$sql->query("UPDATE pmsgs SET unread=0 WHERE id=$pid");
 
