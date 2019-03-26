@@ -206,9 +206,6 @@ if ($act == 'Edit profile') {
 
 		redirect("profile.php?id=$user[id]");
 
-		if ($config['log'] >= '1')
-			$sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'" . $_SERVER['REMOTE_ADDR'] . "','$loguser[id]','ACTION: " . addslashes("user edit " . $targetuserid) . "')");
-
 		die(pagefooter());
 	} else {
 		noticemsg("Error", "Couldn't save the profile changes. The following errors occured:<br><br>" . $error);

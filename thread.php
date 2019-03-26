@@ -88,9 +88,6 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 	} else {
 		noticemsg("Error", "Unknown action.", true);
 	}
-
-	if ($config['log'] >= '2')
-		$sql->query("INSERT INTO log VALUES(UNIX_TIMESTAMP(),'" . $_SERVER['REMOTE_ADDR'] . "','$loguser[id]','ACTION: " . addslashes($act . " " . $tid . " " . $_POST['arg']) . "')");
 }
 
 checknumeric($_GET['pin']);

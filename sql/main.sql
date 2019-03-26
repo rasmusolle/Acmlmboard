@@ -105,17 +105,6 @@ CREATE TABLE `ipbans` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `log`;
-CREATE TABLE `log` (
-  `t` int(12) NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `request` varchar(255) NOT NULL,
-  KEY `t` (`t`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `misc`;
 CREATE TABLE `misc` (
   `field` varchar(255) NOT NULL,

@@ -94,17 +94,6 @@ if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
 		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . time() . ",'$userip','" . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
 	}
 
-	//[blackhole89]
-	if ($config['log'] >= '5') {
-		$postvars = "";
-		foreach ($_POST as $k => $v) {
-			if ($k == "pass" || $k == 'pass2')
-				$v = "(snip)";
-			$postvars.="$k=$v ";
-		}
-		@$sql->query("INSERT DELAYED INTO `log` VALUES(UNIX_TIMESTAMP(),'$userip','$loguser[id]','" . addslashes($_SERVER['HTTP_USER_AGENT']) . " :: " . addslashes($url) . " :: $postvars')");
-	}
-
 	if (!$bot) {
 		$sql->query("UPDATE `misc` SET `intval`=`intval`+1 WHERE `field`='views'");
 	} else {
