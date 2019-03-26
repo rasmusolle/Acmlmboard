@@ -69,7 +69,7 @@ if ($act == 'Edit profile') {
 			$err .= "<br>Filesize limit of $avatarsize bytes exceeded.";
 		if (!in_array(str_replace("image/","",$img_data['mime']),$ftypes))
 			$err = "Invalid file type.";
-		
+
 		if ($err != "")
 			$ava_out = $err;
 		else {
@@ -258,7 +258,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
 .	fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
 		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
-.	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" ) 
+.	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
 .		catheader('User information')
 .	fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
 .	fieldrow('Real name', fieldinput(40, 60, 'realname'))
@@ -270,7 +270,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .		catheader('Post layout')
 .	fieldrow('Header', fieldtext(5, 80, 'head'))
 .	fieldrow('Signature', fieldtext(5, 80, 'sign'))
-.	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide'])) 
+.	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide']))
 .		catheader('Options')
 .	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
 .	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))

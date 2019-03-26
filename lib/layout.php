@@ -1,9 +1,5 @@
 <?php
 
-function urlcreate($url, $query) {
-	return $url . '?' . http_build_query($query);
-}
-
 function redirect($url) {
 	header("Location: " . $url);
 	die();
@@ -276,11 +272,6 @@ function fieldrow($title, $input) {
 function fieldinput($avatarsize, $max, $field) {
 	global $user;
 	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $user[$field]) . "\">";
-}
-
-function fieldinputprofile($avatarsize, $max, $field, $userprof) {
-	global $user;
-	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $userprof[$field]) . "\">";
 }
 
 function fieldtext($rows, $cols, $field) {
