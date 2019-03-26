@@ -155,7 +155,6 @@ if ($act == 'new' || $act == 'edit') {
 		'id' => ['caption'=>'#', 'width'=>'32px', 'align'=>'center'],
 		'name' => ['caption'=>'Name', 'align'=>'center'],
 		'parent' => ['caption'=>'Parent group', 'align'=>'center'],
-		'ncolors' => ['caption'=>'Username colors', 'width'=>'150px', 'align'=>'center'],
 		'misc' => ['caption'=>'Default?', 'width'=>'120px', 'align'=>'center'],
 		'bmisc' => ['caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'],
 		'actions' => ['caption'=>'', 'width'=>'210px', 'align'=>'right'],
@@ -169,9 +168,7 @@ if ($act == 'new' || $act == 'edit') {
 		if ($group['visible']) $name = "<strong>{$name}</strong>";
 
 		if ($group['nc'])
-			$ncolors = "<strong style=\"color: #{$group['nc']};\">Username</strong>";
-		else
-			$ncolors = '-';
+			$name = str_replace('<strong>', "<strong style=\"color: #{$group['nc']};\">", $name);
 
 		$misc = '-';
 		if ($group['default'])
@@ -192,7 +189,6 @@ if ($act == 'new' || $act == 'edit') {
 			'id' => $group['id'],
 			'name' => $name,
 			'parent' => $group['parenttitle'] ? htmlspecialchars($group['parenttitle']) : '<small>(none)</small>',
-			'ncolors' => $ncolors,
 			'misc' => $misc,
 			'bmisc' => $bmisc,
 			'actions' => RenderActions($actions,true),
