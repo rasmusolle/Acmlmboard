@@ -9,16 +9,9 @@ if (isset($_GET['time'])) {
 }
 
 checknumeric($time);
-if ($time < 1)
-	$time = 86400;
+if ($time < 1) $time = 86400;
 
-$query = 'SELECT '.userfields('u').',u.posts,u.regdate,COUNT(*) num '
-	.'FROM users u '
-	.'LEFT JOIN posts p ON p.user=u.id '
-	.'WHERE p.date>' . (time() - $time)
-	.' GROUP BY u.id ORDER BY num DESC';
-$users = $sql->query($query);
-
+$users = $sql->query("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) num FROM users u LEFT JOIN posts p ON p.user = u.id WHERE p.date > ".(time() - $time)." GROUP BY u.id ORDER BY num DESC");
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Active users during the last <?=timeunits2($time) ?>:</td></tr>
@@ -37,7 +30,7 @@ $post_total = 0;
 $post_overall = 0;
 $j = 0;
 $tr = 'n1';
-for($i = 1; $user = $sql->fetch($users); $i++) {
+for ($i = 1; $user = $sql->fetch($users); $i++) {
 	$post_total += $user['num'];
 	$post_overall += $user['posts'];
 	$tr = ($i % 2 ? 'n1': 'n2');
@@ -52,6 +45,7 @@ for($i = 1; $user = $sql->fetch($users); $i++) {
 	<?php
 	$j++;
 }
+
 ?>
 	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
 	<tr class="<?=$tr ?> center">

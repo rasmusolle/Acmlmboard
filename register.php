@@ -130,7 +130,7 @@ if(!empty($err)) noticemsg("Error", $err);
 			</tr>
 		<?php } ?>
 		<tr class="n1">
-			<td class="b">&nbsp;</td>
+			<td class="b"></td>
 			<td class="b">
 				<input type="submit" class="submit" name="action" value="Register">
 				<span class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</span>

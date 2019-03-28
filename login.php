@@ -30,7 +30,7 @@ if (isset($err))
 	<td class="b n1 center">Password:</td>
 	<td class="b n2"><input type="password" name=pass size=25 maxlength=32></td>
 </tr><tr class="n1">
-	<td class="b">&nbsp;</td>
+	<td class="b"></td>
 	<td class="b"><input type="submit" class="submit" name="action" value="Login"></td>
 </tr>
 </table></form>

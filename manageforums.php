@@ -104,7 +104,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 				<td class="b n1 center">Display order:</td>
 				<td class="b n2"><input type="text" name="ord" value="<?=$cat['ord'] ?>" size="4" maxlength="10"></td>
 			</tr><tr>
-				<td class="b n1 center">&nbsp;</td>
+				<td class="b n1 center"></td>
 				<td class="b n2"><label><input type="checkbox" name="private" value="1" <?=($cat['private'] ? 'checked="checked"' : '') ?>> Private category</label></td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
@@ -284,7 +284,6 @@ function permtable($bind, $id) {
 
 		$permlist = '';
 		foreach ($perms as $pid => $ptitle) {
-
 			if ($doinherit) $check = ' disabled="disabled"';
 			else $check = $permdata[$gid][$pid] ? ' checked="checked"':'';
 
@@ -301,7 +300,7 @@ function permtable($bind, $id) {
 	}
 
 	?><tr class="n<?=$c ?>">
-		<td class="b">&nbsp;</td>
+		<td class="b"></td>
 		<td class="b" colspan="2">
 			<input type="submit" class="submit" name="save<?=($bind == 'forums' ? 'forum' : 'cat') ?>" value="Save <?=($bind == 'forums' ? 'forum' : 'category') ?>">
 		</td>

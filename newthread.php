@@ -70,27 +70,19 @@ if (isset($err)) {
 	pageheader("New $type", $forum['id']);
 	RenderPageBar($topbot);
 	?><br>
-	<form action="newthread.php" method="post">
-		<table class="c1">
-			<tr class="h">
-				<td class="b h" colspan="2"><?=ucfirst($type) ?></td>
-			</tr>
-			<tr>
-				<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
-				<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
-			</tr>
-			<tr>
-				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><?=posttoolbar() ?></td>
-			</tr>
-			<tr>
-				<td class="b n1 center" width=120>Post:</td>
-				<td class="b n2">
-					<textarea name=message id='message' rows=20 cols=80></textarea>
-				</td>
-			</tr>
-			<tr class="n1">
-				<td class="b">&nbsp;</td>
+	<form action="newthread.php" method="post"><table class="c1">
+		<tr class="h"><td class="b h" colspan="2"><?=ucfirst($type) ?></td></tr>
+		<tr>
+			<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
+			<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
+		</tr><tr>
+			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n2"><?=posttoolbar() ?></td>
+		</tr><tr>
+			<td class="b n1 center" width=120>Post:</td>
+			<td class="b n2"><textarea name=message id='message' rows=20 cols=80></textarea></td>
+		</tr><tr class="n1">
+				<td class="b"></td>
 				<td class="b">
 					<input type="hidden" name="fid" value="<?=$fid ?>">
 					<input type="hidden" name="announce" value="<?=$announce ?>">
@@ -98,8 +90,7 @@ if (isset($err)) {
 					<input type="submit" class="submit" name="action" value="Preview">
 				</td>
 			</tr>
-		</table>
-	</form>
+	</table></form>
 	<?php
 } elseif ($act == 'Preview') {
 	$_POST['title'] = stripslashes($_POST['title']);
@@ -120,36 +111,27 @@ if (isset($err)) {
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
 	<?=threadpost($post) ?>
 	<br>
-	<form action="newthread.php" method="post">
-		<table class="c1">
-			<tr class="h">
-				<td class="b h" colspan=2><?=ucfirst($type) ?></td>
-			</tr>
-			<tr>
-				<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
-				<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
-			</tr>
-			<tr>
-				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><?=posttoolbar() ?></td>
-			</tr>
-			<tr>
-				<td class="b n1 center" width=120>Post:</td>
-				<td class="b n2">
-					<textarea name=message id='message' rows=20 cols=80><?=htmlval($_POST['message']) ?></textarea>
-				</td>
-			</tr>
-			<tr class="n1">
-				<td class="b">&nbsp;</td>
-				<td class="b">
-					<input type="hidden" name=fid value=<?=$fid ?>>
-					<input type="hidden" name="announce" value="<?=$announce ?>">
-					<input type="submit" class="submit" name="action" value="Submit">
-					<input type="submit" class="submit" name="action" value="Preview">
-				</td>
-			</tr>
-		</table>
-	</form><?php
+	<form action="newthread.php" method="post"><table class="c1">
+		<tr class="h"><td class="b h" colspan=2><?=ucfirst($type) ?></td></tr>
+		<tr>
+			<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
+			<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
+		</tr><tr>
+			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n2"><?=posttoolbar() ?></td>
+		</tr><tr>
+			<td class="b n1 center" width=120>Post:</td>
+			<td class="b n2"><textarea name=message id='message' rows=20 cols=80><?=htmlval($_POST['message']) ?></textarea></td>
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1">
+				<input type="hidden" name=fid value=<?=$fid ?>>
+				<input type="hidden" name="announce" value="<?=$announce ?>">
+				<input type="submit" class="submit" name="action" value="Submit">
+				<input type="submit" class="submit" name="action" value="Preview">
+			</td>
+		</tr>
+	</table></form><?php
 } elseif ($act == 'Submit') {
 	$modclose = "0";
 	$modstick = "0";

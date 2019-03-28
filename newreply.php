@@ -106,31 +106,23 @@ if ($err) {
 		RenderPageBar($topbot);
 	}
 	?><br>
-	<form action="newreply.php" method="post">
-		<table class="c1">
-			<tr class="h">
-				<td class="b h" colspan="2">Reply</td>
-			</tr>
+	<form action="newreply.php" method="post"><table class="c1">
+			<tr class="h"><td class="b h" colspan="2">Reply</td></tr>
 			<tr>
 				<td class="b n1 center" width=120>Format:</td>
 				<td class="b n2"><?=posttoolbar() ?></td>
-			</tr>
-			<tr>
+			</tr><tr>
 				<td class="b n1 center" width=120>Post:</td>
-				<td class="b n2">
-					<textarea name=message id='message' rows=20 cols=80><?=htmlval($post['text']) ?></textarea>
-				</td>
-			</tr>
-			<tr class="n1">
-				<td class="b">&nbsp;</td>
-				<td class="b">
+				<td class="b n2"><textarea name=message id='message' rows=20 cols=80><?=htmlval($post['text']) ?></textarea></td>
+			</tr><tr>
+				<td class="b n1"></td>
+				<td class="b n1">
 					<input type="hidden" name=tid value=<?=$tid ?>>
 					<input type="submit" class="submit" name="action" value="Submit">
 					<input type="submit" class="submit" name="action" value="Preview">
 				</td>
 			</tr>
-		</table>
-	</form><?php
+	</table></form><?php
 }elseif ($act == 'Submit') {
 	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
 	$user['posts']++;
