@@ -61,12 +61,12 @@ if ($act == 'Edit profile') {
 		$ftypes = ["png","jpeg","jpg","gif"];
 		$img_data = getimagesize($fname['tmp_name']);
 		$err = "";
-		if ($img_data[0] > $avatardimx)
+		if ($img_data[0] > 180)
 			$err .= "<br>Too wide.";
-		if ($img_data[1] > $avatardimy)
+		if ($img_data[1] > 180)
 			$err .= "<br>Too tall.";
-		if ($fname['size'] > $avatarsize)
-			$err .= "<br>Filesize limit of $avatarsize bytes exceeded.";
+		if ($fname['size'] > 81920)
+			$err .= "<br>Filesize limit of 80KB exceeded.";
 		if (!in_array(str_replace("image/","",$img_data['mime']),$ftypes))
 			$err = "Invalid file type.";
 
@@ -257,7 +257,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist()))
 .	((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
 .	fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
-		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within ' . $avatardimx . 'x' . $avatardimy . '.</span>')
+		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within 180x180.</span>')
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
 .		catheader('User information')
 .	fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))

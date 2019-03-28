@@ -43,11 +43,6 @@ $config['meta'] = "<meta name='description' content=\"Stuff goes here!\"><meta n
 /* -- Everything past this point is optional.  It is recommended to get the board up and running first before adjusting the following                  --
    -- The amount of options may be overwelming at first. AB 2.5+ was designed to allow for great flexiblity. As such there are many optional features. -- */
 
-// User GFX limits
-$avatardimx = 180; // Avatar X Scale
-$avatardimy = 180; // Avatar Y Scale
-$avatarsize = 2 * 30720; // The Avatar size in bytes. The default is to 60kb.
-
 // The following settings allow a board owner to override a board's theme and logo for special events, etc.
 $config['override_theme'] = ""; // If you want to lock everyone to a specific theme.
 
