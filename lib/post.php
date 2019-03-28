@@ -140,7 +140,6 @@ function amptags($post, $s) {
 	$s = str_replace("&postcount&", $post['uposts'], $s);
 	$s = str_replace("&rank&", $post['ranktext'], $s);
 	$s = str_replace("&rankname&", preg_replace("'<(.*?)>'si", "", $post['ranktext']), $s);
-	$s = str_replace("&postrank&", $sql->result($sql->query("SELECT count(*) FROM users WHERE posts>" . $post['uposts']), 0, 0), $s); //Added by request of Acmlm
 	// e modifier is no longer supported... using preg_replace_callback to stop the complaining.
 	$replace_callback = function($match) use ($post) {
 		return max($match[1] - $post['num'], 0);
@@ -272,7 +271,8 @@ function threadpost($post, $pthread = '') {
 	$post['ranktext'] = getrank($post['urankset'], $post['uposts']);
 	$post['utitle'] = $post['ranktext']
 			. ((strlen($post['ranktext']) >= 1) ? "<br>" : "")
-			. $post['utitle'];
+			. $post['utitle']
+			. ((strlen($post['utitle']) >= 1) ? "<br>" : "");
 
 	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
@@ -358,18 +358,18 @@ HTML;
 <table class="c1" id="{$post['id']}">
 	$postheaderrow
 	<tr>
-		<td class="b n1 $tbar1" style="border-bottom:0; border-right:0; min-width: 180px;" height=17>$ulink</td>
+		<td class="b n1 $tbar1" style="border-bottom:0;border-right:0;min-width:180px;text-align:center" height=17>$ulink</td>
 		<td class="b n1 $tbar2" style="border-left:0" width=100%>
 			<table width=100%>
 				<tr><td class="nb sfont">Posted on $pdate $threadlink $revisionstr</td><td class="nb sfont right">$postlinks</td></tr>
 			</table>
 		</td>
 	</tr><tr valign=top>
-		<td class='b n1 sfont $sbar' style="border-top:0;">
+		<td class='b n1 sfont $sbar' style="border-top:0;text-align:center">
 HTML;
 
 	$lastpost = ($post['ulastpost'] ? timeunits(time() - $post['ulastpost']) : 'none');
-	$picture = ($post['uusepic'] ? "<br><img src=\"userpic/{$post['uid']}\">" : '');
+	$picture = ($post['uusepic'] ? "<img src=\"userpic/{$post['uid']}\">" : '');
 
 	if ($post['usign']) {
 		$signsep = $post['usignsep'] ? '' : '____________________<br>';
