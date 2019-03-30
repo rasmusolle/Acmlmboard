@@ -24,11 +24,11 @@ if (isset($_POST['savecat'])) {
 		} else {
 			$cid = (int)$cid;
 			if (!$sql->resultp("SELECT COUNT(*) FROM categories WHERE id=?",[$cid]))
-				die(header('Location: manageforums.php'));
+				redirect('manageforums.php');
 			$sql->prepare("UPDATE categories SET title=?, ord=?, private=? WHERE id=?", [$title, $ord, $private, $cid]);
 		}
 		saveperms('categories', $cid);
-		die(header('Location: manageforums.php?cid='.$cid));
+		redirect('manageforums.php?cid='.$cid);
 	}
 } else if (isset($_POST['delcat'])) {
 	// delete category
@@ -36,7 +36,7 @@ if (isset($_POST['savecat'])) {
 	$sql->prepare("DELETE FROM categories WHERE id=?",[$cid]);
 
 	deleteperms('categories', $cid);
-	die(header('Location: manageforums.php'));
+	redirect('manageforums.php');
 } else if (isset($_POST['saveforum'])) {
 	// save new/existing forum
 	$fid = $_GET['fid'];
@@ -59,19 +59,19 @@ if (isset($_POST['savecat'])) {
 		} else {
 			$fid = (int)$fid;
 			if (!$sql->resultp("SELECT COUNT(*) FROM forums WHERE id=?",[$fid]))
-				die(header('Location: manageforums.php'));
+				redirect('manageforums.php');
 			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, readonly=? WHERE id=?",
 				[$cat, $title, $descr, $ord, $private, $readonly, $fid]);
 		}
 		saveperms('forums', $fid);
-		die(header('Location: manageforums.php?fid='.$fid));
+		redirect('manageforums.php?fid='.$fid);
 	}
 } else if (isset($_POST['delforum'])) {
 	// delete forum
 	$fid = (int)$_GET['fid'];
 	$sql->prepare("DELETE FROM forums WHERE id=?",[$fid]);
 	deleteperms('forums', $fid);
-	die(header('Location: manageforums.php'));
+	redirect('manageforums.php');
 }
 
 pageheader('Forum management');

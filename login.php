@@ -7,14 +7,14 @@ if ($act == 'Login') {
 		setcookie('user', $userid, 2147483647);
 		setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt),
 				implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
-		die(header("Location: ./"));
+		redirect('./');
 	} else {
 		$err = "Invalid username or password, cannot log in.";
 	}
 } elseif ($act == 'logout') {
 	setcookie('user', 0);
 	setcookie('pass', '');
-	die(header("Location: ./"));
+	redirect('./');
 }
 
 pageheader('Login');

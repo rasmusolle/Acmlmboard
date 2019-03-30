@@ -1,8 +1,8 @@
 <?php
-if (isset($_GET['p'])) header("Location: thread.php?pid={$_GET['p']}#{$_GET['p']}");
-if (isset($_GET['t'])) header("Location: thread.php?id={$_GET['t']}");
-if (isset($_GET['u'])) header("Location: profile.php?id={$_GET['u']}");
-if (isset($_GET['a'])) header("Location: thread.php?announce={$_GET['a']}");
+if (isset($_GET['p'])) redirect("thread.php?pid={$_GET['p']}#{$_GET['p']}");
+if (isset($_GET['t'])) redirect("thread.php?id={$_GET['t']}");
+if (isset($_GET['u'])) redirect("profile.php?id={$_GET['u']}");
+if (isset($_GET['a'])) redirect("thread.php?announce={$_GET['a']}");
 
 $showonusers = 1;
 require('lib/common.php');
@@ -23,7 +23,7 @@ if ($log && $action == 'markread') {
 		$sql->query("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
 		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
 	}
-	header('Location: index.php');
+	redirect('index.php');
 }
 
 pageheader();

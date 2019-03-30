@@ -26,7 +26,7 @@ if ($act == 'delete') {
 			$sql->prepare("DELETE FROM group WHERE id = ?", [$group['id']]);
 			$sql->prepare("DELETE FROM x_perm WHERE x_type = 'group' AND x_id = ?", [$group['id']]);
 			$sql->prepare("UPDATE group SET inherit_group_id = 0 WHERE inherit_group_id = ?", [$group['id']]);
-			die(header('Location: editgroups.php'));
+			redirect('editgroups.php');
 		}
 	}
 } else if (isset($_POST['submit']) && ($act == 'new' || $act == 'edit')) {
@@ -71,7 +71,7 @@ if ($act == 'delete') {
 				$values[] = $_GET['id'];
 				$sql->prepare("UPDATE group SET title = ?,nc = ?,inherit_group_id = ?,default = ?,banned = ?, sortorder = ?,visible = ? WHERE id = ?", $values);
 			}
-			die(header('Location: editgroups.php'));
+			redirect('editgroups.php');
 		}
 	}
 }
