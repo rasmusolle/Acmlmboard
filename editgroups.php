@@ -1,9 +1,7 @@
 <?php
 require('lib/common.php');
 
-if (!has_perm('edit-groups')) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!has_perm('edit-groups')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $act = (isset($_GET['act']) ? $_GET['act'] : '');
 $errmsg = '';
@@ -11,23 +9,23 @@ $caneditperms = has_perm('edit-permissions');
 
 if ($act == 'delete') {
 	$id = unpacksafenumeric($_GET['id']);
-	$group = $sql->fetchp("SELECT * FROM `group` WHERE `id`=?", [$id]);
+	$group = $sql->fetchp("SELECT * FROM group WHERE id = ?", [$id]);
 
 	if (!$group)
 		$errmsg = 'Cannot delete group: invalid group ID';
 	else {
-		$usercount = $sql->resultp("SELECT COUNT(*) FROM `users` WHERE `group_id`=?", [$group['id']]);
+		$usercount = $sql->resultp("SELECT COUNT(*) FROM users WHERE group_id = ?", [$group['id']]);
 		if ($usercount > 0) $errmsg = 'This group cannot be deleted because it contains users';
 
 		if (!$errmsg && !$caneditperms) {
-			$permcount = $sql->resultp("SELECT COUNT(*) FROM `x_perm` WHERE `x_type`='group' AND `x_id`=?", [$group['id']]);
+			$permcount = $sql->resultp("SELECT COUNT(*) FROM x_perm WHERE x_type = 'group' AND x_id = ?", [$group['id']]);
 			if ($permcount > 0) $errmsg = 'This group cannot be deleted because it has permissions attached and you may not edit permissions.';
 		}
 
 		if (!$errmsg) {
-			$sql->prepare("DELETE FROM `group` WHERE `id`=?", [$group['id']]);
-			$sql->prepare("DELETE FROM `x_perm` WHERE `x_type`='group' AND `x_id`=?", [$group['id']]);
-			$sql->prepare("UPDATE `group` SET `inherit_group_id`=0 WHERE `inherit_group_id`=?", [$group['id']]);
+			$sql->prepare("DELETE FROM group WHERE id = ?", [$group['id']]);
+			$sql->prepare("DELETE FROM x_perm WHERE x_type = 'group' AND x_id = ?", [$group['id']]);
+			$sql->prepare("UPDATE group SET inherit_group_id = 0 WHERE inherit_group_id = ?", [$group['id']]);
 			die(header('Location: editgroups.php'));
 		}
 	}
@@ -35,7 +33,7 @@ if ($act == 'delete') {
 	$title = trim($_POST['title']);
 
 	$parentid = $_POST['inherit_group_id'];
-	if ($parentid < 0 || $parentid > $sql->resultq("SELECT MAX(id) FROM `group`")) $parentid = 0;
+	if ($parentid < 0 || $parentid > $sql->resultq("SELECT MAX(id) FROM group")) $parentid = 0;
 
 	if ($act == 'edit') {
 		$recurcheck = [$_GET['id']];
@@ -47,7 +45,7 @@ if ($act == 'delete') {
 			}
 
 			$recurcheck[] = $pid;
-			$pid = $sql->resultp("SELECT `inherit_group_id` FROM `group` WHERE `id`=?",[$pid]);
+			$pid = $sql->resultp("SELECT inherit_group_id FROM group WHERE id = ?",[$pid]);
 		}
 	}
 
@@ -68,11 +66,10 @@ if ($act == 'delete') {
 			$values = [$title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible];
 
 			if ($act == 'new')
-				$sql->prepare("INSERT INTO `group` VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?)", $values);
+				$sql->prepare("INSERT INTO group VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?)", $values);
 			else {
 				$values[] = $_GET['id'];
-				$sql->prepare("UPDATE `group` SET `title`=?,`nc`=?,`inherit_group_id`=?,`default`=?,`banned`=?,
-					`sortorder`=?,`visible`=? WHERE id=?", $values);
+				$sql->prepare("UPDATE group SET title = ?,nc = ?,inherit_group_id = ?,default = ?,banned = ?, sortorder = ?,visible = ? WHERE id = ?", $values);
 			}
 			die(header('Location: editgroups.php'));
 		}
@@ -93,14 +90,14 @@ if ($act == 'new' || $act == 'edit') {
 		$group = ['id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0];
 		$pagebar['title'] = 'New group';
 	} else {
-		$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?",[$_GET['id']]);
+		$group = $sql->fetchp("SELECT * FROM group WHERE id = ?",[$_GET['id']]);
 		if (!$group) { noticemsg("Error", "Invalid group ID."); pagefooter(); die(); }
 		$pagebar['title'] = 'Edit group';
 	}
 
 	if ($group) {
 		$grouplist = [0 => '(none)'];
-		$allgroups = $sql->prepare("SELECT id,title FROM `group` WHERE id!=? ORDER BY sortorder",[$group['id']]);
+		$allgroups = $sql->prepare("SELECT id,title FROM group WHERE id != ? ORDER BY sortorder",[$group['id']]);
 		while ($g = $sql->fetch($allgroups))
 			$grouplist[$g['id']] = $g['title'];
 
@@ -160,7 +157,7 @@ if ($act == 'new' || $act == 'edit') {
 		'actions' => ['caption'=>'', 'width'=>'210px', 'align'=>'right'],
 	];
 
-	$groups = $sql->query("SELECT g.*, pg.title parenttitle FROM `group` g LEFT JOIN `group` pg ON pg.id=g.inherit_group_id ORDER BY sortorder");
+	$groups = $sql->query("SELECT g.*, pg.title parenttitle FROM group g LEFT JOIN group pg ON pg.id=g.inherit_group_id ORDER BY sortorder");
 	$data = [];
 
 	while ($group = $sql->fetch($groups)) {

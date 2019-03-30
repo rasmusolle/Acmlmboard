@@ -1,75 +1,55 @@
 <?php
 require('lib/common.php');
 
-//Alternative to editing users' profiles. - SquidEmpress
-//Based off of banhammer.php from Blargboard by StapleButter.
-
 $uid = $loguser['id'];
 
 if (isset($_GET['id'])) {
 	$temp = $_GET['id'];
-	if (checknumeric($temp))
-		$uid = $temp;
+	if (checknumeric($temp)) $uid = $temp;
 }
 
-if (!has_perm('ban-users')) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!has_perm('ban-users')) noticemsg("Error", "You have no permissions to do this!", true);
 
-//From editperms.php
 $id = (int)$_GET['id'];
 
-$tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",[$id]);
+$tuser = $sql->fetchp("SELECT group_id FROM users WHERE id = ?",[$id]);
 if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
 	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 if ($uid = $_GET['id']) {
 	checknumeric($uid);
-	$numid = $sql->fetchq("SELECT `id` FROM `users` WHERE `id`='$uid'");
+	$numid = $sql->fetchp("SELECT id FROM users WHERE id = ?",[$uid]);
 	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
-$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
+$bannedgroup = $sql->resultq("SELECT id FROM group WHERE banned = 1");
+$defaultgroup = $sql->resultq("SELECT id FROM group WHERE default = 1");
 
 global $user;
 
-$user = $sql->fetchq("SELECT * FROM users WHERE `id` = $uid");
+$user = $sql->fetchp("SELECT * FROM users WHERE id = ?",[$uid]);
 
-//Concatenation like in ABXD
 if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
-	$tempban = time() + ($_POST['tempbanned']);
-	$tempban = "Banned until " . date("m-d-y h:i A",$tempban);
 	if ($_POST['tempbanned'] > 0) {
-		$banreason = $tempban;
-		if ($_POST['title']) {
-			$banreason .= ': '.htmlspecialchars($_POST['title']);
-		}
+		$banreason = "Banned until ".date("m-d-y h:i A",time() + ($_POST['tempbanned']));
 	} else {
 		$banreason = "Banned permanently";
-		if ($_POST['title']) {
-			$banreason .= ': ' . htmlspecialchars($_POST['title']);
-		}
+	}
+	if ($_POST['title']) {
+		$banreason .= ': '.htmlspecialchars($_POST['title']);
 	}
 
-	$sql->query("UPDATE users SET group_id='$bannedgroup[id]' WHERE id='$user[id]'");
-	$sql->query("UPDATE users SET title='$banreason' WHERE id='$user[id]'");
-	$sql->query("UPDATE users SET tempbanned='" . ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0) . "' WHERE id='$user[id]'");
+	$sql->prepare("UPDATE users SET group_id = ?, title = ?, tempbanned = ? WHERE id = ?",
+		[$bannedgroup['id'], $banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);
 
 	redirect("profile.php?id=$user[id]");
-	die(pagefooter());
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
-	if ($user['group_id'] != $bannedgroup['id']) {
-		noticemsg("Error", "This user is not a Banned User.", true);
-	}
+	if ($user['group_id'] != $bannedgroup['id']) noticemsg("Error", "This user is not a banned user.", true);
 
-	$sql->query("UPDATE users SET group_id='$defaultgroup[id]' WHERE id='$user[id]'");
-	$sql->query("UPDATE users SET title='' WHERE id='$user[id]'");
-	$sql->query("UPDATE users SET tempbanned='0' WHERE id='$user[id]'");
+	$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE id = ?", [$defaultgroup['id'],$user['id']]);
 
 	redirect("profile.php?id=$user[id]");
-	die(pagefooter());
 }
 
 if (isset($_GET['unban'])) {
