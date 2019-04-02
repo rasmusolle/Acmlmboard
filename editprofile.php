@@ -7,9 +7,7 @@ $targetuserid = $loguser['id'];
 $act = isset($_POST['action']) ? $_POST['action'] : '';
 
 if (isset($_GET['id'])) {
-	$temp = $_GET['id'];
-	if (checknumeric($temp))
-		$targetuserid = $temp;
+	$targetuserid = $_GET['id'];
 }
 
 if (!can_edit_user($targetuserid)) {
@@ -23,9 +21,9 @@ if ($targetuserid == 0) {
 if (has_perm('no-restrictions'))
 	$blockroot = "";
 else
-	$blockroot = " AND `default` >= 0 ";
+	$blockroot = " AND default >= 0 ";
 
-$allgroups = $sql->query("SELECT * FROM `group` WHERE `visible`=1 $blockroot ORDER BY sortorder ASC");
+$allgroups = $sql->query("SELECT * FROM `group` WHERE visible = '1' $blockroot ORDER BY sortorder ASC");
 $listgroup = [];
 
 while ($group = $sql->fetch($allgroups)) {
@@ -42,7 +40,7 @@ if ($act == 'Edit profile') {
 
 global $user;
 
-$user = $sql->fetchq("SELECT * FROM users WHERE `id` = $targetuserid");
+$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$targetuserid]);
 
 if (!$user) {
 	noticemsg("Error", "This user doesn't exist!", true);
@@ -125,7 +123,7 @@ if ($act == 'Edit profile') {
 
 	if (has_perm("edit-users")) {
 		$targetgroup = $_POST['group_id'];
-		checknumeric($targetgroup);
+
 		if (!isset($listgroup[$targetgroup]))
 			$targetgroup = 0;
 
@@ -134,7 +132,7 @@ if ($act == 'Edit profile') {
 		}
 		$targetname = $_POST['name'];
 
-		if ($sql->resultq("SELECT COUNT(`name`) FROM `users` WHERE (`name` = '$targetname' OR `displayname` = '$targetname') AND `id` != $user[id]")) {
+		if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetname, $targetname, $user['id']])) {
 			$error .= "- Name already in use.<br />";
 		}
 	}
@@ -143,7 +141,7 @@ if ($act == 'Edit profile') {
 		$targetdname = $_POST['displayname'];
 
 		if (checkcdisplayname($targetuserid) && $targetdname != "") {
-			if ($sql->resultq("SELECT COUNT(`name`) FROM `users` WHERE (`name` = '$targetdname' OR `displayname` = '$targetdname') AND `id` != $user[id]")) {
+			if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetdname, $targetdname, $user['id']])) {
 				$error .= "- Displayname already in use.<br />";
 			}
 		}
@@ -161,52 +159,22 @@ if ($act == 'Edit profile') {
 	}
 
 	if (!$error) {
-		if (has_perm("edit-users")) {
-			$banreason = '';
-			if($_POST['title']) $banreason = "`title` = 'Banned permanently: {$_POST['title']}', ";
-			else $banreason = "`title` = 'Banned permanently', ";
-
-			$sql->query("UPDATE users SET "
-				. ($targetgroup ? "`group_id` = $targetgroup, " : "")
-				. (isset($_POST['permaban']) ? "`tempbanned` = '0', $banreason" : "")
-				. "`name` = '$targetname'"
-				. " WHERE `id`=$user[id]"
-			);
-		}
-	}
-
-	if (!$error) {
-		$sql->query('UPDATE users SET '
-			. ($pass ? 'pass="' . md5($pwdsalt2 . $pass . $pwdsalt) . '",' : '')
-			. (checkcdisplayname($targetuserid) ? (setfield('displayname') . ',') : '')
-			. (checkcusercolor($targetuserid) ? (setfield('nick_color') . ',') : '')
-			. (checkcusercolor($targetuserid) ? (setfield('enablecolor') . ',') : '')
-			. setfield('gender') . ','
-			. setfield('ppp') . ','
-			. setfield('tpp') . ','
-			. setfield('signsep') . ','
-			. setfield('rankset') . ','
-			. (checkctitle($targetuserid) && !isset($_POST['permaban']) ? (setfield('title') . ',') : '')
-			. setfield('realname') . ','
-			. setfield('location') . ','
-			. setfield('email') . ','
-			. setfield('head') . ','
-			. setfield('sign') . ','
-			. setfield('bio') . ','
-			. setfield('theme') . ','
-			. setfield('blocklayouts') . ','
-			. setfield('emailhide') . ','
-			. setfield('timezone') . ','
-			. "birth='$birthday',"
-			. "usepic=$usepic,"
-			. "dateformat='$dateformat',"
-			. "timeformat='$timeformat' "
-			. "WHERE `id`=$user[id]"
+		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, realname = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
+			theme = ?, blocklayouts = ?, emailhide = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
+			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['realname'], $_POST['location'], $_POST['email'], $_POST['head'],
+			$_POST['sign'], $_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['emailhide'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
+		
+		if ($pass) 
+			$sql->prepare("UPDATE users SET pass = ? WHERE id = ?", [md5($pwdsalt2 . $pass . $pwdsalt), $user['id']]);
+		if (checkcdisplayname($targetuserid)) 
+			$sql->prepare("UPDATE users SET displayname = ? WHERE id = ?", [$_POST['displayname'], $user['id']]);
+		if (checkcusercolor($targetuserid)) 
+			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $_POST['enablecolor'], $user['id']]);
+		if (checkctitle($targetuserid))
+			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
 
 		redirect("profile.php?id=$user[id]");
-
-		die(pagefooter());
 	} else {
 		noticemsg("Error", "Couldn't save the profile changes. The following errors occured:<br><br>" . $error);
 

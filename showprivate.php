@@ -11,23 +11,20 @@ $ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', '
 foreach ($ufields as $field)
 	$fieldlist .= "u.$field u$field,";
 
-if ($pid = $_GET['id'])
-	checknumeric($pid);
+$pid = (isset($_GET['id']) ? $_GET['id'] : null);
 
 if (!$pid) {
 	noticemsg("Error", "Private message does not exist.", true);
 }
 
-$pmsgs = $sql->fetchq("SELECT ".userfields('u','u').",$fieldlist p.* "
-	."FROM pmsgs p "
-	."LEFT JOIN users u ON u.id=p.userfrom "
-	."WHERE p.id=$pid");
+$pmsgs = $sql->fetchp("SELECT ".userfields('u','u').",$fieldlist p.* FROM pmsgs p LEFT JOIN users u ON u.id = p.userfrom WHERE p.id = ?", [$pid]);
+if ($pmsgs == null) noticemsg("Error", "Private message does not exist.", true);
 $tologuser = ($pmsgs['userto'] == $loguser['id']);
 
 if (((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && !has_perm('view-user-pms')))
 	noticemsg("Error", "Private message does not exist.", true);
 elseif ($tologuser && $pmsgs['unread'])
-	$sql->query("UPDATE pmsgs SET unread=0 WHERE id=$pid");
+	$sql->prepare("UPDATE pmsgs SET unread = 0 WHERE id = ?", [$pid]);
 
 pageheader($pmsgs['title']);
 

@@ -73,8 +73,8 @@ if ($loguser['ppp'] < 1) $loguser['ppp'] = 20;
 if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired. - SquidEmpress
-$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
-$sql->query('UPDATE users SET group_id=' . $defaultgroup . ', title="", tempbanned="0" WHERE tempbanned<' . time() . ' AND tempbanned>0');
+$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default` = 1");
+$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
 
 $dateformat = "$loguser[dateformat] $loguser[timeformat]";
 
@@ -87,20 +87,22 @@ if ($bot) {
 	load_bot_permset();
 }
 if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
-	$sql->query("DELETE FROM `guests` WHERE `ip`='$userip' OR `date`<" . (time() - 300));
+	$sql->prepare("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
 	if ($log) {
-		$sql->query("UPDATE `users` SET `lastview`=" . time() . ",`ip`='$userip', `ipfwd`='$userfwd', `url`='" . addslashes($url) . "', `ipbanned`='0' WHERE `id`='$loguser[id]'");
+		$sql->prepare("UPDATE users SET lastview = ?, ip = ?, ipfwd = ?, url = ?, ipbanned = 0 WHERE id = ?",
+			[time(), $userip, $userfwd, addslashes($url), $loguser['id']]);
 	} else {
-		$sql->query('INSERT INTO `guests` (`date`, `ip`, `url`, `useragent`, `bot`) VALUES (' . time() . ",'$userip','" . addslashes($url) . "', '" . addslashes($_SERVER['HTTP_USER_AGENT']) . "', '$bot')");
+		$sql->prepare("INSERT INTO guests (date, ip, url, useragent, bot) VALUES (?,?,?,?,?)",
+			[time(),$userip,addslashes($url),addslashes($_SERVER['HTTP_USER_AGENT']),$bot]);
 	}
 
 	if (!$bot) {
-		$sql->query("UPDATE `misc` SET `intval`=`intval`+1 WHERE `field`='views'");
+		$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'views'");
 	} else {
-		$sql->query('UPDATE `misc` SET `intval`=`intval`+1 WHERE `field`="botviews"');
+		$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'botviews'");
 	}
 
-	$views = $sql->resultq("SELECT `intval` FROM `misc` WHERE `field`='views'");
+	$views = $sql->resultq("SELECT intval FROM misc WHERE field = 'views'");
 
 	$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
 	$date = date("m-d-y", time());
@@ -128,14 +130,14 @@ if (is_file("theme/" . $theme . "/" . $theme . ".css")) {
 
 $logofile = $defaultlogo;
 
-$sql->query('DELETE FROM ipbans WHERE expires<'.time().' AND expires>0');
+$sql->prepare("DELETE FROM ipbans WHERE expires < ? AND expires > 0", [time()]);
 
-$r = $sql->query("SELECT * FROM ipbans WHERE '$userip' LIKE ipmask");
+$r = $sql->prepare("SELECT * FROM ipbans WHERE ? LIKE ipmask", [$userip]);
 if (@$sql->numrows($r) > 0) {
-	if ($loguser) $sql -> query("UPDATE `users` SET `ipbanned` = '1' WHERE `id` = '$loguser[id]'");
-	else $sql->query("UPDATE `guests` SET `ipbanned` = '1' WHERE `ip` = '". $_SERVER['REMOTE_ADDR'] ."'");
+	if ($loguser) $sql->prepare("UPDATE users SET ipbanned = 1 WHERE id = ?", [$loguser['id']]);
+	else $sql->prepare("UPDATE guests SET ipbanned = 1 WHERE ip = ?", [$_SERVER['REMOTE_ADDR']]);
 
-	$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
+	$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned` = 1");
 
 	$i = $sql->fetch($r);
 	if ($i['hard']) {
@@ -169,9 +171,9 @@ function pageheader($pagetitle = "", $fid = 0) {
 	}
 	// this is the only common.php location where we reliably know $fid.
 	if ($log) {
-		$sql->query("UPDATE `users` SET `lastforum`='$fid' WHERE `id`='$loguser[id]'");
+		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [$fid, $loguser['id']]);
 	} else {
-		$sql->query("UPDATE `guests` SET `lastforum`='$fid' WHERE `ip`='$_SERVER[REMOTE_ADDR]'");
+		$sql->prepare("UPDATE guests SET lastforum = ? WHERE ip = ?", [$fid, $_SERVER['REMOTE_ADDR']]);
 	}
 	$timezone = new DateTimeZone($loguser['timezone']);
 	$tzoff = $timezone->getOffset(new DateTime("now"));
@@ -181,7 +183,7 @@ function pageheader($pagetitle = "", $fid = 0) {
 	if ($pagetitle)
 		$pagetitle .= " - ";
 
-	$t = $sql->resultq("SELECT `txtval` FROM `misc` WHERE `field`='attention'");
+	$t = $sql->resultq("SELECT txtval FROM misc WHERE field = 'attention'");
 
 	if ($t != "")
 		$extratitle = <<<HTML
@@ -236,7 +238,7 @@ HTML;
 				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?> 
 <?php
 	if ($log) {
-		$unreadpms = $sql->resultq("SELECT COUNT(*) FROM `pmsgs` WHERE `userto`='$loguser[id]' AND `unread`=1 AND `del_to`='0'");
+		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
 
 		if (has_perm('view-own-pms')) {
 			echo '<a href="private.php">
@@ -245,8 +247,7 @@ HTML;
 		}
 	}
 
-	checknumeric($fid);
-	if ($fid)
+	if ($fid && is_numeric($fid))
 		$markread = ["url" => "index.php?action=markread&fid=$fid", "title" => "Mark forum read"];
 	else
 		$markread = ["url" => "index.php?action=markread&fid=all", "title" => "Mark all forums read"];
@@ -292,10 +293,8 @@ HTML;
 	}
 
 	if ($fid) {
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview`
-			FROM `users`
-			WHERE (`lastview` > " . (time() - 300) . " OR `lastpost` > " . (time() - 300) . ") AND `lastforum`='$fid'
-			ORDER BY `name`");
+		$onusers = $sql->prepare("SELECT ".userfields().", lastpost, lastview FROM users WHERE (lastview > ? OR lastpost > ?) AND lastforum = ? ORDER BY name",
+			[(time() - 300), (time() - 300), $fid]);
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
@@ -306,13 +305,13 @@ HTML;
 			$onusercount++;
 		}
 
-		$fname = $sql->resultq("SELECT `title` FROM `forums` WHERE `id`='$fid'");
+		$fname = $sql->resultp("SELECT title FROM forums WHERE id = ?", [$fid]);
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : "") . " currently in $fname" . ($onusercount > 0 ? ": " : "") . $onuserlist;
 
 		//[Scrydan] Changed from the commented code below to save a query.
 		$numbots = 0;
 		$numguests = 0;
-		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (time() - 300) . "'")) {
+		if($result = $sql->prepare("SELECT COUNT(*) as guest_count, SUM(bot) as bot_count FROM guests WHERE lastforum = ? AND date > ?", [$fid, (time()-300)])) {
 			if($data = $sql->fetch($result)) {
 				$numbots = $data['bot_count'];
 				$numguests = $data['guest_count'] - $numbots;
@@ -328,10 +327,9 @@ HTML;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
 	} else if ($showonusers) {
-		//[KAWA] Copypastadaption from ABXD, with added activity limiter.
 		$birthdaylimit = 86400 * 30;
-		$rbirthdays = $sql->query("SELECT `birth`, " . userfields() . " FROM `users`
-								WHERE `birth` LIKE '" . date('m-d') . "%' AND `lastview` > " . (time() - $birthdaylimit) . " ORDER BY `name`");
+		$rbirthdays = $sql->prepare("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? AND lastview > ? ORDER BY name",
+			[date('m-d').'%', (time() - $birthdaylimit)]);
 		$birthdays = [];
 		while ($user = $sql->fetch($rbirthdays)) {
 			$b = explode('-', $user['birth']);
@@ -357,12 +355,11 @@ HTML;
 			$birthdaybox = "<tr class=\"n1 center\"><td class=\"b n2 center\">Birthdays today: $birthdaystoday</td></tr>";
 		}
 
-		$count['d'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (time() - 86400) . "'");
-		$count['h'] = $sql->resultq("SELECT COUNT(*) FROM `posts` WHERE `date` > '" . (time() - 3600) . "'");
-		$lastuser = $sql->fetchq("SELECT " . userfields() . " FROM `users` ORDER BY `id` DESC LIMIT 1");
+		$count['d'] = $sql->resultp("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
+		$count['h'] = $sql->resultp("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
+		$lastuser = $sql->fetchq("SELECT ".userfields()." FROM users ORDER BY id DESC LIMIT 1");
 
-		$onusers = $sql->query("SELECT " . userfields() . ", `lastpost`, `lastview` FROM `users`
-							WHERE (`lastview` > " . (time() - 300) . " OR `lastpost` > " . (time() - 300) . ") ORDER BY `name`");
+		$onusers = $sql->prepare("SELECT ".userfields().",lastpost,lastview FROM users WHERE (lastview > ? OR lastpost > ?) ORDER BY name", [(time()-300), (time()-300)]);
 		$onuserlist = "";
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
@@ -377,7 +374,7 @@ HTML;
 
 		$numbots = 0;
 		$numguests = 0;
-		if($result = $sql->query("SELECT COUNT(*) as guest_count, SUM(`bot`) as bot_count FROM `guests` WHERE `lastforum` = '$fid' AND `date` > '" . (time() - 300) . "'")) {
+		if($result = $sql->prepare("SELECT COUNT(*) as guest_count, SUM(bot) as bot_count FROM guests WHERE lastforum = ? AND date > ?", [$fid, (time() - 300)])) {
 			if($data = $sql->fetch($result)) {
 				$numbots = $data['bot_count'];
 				$numguests = $data['guest_count'] - $numbots;

@@ -4,7 +4,6 @@ require('lib/common.php');
 needs_login(1);
 
 if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }
-checknumeric($announce);
 
 if (!isset($_POST['action'])) { $_POST['action'] = ''; }
 if ($act = $_POST['action']) {
@@ -15,7 +14,6 @@ if ($act = $_POST['action']) {
 	$user = $loguser;
 	$fid = (isset($_GET['id']) ? $_GET['id'] : 0);
 }
-checknumeric($fid);
 
 if ($announce) {
 	$type = "announcement";
@@ -26,7 +24,7 @@ if ($announce) {
 if ($announce && $fid == 0)
 	$forum = ['id' => 0, 'readonly' => 1];
 else
-	$forum = $sql->fetchq("SELECT * FROM forums WHERE id=$fid AND id IN " . forums_with_view_perm());
+	$forum = $sql->fetchp("SELECT * FROM forums WHERE id = ? AND id IN ".forums_with_view_perm(), [$fid]);
 
 $forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
 
@@ -136,14 +134,14 @@ if (isset($err)) {
 	$modclose = "0";
 	$modstick = "0";
 
-	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
+	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$userid]);
 	$user['posts']++;
 
 	if ($announce) {
 		$modclose = $announce;
 	}
 
-	$sql->query("UPDATE users SET posts=posts+1,threads=threads+1,lastpost=" . time() . " WHERE id=$userid");
+	$sql->prepare("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $userid]);
 	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES (?,?,?,?,?,?,?,?)",
 		[$_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick]);
 	$tid = $sql->insertid();
@@ -153,9 +151,9 @@ if (isset($err)) {
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
 		[$pid,$_POST['message']]);
 	if (!$announce) {
-		$sql->query("UPDATE forums SET threads=threads+1,posts=posts+1,lastdate=" . time() . ",lastuser=$userid,lastid=$pid " . "WHERE id=$fid");
+		$sql->prepare("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?", [time(), $userid, $pid, $fid]);
 	}
-	$sql->query("UPDATE threads SET lastid=$pid WHERE id=$tid");
+	$sql->prepare("UPDATE threads SET lastid = ? WHERE id = ?", [$pid, $tid]);
 
 	if ($announce) {
 		$viewlink = "thread.php?announce";

@@ -22,15 +22,10 @@ if ($_GET['act'] == 'delete' || $_GET['act'] == 'undelete') {
 	$pid = unpacksafenumeric($pid);
 }
 
-checknumeric($pid);
-
 needs_login(1);
 
-$thread = $sql->fetchq('SELECT p.user puser, t.*, f.title ftitle, f.private fprivate, f.readonly freadonly '
-.'FROM posts p '
-.'LEFT JOIN threads t ON t.id=p.thread '
-.'LEFT JOIN forums f ON f.id=t.forum '
-."WHERE p.id=$pid AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce>=1))");
+$thread = $sql->fetchp("SELECT p.user puser, t.*, f.title ftitle, f.private fprivate, f.readonly freadonly FROM posts p LEFT JOIN threads t ON t.id = p.thread "
+	."LEFT JOIN forums f ON f.id=t.forum WHERE p.id = ? AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce >= 1))", [$pid]);
 
 if (!$thread) $pid = 0;
 
@@ -60,19 +55,12 @@ if ($thread['announce']) {
 		['href' => "thread.php?id={$thread['id']}", 'title' => htmlval($thread['title'])]);
 }
 
-$res = $sql->query("SELECT u.id, p.user, pt.text "
-		."FROM posts p "
-		."LEFT JOIN poststext pt ON p.id=pt.id "
-		."JOIN ("
-		."SELECT id,MAX(revision) toprev FROM poststext GROUP BY id"
-		.") as pt2 ON pt2.id=pt.id AND pt2.toprev=pt.revision "
-		."LEFT JOIN users u ON p.user=u.id "
-		."WHERE p.id=$pid");
+$post = $sql->fetchp("SELECT u.id, p.user, pt.text FROM posts p LEFT JOIN poststext pt ON p.id=pt.id "
+		."JOIN (SELECT id,MAX(revision) toprev FROM poststext GROUP BY id) as pt2 ON pt2.id = pt.id AND pt2.toprev = pt.revision "
+		."LEFT JOIN users u ON p.user = u.id WHERE p.id = ?", [$pid]);
 
-if (@$sql->numrows($res) < 1)
-	$err = "That post does not exist.";
+if (!isset($post)) $err = "Post doesn't exist.";
 
-$post = $sql->fetch($res);
 $quotetext = htmlval($post['text']);
 if ($act == "Submit" && $post['text'] == $_POST['message']) {
 	$err = "No changes detected.<br>$threadlink";
@@ -110,7 +98,7 @@ if (isset($err)) {
 <?php
 } else if ($act == 'Preview') {
 	$_POST['message'] = stripslashes($_POST['message']);
-	$euser = $sql->fetchq("SELECT * FROM users WHERE id=$post[id]");
+	$euser = $sql->fetchq("SELECT * FROM users WHERE id = ?", [$post['id']]);
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = $euser['posts']++;
@@ -145,14 +133,13 @@ if (isset($err)) {
 	</table></form>
 	<?php
 } else if ($act == 'Submit') {
-	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid");
+	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$userid]);
 
-	$rev = $sql->fetchq("SELECT MAX(revision) m FROM poststext WHERE id=$pid");
+	$rev = $sql->fetchp("SELECT MAX(revision) m FROM poststext WHERE id = ?", [$pid]);
 	$rev = $rev['m'];
 
 	$rev++;
-	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)",
-		[$pid,$_POST['message'],$rev,$userid,time()]);
+	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)", [$pid,$_POST['message'],$rev,$userid,time()]);
 
 	redirect("thread.php?pid=$pid#edit");
 } else if ($act == 'delete' || $act == 'undelete') {
@@ -163,7 +150,7 @@ if (isset($err)) {
 		echo '<br>';
 		noticemsg("Error", "You do not have the permission to do this.");
 	} else {
-		$sql->query("UPDATE posts SET deleted=".($act=='delete'?1:0)." WHERE id='$pid'");
+		$sql->prepare("UPDATE posts SET deleted = ? WHERE id = ?", [($act == 'delete' ? 1 : 0), $pid]);
 		redirect("thread.php?pid=$pid#edit");
 	}
 }

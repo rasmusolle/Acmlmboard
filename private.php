@@ -23,19 +23,17 @@ if ($_GET['view'] == 'sent') {
 
 if (has_perm('view-user-pms')) $id = (isset($_GET['id']) ? $_GET['id'] : 0);
 else $id = 0;
-checknumeric($id);
 
 if (!has_perm('view-own-pms') && $id == 0) {
 	noticemsg("Error", "You are not allowed to do this!", true);
 }
 
 $showdel = isset($_GET['showdel']);
-checknumeric($showdel);
 
 if ($_GET['action'] == "del") {
-	$owner = $sql->resultq("SELECT user$fieldn2 FROM pmsgs WHERE id=$id");
+	$owner = $sql->resultp("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
 	if (has_perm('delete-user-pms') || ($owner == $loguser['id'] && has_perm('delete-own-pms'))) {
-		$sql->query($q = "UPDATE pmsgs SET del_$fieldn2=" . ((int) !$showdel) . " WHERE id=$id");
+		$sql->prepare("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
 	} else {
 		noticemsg("Error", "You are not allowed to (un)delete that message.", true);
 	}
@@ -44,7 +42,8 @@ if ($_GET['action'] == "del") {
 
 $ptitle = 'Private messages' . ($sent ? ' (sent)' : '');
 if ($id && has_perm('view-user-pms')) {
-	$user = $sql->fetchq("SELECT id,name,group_id FROM users WHERE id=$id");
+	$user = $sql->fetchp("SELECT id,name,group_id FROM users WHERE id = ?", [$id]);
+	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 	pageheader("$user[name]'s " . strtolower($ptitle));
 	$title = userlink($user) . "'s " . strtolower($ptitle);
 } else {
@@ -53,14 +52,14 @@ if ($id && has_perm('view-user-pms')) {
 	$title = $ptitle;
 }
 
-$pmsgc = $sql->resultq("SELECT COUNT(*) FROM pmsgs WHERE user$fieldn2=$id AND del_$fieldn2=$showdel");
-$pmsgs = $sql->query("SELECT " . userfields('u', 'u') . ", p.* "
-					."FROM pmsgs p "
-					."LEFT JOIN users u ON u.id=p.user$fieldn "
-					."WHERE p.user$fieldn2=$id "
-				."AND del_$fieldn2=$showdel "
+$pmsgc = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE user$fieldn2 = ? AND del_$fieldn2 = ?", [$id, $showdel]);
+$pmsgs = $sql->prepare("SELECT ".userfields('u', 'u').", p.* FROM pmsgs p "
+					."LEFT JOIN users u ON u.id = p.user$fieldn "
+					."WHERE p.user$fieldn2 = ? "
+				."AND del_$fieldn2 = ? "
 					."ORDER BY p.unread DESC, p.date DESC "
-					."LIMIT " . (($page - 1) * $loguser['tpp']) . ", " . $loguser['tpp']);
+					."LIMIT " . (($page - 1) * $loguser['tpp']) . ", " . $loguser['tpp'],
+				[$id, $showdel]);
 
 $topbot = [
 	'breadcrumb' => [['href' => './', 'title' => 'Main']],

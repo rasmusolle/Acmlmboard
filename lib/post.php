@@ -244,14 +244,12 @@ function posttoolbar() {
 			. '</tr></table>';
 }
 
-//[KAWA] Blocklayouts
 function LoadBlocklayouts() {
 	global $blocklayouts, $loguser, $log, $sql;
-	if (isset($blocklayouts) || !$log)
-		return;
+	if (isset($blocklayouts) || !$log) return;
 
 	$blocklayouts = [];
-	$rBlocks = $sql->query("select * from blockedlayouts where blockee = " . $loguser['id']);
+	$rBlocks = $sql->prepare("SELECT * FROM blockedlayouts WHERE blockee = ?",[$loguser['id']]);
 	while ($block = $sql->fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
 }

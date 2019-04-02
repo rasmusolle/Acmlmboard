@@ -5,7 +5,7 @@ if (!isset($_GET['rankset']) || !is_numeric($_GET['rankset'])) $getrankset = 1;
 else $getrankset = $_GET['rankset'];
 
 $linkuser = [];
-$allusers = $sql->query("SELECT " . userfields() . ", `posts`, `lastview` FROM `users` WHERE `rankset` = $getrankset ORDER BY `id`");
+$allusers = $sql->prepare("SELECT ".userfields().", posts, lastview FROM users WHERE rankset = ? ORDER BY id", [$getrankset]);
 
 while ($row = $sql->fetch($allusers)) { $linkuser[$row['id']] = $row; }
 

@@ -1,13 +1,6 @@
 <?php
 require('lib/common.php');
 
-$uid = $loguser['id'];
-
-if (isset($_GET['id'])) {
-	$temp = $_GET['id'];
-	if (checknumeric($temp)) $uid = $temp;
-}
-
 if (!has_perm('ban-users')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $id = (int)$_GET['id'];
@@ -18,15 +11,12 @@ if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'gro
 }
 
 if ($uid = $_GET['id']) {
-	checknumeric($uid);
 	$numid = $sql->fetchp("SELECT id FROM users WHERE id = ?",[$uid]);
 	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM group WHERE banned = 1");
-$defaultgroup = $sql->resultq("SELECT id FROM group WHERE default = 1");
-
-global $user;
+$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE banned = 1");
+$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default` = 1");
 
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?",[$uid]);
 

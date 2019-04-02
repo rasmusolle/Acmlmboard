@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-$regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field='regdisable'");
+$regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field = 'regdisable'");
 if ($regdis['intval'] == 1) {
 	pageheader('Register');
 
@@ -59,7 +59,6 @@ if ($act == 'Register') {
 		$err = "You are either a bot or very bad at simple mathematics.";
 
 	if (empty($err)) {
-		$name = $sql->escape($name);
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
 		$res = $sql->prepare("INSERT INTO users (name,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?);",
 			$name, $salted_password, time(), time(), $userip, $gender, $timezone, $defaulttheme);

@@ -6,38 +6,26 @@ if($uid < 0) {
 	noticemsg("Error", "You must specify a user ID!", true);
 }
 
-$user = $sql->fetchq("SELECT * FROM `users` WHERE `id` = '$uid'");
-if(!$user) {
-	noticemsg("Error", "This user does not exist!", true);
-}
+$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
+if (!$user) noticemsg("Error", "This user does not exist!", true);
 
-$group = $sql->fetchp("SELECT * FROM `group` WHERE id=?", [$user['group_id']]);
+$group = $sql->fetchp("SELECT * FROM `group` WHERE id = ?", [$user['group_id']]);
 
 pageheader("Profile for " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 $days = (time() - $user['regdate']) / 86400;
-$pfound = $sql->resultq("SELECT count(*) FROM `posts` WHERE `user`='$uid'");
+$pfound = $sql->resultp("SELECT count(*) FROM posts WHERE user = ?", [$uid]);
 $pavg = sprintf("%1.02f", $user['posts'] / $days);
-$tfound = $sql->resultq("SELECT count(*) FROM `threads` WHERE `user`='$uid'");
+$tfound = $sql->resultp("SELECT count(*) FROM threads WHERE user = ?", [$uid]);
 $tavg = sprintf('%1.02f', $user['threads'] / $days);
 
-$thread = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `f`.`title` `ftitle`, `t`.`forum`, `f`.`private`
-						FROM `forums` `f`
-						LEFT JOIN `threads` `t` ON `t`.`forum`=`f`.`id`
-						LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
-						WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `f`.`id` IN " . forums_with_view_perm());
-
-$threadhack = $sql->fetchq("SELECT `p`.`id`, `t`.`title` `ttitle`, `t`.`forum`, `t`.`announce`
-							FROM `threads` `t`
-							LEFT JOIN `posts` `p` ON `p`.`thread`=`t`.`id`
-							WHERE `p`.`date`='$user[lastpost]' AND p.user='$uid' AND `t`.`forum`='0'");
+$thread = $sql->fetchp("SELECT p.id, t.title ttitle, f.title ftitle, t.forum, f.private FROM forums f
+	LEFT JOIN threads t ON t.forum = f.id LEFT JOIN posts p ON p.thread = t.id
+	WHERE p.date = ? AND p.user = ? AND f.id IN " . forums_with_view_perm(), [$user['lastpost'], $uid]);
 
 if ($pfound && $thread) {
 	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a>
 		(<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
-} else if ($pfound && $threadhack['announce'] && $threadhack['forum'] == 0) {
-	$lastpostlink = "<br>in <a href=\"thread.php?pid=$threadhack[id]#$threadhack[id]\">" . forcewrap(htmlval($threadhack['ttitle'])) . "</a>
-		(<a href=\"thread.php?announce=0\">Announcements</a>)";
 } else if ($user['posts'] == 0) {
 	$lastpostlink = "";
 } else {
@@ -117,7 +105,7 @@ if (has_perm('edit-permissions')) {
 		$editpermissions = "| <a href=\"editperms.php?uid=" . $user['id'] . "\">Edit user permissions</a>";
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned`=1");
+$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE banned = 1");
 
 $banuser = "";
 if (has_perm('edit-permissions')) {
@@ -129,9 +117,7 @@ if (has_perm('edit-permissions')) {
 		$banuser = "| <a href=\"banmanager.php?unban&id=" . $user['id'] . "\">Unban user</a>";
 }
 
-//[KAWA] Blocklayout ported from ABXD
-$qblock = "SELECT * FROM `blockedlayouts` WHERE `user`='$uid' AND `blockee`='$loguser[id]'";
-$rblock = $sql->query($qblock);
+$rblock = $sql->prepare("SELECT * FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
 $isblocked = $sql->numrows($rblock);
 $blocklayoutlink = '';
 
@@ -140,19 +126,11 @@ if ($log) {
 		$block = (int) $_GET['block'];
 
 		if ($block && !$isblocked) {
-			$qblock = "INSERT INTO `blockedlayouts` (`user`, `blockee`) values ('$uid', '$loguser[id]')";
-			$rblock = $sql->query($qblock);
-			$blockmessage = "Layout blocked.";
+			$rblock = $sql->prepare("INSERT INTO blockedlayouts (user, blockee) values (?,?)", [$uid, $loguser['id']]);
 			$isblocked = true;
 		} elseif (!$block && $isblocked) {
-			$qblock = "DELETE FROM `blockedlayouts` WHERE `user`='$uid' AND `blockee`='$loguser[id]' LIMIT 1";
-			$rblock = $sql->query($qblock);
-			$blockMessage = "Layout unblocked.";
+			$rblock = $sql->prepare("DELETE FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
 			$isblocked = false;
-		}
-
-		if ($blockmessage) {
-			echo '<table class="c1"><td class="b n1 center">'.$blockmessage.'</table><br>';
 		}
 	}
 

@@ -7,7 +7,7 @@ function dobirthdays() { //Function for calling after we get the timezone for th
 	global $sql, $userbirthdays;
 	// [Mega-Mario] Check for birthdays globally.
 	// Makes stuff like checking for rainbow usernames a lot easier.
-	$rbirthdays = $sql->query("SELECT `id` FROM `users` WHERE `birth` LIKE '" . date('m-d') . "%'");
+	$rbirthdays = $sql->prepare("SELECT id FROM users WHERE birth LIKE ?", [date('m-d').'%']);
 	while ($bd = $sql->fetch($rbirthdays))
 		$userbirthdays[$bd['id']] = true;
 	return;
@@ -15,16 +15,14 @@ function dobirthdays() { //Function for calling after we get the timezone for th
 
 function checkuser($name, $pass) {
 	global $sql;
-	$id = $sql->resultq("SELECT id FROM users WHERE (name='$name' OR displayname='$name') AND pass='$pass'");
-	if (!$id)
-		$id = 0;
+	$id = $sql->resultp("SELECT id FROM users WHERE (name = ? OR displayname = ?) AND pass = ?", [$name, $name, $pass]);
+	if (!$id) $id = 0;
 	return $id;
 }
 
 function checkuid($userid, $pass) {
 	global $sql;
-	checknumeric($userid);
-	$user = $sql->fetchq("SELECT * FROM users WHERE id=$userid AND pass='" . addslashes($pass) . "'");
+	$user = $sql->fetchp("SELECT * FROM users WHERE id = ? AND pass = ?", [$userid, addslashes($pass)]);
 	return $user;
 }
 

@@ -13,15 +13,14 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 if ($log && $action == 'markread') {
 	$fid = $_GET['fid'];
 	if ($fid != 'all') {
-		checknumeric($fid);
 		//delete obsolete threadsread entries
-		$sql->query("DELETE r FROM threadsread r LEFT JOIN threads t ON t.id=r.tid WHERE t.forum=$fid AND r.uid=" . $loguser['id']);
+		$sql->prepare("DELETE r FROM threadsread r LEFT JOIN threads t ON t.id = r.tid WHERE t.forum = ? AND r.uid = ?", [$fid, $loguser['id']]);
 		//add new forumsread entry
-		$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$fid," . time() . ')');
+		$sql->prepare("REPLACE INTO forumsread VALUES (?,?,?)", [$loguser['id'], $fid, time()]);
 	} else {
 		//mark all read
-		$sql->query("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
-		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
+		$sql->prepare("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
+		$sql->prepare("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
 	}
 	redirect('index.php');
 }
@@ -34,12 +33,12 @@ while ($c = $sql->fetch($categs)) {
 		$categ[$c['id']] = $c;
 }
 
-$forums = $sql->query("SELECT f.*" . ($log ? ", r.time rtime" : '') . ", c.private cprivate, " . userfields('u', 'u') . " "
+$forums = $sql->prepare("SELECT f.*".($log ? ", r.time rtime" : '').", c.private cprivate, ".userfields('u', 'u')." "
 		. "FROM forums f "
 		. "LEFT JOIN users u ON u.id=f.lastuser "
 		. "LEFT JOIN categories c ON c.id=f.cat "
-		. ($log ? "LEFT JOIN forumsread r ON r.fid=f.id AND r.uid=$loguser[id] " : '')
-		. " ORDER BY c.ord,c.id,f.ord,f.id");
+		. ($log ? "LEFT JOIN forumsread r ON r.fid = f.id AND r.uid = $loguser[id] " : '')
+		. " ORDER BY c.ord,c.id,f.ord,f.id", []);
 $cat = -1;
 
 ?>
@@ -72,12 +71,10 @@ while ($forum = $sql->fetch($forums)) {
 
 	if ($forum['lastdate'] > ($log ? $forum['rtime'] : time() - 3600)) {
 		if ($log) {
-			$thucount = $sql->resultq("SELECT count(*) FROM threads t"
-					. " LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id])"
-					. " LEFT JOIN forumsread f ON (f.fid=t.forum AND f.uid=$loguser[id])"
-					. " WHERE t.forum=$forum[id]"
-					. " AND ((r.time < t.lastdate OR isnull(r.time)) AND (f.time < t.lastdate OR isnull(f.time)))"
-					. " AND (r.uid=$loguser[id] OR isnull(r.uid))");
+			$thucount = $sql->resultp("SELECT count(*) FROM threads t"
+					. " LEFT JOIN threadsread r ON (r.tid = t.id AND r.uid = ?) LEFT JOIN forumsread f ON (f.fid = t.forum AND f.uid = ?)"
+					. " WHERE t.forum = ? AND ((r.time < t.lastdate OR isnull(r.time)) AND (f.time < t.lastdate OR isnull(f.time))) AND (r.uid = ? OR isnull(r.uid))",
+						[$loguser['id'], $loguser['id'], $forum['id'], $loguser['id']]);
 			$status = rendernewstatus("n", $thucount);
 		} else {
 			$status = '&nbsp;';

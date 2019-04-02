@@ -4,11 +4,10 @@ require('lib/common.php');
 pageheader('Online users');
 
 $time = (isset($_GET['time']) ? $_GET['time'] : null);
-checknumeric($time);
 
-if (!$time) $time = 300;
+if (!$time || !is_numeric($time)) $time = 300;
 
-$users = $sql->query("SELECT * FROM users WHERE lastview > ".(time()-$time)." ORDER BY lastview DESC");
+$users = $sql->prepare("SELECT * FROM users WHERE lastview > ?", [(time()-$time)]);
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Online users during the last <?=str_replace('.', '', timeunits2($time)) ?>:</td></tr>

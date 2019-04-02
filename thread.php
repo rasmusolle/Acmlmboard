@@ -33,21 +33,21 @@ if (isset($_REQUEST['id'])) {
 // "link" support (i.e., thread.php?pid=999whatever)
 elseif (isset($_GET['pid'])) {
 	$pid = (int)$_GET['pid'];
-	$numpid = $sql->fetchq("SELECT t.id tid FROM posts p LEFT JOIN threads t ON p.thread=t.id WHERE p.id=$pid");
+	$numpid = $sql->fetchp("SELECT t.id tid FROM posts p LEFT JOIN threads t ON p.thread = t.id WHERE p.id = ?", [$pid]);
 	if (!$numpid) {
 		noticemsg("Error", "Thread post does not exist.", true);
 	}
-	$isannounce = $sql->resultq("SELECT announce FROM posts WHERE id=$pid");
+	$isannounce = $sql->resultp("SELECT announce FROM posts WHERE id = ?", [$pid]);
 	if ($isannounce) {
-		$pinf = $sql->fetchq("SELECT t.forum fid, t.id tid FROM posts p LEFT JOIN threads t ON p.thread=t.id WHERE p.id=$pid");
+		$pinf = $sql->fetchp("SELECT t.forum fid, t.id tid FROM posts p LEFT JOIN threads t ON p.thread=t.id WHERE p.id = ?", [$pid]);
 		$announcefid = $pinf['fid'];
 		$atid = $pinf['tid'];
 
-		$page = floor($sql->resultq("SELECT COUNT(*) FROM threads WHERE announce=1 AND forum=$announcefid AND id>$atid") / $ppp) + 1;
+		$page = floor($sql->resultp("SELECT COUNT(*) FROM threads WHERE announce = 1 AND forum = ? AND id > ?", [$announcefid, $atid]) / $ppp) + 1;
 		$viewmode = "announce";
 	} else {
-		$tid = $sql->resultq("SELECT thread FROM posts WHERE id=$pid");
-		$page = floor($sql->resultq("SELECT COUNT(*) FROM posts WHERE thread=$tid AND id<$pid") / $ppp) + 1;
+		$tid = $sql->resultp("SELECT thread FROM posts WHERE id = ?", [$pid]);
+		$page = floor($sql->resultp("SELECT COUNT(*) FROM posts WHERE thread = ? AND id < ?", [$tid, $pid]) / $ppp) + 1;
 		$viewmode = "thread";
 	}
 } else {
@@ -55,7 +55,7 @@ elseif (isset($_GET['pid'])) {
 }
 
 if ($viewmode == "thread")
-	$threadcreator = $sql->resultq("SELECT user FROM threads WHERE id=$tid");
+	$threadcreator = $sql->resultp("SELECT user FROM threads WHERE id = ?", [$tid]);
 else
 	$threadcreator = 0;
 
@@ -99,16 +99,14 @@ if ($_GET['pin'] && $_GET['rev'] && has_perm('view-post-history')) {
 	$pinstr = "";
 
 if ($viewmode == "thread") {
-	if (!$tid)
-		$tid = 0;
-	$sql->query("UPDATE threads "
-			. "SET views=views+1 $action "
-			. "WHERE id=$tid");
+	if (!$tid) $tid = 0;
+	$sql->prepare("UPDATE threads SET views = views + 1 $action WHERE id = ?", [$tid]);
 
-	$thread = $sql->fetchq("SELECT t.*, f.title ftitle, t.forum fid" . ($log ? ', r.time frtime' : '') . ' '
+	$thread = $sql->fetchp("SELECT t.*, f.title ftitle, t.forum fid".($log ? ', r.time frtime' : '').' '
 			. "FROM threads t LEFT JOIN forums f ON f.id=t.forum "
 			. ($log ? "LEFT JOIN forumsread r ON (r.fid=f.id AND r.uid=$loguser[id]) " : '')
-			. "WHERE t.id=$tid AND t.forum IN " . forums_with_view_perm());
+			. "WHERE t.id = ? AND t.forum IN ".forums_with_view_perm(),
+			[$tid]);
 
 	if (!isset($thread['id'])) {
 		noticemsg("Error", "Thread does not exist.", true);
@@ -119,34 +117,34 @@ if ($viewmode == "thread") {
 
 	//mark thread as read // 2007-02-21 blackhole89
 	if ($log && $thread['lastdate'] > $thread['frtime'])
-		$sql->query("REPLACE INTO threadsread VALUES ($loguser[id],$thread[id]," . time() . ")");
+		$sql->prepare("REPLACE INTO threadsread VALUES (?,?,?)", [$loguser['id'], $thread['id'], time()]);
 
 	//check for having to mark the forum as read too
 	if ($log) {
-		$readstate = $sql->fetchq("SELECT ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') n "
-			. "FROM threads t "
-			. "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
-			. "WHERE t.forum=$thread[fid] "
-			. "GROUP BY ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') ORDER BY n ASC");
+		$readstate = $sql->fetchp("SELECT ((NOT ISNULL(r.time)) OR t.lastdate < ?) n FROM threads t LEFT JOIN threadsread r ON (r.tid = t.id AND r.uid = ?) "
+			. "WHERE t.forum = ? GROUP BY ((NOT ISNULL(r.time)) OR t.lastdate < ?) ORDER BY n ASC",
+			[$thread['frtime'], $loguser['id'], $thread['fid'], $thread['frtime']]);
 		//if $readstate[n] is 1, MySQL did not create a group for threads where ((NOT ISNULL(r.time)) OR t.lastdate<'$thread[frtime]') is 0;
 		//thus, all threads in the forum are read. Mark it as such.
 		if ($readstate['n'] == 1)
-			$sql->query("REPLACE INTO forumsread VALUES ($loguser[id],$thread[fid]," . time() . ')');
+			$sql->prepare("REPLACE INTO forumsread VALUES (?,?,?)", [$loguser['id'], $thread['fid'], time()]);
 	}
 
 	//select top revision // 2007-03-08 blackhole89
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ", " . $fieldlist . " p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
+	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ", " . $fieldlist . " p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
 		. "FROM posts p "
-		. "LEFT JOIN threads t ON t.id=p.thread "
-		. "LEFT JOIN poststext pt ON p.id=pt.id "
-		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
-		. "LEFT JOIN users u ON p.user=u.id "
-		. "WHERE p.thread=$tid AND ISNULL(pt2.id) "
-		. "GROUP BY p.id "
-		. "ORDER BY p.id "
-		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+		. "LEFT JOIN threads t ON t.id = p.thread "
+		. "LEFT JOIN poststext pt ON p.id = pt.id "
+		. "LEFT JOIN poststext pt2 ON pt2.id = pt.id AND pt2.revision = (pt.revision + 1) $pinstr " //SQL barrel roll
+		. "LEFT JOIN users u ON p.user = u.id "
+		. "WHERE p.thread = ? AND ISNULL(pt2.id) "
+		. "GROUP BY p.id ORDER BY p.id "
+		. "LIMIT ".(($page - 1) * $ppp).",$ppp",
+		[$tid]);
 }elseif ($viewmode == "user") {
-	$user = $sql->fetchq("SELECT * FROM users WHERE id = $uid");
+	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
+	
+	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 
 	pageheader("Posts by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
@@ -156,17 +154,11 @@ if ($viewmode == "thread") {
 		. "LEFT JOIN users u ON p.user=u.id "
 		. "LEFT JOIN threads t ON p.thread=t.id "
 		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
 		. "WHERE p.user=$uid AND ISNULL(pt2.id) "
 		. "ORDER BY p.id "
 		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 
-	$thread['replies'] = $sql->resultq("SELECT count(*) "
-		. "FROM posts p "
-		. "LEFT JOIN threads t ON p.thread=t.id "
-		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
-		. "WHERE p.user=$uid ");
+	$thread['replies'] = $sql->resultp("SELECT count(*) FROM posts p WHERE user = ?", [$uid]) - 1;
 } elseif ($viewmode == "announce") {
 	pageheader('Announcements');
 
@@ -177,42 +169,31 @@ if ($viewmode == "thread") {
 		. "LEFT JOIN users u ON p.user=u.id "
 		. "LEFT JOIN threads t ON p.thread=t.id "
 		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
 		. "WHERE p.announce=1 AND t.announce=1 AND ISNULL(pt2.id) GROUP BY pt.id "
 		. "ORDER BY p.id DESC "
 		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
 
-	$thread['replies'] = $sql->resultq("SELECT count(*) "
-		. "FROM posts p "
-		. "LEFT JOIN threads t ON p.thread=t.id "
-		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
-		. "WHERE p.announce=1 AND t.announce=1  "
-			) - 1;
+	$thread['replies'] = $sql->resultq("SELECT count(*) FROM posts WHERE announce = 1") - 1;
 } elseif ($viewmode == "time") {
-	$mintime = time() - $time;
+	if (is_numeric($time))
+		$mintime = time() - $time;
+	else
+		$mintime = 86400;
 
 	pageheader('Latest posts');
 
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
 		. "LEFT JOIN users u ON p.user=u.id "
 		. "LEFT JOIN threads t ON p.thread=t.id "
 		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
-		. "WHERE p.date>$mintime AND ISNULL(pt2.id) "
+		. "WHERE p.date > ? AND ISNULL(pt2.id) "
 		. "ORDER BY p.date DESC "
-		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp);
+		. "LIMIT " . (($page - 1) * $ppp) . "," . $ppp, [$mintime]);
 
-	$thread['replies'] = $sql->resultq("SELECT count(*) "
-		. "FROM posts p "
-		. "LEFT JOIN threads t ON p.thread=t.id "
-		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON c.id=f.cat "
-		. "WHERE p.date>$mintime "
-	);
+	$thread['replies'] = $sql->resultp("SELECT count(*) FROM posts WHERE date > ?", [$mintime]) - 1;
 } else
 	pageheader();
 
@@ -242,7 +223,7 @@ if ($viewmode == "thread") {
 		'title' => htmlval($thread['title'])
 	];
 	
-	$faccess = $sql->fetch($sql->query("SELECT id,private,readonly FROM forums WHERE id=" . (int) $thread['forum']));
+	$faccess = $sql->fetch($sql->prepare("SELECT id,private,readonly FROM forums WHERE id = ?",[$thread['forum']]));
 	if (can_create_forum_post($faccess)) {
 		if (has_perm('override-closed') && $thread['closed'])
 			$topbot['actions'] = [['title' => 'Thread closed'],['href' => "newreply.php?id=$tid", 'title' => 'New reply']];
@@ -440,7 +421,7 @@ while ($post = $sql->fetch($posts)) {
 	if ($post['id'] != $_GET['pin']) {
 		$post['maxrevision'] = $post['revision']; // not pinned, hence the max. revision equals the revision we selected
 	} else {
-		$post['maxrevision'] = $sql->resultq("SELECT MAX(revision) FROM poststext WHERE id=$_GET[pin]");
+		$post['maxrevision'] = $sql->resultp("SELECT MAX(revision) FROM poststext WHERE id = ?", [$_GET['pin']]);
 	}
 	if (isset($thread['forum']) && can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;

@@ -8,10 +8,10 @@ if (isset($_GET['time'])) {
 	$time = 86400;
 }
 
-checknumeric($time);
-if ($time < 1) $time = 86400;
+if ($time < 1 || !is_numeric($time)) $time = 86400;
 
-$users = $sql->query("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) num FROM users u LEFT JOIN posts p ON p.user = u.id WHERE p.date > ".(time() - $time)." GROUP BY u.id ORDER BY num DESC");
+$users = $sql->prepare("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) num FROM users u LEFT JOIN posts p ON p.user = u.id WHERE p.date > ? GROUP BY u.id ORDER BY num DESC",
+	[(time() - $time)]);
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Active users during the last <?=timeunits2($time) ?>:</td></tr>

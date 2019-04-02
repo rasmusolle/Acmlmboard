@@ -14,11 +14,9 @@ if (!has_perm('create-pms'))
 if (!isset($_POST['action'])) {
 	$userto = '';
 	if (isset($_GET['pid']) && $pid = $_GET['pid']) {
-		checknumeric($pid);
-		$post = $sql->fetchq("SELECT IF(u.displayname='',u.name,u.displayname) name, p.title, p.text "
-			."FROM pmsgs p "
-			."LEFT JOIN users u ON p.userfrom=u.id "
-			."WHERE p.id=$pid" . (!has_perm('view-user-pms') ? " AND (p.userfrom=".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''));
+		$post = $sql->fetchp("SELECT IF(u.displayname = '',u.name,u.displayname) name, p.title, p.text "
+			."FROM pmsgs p LEFT JOIN users u ON p.userfrom = u.id "
+			."WHERE p.id = ?" . (!has_perm('view-user-pms') ? " AND (p.userfrom=".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''), [$pid]);
 		if ($post) {
 			$quotetext = '[reply="'.$post['name'].'" id="'.$pid.'"]'.$post['text'].'[/quote]' . PHP_EOL;
 			$title = 'Re:' . $post['title'];
@@ -27,8 +25,7 @@ if (!isset($_POST['action'])) {
 	}
 
 	if (isset($_GET['uid']) && $uid = $_GET['uid']) {
-		checknumeric($uid);
-		$userto = $sql->resultq("SELECT IF(displayname='',name,displayname) name FROM users WHERE id=$uid");
+		$userto = $sql->resultp("SELECT IF(displayname = '',name,displayname) name FROM users WHERE id = ?", [$uid]);
 	} elseif (!isset($userto)) {
 		$userto = $_POST['userto'];
 	}
@@ -112,12 +109,12 @@ if (!isset($_POST['action'])) {
 	</form>
 	<?php
 } elseif ($_POST['action'] == 'Submit') {
-	$userto = $sql->resultq("SELECT id FROM users WHERE name LIKE '".$_POST['userto']."' OR displayname LIKE '".$_POST['userto']."'");
+	$userto = $sql->resultp("SELECT id FROM users WHERE name LIKE ? OR displayname LIKE ?", [$_POST['userto'], $_POST['userto']]);
 
 	if ($userto && $_POST['message']) {
 		// [blackhole89] 2007-07-26
-		$recentpms = $sql->query("SELECT date FROM pmsgs WHERE date>=(UNIX_TIMESTAMP()-30) AND userfrom='$loguser[id]'");
-		$secafterpm = $sql->query("SELECT date FROM pmsgs WHERE date>=(UNIX_TIMESTAMP()-$config[secafterpost]) AND userfrom='$loguser[id]'");
+		$recentpms = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP()-30) AND userfrom = ?", [$loguser['id']]);
+		$secafterpm = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP() - $config[secafterpost]) AND userfrom = ?", [$loguser['id']]);
 		if (($sql->numrows($recentpms) > 0) && (!has_perm('consecutive-posts'))) {
 			$msg = "You can't send more than one PM within 30 seconds!";
 		} else if (($sql->numrows($secafterpm) > 0) && (has_perm('consecutive-posts'))) {

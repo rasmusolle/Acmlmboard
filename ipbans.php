@@ -23,14 +23,13 @@ pageheader('IP bans');
 
 if ($action == "del") {
 	$data = explode(",",decryptpwd($what));
-	$sql->query("DELETE FROM ipbans WHERE ipmask='$data[0]' AND expires='$data[1]'");
+	$sql->prepare("DELETE FROM ipbans WHERE ipmask = ? AND expires = ?", [$data[0], $data[1]]);
 } else if ($action == "add") {
 	if ($_POST['ipmask']) {
-		echo (isset($_POST['hard']) ? 1 : 0);
 		$hard = $_POST['hard'];
 		$expires = ($_POST['expires'] > 0 ? ($_POST['expires'] + time()) : 0);
-		$sql->query("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES "
-			."('$_POST[ipmask]','$hard','$expires','" . addslashes($loguser['name']) . "','$_POST[reason]')");
+		$sql->prepare("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES (?,?,?,?,?)",
+			[$_POST['ipmask'], $hard, $expires, addslashes($loguser['name']), $_POST['reason']]);
 	} else {
 		$err = "You must enter an IP mask";
 	}
@@ -69,7 +68,7 @@ if (isset($err)) noticemsg("Error", $err);
 <?php while ($i = $sql->fetch($ipbans)) { ?>
 	<tr>
 		<td class="b n1"><span style="font-family:'Courier New',monospace"><?=ipfmt($i['ipmask']) ?></span></td>
-		<td class="b n2 center"><span style="color:<?=($i['hard'] ? "red\">Yes" : "green\">No") ?>"></span></td>
+		<td class="b n2 center"><span style=color:<?=($i['hard'] ? "red>Yes" : "green>No") ?></span></td>
 		<td class="b n2 center">
 			<?=($i['expires'] ? date($loguser['dateformat'],$i['expires'])."&nbsp;".date($loguser['timeformat'],$i['expires']) : "never") ?>
 		</td>
