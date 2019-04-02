@@ -22,7 +22,7 @@ if (isset($_GET['testshit'])) {
 	echo $sqluser . ' ' . $sqlpass . ' ' . $sqldb;
 }
 
-$ncx = $sql->query("SELECT title, nc FROM `group` WHERE nc != '' ORDER BY sortorder ASC");
+$ncx = $sql->query("SELECT title, nc FROM groups WHERE nc != '' ORDER BY sortorder ASC");
 $nctable = "";
 
 while ($ncr = $sql->fetch($ncx)) {

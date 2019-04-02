@@ -2,7 +2,7 @@
 
 // [Mega-Mario] preload group data, makes things a lot easier afterwards
 $usergroups = [];
-$r = $sql->query("SELECT * FROM `group`");
+$r = $sql->query("SELECT * FROM groups");
 while ($g = $sql->fetch($r))
 	$usergroups[$g['id']] = $g;
 
@@ -32,7 +32,7 @@ function permset_for_user($userid) {
 
 function is_root_gid($gid) {
 	global $sql;
-	$result = $sql->resultp("SELECT `default` FROM `group` WHERE id=?",[$gid]);
+	$result = $sql->resultp("SELECT `default` FROM groups WHERE id = ?",[$gid]);
 	if ($result < 0) return true;
 	return false;
 }

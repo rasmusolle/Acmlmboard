@@ -9,7 +9,7 @@ if($uid < 0) {
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
 if (!$user) noticemsg("Error", "This user does not exist!", true);
 
-$group = $sql->fetchp("SELECT * FROM `group` WHERE id = ?", [$user['group_id']]);
+$group = $sql->fetchp("SELECT * FROM groups WHERE id = ?", [$user['group_id']]);
 
 pageheader("Profile for " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
@@ -105,7 +105,7 @@ if (has_perm('edit-permissions')) {
 		$editpermissions = "| <a href=\"editperms.php?uid=" . $user['id'] . "\">Edit user permissions</a>";
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE banned = 1");
+$bannedgroup = $sql->resultq("SELECT id FROM groups WHERE banned = 1");
 
 $banuser = "";
 if (has_perm('edit-permissions')) {

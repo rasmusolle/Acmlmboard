@@ -15,8 +15,8 @@ if ($uid = $_GET['id']) {
 	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE banned = 1");
-$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default` = 1");
+$bannedgroup = $sql->resultq("SELECT id FROM `groups` WHERE banned = 1");
+$defaultgroup = $sql->resultq("SELECT id FROM `groups` WHERE `default` = 1");
 
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?",[$uid]);
 

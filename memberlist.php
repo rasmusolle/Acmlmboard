@@ -21,7 +21,7 @@ $where = '1';
 
 if ($pow != '' && is_numeric($pow)) {
 	if ($pow == '-1')
-		$where .= " AND `group_id` =  ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT `id` FROM `group` WHERE `perm_id` = 'show-as-staff') AND `x_type` = 'group')";
+		$where .= " AND `group_id` =  ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT id FROM groups WHERE perm_id = 'show-as-staff') AND `x_type` = 'group')";
 	else
 		$where .= " AND group_id=$pow";
 }
@@ -40,7 +40,7 @@ else {
 			$pagelist.=' ' . mlink($sort, $pow, $p, $orderby) . "$p</a>";
 }
 
-$activegroups = $sql->query("SELECT * FROM `group` WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
+$activegroups = $sql->query("SELECT * FROM groups WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
 
 $groups = [];
 $gc = 0;

@@ -73,7 +73,7 @@ if ($loguser['ppp'] < 1) $loguser['ppp'] = 20;
 if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired. - SquidEmpress
-$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default` = 1");
+$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 $sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
 
 $dateformat = "$loguser[dateformat] $loguser[timeformat]";
@@ -137,7 +137,7 @@ if (@$sql->numrows($r) > 0) {
 	if ($loguser) $sql->prepare("UPDATE users SET ipbanned = 1 WHERE id = ?", [$loguser['id']]);
 	else $sql->prepare("UPDATE guests SET ipbanned = 1 WHERE ip = ?", [$_SERVER['REMOTE_ADDR']]);
 
-	$bannedgroup = $sql->resultq("SELECT id FROM `group` WHERE `banned` = 1");
+	$bannedgroup = $sql->resultq("SELECT id FROM groups WHERE banned = 1");
 
 	$i = $sql->fetch($r);
 	if ($i['hard']) {

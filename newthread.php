@@ -3,7 +3,8 @@ require('lib/common.php');
 
 needs_login(1);
 
-if (isset($_REQUEST['announce'])) { $announce = $_REQUEST['announce']; }
+if (isset($_REQUEST['announce'])) $announce = $_REQUEST['announce'];
+else $announce = null;
 
 if (!isset($_POST['action'])) { $_POST['action'] = ''; }
 if ($act = $_POST['action']) {

@@ -29,7 +29,7 @@ function checkuid($userid, $pass) {
 function checkctitle($uid) {
 	global $sql, $loguser;
 
-	$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default`=1");
+	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 
 	if (!$loguser['id'])
 		return false;
@@ -42,9 +42,6 @@ function checkctitle($uid) {
 			return true;
 
 		if ($loguser['posts'] >= 100)
-			return true;
-
-		if ($loguser['posts'] > 50 && $loguser['regdate'] < (time() - 3600 * 24 * 60))
 			return true;
 
 		return false;
@@ -80,7 +77,7 @@ function checkcusercolor($uid) {
 function checkcdisplayname($uid) {
 	global $sql, $loguser, $config;
 
-	$defaultgroup = $sql->resultq("SELECT id FROM `group` WHERE `default` = 1");
+	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 
 	if (!$config['displayname'])
 		return false;

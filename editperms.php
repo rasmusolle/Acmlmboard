@@ -21,7 +21,7 @@ if (isset($_GET['gid'])) {
 	if ($loguser['group_id'] == $id && !has_perm('edit-own-permissions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
-	$permowner = $sql->fetchp("SELECT id,title,inherit_group_id FROM `group` WHERE id=?", [$id]);
+	$permowner = $sql->fetchp("SELECT id,title,inherit_group_id FROM groups WHERE id=?", [$id]);
 	$type = 'group';
 } else if (isset($_GET['uid'])) {
 	$id = (int)$_GET['uid'];
@@ -34,7 +34,7 @@ if (isset($_GET['gid'])) {
 	if ($id == $loguser['id'] && !has_perm('edit-own-permissions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
-	$permowner = $sql->fetchp("SELECT u.id,u.name AS title,u.group_id,g.title AS group_title FROM users u LEFT JOIN `group` g ON g.id=u.group_id WHERE u.id=?", [$id]);
+	$permowner = $sql->fetchp("SELECT u.id,u.name AS title,u.group_id,g.title AS group_title FROM users u LEFT JOIN groups g ON g.id=u.group_id WHERE u.id=?", [$id]);
 	$type = 'user';
 } else if (isset($_GET['fid'])) {
 	$id = (int)$_GET['fid'];
@@ -154,7 +154,7 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 
 	$parentid = $permowner['inherit_group_id'];
 	while ($parentid > 0) {
-		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM `group` WHERE id=?", [$parentid]);
+		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
 		$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
 		$permoverview .= PermTable(PermSet('group', $parentid));
 		$parentid = $parent['inherit_group_id'];
@@ -165,7 +165,7 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 
 	$parentid = $permowner['group_id'];
 	while ($parentid > 0) {
-		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM `group` WHERE id=?", [$parentid]);
+		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
 		$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
 		$permoverview .= PermTable(PermSet('group', $parentid));
 		$parentid = $parent['inherit_group_id'];
