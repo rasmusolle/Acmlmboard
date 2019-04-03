@@ -60,7 +60,7 @@ if ($act == 'Register') {
 
 	if (empty($err)) {
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
-		$res = $sql->prepare("INSERT INTO users (name,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?);",
+		$res = $sql->prepare("INSERT INTO users (name,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?,?);",
 			$name, $salted_password, time(), time(), $userip, $gender, $timezone, $defaulttheme);
 		if ($res) {
 			$id = $sql->insertid();

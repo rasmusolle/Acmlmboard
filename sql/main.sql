@@ -72,7 +72,7 @@ CREATE TABLE `groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
-INSERT INTO `group` (`id`, `title`, `nc`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`) VALUES
+INSERT INTO `groups` (`id`, `title`, `nc`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`) VALUES
 (1,	'Base User',	'',	0,	0,	0,	100,	0),
 (2,	'Normal User',	'4f77ff',	1,	1,	0,	200,	1),
 (3,	'Moderator',	'47B53C',	10,	0,	0,	600,	1),
