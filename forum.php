@@ -172,7 +172,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	if ($status)
 		$status = rendernewstatus($status);
 	else
-		$status = '&nbsp;';
+		$status = '';
 
 	if (!$thread['title'])
 		$thread['title'] = '�';

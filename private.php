@@ -104,7 +104,7 @@ RenderPageBar($topbot);
 	<?php
 	if_empty_query($pmsgs, "There are no private messages here.", 5);
 	for ($i = 1; $pmsg = $sql->fetch($pmsgs); $i++) {
-		$status = '&nbsp;';
+		$status = '';
 		if ($pmsg['unread'])
 			$status = rendernewstatus("n");
 		if (!$pmsg['title'])

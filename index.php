@@ -70,17 +70,9 @@ while ($forum = $sql->fetch($forums)) {
 		$lastpost = 'None';
 
 	if ($forum['lastdate'] > ($log ? $forum['rtime'] : time() - 3600)) {
-		if ($log) {
-			$thucount = $sql->resultp("SELECT count(*) FROM threads t"
-					. " LEFT JOIN threadsread r ON (r.tid = t.id AND r.uid = ?) LEFT JOIN forumsread f ON (f.fid = t.forum AND f.uid = ?)"
-					. " WHERE t.forum = ? AND ((r.time < t.lastdate OR isnull(r.time)) AND (f.time < t.lastdate OR isnull(f.time))) AND (r.uid = ? OR isnull(r.uid))",
-						[$loguser['id'], $loguser['id'], $forum['id'], $loguser['id']]);
-			$status = rendernewstatus("n", $thucount);
-		} else {
-			$status = '&nbsp;';
-		}
+		$status = rendernewstatus("n");
 	} else {
-		$status = '&nbsp;';
+		$status = '';
 	}
 
 	?>

@@ -193,12 +193,12 @@ if ($_GET['w'] == 1) {
 			$pagelist = " <span class=sfont>(pages: $pagelist)</span>";
 		}
 		$status = '';
-		if ($thread['closed']) $status .= 'off';
+		if ($thread['closed']) $status .= 'o';
 
-		if ($log) if (isset($thread['isread']) && !$thread['isread']) $status .= 'new';
-		else if ($thread['lastdate'] > (time() - 3600)) $status .= 'new';
+		if ($log) if (isset($thread['isread']) && !$thread['isread']) $status .= 'n';
+		else if ($thread['lastdate'] > (time() - 3600)) $status .= 'n';
 
-		if ($status) $status = '<img src="img/status/$status.png">';
+		if ($status) $status = rendernewstatus($status);
 		else $status = '&nbsp;';
 
 		if (!$thread['title']) $thread['title'] = '�';

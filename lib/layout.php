@@ -73,7 +73,7 @@ function HTMLAttribEncode($string) {
 	return "'$pass1'";
 }
 
-function rendernewstatus($type, $newcount = '0') {
+function rendernewstatus($type) {
 	switch ($type) {
 		case "n":
 			$text = "NEW";
@@ -89,17 +89,7 @@ function rendernewstatus($type, $newcount = '0') {
 		break;
 	}
 
-	$status = "<div style='line-height:75%'><img src=\"img/status/$statusimg\" alt=\"$text\"><br/>";
-	if ($newcount > '0') {
-		for ($i = 0, $j = strlen($newcount); $i < $j; $i++) {
-			$imgstrings = '';
-			$image = $newcount[$i];
-			$imgstrings .= "<img src='img/status/" . $image . ".png' alt='" . $newcount[$i] . "'/>";
-		}
-	}
-	$status .= (isset($imgstrings) ? $imgstrings : '') . "</div>";
-
-	return $status;
+	return "<img src=\"img/status/$statusimg\" alt=\"$text\"></div>";
 }
 
 // TO CONSIDER: make this function take raw contents for fields rather than arrays
