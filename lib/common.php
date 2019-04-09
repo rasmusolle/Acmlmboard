@@ -416,20 +416,6 @@ HTML;
 }
 
 /**
- * Check for whether $var is numeric. If it's not, $var is set to 0.
- *
- * @param mixed $var The variable to check.
- * @return bool Is it numeric?
- */
-function checknumeric(&$var) {
-	if (!is_numeric($var)) {
-		$var = 0;
-		return false;
-	}
-	return true;
-}
-
-/**
  * Print page statistics.
  *
  * @return void

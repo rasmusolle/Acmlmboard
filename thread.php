@@ -84,10 +84,8 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 	}
 }
 
-checknumeric($_GET['pin']);
-checknumeric($_GET['rev']);
 //determine string for revision pinning
-if ($_GET['pin'] && $_GET['rev'] && has_perm('view-post-history')) {
+if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && has_perm('view-post-history')) {
 	$pinstr = "AND (pt2.id<>$_GET[pin] OR pt2.revision<>($_GET[rev]+1)) ";
 } else
 	$pinstr = "";
@@ -410,7 +408,7 @@ while ($post = $sql->fetch($posts)) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
 	}
-	if ($post['id'] != $_GET['pin']) {
+	if (!isset($_GET['pin']) || $post['id'] != $_GET['pin']) {
 		$post['maxrevision'] = $post['revision']; // not pinned, hence the max. revision equals the revision we selected
 	} else {
 		$post['maxrevision'] = $sql->resultp("SELECT MAX(revision) FROM poststext WHERE id = ?", [$_GET['pin']]);
