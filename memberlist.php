@@ -21,7 +21,7 @@ $where = '1';
 
 if ($pow != '' && is_numeric($pow)) {
 	if ($pow == '-1')
-		$where .= " AND `group_id` =  ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT id FROM groups WHERE perm_id = 'show-as-staff') AND `x_type` = 'group')";
+		$where .= " AND `group_id` = ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT id FROM groups WHERE perm_id = 'show-as-staff') AND `x_type` = 'group')";
 	else
 		$where .= " AND group_id=$pow";
 }

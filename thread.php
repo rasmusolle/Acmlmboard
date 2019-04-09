@@ -137,7 +137,7 @@ if ($viewmode == "thread") {
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 
 	pageheader("Posts by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
@@ -172,7 +172,7 @@ if ($viewmode == "thread") {
 
 	pageheader('Latest posts');
 
-	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ",$fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "

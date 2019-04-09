@@ -159,7 +159,7 @@ function tvalidate($str) {
 	$iscode = 0;
 	$t_depth = 0;
 
-	for ($i = 0; $i < $l;  ++$i) {
+	for ($i = 0; $i < $l; ++$i) {
 		if ($iscode) {
 			if (!strcasecmp(substr($str, $i, 7), '[/code]'))
 				$iscode = 0;
@@ -185,11 +185,11 @@ function tvalidate($str) {
 		if ($istag && !$params && !$iscomment && !strcasecmp(substr($str, $i, 5), 'table'))
 			$t_depth+=($isneg == 1 ? -1 : 1);
 		if ($t_depth < 0)
-			return -1;  //disrupture
+			return -1; //disrupture
 		if ($istag && !$params && !$iscomment && $t_depth == 0 && !strcasecmp(substr($str, $i, 2), 'td'))
-			return -1;  //td on top level
+			return -1; //td on top level
 		if ($istag && !$params && !$iscomment && $t_depth == 0 && !strcasecmp(substr($str, $i, 2), 'tr'))
-			return -1;  //tr on top level
+			return -1; //tr on top level
 		if ($istag && $str[$i] != ' ' && $str[$i] != '/' && $str[$i] != '<')
 			$params = 1;
 	}
@@ -313,7 +313,7 @@ HTML;
 		$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
 
 	if (isset($post['id']) && $post['id'])
-		$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>";  // headlinks for posts
+		$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>"; // headlinks for posts
 
 	if (isset($post['revision']) && $post['revision'] >= 2)
 		$revisionstr = " (rev. {$post['revision']} of " . date($dateformat, $post['ptdate']) . " by " . userlink_by_id($post['ptuser']) . ")";
@@ -340,7 +340,7 @@ HTML;
 
 	if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
 		$revisionstr.=" | Go to revision: ";
-		for ($i = 1; $i <= $post['maxrevision'];  ++$i)
+		for ($i = 1; $i <= $post['maxrevision']; ++$i)
 			$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
 	}
 

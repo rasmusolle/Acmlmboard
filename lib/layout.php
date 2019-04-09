@@ -247,10 +247,6 @@ function RenderPageBar($pagebar) {
 	}
 }
 
-function setfield($field) {
-	return "$field='$_POST[$field]'";
-}
-
 function catheader($title) {
 	return "<tr class=\"h\"><td class=\"b h\" colspan=2>$title</td>";
 }
