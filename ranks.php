@@ -14,7 +14,7 @@ $ranksetcount = 0;
 
 foreach ($rankset_names as $rankset) {
 	if ($ranksetcount != 0) {
-		if ($ranksetcount == 1) 
+		if ($ranksetcount == 1)
 			$rankselection .= "<a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
 		else
 			$rankselection .= " | <a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
@@ -27,7 +27,7 @@ pageheader("Ranks");
 if ($ranksetcount != 2) { ?>
 <table class="c1 center" style="width:auto">
 	<tr class="h"><td class="b">Rank Set</td></tr>
-	<tr class="n1"><td class="bn1"><?=$rankselection ?></td></tr>
+	<tr class="n1"><td class="b n1"><?=$rankselection ?></td></tr>
 </table><br>
 <?php } ?>
 <table class="c1">
@@ -65,7 +65,7 @@ foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 		<td class="b n1"><?=(($usercount - $idlecount) ? $rank['str'] : '???') ?></td>
 		<td class="b n2 center"><?=(($usercount - $idlecount) ? $neededposts : '???') ?></td>
 		<td class="b n2 center"><?=$usercount ?></td>
-		<td class="b n1 center"><?=(isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? "($idlecount inactive)" : "") ?></td>
+		<td class="b n1 center"><?=(isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? " ($idlecount inactive)" : "") ?></td>
 	</tr><?php
 	unset($usersonthisrank);
 	$i++;

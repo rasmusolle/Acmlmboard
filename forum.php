@@ -37,7 +37,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		$topbot['actions'] = [['href' => "newthread.php?id=$fid", 'title' => 'New thread']];
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
 	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
-	
+
 	if (!isset($user)) noticemsg("Error", "User does not exist.", true);
 
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
@@ -60,7 +60,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	$forum['threads'] = $sql->resultp("SELECT count(*) FROM threads t "
 		. "LEFT JOIN forums f ON f.id = t.forum LEFT JOIN categories c ON f.cat = c.id "
 		. "WHERE t.user = ? AND f.id IN " . forums_with_view_perm(), [$uid]);
-	
+
 	$topbot = [
 		'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "profile.php?id=$uid", 'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])]],
 		'title' => 'Threads'

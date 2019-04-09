@@ -10,7 +10,6 @@ pageheader("Credits");
 		<p>Third-party tools used:</p>
 		<ul>
 			<li><a href="http://code.google.com/p/google-code-prettify/">Prettify</a></li>
-			<li><a href="http://jscolor.com/">jscolor</a></li>
 		</ul>
 	</td></tr>
 </table>

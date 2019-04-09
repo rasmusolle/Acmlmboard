@@ -1,9 +1,7 @@
 <?php
 require('lib/common.php');
 
-if (!has_perm('edit-attentions-box')) {
-	noticemsg('Error', 'You have no permissions to do this!', true);
-}
+if (!has_perm('edit-attentions-box')) noticemsg("Error", "You have no permissions to do this!", true);
 
 if (isset($_POST['action']) && $_POST['action'] == 'Submit') {
 	$sql->prepare("UPDATE misc SET txtval = ? WHERE field = 'attention'",[$_POST['txtval']]);

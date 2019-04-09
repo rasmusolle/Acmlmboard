@@ -2,7 +2,7 @@
 
 function userlink_by_name($name) {
 	global $sql, $config;
-	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
+	$u = $sql->fetchp("SELECT ".userfields()." FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
 	if ($u)
 		return userlink($u, null);
 	else
@@ -213,35 +213,33 @@ function forcewrap($text) {
 			$l = 0;
 		else {
 			$l++;
-			if (!($l % 30))
-				$text2.=' ';
+			if (!($l % 30)) $text2.=' ';
 		}
 	}
 	return $text2;
 }
 
-function posttoolbutton($e, $name, $title, $leadin, $leadout, $names = "") {
-	if ($names == "")
-		$names = $name;
-	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('$e','tbk$names','$leadin','$leadout')\"><span style='font-size:9pt'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></span></a></td>";
+function posttoolbutton($name, $title, $leadin, $leadout, $names = "") {
+	if ($names == "") $names = $name;
+	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('message','tbk$names','$leadin','$leadout')\"><span style='font-size:9pt'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></span></a></td>";
 }
 
 function posttoolbar() {
 	return '<table><tr>'
-			. posttoolbutton("message", "B", "Bold", "[b]", "[/b]")
-			. posttoolbutton("message", "I", "Italic", "[i]", "[/i]")
-			. posttoolbutton("message", "U", "Underline", "[u]", "[/u]")
-			. posttoolbutton("message", "S", "Strikethrough", "[s]", "[/s]")
-			. "<td class=\"nb n2\">&nbsp;</td>"
-			. posttoolbutton("message", "_", "IRC", "[irc]", "[/irc]")
-			. posttoolbutton("message", "/", "URL", "[url]", "[/url]")
-			. posttoolbutton("message", "!", "Spoiler", "[spoiler]", "[/spoiler]", "sp")
-			. posttoolbutton("message", "&#133;", "Quote", "[quote]", "[/quote]", "qt")
-			. posttoolbutton("message", ";", "Code", "[code]", "[/code]", "cd")
-			. "<td class=\"nb n2\">&nbsp;</td>"
-			. posttoolbutton("message", "[]", "IMG", "[img]", "[/img]")
-			. posttoolbutton("message", "YT", "YouTube", "[youtube]", "[/youtube]", "yt")
-			. '</tr></table>';
+		. posttoolbutton("B", "Bold", "[b]", "[/b]")
+		. posttoolbutton("I", "Italic", "[i]", "[/i]")
+		. posttoolbutton("U", "Underline", "[u]", "[/u]")
+		. posttoolbutton("S", "Strikethrough", "[s]", "[/s]")
+		. "<td class=\"nb n2\">&nbsp;</td>"
+		. posttoolbutton("_", "IRC", "[irc]", "[/irc]")
+		. posttoolbutton("/", "URL", "[url]", "[/url]")
+		. posttoolbutton("!", "Spoiler", "[spoiler]", "[/spoiler]", "sp")
+		. posttoolbutton("&#133;", "Quote", "[quote]", "[/quote]", "qt")
+		. posttoolbutton(";", "Code", "[code]", "[/code]", "cd")
+		. "<td class=\"nb n2\">&nbsp;</td>"
+		. posttoolbutton("[]", "IMG", "[img]", "[/img]")
+		. posttoolbutton("YT", "YouTube", "[youtube]", "[/youtube]", "yt")
+		. '</tr></table>';
 }
 
 function LoadBlocklayouts() {

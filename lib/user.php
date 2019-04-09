@@ -189,12 +189,9 @@ function userlink_by_id($uid) {
 
 function userlink($user, $u = '') {
 	global $loguser;
-	if (!$user[$u . 'name'])
-		$user[$u . 'name'] = '&nbsp;';
+	if (!$user[$u.'name']) $user[$u.'name'] = 'null';
 
-	return '<a href="profile.php?id=' . $user[$u . 'id'] . '">'
-			. userdisp($user, $u)
-			. '</a>';
+	return '<a href="profile.php?id='.$user[$u.'id'] . '">'.userdisp($user, $u).'</a>';
 }
 
 function userdisp($user, $u = '') {

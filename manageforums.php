@@ -1,9 +1,7 @@
 <?php
 require('lib/common.php');
 
-if (!has_perm('edit-forums')) {
-	noticemsg('Error', 'You have no permissions to do this!', true);
-}
+if (!has_perm('edit-forums')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $error = '';
 

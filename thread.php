@@ -133,7 +133,7 @@ if ($viewmode == "thread") {
 		[$tid]);
 }elseif ($viewmode == "user") {
 	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
-	
+
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 
 	pageheader("Posts by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
@@ -212,7 +212,7 @@ if ($viewmode == "thread") {
 		'breadcrumb' => [['href' => './', 'title' => 'Main'],['href' => "forum.php?id=$thread[forum]", 'title' => $thread['ftitle']]],
 		'title' => htmlval($thread['title'])
 	];
-	
+
 	$faccess = $sql->fetch($sql->prepare("SELECT id,private,readonly FROM forums WHERE id = ?",[$thread['forum']]));
 	if (can_create_forum_post($faccess)) {
 		if (has_perm('override-closed') && $thread['closed'])

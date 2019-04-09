@@ -155,12 +155,12 @@ if ($act == 'Edit profile') {
 			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['realname'], $_POST['location'], $_POST['email'], $_POST['head'],
 			$_POST['sign'], $_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['emailhide'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
-		
-		if ($pass) 
+
+		if ($pass)
 			$sql->prepare("UPDATE users SET pass = ? WHERE id = ?", [md5($pwdsalt2 . $pass . $pwdsalt), $user['id']]);
-		if (checkcdisplayname($targetuserid)) 
+		if (checkcdisplayname($targetuserid))
 			$sql->prepare("UPDATE users SET displayname = ? WHERE id = ?", [$_POST['displayname'], $user['id']]);
-		if (checkcusercolor($targetuserid)) 
+		if (checkcusercolor($targetuserid))
 			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $_POST['enablecolor'], $user['id']]);
 		if (checkctitle($targetuserid))
 			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
