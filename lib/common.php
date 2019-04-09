@@ -86,27 +86,28 @@ if (str_replace($botlist, "x", strtolower($_SERVER['HTTP_USER_AGENT'])) != strto
 if ($bot) {
 	load_bot_permset();
 }
-if (substr($url, 0, strlen("$config[path]rss.php")) != "$config[path]rss.php") {
-	$sql->prepare("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
-	if ($log) {
-		$sql->prepare("UPDATE users SET lastview = ?, ip = ?, ipfwd = ?, url = ?, ipbanned = 0 WHERE id = ?",
-			[time(), $userip, $userfwd, addslashes($url), $loguser['id']]);
-	} else {
-		$sql->prepare("INSERT INTO guests (date, ip, url, useragent, bot) VALUES (?,?,?,?,?)",
-			[time(),$userip,addslashes($url),addslashes($_SERVER['HTTP_USER_AGENT']),$bot]);
-	}
 
-	if (!$bot) {
-		$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'views'");
-	} else {
-		$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'botviews'");
-	}
 
-	$views = $sql->resultq("SELECT intval FROM misc WHERE field = 'views'");
-
-	$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
-	$date = date("m-d-y", time());
+$sql->prepare("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
+if ($log) {
+	$sql->prepare("UPDATE users SET lastview = ?, ip = ?, ipfwd = ?, url = ?, ipbanned = 0 WHERE id = ?",
+		[time(), $userip, $userfwd, addslashes($url), $loguser['id']]);
+} else {
+	$sql->prepare("INSERT INTO guests (date, ip, url, useragent, bot) VALUES (?,?,?,?,?)",
+		[time(),$userip,addslashes($url),addslashes($_SERVER['HTTP_USER_AGENT']),$bot]);
 }
+
+if (!$bot) {
+	$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'views'");
+} else {
+	$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'botviews'");
+}
+
+$views = $sql->resultq("SELECT intval FROM misc WHERE field = 'views'");
+
+$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
+$date = date("m-d-y", time());
+
 
 //Config definable theme override
 if ($config['override_theme']) {
@@ -215,7 +216,6 @@ HTML;
 		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
 		<link rel="stylesheet" href="theme/common.css">
 		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
-		<link rel='alternate' type='application/rss+xml' title='RSS Feed' href='rss.php'>
 		<script type="text/javascript" src="lib/prettify/prettify.js"></script>
 		<script src="lib/js/tools.js"></script>
 	</head>

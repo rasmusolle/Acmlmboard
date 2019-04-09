@@ -35,8 +35,6 @@ $puzzleVariations = [
 $puzzle = $puzzleVariations[array_rand($puzzleVariations)];
 
 $config['ckey'] = "configckey";
-$config['address'] = "url"; // Hostname or IP address of your server (this will be public)
-$config['base'] = "http://" . $config['address']; // Replace if you need fine control of the address
 $config['path'] = "/"; // If you run your copy in a specific path (ie: http://www.example.gov/board) than this would be 'board/''
 $config['meta'] = "<meta name='description' content=\"Stuff goes here!\"><meta name='keywords' content=\"Acmlmboard, Your Stuff\">"; // This is used for search engine keywords.
 
