@@ -157,7 +157,7 @@ $usercnickcolor = '';
 $userdisplayname = false;
 $showrealnick = false;
 
-//If user has a a displayname, a custom username color, or both, we need to show the realname field.
+//If user has a a displayname, a custom username color, or both, we need to show the real name field.
 if ($config['perusercolor'] && $user['enablecolor'])
 	$usercnickcolor = $user['nick_color'];
 
@@ -211,10 +211,7 @@ RenderPageBar($topbot);
 	<tr class="h">
 		<td class="b h" colspan="2">User information</td>
 	</tr><tr>
-		<td class="b n1" width="120"><b>Real name</b></td>
-		<td class="b n2"><?=($user['realname'] ? htmlval($user['realname']) : "") ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Gender</b></td>
+		<td class="b n1" width="120"><b>Gender</b></td>
 		<td class="b n2"><?=$gender[$user['gender']] ?></td>
 	</tr><tr>
 		<td class="b n1"><b>Location</b></td>
@@ -226,7 +223,7 @@ RenderPageBar($topbot);
 		<td class="b n1"><b>Bio</b></td>
 		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>
 	</tr><tr>
-		<td class="b n1" width="110"><b>Email address</b></td>
+		<td class="b n1"><b>Email address</b></td>
 		<td class="b n2"><?=$email ?></td>
 	</tr>
 </table>

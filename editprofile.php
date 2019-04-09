@@ -150,10 +150,10 @@ if ($act == 'Edit profile') {
 	}
 
 	if (!$error) {
-		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, realname = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
+		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
 			theme = ?, blocklayouts = ?, emailhide = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
-			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['realname'], $_POST['location'], $_POST['email'], $_POST['head'],
-			$_POST['sign'], $_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['emailhide'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
+			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['location'], $_POST['email'], $_POST['head'], $_POST['sign'], 
+			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['emailhide'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
 
 		if ($pass)
@@ -220,7 +220,6 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
 .		catheader('User information')
 .	fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
-.	fieldrow('Real name', fieldinput(40, 60, 'realname'))
 .	fieldrow('Location', fieldinput(40, 60, 'location'))
 .	fieldrow('Birthday', $birthinput)
 .	fieldrow('Bio', fieldtext(5, 80, 'bio'))
