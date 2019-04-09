@@ -9,9 +9,7 @@ require('lib/common.php');
 */
 $permlist = null;
 
-if (!has_perm('edit-permissions')) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!has_perm('edit-permissions')) noticemsg("Error", "You have no permissions to do this!", true);
 
 if (isset($_GET['gid'])) {
 	$id = (int)$_GET['gid'];
@@ -46,9 +44,7 @@ if (isset($_GET['gid'])) {
 	$type = '';
 }
 
-if (!$permowner) {
-	noticemsg("Error", "Invalid {$type} ID.", true);
-}
+if (!$permowner) noticemsg("Error", "Invalid {$type} ID.", true);
 
 $errmsg = '';
 

@@ -2,9 +2,7 @@
 require('lib/common.php');
 needs_login(1);
 
-if (!has_perm('view-own-pms')) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!has_perm('view-own-pms')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $fieldlist = '';
 $ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign'];
@@ -13,9 +11,7 @@ foreach ($ufields as $field)
 
 $pid = (isset($_GET['id']) ? $_GET['id'] : null);
 
-if (!$pid) {
-	noticemsg("Error", "Private message does not exist.", true);
-}
+if (!$pid) noticemsg("Error", "Private message does not exist.", true);
 
 $pmsgs = $sql->fetchp("SELECT ".userfields('u','u').",$fieldlist p.* FROM pmsgs p LEFT JOIN users u ON u.id = p.userfrom WHERE p.id = ?", [$pid]);
 if ($pmsgs == null) noticemsg("Error", "Private message does not exist.", true);

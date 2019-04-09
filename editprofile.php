@@ -10,13 +10,7 @@ if (isset($_GET['id'])) {
 	$targetuserid = $_GET['id'];
 }
 
-if (!can_edit_user($targetuserid)) {
-	$targetuserid = 0;
-}
-
-if ($targetuserid == 0) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!can_edit_user($targetuserid)) noticemsg("Error", "You have no permissions to do this!", true);
 
 if (has_perm('no-restrictions'))
 	$blockroot = "";
@@ -42,10 +36,7 @@ global $user;
 
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$targetuserid]);
 
-if (!$user) {
-	noticemsg("Error", "This user doesn't exist!", true);
-	die(pagefooter());
-}
+if (!$user) noticemsg("Error", "This user doesn't exist!", true);
 
 if ($act == 'Edit profile') {
 	$error = '';

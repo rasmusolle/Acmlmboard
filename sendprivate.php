@@ -8,8 +8,7 @@ $topbot = [
 	'title' => 'Send'
 ];
 
-if (!has_perm('create-pms'))
-	noticemsg("Error", "You have no permissions to do this!", true);
+if (!has_perm('create-pms')) noticemsg("Error", "You have no permissions to do this!", true);
 
 if (!isset($_POST['action'])) {
 	$userto = '';

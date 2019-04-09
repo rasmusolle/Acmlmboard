@@ -1,9 +1,7 @@
 <?php
 require('lib/common.php');
 
-if (!has_perm('edit-ip-bans')) {
-	noticemsg("Error", "You have no permissions to do this!", true);
-}
+if (!has_perm('edit-ip-bans')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $action = (isset($_GET['action']) ? $_GET['action'] : 'needle');
 $what = (isset($_GET['what']) ? $_GET['what'] : 'needle');

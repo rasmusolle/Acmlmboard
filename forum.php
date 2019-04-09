@@ -13,9 +13,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	} else
 		$forum = $sql->fetchp("SELECT * FROM forums WHERE id = ? AND id IN " . forums_with_view_perm(), [$fid]);
 
-	if (!isset($forum['id'])) {
-		noticemsg("Error", "Forum does not exist.", true);
-	}
+	if (!isset($forum['id'])) noticemsg("Error", "Forum does not exist.", true);
 
 	//append the forum's title to the site title
 	pageheader($forum['title'], $fid);

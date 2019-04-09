@@ -2,9 +2,7 @@
 require('lib/common.php');
 
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
-if ($page < 0 || $page > 1000000000000000) {
-	noticemsg("Error", "Invalid page number", true);
-}
+if ($page < 0) noticemsg("Error", "Invalid page number", true);
 
 $fieldlist = '';
 $ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep'];
@@ -13,9 +11,7 @@ foreach ($ufields as $field) {
 }
 
 $ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : $loguser['ppp'];
-if ($ppp < 0 || $ppp > 1000000000000000) {
-	noticemsg("Error", "Invalid posts per page number", true);
-}
+if ($ppp < 0) noticemsg("Error", "Invalid posts per page number", true);
 
 if (isset($_REQUEST['id'])) {
 	$tid = (int)$_REQUEST['id'];
@@ -34,9 +30,7 @@ if (isset($_REQUEST['id'])) {
 elseif (isset($_GET['pid'])) {
 	$pid = (int)$_GET['pid'];
 	$numpid = $sql->fetchp("SELECT t.id tid FROM posts p LEFT JOIN threads t ON p.thread = t.id WHERE p.id = ?", [$pid]);
-	if (!$numpid) {
-		noticemsg("Error", "Thread post does not exist.", true);
-	}
+	if (!$numpid) noticemsg("Error", "Thread post does not exist.", true);
 	$isannounce = $sql->resultp("SELECT announce FROM posts WHERE id = ?", [$pid]);
 	if ($isannounce) {
 		$pinf = $sql->fetchp("SELECT t.forum fid, t.id tid FROM posts p LEFT JOIN threads t ON p.thread=t.id WHERE p.id = ?", [$pid]);
@@ -108,9 +102,7 @@ if ($viewmode == "thread") {
 			. "WHERE t.id = ? AND t.forum IN ".forums_with_view_perm(),
 			[$tid]);
 
-	if (!isset($thread['id'])) {
-		noticemsg("Error", "Thread does not exist.", true);
-	}
+	if (!isset($thread['id'])) noticemsg("Error", "Thread does not exist.", true);
 
 	//append thread's title to page title
 	pageheader($thread['title'], $thread['fid']);
