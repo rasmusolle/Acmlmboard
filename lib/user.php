@@ -198,32 +198,23 @@ function userlink($user, $u = '') {
 }
 
 function userdisp($user, $u = '') {
-	global $sql, $config, $usergroups, $userbirthdays, $usercnc;
+	global $sql, $config, $usergroups, $userbirthdays;
 
-//Enable per theme nick colors & light theme nick shadows
-	$nccss = '';
-
-	if ($config['nickcolorcss'])
-		$nccss = "class='nc" . $user[$u . 'group_id'] . "'";
-//Over-ride for custom colours [Gywall]
-	if ($config['perusercolor'] && $user[$u . 'nick_color'] && $user[$u . 'enablecolor']) {
-		$nc = $user[$u . 'nick_color'];
-		$nccss = "";
+	if ($config['perusercolor'] && $user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours [Gywall]
+		$nc = $user[$u.'nick_color'];
 	} else {
-		$group = $usergroups[$user[$u . 'group_id']];
+		$group = $usergroups[$user[$u.'group_id']];
 		$nc = $group['nc'];
 	}
 	//Random Nick Color on Birthday
-	if (isset($userbirthdays[$user[$u . 'id']]))
+	if (isset($userbirthdays[$user[$u.'id']]))
 		$nc = randnickcolor();
 
-	$n = $user[$u . 'name'];
-	if ($config['displayname'] && $user[$u . 'displayname'])
-		$n = $user[$u . 'displayname'];
+	$n = $user[$u.'name'];
+	if ($config['displayname'] && $user[$u.'displayname'])
+		$n = $user[$u.'displayname'];
 
-	$userdisname = "<span $nccss style='color:#$nc;'>"
-			. str_replace(" ", "&nbsp;", htmlval($n))
-			. '</span>';
+	$userdisname = "<span style='color:#$nc;'>".str_replace(" ", "&nbsp;", htmlval($n)).'</span>';
 
 	return $userdisname;
 }

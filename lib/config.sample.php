@@ -51,7 +51,6 @@ $config['secafterpost'] = 5; // (in seconds, 0 == off)
 
 $config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
 $config['perusercolor'] = false; // Enable the use of per-user colors.
-$config['nickcolorcss'] = false; // Enables use of CSS to define per theme colors via a span id. Note: You may need to customise CSS to fit your board groups.
 
 $config['lockdown'] = false; // Put board in lockdown mode.
 
