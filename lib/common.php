@@ -416,18 +416,6 @@ HTML;
 }
 
 /**
- * Print page statistics.
- *
- * @return void
- */
-function pagestats() {
-	global $start, $sql;
-	$time = microtime(true) - $start;
-	echo sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
-		MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>";
-}
-
-/**
  * Print a notice message.
  *
  * @param string $name Header text
@@ -454,13 +442,15 @@ function noticemsg($name, $msg, $error = false) {
  * @return void
  */
 function pagefooter() {
-	global $abversion, $boardprog;
+	global $abversion, $boardprog, $start, $sql;
+	$time = microtime(true) - $start;
 	?><br>
 	<table class="c1">
 		<tr>
 			<td class="b n2 sfont">
-  				<span style="float:right; text-align:right;">
-  					<?php pagestats() ?>
+				<span style="float:right; text-align:right;">
+					<?=sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
+						MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>"; ?>
 				</span>
 				<a href="http://github.com/rasmusolle/acmlmboard"><img src="img/poweredbyacmlm.png" title="Acmlmboard 2" style="float:left; margin-right:4px;"></a>
 				Acmlmboard v<?=$abversion ?><br>
