@@ -212,7 +212,7 @@ if ($_GET['w'] == 1) {
 		$lsticky = $thread['sticky'];
 		?><tr class="<?=$tr ?> center">
 			<td class="b n1"><?=$status ?></td>
-			<td class="b left"><a href=thread.php?id=<?=$thread['id'] ?>><?=forcewrap(htmlval($thread['title'])) ?></a><?=$pagelist ?></td>
+			<td class="b left" style="word-break:break-word"><a href=thread.php?id=<?=$thread['id'] ?>><?=htmlval($thread['title']) ?></a><?=$pagelist ?></td>
 			<td class="b"><?=userlink($thread,'u1') ?></td>
 			<td class="b"><?=$thread['replies'] ?></td>
 			<td class="b"><?=$thread['views'] ?></td>

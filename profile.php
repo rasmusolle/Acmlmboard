@@ -22,7 +22,7 @@ $thread = $sql->fetchp("SELECT p.id, t.title ttitle, f.title ftitle, t.forum, f.
 	WHERE p.date = ? AND p.user = ? AND f.id IN " . forums_with_view_perm(), [$user['lastpost'], $uid]);
 
 if ($pfound && $thread) {
-	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">" . forcewrap(htmlval($thread['ttitle'])) . "</a>
+	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">".htmlval($thread['ttitle'])."</a>
 		(<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
 } else if ($user['posts'] == 0) {
 	$lastpostlink = "";

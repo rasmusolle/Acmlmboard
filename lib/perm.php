@@ -381,6 +381,6 @@ function forumlink_by_id($fid) {
 function threadlink_by_id($tid) {
 	global $sql;
 	$thread = $sql->fetchp("SELECT id,title FROM threads WHERE id=? AND forum IN ".forums_with_view_perm(),[$tid]);
-	if ($thread) return "<a href=thread.php?id=$thread[id]>".forcewrap(htmlval($thread[title]))."</a>";
+	if ($thread) return "<a href=thread.php?id=$thread[id]>".htmlval($thread[title])."</a>";
 	else return 0;
 }

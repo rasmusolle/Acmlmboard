@@ -204,21 +204,6 @@ function htmlval($text) {
 	return $text;
 }
 
-function forcewrap($text) {
-	$l = 0;
-	$text2 = '';
-	for ($i = 0; $i < strlen($text); $i++) {
-		$text2.=$text[$i];
-		if ($text[$i] == ' ')
-			$l = 0;
-		else {
-			$l++;
-			if (!($l % 30)) $text2.=' ';
-		}
-	}
-	return $text2;
-}
-
 function posttoolbutton($name, $title, $leadin, $leadout, $names = "") {
 	if ($names == "") $names = $name;
 	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('message','tbk$names','$leadin','$leadout')\"><span style='font-size:9pt'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></span></a></td>";
