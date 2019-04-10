@@ -170,81 +170,50 @@ if ($userdisplayname || $usercnickcolor) {
 
 $gender = ['Male', 'Female', 'N/A'];
 
+$profilefields = [
+	"General information" => [
+		['title' => 'Real handle', 'value' => "<span style='color:#".$realnc.";'><b>".htmlval($user['name'])."</b></span>"],
+		['title' => 'Group', 'value' => $group['title']],
+		['title' => 'Total posts', 'value' => $user['posts']." ($pfound found, $pavg per day)"],
+		['title' => 'Total threads', 'value' => $user['threads']." ($tfound found, $tavg per day)"],
+		['title' => 'Registered on', 'value' => date($dateformat, $user['regdate']).' ('.timeunits($days * 86400).' ago)'],
+		['title' => 'Last post', 'value'=>($user['lastpost'] ? date($dateformat, $user['lastpost'])." (".timeunits(time()-$user['lastpost'])." ago)" : "None").$lastpostlink],
+		['title' => 'Last view', 
+			'value' => date($dateformat, $user['lastview']).' ('.timeunits(time() - $user['lastview']).' ago)'.
+			($user['url'] ? '<br>at <a href="'.htmlval($user['url']).'">'.htmlval($user['url']).'</a>' : '').
+			($user['ip'] && has_perm("view-post-ips") ? '<br>from IP: '.$user['ip'] : '')]
+	],
+	"User information" => [
+		['title' => 'Gender', 'value' => $gender[$user['gender']]],
+		['title' => 'Location', 'value' => ($user['location'] ? htmlval($user['location']) : "")],
+		['title' => 'Birthday', 'value' => "$birthday $age"],
+		['title' => 'Bio', 'value' => ($user['bio'] ? postfilter($user['bio']) : "")],
+		['title' => 'Email', 'value' => $email]
+	],
+	"User settings" => [
+		['title' => 'Theme', 'value' => htmlval($themename)],
+		['title' => 'Time offset', 'value' => sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60)." from you (Current time: $userct)"],
+		['title' => 'Items per page', 'value' => $user['ppp']." posts, ".$user['tpp']." threads"]
+	]
+];
+
 $topbot = [
 	'breadcrumb' => [['href' => './', 'title' => 'Main']],
 	'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])
 ];
 
 RenderPageBar($topbot);
-?><br><table class="c1">
-	<tr class="h">
-		<td class="b h" colspan="2">General information</td>
-	<?=($showrealnick ? "<tr><td class=\"b n1\" width=\"110\"><b>Real handle</b></td><td class=\"b n2\"><span style='color:#" . $realnc . ";'><b>" . htmlval($user['name']) . "</b></span>" : "") ?>
-	</tr><tr>
-		<td class="b n1" width="120"><b>Group</b></td>
-		<td class="b n2"><?=$group['title'] ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Total posts</b></td>
-		<td class="b n2"><?=$user['posts'] ?> (<?=$pfound ?> found, <?=$pavg ?> per day)</td>
-	</tr><tr>
-		<td class="b n1"><b>Total threads</b></td>
-		<td class="b n2"><?=$user['threads'] ?> (<?=$tfound ?> found, <?=$tavg ?> per day)</td>
-	</tr><tr>
-		<td class="b n1"><b>Registered on</b></td>
-		<td class="b n2"><?=date($dateformat, $user['regdate']) ?> (<?=timeunits($days * 86400) ?> ago)</td>
-	</tr><tr>
-		<td class="b n1"><b>Last post</b></td>
-		<td class="b n2">
-			<?=($user['lastpost'] ? date($dateformat, $user['lastpost']) . " (" . timeunits(time() - $user['lastpost']) . " ago)" : "None") . $lastpostlink ?>
-		</td>
-	</tr><tr>
-		<td class="b n1"><b>Last view</b></td>
-		<td class="b n2">
-			<?=date($dateformat, $user['lastview']) ?> (<?=timeunits(time() - $user['lastview']) ?> ago)
-			<?=($user['url'] ? "<br>at <a href='" . htmlval($user['url']) . "'>" . htmlval($user['url']) . "</a>" : '') ?>
-			<?=($user['ip'] && has_perm("view-post-ips") ? "<br>from IP: $user[ip]" : '') ?>
-		</td>
-	</tr>
-</table>
-<br>
-<table class="c1">
-	<tr class="h">
-		<td class="b h" colspan="2">User information</td>
-	</tr><tr>
-		<td class="b n1" width="120"><b>Gender</b></td>
-		<td class="b n2"><?=$gender[$user['gender']] ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Location</b></td>
-		<td class="b n2"><?=($user['location'] ? htmlval($user['location']) : "") ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Birthday</b></td>
-		<td class="b n2"><?=$birthday . ' ' . $age ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Bio</b></td>
-		<td class="b n2"><?=($user['bio'] ? postfilter($user['bio']) : "") ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Email address</b></td>
-		<td class="b n2"><?=$email ?></td>
-	</tr>
-</table>
-<br>
-<table class="c1">
-	<tr class="h">
-		<td class="b h" colspan="2">User settings</td>
-	</tr><tr>
-		<td class="b n1" width="120"><b>Theme</b></td>
-		<td class="b n2"><?=htmlval($themename) ?></td>
-	</tr><tr>
-		<td class="b n1"><b>Time offset</b></td>
-		<td class="b n2">
-			<?=sprintf("%d:%02d", ($usertzoff - $logtzoff) / 3600, abs(($usertzoff - $logtzoff) / 60) % 60) ?> from you (Current time: <?=$userct ?>)
-		</td>
-	</tr><tr>
-		<td class="b n1"><b>Items per page</b></td>
-		<td class="b n2"><?=$user['ppp'] ?> posts, <?=$user['tpp'] ?> threads</td>
-	</tr>
-</table>
-<br>
+
+foreach ($profilefields as $k => $v) {
+	echo '<br><table class="c1"><tr class="h"><td class="b h" colspan="2">'.$k.'</td></tr>';
+	foreach ($v as $pf) {
+		if ($pf['title'] == 'Real handle' && !$showrealnick) continue;
+		echo '<tr><td class="b n1" width="130"><b>'.$pf['title'].'</b></td><td class="b n2">'.$pf['value'].'</td>';
+	}
+	echo '</table>';
+}
+
+?><br>
 <table class="c1"><tr class="h"><td class="b h">Sample post</td><tr></table>
 <?=threadpost($post)?>
 <br>
