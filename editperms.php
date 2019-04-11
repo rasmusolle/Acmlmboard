@@ -4,7 +4,6 @@ require('lib/common.php');
 /*
 'special' permissions:
  * no-restrictions: cancels out all the 'normal' others
- * show-as-staff: for memberlist
  * banned, staff: seem like useless/unimplemented permissions
 */
 $permlist = null;

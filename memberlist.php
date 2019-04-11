@@ -20,10 +20,7 @@ if ($sort == 'reg') $order = 'regdate' . $sortby;
 $where = '1';
 
 if ($pow != '' && is_numeric($pow)) {
-	if ($pow == '-1')
-		$where .= " AND `group_id` = ANY (SELECT `x_id` FROM `x_perm` WHERE `x_id`= ANY (SELECT id FROM groups WHERE perm_id = 'show-as-staff') AND `x_type` = 'group')";
-	else
-		$where .= " AND group_id=$pow";
+	$where .= " AND group_id=$pow";
 }
 
 $users = $sql->query("SELECT * FROM users WHERE $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
@@ -69,8 +66,7 @@ while ($group = $sql->fetch($activegroups)) {
 				$c++;
 				echo $v . " | ";
 			}
-			echo mlink($sort, '-1', $page, $orderby) . "All Staff</a> | " .
-			mlink($sort, '', $page, $orderby) . "All</a>" ?>
+			echo mlink($sort, '', $page, $orderby) . "All</a>" ?>
 		</td>
 	</tr>
 </table><br>
