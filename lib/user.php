@@ -31,24 +31,16 @@ function checkctitle($uid) {
 
 	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 
-	if (!$loguser['id'])
-		return false;
-
-	if (has_perm_revoked('edit-own-title'))
-		return false;
+	if (!$loguser['id']) return false;
+	if (has_perm_revoked('edit-own-title')) return false;
 
 	if ($uid == $loguser['id'] && has_perm('edit-own-title')) {
-		if ($loguser['group_id'] != $defaultgroup) // resultq returns the actual field... not sure why this was comparing against an array.
-			return true;
-
-		if ($loguser['posts'] >= 100)
-			return true;
+		if ($loguser['group_id'] != $defaultgroup) return true;
 
 		return false;
 	}
 
-	if (has_perm('edit-titles'))
-		return true;
+	if (has_perm('edit-titles')) return true;
 
 	return false;
 }
@@ -56,20 +48,14 @@ function checkctitle($uid) {
 function checkcusercolor($uid) {
 	global $loguser, $config;
 
-	if (!$config["perusercolor"])
-		return false;
+	if (!$config["perusercolor"]) return false;
 
-	if (!$loguser['id'])
-		return false;
-	if (has_perm_revoked('has-customusercolor'))
-		return false;
-	if ($uid == $loguser['id'] && has_perm('has-customusercolor'))
-		return true;
+	if (!$loguser['id']) return false;
+	if (has_perm_revoked('has-customusercolor')) return false;
 
-	if (has_perm('edit-customusercolors'))
-		return true;
-	if (has_perm_with_bindvalue('edit-user-customnickcolor', $uid))
-		return true;
+	if ($uid == $loguser['id'] && has_perm('has-customusercolor')) return true;
+
+	if (has_perm('edit-customusercolors')) return true;
 
 	return false;
 }
@@ -79,32 +65,18 @@ function checkcdisplayname($uid) {
 
 	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 
-	if (!$config['displayname'])
-		return false;
+	if (!$config['displayname']) return false;
 
-	if (!$loguser['id'])
-		return false;
-	if (has_perm_revoked('has-displayname'))
-		return false;
+	if (!$loguser['id']) return false;
+	if (has_perm_revoked('has-displayname')) return false;
 
 	if ($uid == $loguser['id'] && has_perm('has-displayname')) {
-		if ($loguser['group_id'] != $defaultgroup)
-			return true;
-
-		//Allow a custom displayname after a specific postcount/time.
-		if ($loguser['posts'] >= 100)
-			return true;
-
-		if ($loguser['posts'] > 50 && $loguser['regdate'] < (time() - 3600 * 24 * 60))
-			return true;
+		if ($loguser['group_id'] != $defaultgroup) return true;
 
 		return false;
 	}
 
-	if (has_perm('edit-displaynames'))
-		return true;
-	if (has_perm_with_bindvalue('edit-user-displayname', $uid))
-		return true;
+	if (has_perm('edit-displaynames')) return true;
 
 	return false;
 }

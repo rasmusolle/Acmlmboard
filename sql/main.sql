@@ -162,8 +162,6 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('edit-own-title',	'Edit Own Title',	3,	''),
 ('edit-permissions',	'Edit Permissions',	3,	''),
 ('edit-titles',	'Edit Titles',	3,	''),
-('edit-user-customnickcolor',	'Edit User Custom Nick Color',	3,	'users'),
-('edit-user-displayname',	'Edit User Displayname',	3,	'users'),
 ('edit-users',	'Edit Users',	3,	''),
 ('has-customusercolor',	'Can Edit Custom Username Color',	3,	''),
 ('has-displayname',	'Can Use Displayname',	3,	''),
