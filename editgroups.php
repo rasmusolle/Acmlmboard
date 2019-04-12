@@ -108,25 +108,17 @@ if ($act == 'new' || $act == 'edit') {
 		$form = [
 			'action' => '',
 			'method' => 'POST',
-			'categories' => [
-				'group' => [
-					'title' => 'Group settings',
-					'fields' => [
-						'title' => ['title'=>'Name', 'type'=>'text', 'length'=>255, 'size'=>50, 'value'=>$group['title']],
-						'inherit_group_id' => ['title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']],
-						'default' => ['title'=>'Default', 'type'=>'dropdown', 'choices'=>$defaultlist, 'value'=>$group['default']],
-						'banned' => ['title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']],
-						'sortorder' => ['title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']],
-						'visible' => ['title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']],
-						'nc' => ['title'=>'Username color', 'type'=>'color', 'value'=>$group['nc']],
-					]
-				],
-				'actions' => [
-					'fields' => [
-						'submit' => ['title'=>($act=='new' ? 'Create group':'Apply changes'), 'type'=>'submit'],
-					]
-				],
-			]
+			'title' => 'Group settings',
+			'fields' => [
+				'title' => ['title'=>'Name', 'type'=>'text', 'length'=>255, 'size'=>50, 'value'=>$group['title']],
+				'inherit_group_id' => ['title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']],
+				'default' => ['title'=>'Default', 'type'=>'dropdown', 'choices'=>$defaultlist, 'value'=>$group['default']],
+				'banned' => ['title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']],
+				'sortorder' => ['title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']],
+				'visible' => ['title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']],
+				'nc' => ['title'=>'Username color', 'type'=>'text', 'length'=>6, 'size'=>6, 'value'=>$group['nc']],
+				'submit' => ['title'=>($act=='new' ? 'Create group':'Apply changes'), 'type'=>'submit'],
+			],
 		];
 
 		RenderPageBar($pagebar);
