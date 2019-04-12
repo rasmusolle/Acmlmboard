@@ -291,8 +291,7 @@ HTML;
 	$postlinks = '';
 	$revisionstr = '';
 
-	// Lazy hacks :3
-	if (!isset($post['id'])) $post['id'] = 0;
+	$post['id'] = (isset($post['id']) ? $post['id'] : 0);
 
 	if ($pthread)
 		$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
@@ -306,7 +305,7 @@ HTML;
 	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 	if (isset($post['isannounce'])) {
 		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
-	} else if (isset($post['thread']) && $loguser['id'] != 0) {
+	} else if (isset($post['thread']) && isset($post['post']) && $loguser['id'] != 0) {
 		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
 	}
 
@@ -314,7 +313,7 @@ HTML;
 	if (isset($post['thread']) && can_edit_post($post) && $post['id'])
 		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
-	if (isset($post['thread']) && $post['id'] && can_delete_forum_posts(getforumbythread($post['thread'])))
+	if (isset($post['thread']) && isset($post['id']) && can_delete_forum_posts(getforumbythread($post['thread'])))
 		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
 
 	if ($post['id'])
@@ -326,7 +325,7 @@ HTML;
 	if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
 		$revisionstr.=" | Go to revision: ";
 		for ($i = 1; $i <= $post['maxrevision']; ++$i)
-			$revisionstr.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
+			$revisionstr .= "<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
 	}
 
 	$tbar1 = (!$isBlocked) ? "topbar" . $post['uid'] . "_1" : "";

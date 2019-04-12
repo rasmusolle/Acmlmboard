@@ -85,8 +85,8 @@ $post['date'] = time();
 $post['ip'] = $user['ip'];
 $post['num'] = 0; //$user[posts];  #2/26/2007 xkeeper - threadpost can hide "1/" now
 
-$post['id'] = -1;
-$post['thread'] = -1;
+$post['id'] = 0;
+$post['thread'] = 0;
 
 $post['text'] = $config['samplepost'];
 
