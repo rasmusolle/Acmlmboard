@@ -73,12 +73,12 @@ CREATE TABLE `groups` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 INSERT INTO `groups` (`id`, `title`, `nc`, `inherit_group_id`, `default`, `banned`, `sortorder`, `visible`) VALUES
-(1,	'Banned',	'888888',	2,	0,	1,	0,	1),
+(1,	'Banned',	'888888',	3,	0,	1,	0,	1),
 (2,	'Base User',	'',	0,	0,	0,	100,	0),
-(3,	'Normal User',	'4f77ff',	1,	1,	0,	200,	1),
-(4,	'Staff',	'',	2,	0,	0,	300,	0),
-(5,	'Moderator',	'47B53C',	10,	0,	0,	600,	1),
-(6,	'Administrator',	'd8b00d',	3,	0,	0,	700,	1),
+(3,	'Normal User',	'4f77ff',	2,	1,	0,	200,	1),
+(4,	'Staff',	'',	3,	0,	0,	300,	0),
+(5,	'Moderator',	'47B53C',	4,	0,	0,	600,	1),
+(6,	'Administrator',	'd8b00d',	5,	0,	0,	700,	1),
 (7,	'Root Administrator',	'AA3C3C',	0,	-1,	0,	800,	1);
 
 DROP TABLE IF EXISTS `guests`;
