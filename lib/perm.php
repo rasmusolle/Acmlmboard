@@ -234,17 +234,6 @@ function can_edit_forum_threads($forumid) {
 	return true;
 }
 
-function can_delete_forum_threads($forumid) {
-	if (!has_perm('delete-thread') && !has_perm_with_bindvalue('delete-forum-thread',$forumid)) return false;
-	return true;
-}
-
-function catid_of_forum($forumid) {
-	global $sql;
-	$row = $sql->fetchp("SELECT cat FROM forums WHERE id=?",[$forumid]);
-	return $row['cat'];
-}
-
 function has_perm($permid) {
 	global $logpermset;
 	foreach ($logpermset as $k => $v) {

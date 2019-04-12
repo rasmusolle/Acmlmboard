@@ -179,15 +179,11 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('use-post-layout',	'Use Post Layout',	4,	''),
 ('view-all-private-categories',	'View All Private Categories',	3,	''),
 ('view-all-private-forums',	'View All Private Forums',	3,	''),
-('view-all-private-posts',	'View All Private Posts',	3,	''),
-('view-all-private-threads',	'View All Private Threads',	3,	''),
 ('view-own-pms',	'View Own PMs',	1,	''),
 ('view-post-history',	'View Post History',	2,	''),
 ('view-post-ips',	'View Post IP Addresses',	3,	''),
 ('view-private-category',	'View Private Category',	2,	'categories'),
 ('view-private-forum',	'View Private Forum',	2,	'forums'),
-('view-private-post',	'View Private Post',	2,	'posts'),
-('view-private-thread',	'View Private Thread',	2,	'threads'),
 ('view-user-pms',	'View User PMs',	3,	'');
 
 DROP TABLE IF EXISTS `permbind`;
@@ -409,8 +405,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (6,	'group',	'update-profiles',	'',	0,	0),
 (6,	'group',	'view-all-private-categories',	'',	0,	0),
 (6,	'group',	'view-all-private-forums',	'',	0,	0),
-(6,	'group',	'view-all-private-posts',	'',	0,	0),
-(6,	'group',	'view-all-private-threads',	'',	0,	0),
 (6,	'group',	'view-post-ips',	'',	0,	0),
 (7,	'group',	'no-restrictions',	'',	0,	0);
 
