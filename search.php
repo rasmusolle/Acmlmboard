@@ -99,9 +99,8 @@ if ($_GET['w'] == 1) {
 		."LEFT JOIN users u ON p.user=u.id "
 		."LEFT JOIN threads t ON p.thread=t.id "
 		."LEFT JOIN forums f ON f.id=t.forum "
-		."LEFT JOIN categories c ON c.id=f.cat "
 		."WHERE $dastring AND ISNULL(pt2.id) "
-		."AND f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm()." "
+		."AND f.id IN ".forums_with_view_perm()
 		."ORDER BY p.id");
 
 	if_empty_query($posts, 'No posts found.', 1, true);
@@ -161,18 +160,16 @@ if ($_GET['w'] == 1) {
 		."LEFT JOIN users u1 ON u1.id=t.user "
 		."LEFT JOIN users u2 ON u2.id=t.lastuser "
 		."LEFT JOIN forums f ON f.id=t.forum "
-		."LEFT JOIN categories c ON f.cat=c.id "
 		."WHERE $dastring "
-		."AND f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm()." "
+		."AND f.id IN ".forums_with_view_perm()
 		."ORDER BY t.sticky DESC, t.lastdate DESC "
 		."LIMIT ".(($page-1)*$loguser['tpp']).",".$loguser['tpp']);
 	$forum['threads'] = $sql->resultq("SELECT count(*) "
 		."FROM threads t "
 		."LEFT JOIN users u1 ON u1.id=t.user "
 		."LEFT JOIN forums f ON f.id=t.forum "
-		."LEFT JOIN categories c ON f.cat=c.id "
 		."WHERE $dastring "
-		."AND f.id IN ".forums_with_view_perm()." AND c.id IN ".cats_with_view_perm());
+		."AND f.id IN ".forums_with_view_perm());
 	?><table class="c1">
 		<tr class="h">
 			<td class="b h" width="17">&nbsp;</td>

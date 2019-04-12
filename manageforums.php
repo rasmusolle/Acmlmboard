@@ -10,7 +10,6 @@ if (isset($_POST['savecat'])) {
 	$cid = $_GET['cid'];
 	$title = stripslashes($_POST['title']);
 	$ord = (int)$_POST['ord'];
-	$private = isset($_POST['private']) ? 1 : 0;
 	if (!trim($title))
 		$error = 'Please enter a title for the category.';
 	else {
@@ -18,22 +17,19 @@ if (isset($_POST['savecat'])) {
 			$cid = $sql->resultq("SELECT MAX(id) FROM categories");
 			if (!$cid) $cid = 0;
 			$cid++;
-			$sql->prepare("INSERT INTO categories (id,title,ord,private) VALUES (?,?,?,?)", [$cid, $title, $ord, $private]);
+			$sql->prepare("INSERT INTO categories (id,title,ord) VALUES (?,?,?)", [$cid, $title, $ord]);
 		} else {
 			$cid = (int)$cid;
-			if (!$sql->resultp("SELECT COUNT(*) FROM categories WHERE id=?",[$cid]))
-				redirect('manageforums.php');
-			$sql->prepare("UPDATE categories SET title=?, ord=?, private=? WHERE id=?", [$title, $ord, $private, $cid]);
+			if (!$sql->resultp("SELECT COUNT(*) FROM categories WHERE id=?",[$cid])) redirect('manageforums.php');
+			$sql->prepare("UPDATE categories SET title = ?, ord = ? WHERE id = ?", [$title, $ord, $cid]);
 		}
-		saveperms('categories', $cid);
 		redirect('manageforums.php?cid='.$cid);
 	}
 } else if (isset($_POST['delcat'])) {
 	// delete category
 	$cid = (int)$_GET['cid'];
-	$sql->prepare("DELETE FROM categories WHERE id=?",[$cid]);
+	$sql->prepare("DELETE FROM categories WHERE id = ?",[$cid]);
 
-	deleteperms('categories', $cid);
 	redirect('manageforums.php');
 } else if (isset($_POST['saveforum'])) {
 	// save new/existing forum
@@ -87,7 +83,7 @@ if ($error) noticemsg("Error", $error);
 if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	// category editor
 	if ($cid == 'new') {
-		$cat = ['id' => 0, 'title' => '', 'ord' => 0, 'private' => 0];
+		$cat = ['id' => 0, 'title' => '', 'ord' => 0];
 	} else {
 		$cid = (int)$cid;
 		$cat = $sql->fetchp("SELECT * FROM categories WHERE id=?",[$cid]);
@@ -101,9 +97,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			</tr><tr>
 				<td class="b n1 center">Display order:</td>
 				<td class="b n2"><input type="text" name="ord" value="<?=$cat['ord'] ?>" size="4" maxlength="10"></td>
-			</tr><tr>
-				<td class="b n1 center"></td>
-				<td class="b n2"><label><input type="checkbox" name="private" value="1" <?=($cat['private'] ? 'checked="checked"' : '') ?>> Private category</label></td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>
@@ -114,8 +107,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 					<button type="button" class="submit" id="back" onclick="window.location='manageforums.php';">Back</button>
 				</td>
 			</tr>
-		</table><br>
-		<?php permtable('categories', $cid) ?>
+		</table>
 	</form><?php
 } else if (isset($_GET['fid']) && $fid = $_GET['fid']) {
 	// forum editor

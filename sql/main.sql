@@ -20,14 +20,12 @@ CREATE TABLE `categories` (
   `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `ord` tinyint(4) NOT NULL,
-  `minpower` tinyint(4) NOT NULL,
-  `private` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `categories` (`id`, `title`, `ord`, `minpower`, `private`) VALUES
-(1,	'General',	2,	0,	0),
-(2,	'Staff Forums',	0,	1,	1);
+INSERT INTO `categories` (`id`, `title`, `ord`) VALUES
+(1,	'General',	2),
+(2,	'Staff Forums',	0);
 
 DROP TABLE IF EXISTS `forums`;
 CREATE TABLE `forums` (
@@ -149,7 +147,6 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('edit-all-group',	'Edit All Group Assets',	3,	''),
 ('edit-all-group-member',	'Edit All User Assets',	3,	''),
 ('edit-attentions-box',	'Edit Attentions Box',	3,	''),
-('edit-categories',	'Edit Categories',	3,	''),
 ('edit-customusercolors',	'Edit Custom Username Colors',	3,	''),
 ('edit-displaynames',	'Edit Displaynames',	3,	''),
 ('edit-forum-post',	'Edit Forum Post',	2,	'forums'),
@@ -177,12 +174,10 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('update-thread',	'Update Thread',	2,	''),
 ('update-user-profile',	'Update User Profile',	3,	'users'),
 ('use-post-layout',	'Use Post Layout',	4,	''),
-('view-all-private-categories',	'View All Private Categories',	3,	''),
 ('view-all-private-forums',	'View All Private Forums',	3,	''),
 ('view-own-pms',	'View Own PMs',	1,	''),
 ('view-post-history',	'View Post History',	2,	''),
 ('view-post-ips',	'View Post IP Addresses',	3,	''),
-('view-private-category',	'View Private Category',	2,	'categories'),
 ('view-private-forum',	'View Private Forum',	2,	'forums'),
 ('view-user-pms',	'View User PMs',	3,	'');
 
@@ -194,7 +189,6 @@ CREATE TABLE `permbind` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `permbind` (`id`, `title`) VALUES
-('categories',	'Category'),
 ('forums',	'Forum'),
 ('group',	'Group'),
 ('posts',	'Post'),
@@ -360,7 +354,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (2,	'group',	'edit-forum-post',	'forums',	2,	1),
 (2,	'group',	'edit-forum-thread',	'forums',	1,	1),
 (2,	'group',	'edit-forum-thread',	'forums',	2,	1),
-(2,	'group',	'view-private-category',	'categories',	1,	1),
 (2,	'group',	'view-private-forum',	'forums',	1,	1),
 (2,	'group',	'view-private-forum',	'forums',	2,	1),
 (3,	'group',	'create-pms',	'',	0,	0),
@@ -379,7 +372,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (4,	'group',	'edit-forum-post',	'forums',	2,	0),
 (4,	'group',	'edit-forum-thread',	'forums',	2,	0),
 (4,	'group',	'has-displayname',	'',	0,	0),
-(4,	'group',	'view-private-category',	'categories',	2,	0),
 (4,	'group',	'view-private-forum',	'forums',	2,	0),
 (5,	'group',	'ban-users',	'',	0,	0),
 (5,	'group',	'create-forum-announcements',	'',	0,	0),
@@ -393,7 +385,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (6,	'group',	'create-all-private-forum-threads',	'',	0,	0),
 (6,	'group',	'edit-all-group',	'',	0,	0),
 (6,	'group',	'edit-attentions-box',	'',	0,	0),
-(6,	'group',	'edit-categories',	'',	0,	0),
 (6,	'group',	'edit-forums',	'',	0,	0),
 (6,	'group',	'edit-ip-bans',	'',	0,	0),
 (6,	'group',	'edit-permissions',	'',	0,	0),
@@ -403,7 +394,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (6,	'group',	'manage-board',	'',	0,	0),
 (6,	'group',	'override-readonly-forums',	'',	0,	0),
 (6,	'group',	'update-profiles',	'',	0,	0),
-(6,	'group',	'view-all-private-categories',	'',	0,	0),
 (6,	'group',	'view-all-private-forums',	'',	0,	0),
 (6,	'group',	'view-post-ips',	'',	0,	0),
 (7,	'group',	'no-restrictions',	'',	0,	0);

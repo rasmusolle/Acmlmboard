@@ -29,11 +29,10 @@ pageheader();
 
 $categs = $sql->query("SELECT * FROM categories ORDER BY ord,id");
 while ($c = $sql->fetch($categs)) {
-	if (can_view_cat($c))
-		$categ[$c['id']] = $c;
+	$categ[$c['id']] = $c;
 }
 
-$forums = $sql->prepare("SELECT f.*".($log ? ", r.time rtime" : '').", c.private cprivate, ".userfields('u', 'u')." "
+$forums = $sql->prepare("SELECT f.*".($log ? ", r.time rtime" : '').", ".userfields('u', 'u')." "
 		. "FROM forums f "
 		. "LEFT JOIN users u ON u.id=f.lastuser "
 		. "LEFT JOIN categories c ON c.id=f.cat "
@@ -60,7 +59,7 @@ while ($forum = $sql->fetch($forums)) {
 	if ($forum['cat'] != $cat) {
 		$cat = $forum['cat'];
 		?><tr class="c">
-			<td class="b" colspan="5"><?=($categ[$cat]['private'] ? ('(' . ($categ[$cat]['title']) . ')') : ($categ[$cat]['title'])) ?></td>
+			<td class="b" colspan="5"><?=$categ[$cat]['title'] ?></td>
 		</tr><?php
 	}
 

@@ -90,15 +90,6 @@ function in_permset($permset,$perm) {
 	return false;
 }
 
-function can_view_cat($cat) {
-	//is it a private category?
-	if ($cat['private']) {
-		//can view the forum's category
-		if (!has_perm('view-all-private-categories') &&	!has_perm_with_bindvalue('view-private-category',$cat['id'])) return false;
-	}
-	return true;
-}
-
 function can_edit_post($post) {
 	global $loguser;
 	if (isset($post['user']) && $post['user'] == $loguser['id'] && has_perm('update-own-post')) return true;
@@ -134,25 +125,12 @@ function can_edit_user($uid) {
 	return false;
 }
 
-function cats_with_view_perm() {
-	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
-	$cache = "(";
-	$r = $sql->query("SELECT id,private FROM categories");
-	while ($d=$sql->fetch($r)) {
-		if (can_view_cat($d)) $cache .= "$d[id],";
-	}
-	$cache .= "NULL)";
-	return $cache;
-}
-
 function forums_with_view_perm() {
 	global $sql;
 	static $cache = "";
 	if ($cache != "") return $cache;
 	$cache = "(";
-	$r = $sql->query("SELECT f.id, f.private, f.cat, c.private cprivate FROM forums f LEFT JOIN categories c ON c.id=f.cat");
+	$r = $sql->query("SELECT f.id, f.private, f.cat FROM forums f");
 	while ($d = $sql->fetch($r)) {
 		if (can_view_forum($d)) $cache .= "$d[id],";
 	}
@@ -162,7 +140,6 @@ function forums_with_view_perm() {
 
 function can_view_forum($forum) {
 	//must fulfill the following criteria
-	if (!can_view_cat(['id'=>$forum['cat'], 'private'=>$forum['cprivate']])) return false;
 
 	//and if the forum is private
 	if ($forum['private']) {

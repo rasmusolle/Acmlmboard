@@ -42,15 +42,14 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
-	$threads = $sql->prepare("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, f.title ftitle,"
+	$threads = $sql->prepare("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, "
 		. ($log ? " (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread " : ' ')
-		. "FROM threads t "
+		. "f.title ftitle FROM threads t "
 		. "LEFT JOIN users u1 ON u1.id=t.user "
 		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
 		. "LEFT JOIN forums f ON f.id=t.forum "
 		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
 			. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
-		. "LEFT JOIN categories c ON f.cat=c.id "
 		. "WHERE t.user = ? "
 		. "AND f.id IN " . forums_with_view_perm() . " "
 		. "ORDER BY t.sticky DESC, t.lastdate DESC "
@@ -58,7 +57,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		[$uid]);
 
 	$forum['threads'] = $sql->resultp("SELECT count(*) FROM threads t "
-		. "LEFT JOIN forums f ON f.id = t.forum LEFT JOIN categories c ON f.cat = c.id "
+		. "LEFT JOIN forums f ON f.id = t.forum "
 		. "WHERE t.user = ? AND f.id IN " . forums_with_view_perm(), [$uid]);
 
 	$topbot = [
@@ -79,7 +78,6 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. "LEFT JOIN users u1 ON u1.id=t.user "
 		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
 		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON f.cat=c.id "
 		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
 			. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
 		. "WHERE t.lastdate>$mintime "
@@ -89,7 +87,6 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	$forum['threads'] = $sql->resultq("SELECT count(*) "
 		. "FROM threads t "
 		. "LEFT JOIN forums f ON f.id=t.forum "
-		. "LEFT JOIN categories c ON f.cat=c.id "
 		. "WHERE t.lastdate > $mintime "
 		. "AND f.id IN " . forums_with_view_perm() . " ");
 

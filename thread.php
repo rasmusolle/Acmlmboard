@@ -278,7 +278,7 @@ if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] 
 		$edit = "<a href=javascript:showrbox()>Rename</a> | <a href=javascript:showmove()>Move</a>";
 
 		//KAWA: Made it a dropdown list. The change isn't alone in this file, but it's clear where it starts and ends if you want to put this on 2.1+delta.
-		$r = $sql->query("SELECT c.title ctitle,c.private cprivate,f.id,f.title,f.cat,f.private FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord,c.id,f.ord,f.id");
+		$r = $sql->query("SELECT c.title ctitle,f.id,f.title,f.cat,f.private FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord,c.id,f.ord,f.id");
 		$fmovelinks = "<select id=\"forumselect\">";
 		$c = -1;
 		while ($d = $sql->fetch($r)) {
