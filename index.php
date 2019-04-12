@@ -43,7 +43,7 @@ $cat = -1;
 
 ?>
 <table class="c1">
-	<?=announcement_row(2, 3) ?>
+	<?=announcement_row(5) ?>
 	<tr class="h">
 		<td class="b h" width=17>&nbsp;</td>
 		<td class="b h">Forum</td>

@@ -306,29 +306,28 @@ function ranklist() {
 	return $rlist;
 }
 
-function announcement_row($aleftspan, $arightspan) {
+function announcement_row($tblspan) {
 	global $dateformat, $sql;
 
 	$announcement = [];
 
-	$ancs = $sql->fetchp("SELECT title,user,`lastdate` FROM threads
-	WHERE forum=0 AND announce=1 ORDER BY `lastdate` DESC LIMIT 1", []);
+	$ancs = $sql->fetchq("SELECT title,user,lastdate FROM threads WHERE announce = 1 ORDER BY lastdate DESC LIMIT 1");
 	if ($ancs) {
 		$announcement['title'] = $ancs['title'];
 		$announcement['date'] = $ancs['lastdate'];
-		$announcement['user'] = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", [$ancs['user']]);
+		$announcement['user'] = $sql->fetchp("SELECT ".userfields()." FROM users WHERE id = ?", [$ancs['user']]);
 	}
 
 	if (isset($announcement['title']) || has_perm('create-forum-announcements')) {
 		if (isset($announcement['title'])) {
-			$anlink = "<a href=thread.php?announce>" . $announcement['title'] . "</a> -- Posted by " . userlink($announcement['user']) . " on " . date($dateformat, $announcement['date']);
+			$anlink = "<a href=thread.php?announce>".$announcement['title']."</a> - by " . userlink($announcement['user']) . " on " . date($dateformat, $announcement['date']);
 		} else {
 			$anlink = "No announcements";
 		}
-		?><tr class="h"><td class="b" colspan="<?=$aleftspan + $arightspan ?>">Announcements</td></tr>
-		<tr class="n1 center"><td class="b left" colspan=<?=(has_perm('create-forum-announcements') ? "$aleftspan" : ($aleftspan + $arightspan)) ?>><?=$anlink ?></td>
-		<?=(has_perm('create-forum-announcements') ? "<td class=\"b right\" colspan=$arightspan><a href=newthread.php?announce=1>New Announcement</a></td>" : "") ?>
-		</tr><?php
+		?><tr class="h"><td class="b" colspan="<?=$tblspan ?>">Announcements</td></tr>
+		<tr class="n1 center"><td class="b left" colspan=<?=$tblspan ?>><?=$anlink ?>
+			<?=(has_perm('create-forum-announcements') ? "<span class=\"right\" style=\"float:right\"><a href=newthread.php?announce>New Announcement</a></span>" : "") ?>
+		</td></tr><?php
 	}
 }
 
