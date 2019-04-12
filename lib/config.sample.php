@@ -78,14 +78,14 @@ $botlist = [
 // List of smilies
 $smilies = [
 	['text' => '-_-', 'url' => 'img/smilies/annoyed.gif'],
-	['text' => '~:o', 'url' => 'img/smilies/baby.gif'],
 	['text' => 'o_O', 'url' => 'img/smilies/bigeyes.gif'],
 	['text' => ':D', 'url' => 'img/smilies/biggrin.gif'],
 	['text' => 'o_o', 'url' => 'img/smilies/blank.gif'],
+	['text' => ':x', 'url' => 'img/smilies/crossmouth.gif'],
 	['text' => ';_;', 'url' => 'img/smilies/cry.gif'],
-	['text' => '^^;;;', 'url' => 'img/smilies/cute2.gif'],
 	['text' => '^_^', 'url' => 'img/smilies/cute.gif'],
 	['text' => '@_@', 'url' => 'img/smilies/dizzy.gif'],
+	['text' => ':@', 'url' => 'img/smilies/dropsmile.gif'],
 	['text' => 'O_O', 'url' => 'img/smilies/eek.gif'],
 	['text' => '>:]', 'url' => 'img/smilies/evil.gif'],
 	['text' => ':eyeshift:', 'url' => 'img/smilies/eyeshift.gif'],
@@ -96,24 +96,17 @@ $smilies = [
 	['text' => '<_<', 'url' => 'img/smilies/shiftleft.gif'],
 	['text' => '>_>', 'url' => 'img/smilies/shiftright.gif'],
 	['text' => 'x_x', 'url' => 'img/smilies/sick.gif'],
+	['text' => ':|', 'url' => 'img/smilies/slidemouth.gif'],
 	['text' => ':)', 'url' => 'img/smilies/smile.gif'],
 	['text' => ':P', 'url' => 'img/smilies/tongue.gif'],
 	['text' => ':B', 'url' => 'img/smilies/vamp.gif'],
 	['text' => ';)', 'url' => 'img/smilies/wink.gif'],
+	['text' => ':-3', 'url' => 'img/smilies/wobble.gif'],
 	['text' => ':S', 'url' => 'img/smilies/wobbly.gif'],
 	['text' => '>_<', 'url' => 'img/smilies/yuck.gif'],
 	['text' => ':box:', 'url' => 'img/smilies/box.png'],
 	['text' => ':yes:', 'url' => 'img/smilies/yes.png'],
 	['text' => ':no:', 'url' => 'img/smilies/no.png'],
-	['text' => ':heart:', 'url' => 'img/smilies/heart.gif'],
-	['text' => ':x', 'url' => 'img/smilies/crossmouth.gif'],
-	['text' => ':|', 'url' => 'img/smilies/slidemouth.gif'],
-	['text' => ':@', 'url' => 'img/smilies/dropsmile.gif'],
-	['text' => ':-3', 'url' => 'img/smilies/wobble.gif'],
-	['text' => 'X-P', 'url' => 'img/smilies/xp.gif'],
-	['text' => 'X-3', 'url' => 'img/smilies/x3.gif'],
-	['text' => 'X-D', 'url' => 'img/smilies/xd.gif'],
-	['text' => ':o', 'url' => 'img/smilies/dramatic.gif']
 ];
 
 $rankset_names = ['None', 'Mario']; // List of ranksets, add any new ones here. Don't remove the "None" rankset!
