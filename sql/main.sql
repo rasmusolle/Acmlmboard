@@ -188,8 +188,6 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('view-private-forum',	'View Private Forum',	2,	'forums'),
 ('view-private-post',	'View Private Post',	2,	'posts'),
 ('view-private-thread',	'View Private Thread',	2,	'threads'),
-('view-public-categories',	'View Public Categories',	1,	''),
-('view-public-forums',	'View Public Forums',	1,	''),
 ('view-user-pms',	'View User PMs',	3,	'');
 
 DROP TABLE IF EXISTS `permbind`;
@@ -369,8 +367,6 @@ INSERT INTO `x_perm` (`x_id`, `x_type`, `perm_id`, `permbind_id`, `bindvalue`, `
 (2,	'group',	'view-private-category',	'categories',	1,	1),
 (2,	'group',	'view-private-forum',	'forums',	1,	1),
 (2,	'group',	'view-private-forum',	'forums',	2,	1),
-(2,	'group',	'view-public-categories',	'',	0,	0),
-(2,	'group',	'view-public-forums',	'',	0,	0),
 (3,	'group',	'create-pms',	'',	0,	0),
 (3,	'group',	'create-public-post',	'',	0,	0),
 (3,	'group',	'create-public-thread',	'',	0,	0),

@@ -91,9 +91,6 @@ function in_permset($permset,$perm) {
 }
 
 function can_view_cat($cat) {
-	//can view public categories
-	if (!has_perm('view-public-categories')) return false;
-
 	//is it a private category?
 	if ($cat['private']) {
 		//can view the forum's category
@@ -166,9 +163,6 @@ function forums_with_view_perm() {
 function can_view_forum($forum) {
 	//must fulfill the following criteria
 	if (!can_view_cat(['id'=>$forum['cat'], 'private'=>$forum['cprivate']])) return false;
-
-	//can view public forums
-	if (!has_perm('view-public-forums')) return false;
 
 	//and if the forum is private
 	if ($forum['private']) {
@@ -275,15 +269,6 @@ function has_perm_with_bindvalue($permid,$bindvalue) {
 		if ($v['id'] == 'no-restrictions') return true;
 		if ($permid == $v['id'] && !$v['revoke'] && $bindvalue == $v['bindvalue'])
 		return true;
-	}
-	return false;
-}
-
-function has_special_perm($permid) {
-	global $logpermset;
-	//This function does the same as has_perm, but does not check for no-retrictions.
-	foreach ($logpermset as $k => $v) {
-		if ($permid == $v['id'] && !$v['revoke']) return true;
 	}
 	return false;
 }
