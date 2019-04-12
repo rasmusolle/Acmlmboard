@@ -163,58 +163,6 @@ function forums_with_view_perm() {
 	return $cache;
 }
 
-function forums_with_edit_posts_perm() {
-	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
-	$cache = "(";
-	$r = $sql->query("SELECT id FROM forums");
-	while ($d = $sql->fetch($r)) {
-		if (can_edit_forum_posts($d['id'])) $cache .= "$d[id],";
-	}
-	$cache .= "NULL)";
-	return $cache;
-}
-
-function forums_with_delete_posts_perm() {
-	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
-	$cache = "(";
-	$r = $sql->query("SELECT id FROM forums");
-	while ($d = $sql->fetch($r)) {
-		if (can_delete_forum_posts($d['id'])) $cache .= "$d[id],";
-	}
-	$cache .= "NULL)";
-	return $cache;
-}
-
-function forums_with_edit_threads_perm() {
-	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
-	$cache = "(";
-	$r = $sql->query("SELECT id FROM forums");
-	while ($d = $sql->fetch($r)) {
-		if (can_edit_forum_threads($d['id'])) $cache .= "$d[id],";
-	}
-	$cache .= "NULL)";
-	return $cache;
-}
-
-function forums_with_delete_threads_perm() {
-	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
-	$cache = "(";
-	$r = $sql->query("SELECT id FROM forums");
-	while ($d = $sql->fetch($r)) {
-		if (can_delete_forum_threads($d['id'])) $cache .= "$d[id],";
-	}
-	$cache .= "NULL)";
-	return $cache;
-}
-
 function can_view_forum($forum) {
 	//must fulfill the following criteria
 	if (!can_view_cat(['id'=>$forum['cat'], 'private'=>$forum['cprivate']])) return false;
