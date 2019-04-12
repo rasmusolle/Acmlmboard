@@ -1,6 +1,6 @@
 <?php
 
-// [Mega-Mario] preload group data, makes things a lot easier afterwards
+// preload group data, makes things a lot easier afterwards
 $usergroups = [];
 $r = $sql->query("SELECT * FROM groups");
 while ($g = $sql->fetch($r))
@@ -121,7 +121,6 @@ function can_edit_user($uid) {
 
 	if ($uid == $loguser['id'] && has_perm('update-own-profile')) return true;
 	else if (has_perm('update-profiles')) return true;
-	else if (has_perm_with_bindvalue('update-user-profile',$uid)) return true;
 	return false;
 }
 
@@ -268,18 +267,4 @@ function perms_for_x($xtype,$xid) {
 		];
 	}
 	return $out;
-}
-
-function forumlink_by_id($fid) {
-	global $sql;
-	$f = $sql->fetchp("SELECT id,title FROM forums WHERE id=? AND id IN ".forums_with_view_perm(),[$fid]);
-	if ($f) return "<a href=forum.php?id=$f[id]>$f[title]</a>";
-	else return 0;
-}
-
-function threadlink_by_id($tid) {
-	global $sql;
-	$thread = $sql->fetchp("SELECT id,title FROM threads WHERE id=? AND forum IN ".forums_with_view_perm(),[$tid]);
-	if ($thread) return "<a href=thread.php?id=$thread[id]>".htmlval($thread[title])."</a>";
-	else return 0;
 }

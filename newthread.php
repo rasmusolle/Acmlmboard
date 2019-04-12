@@ -40,7 +40,7 @@ else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignor
 else if ($user['lastpost'] > time() - $config['secafterpost'] && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
 	$err = "You must wait ".$config['secafterpost']." seconds before posting a thread.<br>$forumlink";
 
-// 2007-02-19 //blackhole89 - table breach protection
+// table breach protection
 if ($act == 'Submit') {
 	if (($tdepth = tvalidate($_POST['message'])) != 0)
 		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$forumlink";
@@ -72,23 +72,23 @@ if (isset($err)) {
 	<form action="newthread.php" method="post"><table class="c1">
 		<tr class="h"><td class="b h" colspan="2"><?=ucfirst($type) ?></td></tr>
 		<tr>
-			<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
+			<td class="b n1 center" width=120><?=ucfirst($type) ?> title:</td>
 			<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
 		</tr><tr>
-			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n1 center">Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
-			<td class="b n1 center" width=120>Post:</td>
+			<td class="b n1 center">Post:</td>
 			<td class="b n2"><textarea name=message id='message' rows=20 cols=80></textarea></td>
-		</tr><tr class="n1">
-				<td class="b"></td>
-				<td class="b">
-					<input type="hidden" name="fid" value="<?=$fid ?>">
-					<input type="hidden" name="announce" value="<?=$announce ?>">
-					<input type="submit" class="submit" name="action" value="Submit">
-					<input type="submit" class="submit" name="action" value="Preview">
-				</td>
-			</tr>
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1">
+				<input type="hidden" name="fid" value="<?=$fid ?>">
+				<input type="hidden" name="announce" value="<?=$announce ?>">
+				<input type="submit" class="submit" name="action" value="Submit">
+				<input type="submit" class="submit" name="action" value="Preview">
+			</td>
+		</tr>
 	</table></form>
 	<?php
 } elseif ($act == 'Preview') {

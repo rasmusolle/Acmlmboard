@@ -78,7 +78,6 @@ if (isset($err)) {
 	RenderPageBar($topbot);
 	?><br>
 	<form action="editpost.php" method="post"><table class="c1">
-		<input type="hidden" name=passenc value="<?=$pass ?>">
 		<tr class="h"><td class="b h" colspan=2>Edit Post</td></tr>
 		<tr>
 			<td class="b n1 center" width=120>Format:</td>
@@ -86,9 +85,10 @@ if (isset($err)) {
 		</tr><tr>
 			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=20 cols=80><?=$quotetext ?></textarea></td>
-		</tr><tr class="n1">
-			<td class="b"></td>
-			<td class="b">
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1">
+				<input type="hidden" name=passenc value="<?=$pass ?>">
 				<input type="hidden" name=pid value=<?=$pid ?>>
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
@@ -121,9 +121,9 @@ if (isset($err)) {
 		</tr><tr>
 			<td class="b n1 center" width=120>Post:</td>
 			<td class="b n2"><textarea wrap="virtual" name=message id='message' rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>
-		</tr><tr class="n1">
-			<td class="b">&nbsp;</td>
-			<td class="b">
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1">
 				<input type="hidden" name="passenc" value="<?=$pass?>">
 				<input type="hidden" name="pid" value="<?=$pid?>">
 				<input type="submit" class="submit" name="action" value="Submit">

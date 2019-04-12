@@ -239,7 +239,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']));
 
 	echo catheader('&nbsp;'); ?>
-	<tr class="n1"><td class="b">&nbsp;</td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
+	<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
 	</table><input type="hidden" name=token value='<?=$token?>'></form><?php
 }
 

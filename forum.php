@@ -170,7 +170,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		$status = '';
 
 	if (!$thread['title'])
-		$thread['title'] = '�';
+		$thread['title'] = '';
 
 	if ($thread['sticky'])
 		$tr = 'n1';

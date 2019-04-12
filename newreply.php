@@ -105,21 +105,21 @@ if ($err) {
 	}
 	?><br>
 	<form action="newreply.php" method="post"><table class="c1">
-			<tr class="h"><td class="b h" colspan="2">Reply</td></tr>
-			<tr>
-				<td class="b n1 center" width=120>Format:</td>
-				<td class="b n2"><?=posttoolbar() ?></td>
-			</tr><tr>
-				<td class="b n1 center" width=120>Post:</td>
-				<td class="b n2"><textarea name=message id='message' rows=20 cols=80><?=htmlval($post['text']) ?></textarea></td>
-			</tr><tr>
-				<td class="b n1"></td>
-				<td class="b n1">
-					<input type="hidden" name=tid value=<?=$tid ?>>
-					<input type="submit" class="submit" name="action" value="Submit">
-					<input type="submit" class="submit" name="action" value="Preview">
-				</td>
-			</tr>
+		<tr class="h"><td class="b h" colspan="2">Reply</td></tr>
+		<tr>
+			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n2"><?=posttoolbar() ?></td>
+		</tr><tr>
+			<td class="b n1 center">Post:</td>
+			<td class="b n2"><textarea name=message id='message' rows=20 cols=80><?=htmlval($post['text']) ?></textarea></td>
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1">
+				<input type="hidden" name=tid value=<?=$tid ?>>
+				<input type="submit" class="submit" name="action" value="Submit">
+				<input type="submit" class="submit" name="action" value="Preview">
+			</td>
+		</tr>
 	</table></form><?php
 }elseif ($act == 'Submit') {
 	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$userid]);
@@ -136,7 +136,7 @@ if ($err) {
 	$sql->prepare("UPDATE forums SET posts = posts + 1,lastdate = ?, lastuser = ?, lastid = ? WHERE id = ?",
 		[[time(), $userid, $pid, $thread['forum']]]);
 
-	//2007-02-21 //blackhole89 - nuke entries of this thread in the "threadsread" table
+	// nuke entries of this thread in the "threadsread" table
 	$sql->prepare("DELETE FROM threadsread WHERE tid = ? AND NOT (uid = ?)", [$thread['id'], $userid]);
 
 	redirect("thread.php?pid=$pid#$pid");

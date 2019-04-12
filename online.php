@@ -36,5 +36,4 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 	</tr>
 <?php } ?>
 </table><?php
-
 pagefooter();

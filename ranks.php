@@ -1,5 +1,6 @@
 <?php
 require("lib/common.php");
+pageheader("Ranks");
 
 if (!isset($_GET['rankset']) || !is_numeric($_GET['rankset'])) $getrankset = 1;
 else $getrankset = $_GET['rankset'];
@@ -21,8 +22,6 @@ foreach ($rankset_names as $rankset) {
 	}
 	$ranksetcount++;
 }
-
-pageheader("Ranks");
 
 if ($ranksetcount != 2) { ?>
 <table class="c1 center" style="width:auto">

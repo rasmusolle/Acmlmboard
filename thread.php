@@ -5,7 +5,7 @@ $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0) noticemsg("Error", "Invalid page number", true);
 
 $fieldlist = '';
-$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep'];
+$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep'];
 foreach ($ufields as $field) {
 	$fieldlist.="u.$field u$field,";
 }
@@ -58,7 +58,6 @@ $action = '';
 $post_c = isset($_POST['c']) ? $_POST['c'] : '';
 $act = isset($_POST['action']) ? $_POST['action'] : '';
 
-//Sukasa 2009-14-09: Laid some of the groundwork to allow users to rename their own threads
 if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) && (can_edit_forum_threads(getforumbythread($tid)) ||
 		($loguser['id'] == $threadcreator && $act == "rename" && has_perm('rename-own-thread')))) {
 
@@ -105,7 +104,7 @@ if ($viewmode == "thread") {
 	//append thread's title to page title
 	pageheader($thread['title'], $thread['fid']);
 
-	//mark thread as read // 2007-02-21 blackhole89
+	//mark thread as read 
 	if ($log && $thread['lastdate'] > $thread['frtime'])
 		$sql->prepare("REPLACE INTO threadsread VALUES (?,?,?)", [$loguser['id'], $thread['id'], time()]);
 
@@ -120,7 +119,7 @@ if ($viewmode == "thread") {
 			$sql->prepare("REPLACE INTO forumsread VALUES (?,?,?)", [$loguser['id'], $thread['fid'], time()]);
 	}
 
-	//select top revision // 2007-03-08 blackhole89
+	//select top revision
 	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ", " . $fieldlist . " p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN threads t ON t.id = p.thread "
@@ -277,7 +276,6 @@ if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] 
 
 		$edit = "<a href=javascript:showrbox()>Rename</a> | <a href=javascript:showmove()>Move</a>";
 
-		//KAWA: Made it a dropdown list. The change isn't alone in this file, but it's clear where it starts and ends if you want to put this on 2.1+delta.
 		$r = $sql->query("SELECT c.title ctitle,f.id,f.title,f.cat,f.private FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord,c.id,f.ord,f.id");
 		$fmovelinks = "<select id=\"forumselect\">";
 		$c = -1;

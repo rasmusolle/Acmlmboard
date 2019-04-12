@@ -72,7 +72,6 @@ while ($group = $sql->fetch($activegroups)) {
 </table><br>
 <?php
 
-//[KAWA] Rebuilt this to use my new renderer. Not sure what to do about the part above though X3
 $headers = [
 	"id" => ["caption" => "#", "width" => "32px", "align" => "center"],
 	"pic" => ["caption" => "Picture", "width" => "60px"],

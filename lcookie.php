@@ -1,6 +1,5 @@
 <?php
 require('lib/common.php');
-
 needs_login(1);
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -29,20 +28,20 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 	</tr><tr class="h">
 		<td class="b h">Field</td>
 		<td class="b h">Value</td>
-	</tr><tr class="n1">
+	</tr><tr>
 		<td class="b n1 center">generating IP</td>
 		<td class="b n2 center"><?=$dsegments[0] ?></td>
 	</tr><?php for ($i = 2; $i < count($dsegments);  $i++) { ?>
-	<tr class="n1">
+	<tr>
 		<td class="b n1 center">allowed range</td>
 		<td class="b n2 center"><?=$dsegments[$i] ?></td>
-	<?php } ?>
+	</tr><?php } ?>
 </table><br>
 <form action="lcookie.php" method="post">
 	<input type="hidden" name="action" value="update">
 	<table class="c1">
 		<tr class="h"><td class="b h">Modify allowed ranges</td></tr>
-		<tr class="n1">
+		<tr>
 			<td class="b n2">
 				<input type="text" name="ranges" value="<?=implode(",", array_slice($dsegments, 2)) ?>" style="width:80%">
 				<input type="submit" class="submit" name value="Update">

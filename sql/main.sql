@@ -172,7 +172,6 @@ INSERT INTO `perm` (`id`, `title`, `permcat_id`, `permbind_id`) VALUES
 ('update-post',	'Update Post',	2,	''),
 ('update-profiles',	'Update Profiles',	3,	''),
 ('update-thread',	'Update Thread',	2,	''),
-('update-user-profile',	'Update User Profile',	3,	'users'),
 ('use-post-layout',	'Use Post Layout',	4,	''),
 ('view-all-private-forums',	'View All Private Forums',	3,	''),
 ('view-own-pms',	'View Own PMs',	1,	''),
@@ -191,8 +190,6 @@ CREATE TABLE `permbind` (
 INSERT INTO `permbind` (`id`, `title`) VALUES
 ('forums',	'Forum'),
 ('group',	'Group'),
-('posts',	'Post'),
-('threads',	'Thread'),
 ('users',	'User');
 
 DROP TABLE IF EXISTS `permcat`;

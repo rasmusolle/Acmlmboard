@@ -9,31 +9,11 @@ function userlink_by_name($name) {
 		return 0;
 }
 
-function get_userlink($matches) {
-	return userlink_by_id($matches[1]);
-}
-
 function get_username_link($matches) {
 	$x = str_replace('"', '', $matches[1]);
 	$nl = userlink_by_name($x);
 	if ($nl)
 		return $nl;
-	else
-		return $matches[0];
-}
-
-function get_forumlink($matches) {
-	$fl = forumlink_by_id($matches[1]);
-	if ($fl)
-		return $fl;
-	else
-		return $matches[0];
-}
-
-function get_threadlink($matches) {
-	$tl = threadlink_by_id($matches[1]);
-	if ($tl)
-		return $tl;
 	else
 		return $matches[0];
 }
@@ -80,7 +60,7 @@ function filterstyle($match) {
 function postfilter($msg) {
 	global $smilies, $config, $sql, $swfid;
 
-	//[blackhole89] - [code] tag
+	//[code] tag
 	$msg = preg_replace_callback("'\[code\](.*?)\[/code\]'si", 'makecode', $msg);
 
 	//[irc] variant of [code]
@@ -100,33 +80,21 @@ function postfilter($msg) {
 
 	$msg = preg_replace("'\[(b|i|u|s)\]'si", '<\\1>', $msg);
 	$msg = preg_replace("'\[/(b|i|u|s)\]'si", '</\\1>', $msg);
-	$msg = str_replace('[spoiler]', '<span class="spoiler1" onclick=""><span class="spoiler2">', $msg);
-	$msg = str_replace('[/spoiler]', '</span></span>', $msg);
+	$msg = preg_replace("'\[spoiler\](.*?)\[/spoiler\]'si", '<span class="spoiler1" onclick=""><span class="spoiler2">\\1</span></span>', $msg);
 	$msg = preg_replace("'\[url\](.*?)\[/url\]'si", '<a href=\\1>\\1</a>', $msg);
 	$msg = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href=\\1>\\2</a>', $msg);
 	$msg = preg_replace("'\[img\](.*?)\[/img\]'si", '<img src=\\1>', $msg);
-	$msg = str_replace('[quote]', '<blockquote><hr>', $msg);
-	$msg = str_replace('[/quote]', '<hr></blockquote>', $msg);
+	$msg = preg_replace("'\[quote\](.*?)\[/quote\]'si", '<blockquote><hr>\\1<hr></blockquote>', $msg);
 	$msg = preg_replace("'\[color=([a-f0-9]{6})\](.*?)\[/color\]'si", '<span style="color: #\\1">\\2</span>', $msg);
 
 	$msg = preg_replace_callback('\'@\"((([^"]+))|([A-Za-z0-9_\-%]+))\"\'si', "get_username_link", $msg);
-	//$msg=preg_replace_callback('\'@(("([^"]+)"))\'si',"get_username_link",$msg);
-	//$msg=preg_replace_callback('\'@(("([^"]+)")|([A-Za-z0-9_\-%]+))\'si',"get_username_link",$msg); //For Reference. Original no quote @username
-
-	$msg = preg_replace_callback("'\[user=([0-9]+)\]'si", "get_userlink", $msg);
-	$msg = preg_replace_callback("'\[forum=([0-9]+)\]'si", "get_forumlink", $msg);
-	$msg = preg_replace_callback("'\[thread=([0-9]+)\]'si", "get_threadlink", $msg);
-	$msg = preg_replace_callback("'\[username=([[A-Za-z0-9 _\-%]+)\]'si", "get_username_link", $msg);
-
-	$msg = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si", '<a href=\\1>\\2</a>', $msg);
 
 	$msg = preg_replace("'\[reply=\"(.*?)\" id=\"(.*?)\"\]'si", '<blockquote><span class="quotedby"><small><i><a href=showprivate.php?id=\\2>Sent by \\1</a></i></small></span><hr>', $msg);
-	$msg = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si", '<blockquote><span class="quotedby"><small><i><a href=thread.php?pid=\\2#\\2>Posted by \\1</a></i></small></span><hr>', $msg);
-	$msg = preg_replace("'\[quote=(.*?)\]'si", '<blockquote><span class="quotedby"><i>Posted by \\1</i></span><hr>', $msg);
+	$msg = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\](.*?)\[/quote\]'si", '<blockquote><span class="quotedby"><small><i><a href=thread.php?pid=\\2#\\2>Posted by \\1</a></i></small></span><hr>\\3<hr></blockquote>', $msg);
+	$msg = preg_replace("'\[quote=(.*?)\](.*?)\[/quote\]'si", '<blockquote><span class="quotedby"><i>Posted by \\1</i></span><hr>\\2<hr></blockquote>', $msg);
 	$msg = preg_replace("'>>([0-9]+)'si", '>><a href=thread.php?pid=\\1#\\1>\\1</a>', $msg);
 
-	//[KAWA] Youtube tag.
-	$msg = preg_replace("'\[youtube\]([\-0-9_a-zA-Z]*?)\[/youtube\]'si", '<iframe width="420" height="315" src="http://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $msg);
+	$msg = preg_replace("'\[youtube\]([\-0-9_a-zA-Z]*?)\[/youtube\]'si", '<iframe width="427" height="240" src="http://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe>', $msg);
 
 	return $msg;
 }
@@ -148,7 +116,6 @@ function amptags($post, $s) {
 	return $s;
 }
 
-//2007-02-19 //blackhole89 - table depth validation
 function tvalidate($str) {
 	$l = strlen($str);
 	$isquot = 0;
@@ -255,7 +222,7 @@ function threadpost($post, $pthread = '') {
 			. $post['utitle']
 			. ((strlen($post['utitle']) >= 1) ? "<br>" : "");
 
-	//[KAWA] Blocklayouts. Supports user/user ($blocklayouts) and user/world (token).
+	// Blocklayouts, supports user/user ($blocklayouts) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
 	$isBlocked = $loguser['blocklayouts'];
 	if ($isBlocked)
@@ -305,7 +272,7 @@ HTML;
 	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 	if (isset($post['isannounce'])) {
 		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
-	} else if (isset($post['thread']) && isset($post['post']) && $loguser['id'] != 0) {
+	} else if (isset($post['thread']) && isset($post['id']) && $loguser['id'] != 0) {
 		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
 	}
 
@@ -341,7 +308,7 @@ HTML;
 		<td class="b n1 $tbar1" style="border-bottom:0;border-right:0;min-width:180px;text-align:center" height=17>$ulink</td>
 		<td class="b n1 $tbar2" style="border-left:0" width=100%>
 			<table width=100%>
-				<tr><td class="nb sfont">Posted on $pdate $threadlink $revisionstr</td><td class="nb sfont right">$postlinks</td></tr>
+				<tr><td class="nb sfont">Posted on $pdate$threadlink $revisionstr</td><td class="nb sfont right">$postlinks</td></tr>
 			</table>
 		</td>
 	</tr><tr valign=top>

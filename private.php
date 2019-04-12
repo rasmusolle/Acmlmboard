@@ -93,11 +93,11 @@ RenderPageBar($topbot);
 ?><br>
 <table class="c1">
 	<tr class="h">
-		<td class="b h" width="17">&nbsp;</td>
-		<td class="b h" width="17">&nbsp;</td>
-		<td class="b h">Title</td>
-		<td class="b h" width="130"><?=$tablehead ?></td>
-		<td class="b h" width="130">Sent on</td>
+		<td class="b" width="17">&nbsp;</td>
+		<td class="b" width="17">&nbsp;</td>
+		<td class="b">Title</td>
+		<td class="b" width="130"><?=$tablehead ?></td>
+		<td class="b" width="130">Sent on</td>
 	</tr>
 	<?php
 	if_empty_query($pmsgs, "There are no private messages here.", 5);

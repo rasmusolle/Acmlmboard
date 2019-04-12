@@ -40,7 +40,7 @@ foreach ($themes as $k => $v) {
 
 if ($user['birth'] != -1) {
 	//Crudely done code.
-	//You're Goddamn right. :P - SquidEmpress
+	//You're Goddamn right. :P
 	$monthnames = [1 => 'January', 'February', 'March', 'April',
 		'May', 'June', 'July', 'August',
 		'September', 'October', 'November', 'December'];
@@ -83,10 +83,9 @@ if ($user['url'][0] == "!") {
 
 $post['date'] = time();
 $post['ip'] = $user['ip'];
-$post['num'] = 0; //$user[posts];  #2/26/2007 xkeeper - threadpost can hide "1/" now
+$post['num'] = 0;
 
-$post['id'] = 0;
-$post['thread'] = 0;
+$post['id'] = 0; $post['thread'] = 0;
 
 $post['text'] = $config['samplepost'];
 

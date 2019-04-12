@@ -1,29 +1,6 @@
 <?php
 require('lib/common.php');
 
-$regdis = $sql->fetchq("SELECT intval, txtval FROM misc WHERE field = 'regdisable'");
-if ($regdis['intval'] == 1) {
-	pageheader('Register');
-
-	if ($regdis['txtval'] != "")
-		$reason = $regdis['txtval'];
-	else
-		$reason = "Registration is currently disabled.";
-
-	?>
-	<table class="c1">
-		<tr class="h"><td class="b h" colspan="2">Registration is disabled</td></tr>
-		<tr>
-			<td class="b n1 center" width="120">
-				<?=$reason ?> For more information please read the board announcements.
-			</td>
-		</tr>
-	</table>
-	<?php
-	pagefooter();
-	die();
-}
-
 function randstr($l) {
 	$str = "";
 	$chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$+/~";
@@ -76,7 +53,7 @@ if ($act == 'Register') {
 			}
 			$sql->prepare("UPDATE users SET group_id=? WHERE id=?",[$ugid,$id]);
 
-			// [Mega-Mario] mark existing threads and forums as read
+			// mark existing threads and forums as read
 			$sql->prepare("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", [$id, time()]);
 			$sql->prepare("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", [$id, time()]);
 
@@ -85,7 +62,7 @@ if ($act == 'Register') {
 
 			?><span style='text-align:center;'>
 				If you aren't redirected, then please <a href="./">go here.</a>
-				<?='<meta http-equiv="refresh" content="1;url=./">' ?>
+				<?='<meta http-equiv="refresh" content="0;url=./">' ?>
 			</span><?php
 			die();
 		} else {

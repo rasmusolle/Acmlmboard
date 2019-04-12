@@ -86,7 +86,7 @@ if ($_GET['w'] == 1) {
 	}
 	$dastring = trim(substr($dastring, strlen($defbool)));
 	$fieldlist = '';
-	$ufields = ['id','name','posts','regdate','lastpost','lastview','location',
+	$ufields = ['id','name','posts','regdate','lastpost','lastview',
 					'group_id','rankset','title','usepic','head','sign','displayname','enablecolor','nick_color'];
 	foreach ($ufields as $field)
 		$fieldlist .= "u.$field u$field,";

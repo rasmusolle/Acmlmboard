@@ -35,8 +35,7 @@ $puzzleVariations = [
 $puzzle = $puzzleVariations[array_rand($puzzleVariations)];
 
 $config['ckey'] = "configckey";
-$config['path'] = "/"; // If you run your copy in a specific path (ie: http://www.example.gov/board) than this would be 'board/''
-$config['meta'] = "<meta name='description' content=\"Stuff goes here!\"><meta name='keywords' content=\"Acmlmboard, Your Stuff\">"; // This is used for search engine keywords.
+$config['meta'] = "<meta name='description' content=\"Stuff goes here!\">"; // This is used for search engine keywords.
 
 /* -- Everything past this point is optional.  It is recommended to get the board up and running first before adjusting the following                  --
    -- The amount of options may be overwelming at first. AB 2.5+ was designed to allow for great flexiblity. As such there are many optional features. -- */

@@ -77,5 +77,4 @@ if (isset($err)) noticemsg("Error", $err);
 		</td>
 	</tr>
 <?php } ?></table><?php
-
 pagefooter();

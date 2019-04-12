@@ -1,11 +1,10 @@
 <?php
 
-$rankcache = [];
 $userbirthdays = [];
 
-function dobirthdays() { //Function for calling after we get the timezone for the user set [Gywall]
+function dobirthdays() { //Function for calling after we get the timezone for the user set
 	global $sql, $userbirthdays;
-	// [Mega-Mario] Check for birthdays globally.
+	// Check for birthdays globally.
 	// Makes stuff like checking for rainbow usernames a lot easier.
 	$rbirthdays = $sql->prepare("SELECT id FROM users WHERE birth LIKE ?", [date('m-d').'%']);
 	while ($bd = $sql->fetch($rbirthdays))
@@ -169,7 +168,7 @@ function userlink($user, $u = '') {
 function userdisp($user, $u = '') {
 	global $sql, $config, $usergroups, $userbirthdays;
 
-	if ($config['perusercolor'] && $user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours [Gywall]
+	if ($config['perusercolor'] && $user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours
 		$nc = $user[$u.'nick_color'];
 	} else {
 		$group = $usergroups[$user[$u.'group_id']];

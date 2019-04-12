@@ -5,8 +5,7 @@ function redirect($url) {
 	die();
 }
 
-/** Our first step to sanity, brought to us by Kawa **
- *
+/**
  * function RenderTable(data, headers)
  *
  * Renders (outputs) a table in HTML using `headers` for column definition
@@ -69,8 +68,7 @@ function RenderTable($data, $headers) {
 }
 
 function HTMLAttribEncode($string) {
-	$pass1 = htmlentities($string, ENT_QUOTES);
-	return "'$pass1'";
+	return "'".htmlentities($string, ENT_QUOTES)."'";
 }
 
 function rendernewstatus($type) {
@@ -89,7 +87,7 @@ function rendernewstatus($type) {
 		break;
 	}
 
-	return "<img src=\"img/status/$statusimg\" alt=\"$text\"></div>";
+	return "<img src=\"img/status/$statusimg\" alt=\"$text\">";
 }
 
 function RenderForm($form) {
@@ -236,13 +234,12 @@ function fieldtext($rows, $cols, $field) {
 
 function fieldoption($field, $checked, $choices) {
 	$text = '';
-	//[KAWA] Added <label> so the text is clickable.
 	foreach ($choices as $key => $val)
 		$text.="<label><input type=\"radio\" class=\"radio\" name=$field value=$key" . ($key == $checked ? ' checked=1' : '') . ">$val &nbsp;</label>\n";
 	return $text;
 }
 
-// 2/22/2007 xkeeper - takes $choices (array with "value" and "name")
+// takes $choices (array with "value" and "name")
 function fieldselect($field, $checked, $choices) {
 	$text = "<select name=$field>\n";
 	foreach ($choices as $key => $val) {

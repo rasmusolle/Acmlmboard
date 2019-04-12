@@ -47,7 +47,7 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 }
 
 ?>
-	<tr class="h"><td class="b h" colspan="5">Totals</td></tr>
+	<tr class="h"><td class="b" colspan="5">Totals</td></tr>
 	<tr class="<?=$tr ?> center">
 		<td class="nb"><b><?=$j ?></b></td>
 		<td class="nb"></td>

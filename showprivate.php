@@ -5,7 +5,7 @@ needs_login(1);
 if (!has_perm('view-own-pms')) noticemsg("Error", "You have no permissions to do this!", true);
 
 $fieldlist = '';
-$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'location', 'rankset', 'title', 'usepic', 'head', 'sign'];
+$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'rankset', 'title', 'usepic', 'head', 'sign'];
 foreach ($ufields as $field)
 	$fieldlist .= "u.$field u$field,";
 
@@ -17,7 +17,7 @@ $pmsgs = $sql->fetchp("SELECT ".userfields('u','u').",$fieldlist p.* FROM pmsgs 
 if ($pmsgs == null) noticemsg("Error", "Private message does not exist.", true);
 $tologuser = ($pmsgs['userto'] == $loguser['id']);
 
-if (((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && !has_perm('view-user-pms')))
+if ((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && !has_perm('view-user-pms'))
 	noticemsg("Error", "Private message does not exist.", true);
 elseif ($tologuser && $pmsgs['unread'])
 	$sql->prepare("UPDATE pmsgs SET unread = 0 WHERE id = ?", [$pid]);

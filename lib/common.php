@@ -11,7 +11,6 @@ foreach (glob("lib/*.php") as $filename)
 
 header("Content-type: text/html; charset=utf-8");
 
-//[Scrydan] Added these three variables to make editing quicker.
 $boardprog = "Acmlm, Emuz, <a href='credits.php'>et al</a>.";
 $abversion = "2.5.3MOD";
 
@@ -306,7 +305,6 @@ HTML;
 		$fname = $sql->resultp("SELECT title FROM forums WHERE id = ?", [$fid]);
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : "") . " currently in $fname" . ($onusercount > 0 ? ": " : "") . $onuserlist;
 
-		//[Scrydan] Changed from the commented code below to save a query.
 		$numbots = 0;
 		$numguests = 0;
 		if($result = $sql->prepare("SELECT COUNT(*) as guest_count, SUM(bot) as bot_count FROM guests WHERE lastforum = ? AND date > ?", [$fid, (time()-300)])) {
@@ -335,7 +333,7 @@ HTML;
 				$p = "";
 			else
 				$p = "(";
-			//Patch to fix 2 digit birthdays. Needs retooled to a modern datetime system. -Emuz
+			//Patch to fix 2 digit birthdays. Needs retooled to a modern datetime system.
 			if ($b['2'] <= 99 && $b['2'] > 15)
 				$y = date("Y") - ($b['2'] + 1900) . ")";
 			else if ($b['2'] <= 14 && $b['2'] > 0)
@@ -389,22 +387,18 @@ HTML;
 		?>
 		<table class="c1">
 			<?=$birthdaybox ?>
-			<tr>
-				<td class="b n1">
-					<table style="width:100%">
-						<tr>
-							<td class="nb" width="170"></td>
-							<td class="nb center"><span class="white-space:nowrap">
-									<?=$count['t'] ?> threads and <?=$count['p'] ?> posts total.<br><?=$count['d'] ?> new posts
-									today, <?=$count['h'] ?> last hour.<br>
-							</span></td>
-							<td class="nb right" width="170">
-								<?=$count['u'] ?> registered users<br> Newest: <?=userlink($lastuser) ?>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+			<tr><td class="b n1">
+				<table style="width:100%"><tr>
+					<td class="nb" width="170"></td>
+					<td class="nb center"><span class="white-space:nowrap">
+							<?=$count['t'] ?> threads and <?=$count['p'] ?> posts total.<br><?=$count['d'] ?> new posts
+							today, <?=$count['h'] ?> last hour.<br>
+					</span></td>
+					<td class="nb right" width="170">
+						<?=$count['u'] ?> registered users<br> Newest: <?=userlink($lastuser) ?>
+					</td>
+				</tr></table>
+			</td></tr>
 			<tr>
 				<td class="b n2 center"><?=$onuserlist ?></td>
 			</tr>

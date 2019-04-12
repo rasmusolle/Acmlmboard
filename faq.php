@@ -149,14 +149,8 @@ p {
 					<td class="b n1">[url]<i>URL of site or page to link to</i>[/url]<br>[url=<i>URL</i>]<i>Link title</i>[/url]</td>
 					<td class="b n2">Creates a link with or without a title.</td>
 				</tr><tr>
-					<td class="b n1">@"<i>User Name</i>"<br>[user=<i>id</i>]</td>
+					<td class="b n1">@"<i>User Name</i>"</td>
 					<td class="b n2">Creates a link to a user's profile complete with name colour.</td>
-				</tr><tr>
-					<td class="b n1">[forum=<i>id</i>]</td>
-					<td class="b n2">Creates a link to a forum by id.</td>
-				</tr><tr>
-					<td class="b n1">[thread=<i>id</i>]</td>
-					<td class="b n2">Creates a link to a thread by id.</td>
 				</tr><tr>
 					<td class="b n1">[youtube]<i>video id</i>[/youtube]</td>
 					<td class="b n2">Creates an embeded YouTube video.</td>
