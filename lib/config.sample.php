@@ -107,6 +107,7 @@ $smilies = [
 	['text' => ':box:', 'url' => 'img/smilies/box.png'],
 	['text' => ':yes:', 'url' => 'img/smilies/yes.png'],
 	['text' => ':no:', 'url' => 'img/smilies/no.png'],
+	['text' => 'OwO', 'url' => 'img/smilies/owo.png']
 ];
 
 $rankset_names = ['None', 'Mario']; // List of ranksets, add any new ones here. Don't remove the "None" rankset!
