@@ -50,7 +50,7 @@ while ($group = $sql->fetch($activegroups)) {
 <table class="c1">
 	<tr class="h"><td class="b h" colspan="2">Memberlist</td></tr>
 	<tr>
-		<td class="b n1" width="60">Sort by:</td>
+		<td class="b n1" width="80">Sort by:</td>
 		<td class="b n2 center">
 			<?=mlink('', $pow, $page, $orderby) ?> Posts</a> |
 			<?=mlink('name', $pow, $page, $orderby) ?> Username</a> |
@@ -70,32 +70,30 @@ while ($group = $sql->fetch($activegroups)) {
 		</td>
 	</tr>
 </table><br>
+<table class="c1">
+	<tr class="h">
+		<td class="b h" width=32>#</td>
+		<td class="b h" width=62>Picture</td>
+		<td class="b h">Name</td>
+		<td class="b h" width=130>Registered on</td>
+		<td class="b h" width=50>Posts</td>
+	</tr>
 <?php
+if_empty_query($users, "No users found.", 5);
 
-$headers = [
-	"id" => ["caption" => "#", "width" => "32px", "align" => "center"],
-	"pic" => ["caption" => "Picture", "width" => "60px"],
-	"name" => ["caption" => "Name"],
-	"reg" => ["caption" => "Registered on", "width" => "130px"],
-	"posts" => ["caption" => "Posts", "width" => "50px"],
-];
-$data = [];
-for ($i = ($page - 1) * $ppp + 1; $user = $sql->fetch($users); $i++) {
-	$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>" : '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width=60 height=60>');
-
-	$data[] = [
-		"id" => $user['id'] . '.',
-		"pic" => $picture,
-		"name" => userlink($user),
-		"reg" => date($dateformat, $user['regdate']),
-		"posts" => $user['posts'],
-	];
+$i = 1;
+while ($user = $sql->fetch($users)) {
+    $picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>":'');
+    ?><tr class="n<?=$i ?>" style="height:69px">
+		<td class="b center"><?=$user['id'] ?>.</td>
+		<td class="b center"><?=$picture ?></td>
+		<td class="b"><?=userlink($user) ?></td>
+		<td class="b"><?=date($dateformat,$user['regdate']) ?></td>
+		<td class="b"><?=$user['posts'] ?></td>
+	</tr><?php
+	$i = ($i == 1 ? 2 : 1);
 }
-
-if_empty_query($users, "No users found.", 0, true);
-
-if ($sql->numrows($users) > 0)
-	RenderTable($data, $headers);
+echo '</table>';
 
 if ($pagelist)
 	echo '<br>'.$pagelist.'<br>';
