@@ -6,65 +6,37 @@ function redirect($url) {
 }
 
 /**
- * function RenderTable(data, headers)
+ * Renders a table in HTML using $headers for column definition and $data to fill cells with data.
  *
- * Renders (outputs) a table in HTML using `headers` for column definition
- * and `data` to fill cells with data.
+ * @param array $headers An associative array of column definitions:
+ *	key				column key
+ *	value['name']	Display text for the column header
+ *	value['width']	Specify a fixed width size (CSS width:)
+ *	value['align']	Align the contents in the column
  *
- * Return value: none
- *
- * Parameters:
- * `headers`
- * An associative array of column definitions:
- *		key				-> column key
- *	value['caption']	-> display text for the column header
- *	value['width']		-> (optional) specify a fixed width size (CSS width:)
- *	value['color']		-> (optional) color for the column data cells
- *							which corresponds to CSS '.n' classes)
- *	value['align']		-> (optional) CSS text-align: for the data cells
- *	value['hidden']		-> (optional)
- *
- * `data`
- * An associative array of cell data values:
- *	key				-> column key (must match the header column key)
- *	value				-> cell value
- *
+ * @param array $data An associative array of cell data values:
+ *	key				column key (must match the header column key)
+ *	value			cell value
  */
 function RenderTable($data, $headers) {
-	$zebra = 0;
+	$zebra = 1;
 
-	echo "<table class=\"c1\">\n";
-	echo "\t<tr class=\"h\">\n";
+	echo "<table class=\"c1\"><tr class=\"h\">";
 	foreach ($headers as $headerID => $headerCell) {
-		if (isset($headerCell['hidden']) && $headerCell['hidden'])
-			continue;
-
-		if (isset($headerCell['width']))
-			$width = " style=\"width: " . $headerCell['width'] . "\"";
-		else
-			$width = "";
-
-		echo "\t\t<td class=\"b h\"" . $width . ">" . $headerCell['caption'] . "</td>\n";
+		$width = (isset($headerCell['width']) ? " style=\"width: ".$headerCell['width']."\"" : "");
+		echo "<td class=\"b h\" $width>".$headerCell['name']."</td>";
 	}
-	echo "\t</tr>\n";
+	echo "</tr>";
 	foreach ($data as $dataCell) {
-		echo "\t<tr>\n";
+		echo "<tr>";
 		foreach ($dataCell as $id => $value) {
-			if (isset($headers[$id]['hidden']) && $headers[$id]['hidden'])
-				continue;
-
-			$color = $zebra + 1;
-			$align = "";
-			if (isset($headers[$id]['color']))
-				$color = $headers[$id]['color'];
-			if (isset($headers[$id]['align']))
-				$align = " style=\"text-align: " . $headers[$id]['align'] . "\"";
-			echo "\t\t<td class=\"b n" . $color . "\"" . $align . ">" . $value . "</td>\n";
+			$align = (isset($headers[$id]['align']) ? $headers[$id]['align'] : "");
+			echo "<td class=\"b n$zebra $align\">$value</td>";
 		}
-		echo "\t</tr>\n";
-		$zebra = ($zebra + 1) % 2;
+		echo "</tr>";
+		$zebra = ($zebra == 1 ? 2 : 1);
 	}
-	echo "</table>\n";
+	echo "</table>";
 }
 
 function HTMLAttribEncode($string) {

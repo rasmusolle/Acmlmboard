@@ -98,7 +98,7 @@ RenderPageBar($pagebar);
 
 echo '<br><form action="" method="POST">';
 
-$header = ['c0' => ['caption' => '&nbsp;'], 'c1' => ['caption' => '&nbsp;']];
+$header = ['c0' => ['name' => '&nbsp;'], 'c1' => ['name' => '&nbsp;']];
 $data = [];
 
 $permset = PermSet($type, $id);
@@ -127,7 +127,7 @@ if (($i % 2) != 0) {
 
 RenderTable($data, $header);
 
-$header = ['c0' => ['caption' => 'Add permission']];
+$header = ['c0' => ['name' => 'Add permission']];
 $field = RevokeSelect("revoke_new", 0);
 $field .= PermSelect("permid_new", null);
 $field .= "for ID <input type=\"text\" name=\"bindval_new\" value=\"\" size=3 maxlength=8> ";
@@ -167,7 +167,7 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 	}
 }
 
-$header = ['cell' => ['caption'=>"Permissions overview for {$type} '".htmlspecialchars($permowner['title'])."'"]];
+$header = ['cell' => ['name'=>"Permissions overview for {$type} '".htmlspecialchars($permowner['title'])."'"]];
 $data = [['cell' => $permoverview]];
 RenderTable($data, $header);
 

@@ -140,13 +140,13 @@ if ($act == 'new' || $act == 'edit') {
 	echo '<br>';
 
 	$header = [
-		'sort' => ['caption'=>'Order', 'width'=>'32px', 'align'=>'center'],
-		'id' => ['caption'=>'#', 'width'=>'32px', 'align'=>'center'],
-		'name' => ['caption'=>'Name', 'align'=>'center'],
-		'parent' => ['caption'=>'Parent group', 'align'=>'center'],
-		'misc' => ['caption'=>'Default?', 'width'=>'120px', 'align'=>'center'],
-		'bmisc' => ['caption'=>'Banned?', 'width'=>'60px', 'align'=>'center'],
-		'actions' => ['caption'=>'', 'width'=>'210px', 'align'=>'right'],
+		'sort' => ['name'=>'Order', 'width'=>'32px', 'align'=>'center'],
+		'id' => ['name'=>'#', 'width'=>'32px', 'align'=>'center'],
+		'name' => ['name'=>'Name', 'align'=>'center'],
+		'parent' => ['name'=>'Parent group', 'align'=>'center'],
+		'misc' => ['name'=>'Default?', 'width'=>'120px', 'align'=>'center'],
+		'bmisc' => ['name'=>'Banned?', 'width'=>'60px', 'align'=>'center'],
+		'actions' => ['name'=>'', 'width'=>'210px', 'align'=>'right'],
 	];
 
 	$groups = $sql->query("SELECT g.*, pg.title parenttitle FROM groups g LEFT JOIN groups pg ON pg.id=g.inherit_group_id ORDER BY sortorder");
