@@ -232,7 +232,7 @@ function grouplist() {
 	return $groups;
 }
 function permtable($bind, $id) {
-	global $sql;
+	global $sql, $rootgroup;
 
 	$qperms = $sql->prepare("SELECT id,title FROM perm WHERE permbind_id=?",[$bind]);
 	$perms = [];
@@ -252,7 +252,7 @@ function permtable($bind, $id) {
 	<?php
 	$c = 1;
 	foreach ($groups as $group) {
-		if ($group['default'] == -1) break;
+		if ($group['id'] == $rootgroup) break;
 
 		$gid = $group['id'];
 		$gtitle = htmlspecialchars($group['title']);

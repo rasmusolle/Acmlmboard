@@ -1,5 +1,10 @@
 <?php
 
+// Mark what group is the root, default and banned group.
+$bannedgroup = 1;
+$defaultgroup = 3;
+$rootgroup = 7;
+
 // preload group data, makes things a lot easier afterwards
 $usergroups = [];
 $r = $sql->query("SELECT * FROM groups");
@@ -31,10 +36,11 @@ function permset_for_user($userid) {
 }
 
 function is_root_gid($gid) {
-	global $sql;
-	$result = $sql->resultp("SELECT `default` FROM groups WHERE id = ?",[$gid]);
-	if ($result < 0) return true;
-	return false;
+	global $rootgroup;
+	if ($gid == $rootgroup)
+		return true;
+	else
+		return false;
 }
 
 function gid_for_user($userid) {

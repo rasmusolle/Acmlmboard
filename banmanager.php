@@ -15,9 +15,6 @@ if ($uid = $_GET['id']) {
 	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM `groups` WHERE banned = 1");
-$defaultgroup = $sql->resultq("SELECT id FROM `groups` WHERE `default` = 1");
-
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?",[$uid]);
 
 if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
@@ -31,13 +28,13 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	}
 
 	$sql->prepare("UPDATE users SET group_id = ?, title = ?, tempbanned = ? WHERE id = ?",
-		[$bannedgroup['id'], $banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);
+		[$bannedgroup, $banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
-	if ($user['group_id'] != $bannedgroup['id']) noticemsg("Error", "This user is not a banned user.", true);
+	if ($user['group_id'] != $bannedgroup) noticemsg("Error", "This user is not a banned user.", true);
 
-	$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE id = ?", [$defaultgroup['id'],$user['id']]);
+	$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE id = ?", [$defaultgroup,$user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 }

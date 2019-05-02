@@ -45,11 +45,9 @@ if ($act == 'Register') {
 			$ugid = 0;
 			// Derp killer
 			if ($id == 1 || $_POST['name'] == 'Needle') {
-				$row = $sql->fetchp("SELECT id FROM groups WHERE `default` = ?", [-1]);
-				$ugid = $row['id'];
+				$ugid = $rootgroup;
 			} else {
-				$row = $sql->fetchp("SELECT id FROM groups WHERE `default` = ?", [1]);
-				$ugid = $row['id'];
+				$ugid = $defaultgroup;
 			}
 			$sql->prepare("UPDATE users SET group_id=? WHERE id=?",[$ugid,$id]);
 

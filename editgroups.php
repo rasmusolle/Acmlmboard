@@ -50,12 +50,6 @@ if ($act == 'delete') {
 	}
 
 	if (!$errmsg) {
-		$default = $_POST['default'];
-		if ($default < -1 || $default > 1) $default = 0;
-
-		$banned = $_POST['banned'];
-		if ($banned > 1) $banned = 0;
-
 		$sortorder = (int)$_POST['sortorder'];
 
 		$visible = $_POST['visible'] ? 1:0;
@@ -63,13 +57,13 @@ if ($act == 'delete') {
 		if (empty($title))
 			$errmsg = 'You must enter a name for the group.';
 		else {
-			$values = [$title, $_POST['nc'], $parentid, $default, $banned, $sortorder, $visible];
+			$values = [$title, $_POST['nc'], $parentid, $sortorder, $visible];
 
 			if ($act == 'new')
-				$sql->prepare("INSERT INTO groups VALUES (0,?,'',NULL,?,?,?,?,?,?,?,?)", $values);
+				$sql->prepare("INSERT INTO groups VALUES (0,?,?,?,?,?)", $values);
 			else {
 				$values[] = $_GET['id'];
-				$sql->prepare("UPDATE groups SET title = ?,nc = ?,inherit_group_id = ?,`default` = ?,banned = ?, sortorder = ?,visible = ? WHERE id = ?", $values);
+				$sql->prepare("UPDATE groups SET title = ?,nc = ?,inherit_group_id = ?,sortorder = ?,visible = ? WHERE id = ?", $values);
 			}
 			redirect('editgroups.php');
 		}
@@ -87,7 +81,7 @@ if ($act == 'new' || $act == 'edit') {
 	];
 
 	if ($act == 'new') {
-		$group = ['id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'default'=>0, 'banned'=>0, 'sortorder'=>0, 'visible'=>0];
+		$group = ['id'=>0, 'title'=>'', 'nc'=>'', 'inherit_group_id'=>0, 'sortorder'=>0, 'visible'=>0];
 		$pagebar['title'] = 'New group';
 	} else {
 		$group = $sql->fetchp("SELECT * FROM groups WHERE id = ?",[$_GET['id']]);
@@ -101,8 +95,6 @@ if ($act == 'new' || $act == 'edit') {
 		while ($g = $sql->fetch($allgroups))
 			$grouplist[$g['id']] = $g['title'];
 
-		$defaultlist = [0=>'-', -1=>'For first user', 1=>'For all users'];
-		$bannedlist = [0=>'-', 1=>'Yes'];
 		$visiblelist = [1=>'Visible', 0=>'Invisible'];
 
 		$form = [
@@ -112,8 +104,6 @@ if ($act == 'new' || $act == 'edit') {
 			'fields' => [
 				'title' => ['title'=>'Name', 'type'=>'text', 'length'=>255, 'size'=>50, 'value'=>$group['title']],
 				'inherit_group_id' => ['title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']],
-				'default' => ['title'=>'Default', 'type'=>'dropdown', 'choices'=>$defaultlist, 'value'=>$group['default']],
-				'banned' => ['title'=>'Banned', 'type'=>'dropdown', 'choices'=>$bannedlist, 'value'=>$group['banned']],
 				'sortorder' => ['title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']],
 				'visible' => ['title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']],
 				'nc' => ['title'=>'Username color', 'type'=>'text', 'length'=>6, 'size'=>6, 'value'=>$group['nc']],
@@ -143,10 +133,8 @@ if ($act == 'new' || $act == 'edit') {
 		'sort' => ['name'=>'Order', 'width'=>'32px', 'align'=>'center'],
 		'id' => ['name'=>'#', 'width'=>'32px', 'align'=>'center'],
 		'name' => ['name'=>'Name', 'align'=>'center'],
-		'parent' => ['name'=>'Parent group', 'align'=>'center'],
-		'misc' => ['name'=>'Default?', 'width'=>'120px', 'align'=>'center'],
-		'bmisc' => ['name'=>'Banned?', 'width'=>'60px', 'align'=>'center'],
-		'actions' => ['name'=>'', 'width'=>'210px', 'align'=>'right'],
+		'parent' => ['name'=>'Parent group', 'width' => '240px', 'align'=>'center'],
+		'actions' => ['name'=>'', 'width'=>'240px', 'align'=>'right'],
 	];
 
 	$groups = $sql->query("SELECT g.*, pg.title parenttitle FROM groups g LEFT JOIN groups pg ON pg.id=g.inherit_group_id ORDER BY sortorder");
@@ -155,31 +143,20 @@ if ($act == 'new' || $act == 'edit') {
 	while ($group = $sql->fetch($groups)) {
 		$name = htmlspecialchars($group['title']);
 		if ($group['visible']) $name = "<strong>{$name}</strong>";
-
-		if ($group['nc'])
-			$name = str_replace('<strong>', "<strong style=\"color: #{$group['nc']};\">", $name);
-
-		$misc = '-';
-		if ($group['default'])
-			$misc = $group['default'] == -1 ? 'For first user' : 'For all users';
-
-		$bmisc = '-';
-		if ($group['banned'])
-			$bmisc = $group['banned'] == 1 ? 'Yes' : '-';
+		if ($group['nc']) $name = str_replace('<strong>', "<strong style=\"color: #{$group['nc']};\">", $name);
 
 		$actions = [];
 		if ($caneditperms) $actions[] = ['href'=>'editperms.php?gid='.$group['id'], 'title'=>'Edit perms'];
 		$actions[] = ['href'=>'editgroups.php?act=edit&id='.$group['id'], 'title'=>'Edit'];
-		if ($caneditperms) $actions[] = ['href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete',
-			'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"? It will be permanently lost as well as all permissions attached to it.'];
+		if ($caneditperms && $group['id'] > 7) 
+			$actions[] = ['href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete',
+				'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"?'];
 
 		$data[] = [
 			'sort' => $group['sortorder'],
 			'id' => $group['id'],
 			'name' => $name,
 			'parent' => $group['parenttitle'] ? htmlspecialchars($group['parenttitle']) : '<small>(none)</small>',
-			'misc' => $misc,
-			'bmisc' => $bmisc,
 			'actions' => RenderActions($actions,true),
 		];
 	}

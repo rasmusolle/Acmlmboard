@@ -15,7 +15,7 @@ if (!can_edit_user($targetuserid)) noticemsg("Error", "You have no permissions t
 if (has_perm('no-restrictions'))
 	$blockroot = "";
 else
-	$blockroot = " AND default >= 0 ";
+	$blockroot = "AND id != $rootgroup";
 
 $allgroups = $sql->query("SELECT * FROM groups WHERE visible = '1' $blockroot ORDER BY sortorder ASC");
 $listgroup = [];
@@ -164,6 +164,9 @@ if ($act == 'Edit profile') {
 			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $_POST['enablecolor'], $user['id']]);
 		if (checkctitle($targetuserid))
 			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
+		
+		if (has_perm("edit-users") && $targetgroup != 0)
+			$sql->prepare("UPDATE users SET group_id = ? WHERE id = ?", [$targetgroup, $user['id']]);
 
 		redirect("profile.php?id=$user[id]");
 	} else {

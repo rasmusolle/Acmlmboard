@@ -72,7 +72,6 @@ if ($loguser['ppp'] < 1) $loguser['ppp'] = 20;
 if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired. - SquidEmpress
-$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
 $sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
 
 $dateformat = "$loguser[dateformat] $loguser[timeformat]";
@@ -135,15 +134,13 @@ if (@$sql->numrows($r) > 0) {
 	if ($loguser) $sql->prepare("UPDATE users SET ipbanned = 1 WHERE id = ?", [$loguser['id']]);
 	else $sql->prepare("UPDATE guests SET ipbanned = 1 WHERE ip = ?", [$_SERVER['REMOTE_ADDR']]);
 
-	$bannedgroup = $sql->resultq("SELECT id FROM groups WHERE banned = 1");
-
 	$i = $sql->fetch($r);
 	if ($i['hard']) {
 		pageheader('IP banned');
 		echo '<table class="c1"><tr class="n2"><td class="b n1 center">Sorry, but your IP address has been banned.</td></tr></table>';
 		pagefooter();
 		die();
-	} else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup['id'])) {
+	} else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup)) {
 		if (!strstr($_SERVER['PHP_SELF'], "login.php")) {
 			pageheader('IP restricted');
 			echo '<table class="c1"><tr class="n2"><td class="b n1 center">Access from your IP address has been limited.<br><a href=login.php>Login</a></table>';

@@ -102,8 +102,6 @@ if (has_perm('edit-permissions')) {
 		$editpermissions = "| <a href=\"editperms.php?uid=" . $user['id'] . "\">Edit user permissions</a>";
 }
 
-$bannedgroup = $sql->resultq("SELECT id FROM groups WHERE banned = 1");
-
 $banuser = "";
 if (has_perm('edit-permissions')) {
 	if (!has_perm('ban-users'))

@@ -26,9 +26,7 @@ function checkuid($userid, $pass) {
 }
 
 function checkctitle($uid) {
-	global $sql, $loguser;
-
-	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
+	global $sql, $loguser, $defaultgroup;
 
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('edit-own-title')) return false;
@@ -60,9 +58,7 @@ function checkcusercolor($uid) {
 }
 
 function checkcdisplayname($uid) {
-	global $sql, $loguser, $config;
-
-	$defaultgroup = $sql->resultq("SELECT id FROM groups WHERE `default` = 1");
+	global $sql, $loguser, $config, $defaultgroup;
 
 	if (!$config['displayname']) return false;
 
