@@ -207,8 +207,8 @@ HTML;
 		<title><?=$pagetitle.$boardtitle?></title>
 		<?=$config['meta']?>
 		<link rel="icon" type="image/png" href="<?=$favicon?>">
-		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
 		<link rel="stylesheet" href="theme/common.css">
+		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
 		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="lib/prettify/prettify.js"></script>
 		<script src="lib/js/tools.js"></script>

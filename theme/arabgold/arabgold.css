@@ -1,15 +1,6 @@
 /* META
-Arabian Gold (KP9000)
+Arabian Gold
 */
-a:link		{color:#FFC040}
-a:visited	{color:#C09030}
-a:active	{color:#FFEA60}
-a:hover		{color:#FFFFFF}
-a {
-	text-decoration: none;
-	font-weight: bold;
-}
-
 body {
 	background: url(back2c.jpg) #202004;
 	color: white;
@@ -31,10 +22,6 @@ table.c1, td.b {
 	border: #000000 1px solid;
 }
 
-td.nb {
-	border: 0px none;
-}
-
 td {
 	padding: 2px;
 }
@@ -42,10 +29,6 @@ td {
 .n1 { background: url(back2t1.png) #787833; }
 .n2 { background: url(back2t2.png) #5C5C26; }
 .n3 { background: url(back2t3.png) #505020; }
-
-.sfont {
-	font-size: 0.8em;
-}
 
 textarea, input, select, button {
 	border: #DDDD77 ridge 2px;

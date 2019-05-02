@@ -1,12 +1,7 @@
 /* META
-Grassy grass (RasmusOlle)
+Grassy grass
 */
-a:link, a:visited {color: #a5ff40}
-a:hover	{color: #FFFFFF}
-a {
-	text-decoration: none;
-	font-weight: bold;
-}
+a:link, a:visited { color: #a5ff40 }
 
 body {
 	background: url(grass_city_main_sc.png) #202004;
@@ -14,35 +9,20 @@ body {
 	font-family: verdana, geneva, sans-serif;
 }
 
-tr.h {
-	background: #614126;
+table.c1, td.b {
+	border: #000000 1px solid;
 }
 
-tr.c {
-	background: #926239;
-	font-size: 0.9em;
-	color: #EEEEEE;
-}
+tr.h { background: #614126; }
+tr.c { background: #926239; }
 
 td {
 	padding: 2px;
 }
 
-table.c1, td.b {
-	border: #000000 1px solid;
-}
-
-td.nb {
-	border: 0px none;
-}
-
 tr.n1, td.n1 { background: #516541; }
 tr.n2, td.n2 { background: #435528; }
 tr.n3, td.n3 { background: #314521; }
-
-.sfont {
-	font-size: 0.9em;
-}
 
 textarea, input, select, button {
 	border: #000000 solid 2px;
@@ -51,7 +31,5 @@ textarea, input, select, button {
 }
 
 .submit {
-	border: #000000 solid 2px;
-	color: #ffffff;
 	font-weight: bold;
 }

@@ -1,19 +1,16 @@
 /* META
-ABXD (Nina)
+ABXD
 */
+a:link, a:visited	{ color: hsl(210, 80%, 65%) }
+a:hover, a:active	{ color: hsl(210, 80%, 80%) }
 
 body {
-	background: hsl(210, 20%, 15%) url(noise-texture.png);
+	background: hsl(210, 20%, 15%);
 	color: white;
 	font-family: "Verdana", "Lucida Grande", sans-serif;
 	margin: auto;
-	width: 98% !important;
+	width: 98%;
 }
-
-a					{ text-decoration: none; font-weight: bold; }
-a:link, a:visited	{ color: hsl(210, 80%, 65%); }
-a:hover				{ color: hsl(210, 80%, 80%); }
-a:active			{ color: hsl(210, 80%, 75%); }
 
 td {
 	padding: 2px 4px 2px 4px;
@@ -48,7 +45,7 @@ table.c1 {
 }
 
 .sfont {
-    font-size: 0.85em;
+	font-size: 0.85em;
 }
 
 font.sfont a[href*="page"] {

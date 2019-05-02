@@ -1,15 +1,6 @@
 /* META
-Green Night (Mega-Mario)
+Green Night
 */
-a:link 		{ color: #FFC040; }
-a:visited 	{ color: #FFC040; }
-a:active 	{ color: #FFEA60; }
-a:hover 	{ color: #FFFFFF; }
-a {
-	text-decoration: none;
-	font-weight: bold;
-}
-
 body {
 	background: black url('greennightbg.png');
 	color: #efe;
@@ -18,10 +9,11 @@ body {
 
 table.c1,td.b { border: 1px solid #208000; }
 
+.h { background: #041000 url('gradient.png') repeat-x; }
+.c { background: #0c3000; }
+
 .n1, .n3 { background: #082000; }
 .n2 { background: #041000; }
-.h { background: #041000 url('gradient.png') repeat-x; }
-tr.c { background: #0c3000; }
 
 textarea, input, select, button {
 	border: 1px solid #208000;
@@ -29,11 +21,4 @@ textarea, input, select, button {
 	color: #efe;
 	font-family: arial, sans-serif;
 	font-size: 1em;
-}
-
-.submit {
-	border: 2px solid #208000;
-}
-.sfont {
-	font-size: 0.9em;
 }

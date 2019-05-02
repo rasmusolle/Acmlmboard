@@ -1,24 +1,18 @@
 /* META
 Standard
 */
-a:link    {color: #FFC040}
-a:visited {color: #FFC040}
-a:active  {color: #FFEA60}
-a:hover   {color: #FFFFFF}
-a:link, a:visited, a:active, a:hover {
-	text-decoration: none;
-	font-weight: bold;
-}
-
 body {
 	background: #141430;
 	color: white;
 	font-family: verdana, geneva, sans-serif;
 }
 
+table.c1, td.b {
+	border: #000000 1px solid;
+}
+
 tr.h {
 	background: #636594;
-	font-size: 1em;
 	font-weight: bold;
 	color: #DDDDDD;
 }
@@ -29,14 +23,6 @@ tr.c {
 	color: #EEEEEE;
 }
 
-table.c1, td.b {
-	border: #000000 1px solid;
-}
-
-td.nb {
-	border: 0px none;
-}
-
 td {
 	padding: 2px;
 }
@@ -44,10 +30,6 @@ td {
 .n1 { background: #303678; }
 .n2 { background: #24285C; }
 .n3 { background: #1F224F; }
-
-.sfont {
-	font-size: 0.9em;
-}
 
 textarea, input, select, button {
 	border: #7777DD ridge 2px;

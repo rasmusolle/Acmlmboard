@@ -1,25 +1,14 @@
 /* META
 Terminal
 */
-a:link, a:visited	{color: #FFC040 }
-a:active, a:hover	{color: #FFFFFF}
-
-a {
-	text-decoration: none;
-	font-weight: bold;
-}
-
 body {
 	background-color: #808080;
-	font-family: Consolas, Arial, sans-serif;
+	font-family: Consolas, monospace;
 	color: #28DF10;
 }
-table.c1, td.b {
-	border: #28DF10 solid 2px;
-}
-.n1, .n2, .n3, td.h, tr.c, td.b {
-	background: #111111;
-}
+
+table.c1, td.b { border: #28DF10 solid 2px; }
+
 td.h {
 	font-weight: bold;
 }
@@ -27,18 +16,12 @@ td {
 	padding: 4px;
 }
 
-.sfont {
-	font-size: 0.9em;
-}
+.n1, .n2, .n3, td.h, tr.c, td.b { background: #111111; }
 
 textarea, input, select, button {
 	border: #28DF10 solid 2px;
 	background-color: #111111;
 	color: #28DF10;
-	font-family: Consolas, Arial, sans-serif;
+	font-family: Consolas, monospace;
 	font-size: 8pt;
-}
-.submit {
-	border: #28DF10 solid 2px;
-	background-color: #000000;
 }
