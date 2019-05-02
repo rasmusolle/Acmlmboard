@@ -180,50 +180,40 @@ pagefooter();
 function PermSelect($name, $sel) {
 	global $sql, $permlist;
 
-	$cat = -1;
 	if (!$permlist) {
-		$perms = $sql->query("
-			SELECT p.id AS permid, p.title AS permtitle, pc.id AS cat, pc.title AS cattitle
-			FROM perm p LEFT JOIN permcat pc ON pc.id=p.permcat_id
-			ORDER BY pc.sortorder ASC, p.title ASC");
+		$perms = $sql->query("SELECT p.id AS permid, p.title AS permtitle FROM perm p ORDER BY p.title ASC");
 
 		$permlist = [];
-		while ($perm = $sql->fetch($perms))
-			$permlist[] = $perm;
+		while ($perm = $sql->fetch($perms)) $permlist[] = $perm;
 	}
 
-	$out = "\t<select name=\"{$name}\">\n";
+	$out = "<select name=\"{$name}\">";
+	$firstletter = ''; 
 	foreach ($permlist as $perm) {
-		if ($perm['cat'] != $cat) {
-			if ($cat != -1) $out .= "\t\t</optgroup>\n";
-			$cat = $perm['cat'];
-			$out .= "\t\t<optgroup label=\"".($perm['cattitle'] ? htmlspecialchars($perm['cattitle']) : 'General')."\">\n";
+		if (substr($perm['permtitle'], 0, 1) !== $firstletter) {
+			if (!empty($firstletter)) $out .= '</optgroup>';
+			$firstletter = substr($perm['permtitle'], 0, 1);
+			$out .= '<optgroup label="'.$firstletter.'">';
 		}
-
 		$chk = ($perm['permid'] == $sel) ? ' selected="selected"' : '';
-		$out .= "\t\t\t<option value=\"".htmlspecialchars($perm['permid'])."\"{$chk}>".htmlspecialchars($perm['permtitle'])."</option>\n";
+		$out .= "<option value=\"".htmlspecialchars($perm['permid'])."\"{$chk}>".htmlspecialchars($perm['permtitle'])."</option>";
 	}
-	$out .= "\t\t</optgroup>\n\t</select>\n";
+	$out .= "</select>";
 
 	return $out;
 }
 
 function RevokeSelect($name, $sel) {
-	$out = "\t<select name=\"{$name}\">\n";
-	$out .= "\t\t<option value=\"0\"".($sel==0 ? ' selected="selected"':'').">Grant</option>\n";
-	$out .= "\t\t<option value=\"1\"".($sel==1 ? ' selected="selected"':'').">Revoke</option>\n";
-	$out .= "\t</select>\n";
+	$out = "<select name=\"$name\"><option value=\"0\"".($sel==0 ? ' selected="selected"':'').">Grant</option><option value=\"1\"".($sel==1 ? ' selected="selected"':'').">Revoke</option></select> ";
 	return $out;
 }
 
 function PermSet($type, $id) {
 	global $sql;
-	return $sql->prepare("
-		SELECT x.*, p.title AS permtitle, pb.title AS bindtitle
+	return $sql->prepare("SELECT x.*, p.title AS permtitle, pb.title AS bindtitle
 		FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id LEFT JOIN permbind pb ON pb.id=p.permbind_id
-		WHERE x.x_type=? AND x.x_id=?",
-		[$type,$id]);
-  }
+		WHERE x.x_type=? AND x.x_id=?", [$type,$id]);
+}
 
 function PermTable($permset) {
 	global $sql, $permsassigned;
