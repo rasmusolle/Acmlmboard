@@ -171,9 +171,8 @@ function htmlval($text) {
 	return $text;
 }
 
-function posttoolbutton($name, $title, $leadin, $leadout, $names = "") {
-	if ($names == "") $names = $name;
-	return "<td class=\"b n3\" id='tbk$names' style='width:16px;text-align:center'><a href=\"javascript:buttonProc('message','tbk$names','$leadin','$leadout')\"><span style='font-size:9pt'><input type=\"button\" class=\"submit\" title='$title' value='$name' tabindex=\"-1\"></span></a></td>";
+function posttoolbutton($name, $title, $leadin, $leadout) {
+	return "<td style='text-align:center'><a href=\"javascript:buttonProc('$leadin','$leadout')\"><input style=\"font-size:10pt;\" type=\"button\" class=\"submit\" title='$title' value='$name'></a></td>";
 }
 
 function posttoolbar() {
@@ -182,15 +181,14 @@ function posttoolbar() {
 		. posttoolbutton("I", "Italic", "[i]", "[/i]")
 		. posttoolbutton("U", "Underline", "[u]", "[/u]")
 		. posttoolbutton("S", "Strikethrough", "[s]", "[/s]")
-		. "<td class=\"nb n2\">&nbsp;</td>"
-		. posttoolbutton("_", "IRC", "[irc]", "[/irc]")
+		. "<td>&nbsp;</td>"
 		. posttoolbutton("/", "URL", "[url]", "[/url]")
-		. posttoolbutton("!", "Spoiler", "[spoiler]", "[/spoiler]", "sp")
-		. posttoolbutton("&#133;", "Quote", "[quote]", "[/quote]", "qt")
-		. posttoolbutton(";", "Code", "[code]", "[/code]", "cd")
-		. "<td class=\"nb n2\">&nbsp;</td>"
+		. posttoolbutton("!", "Spoiler", "[spoiler]", "[/spoiler]")
+		. posttoolbutton("&#133;", "Quote", "[quote]", "[/quote]")
+		. posttoolbutton(";", "Code", "[code]", "[/code]")
+		. "<td>&nbsp;</td>"
 		. posttoolbutton("[]", "IMG", "[img]", "[/img]")
-		. posttoolbutton("YT", "YouTube", "[youtube]", "[/youtube]", "yt")
+		. posttoolbutton("YT", "YouTube", "[youtube]", "[/youtube]")
 		. '</tr></table>';
 }
 
