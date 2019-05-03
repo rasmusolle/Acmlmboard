@@ -141,7 +141,7 @@ if (@$sql->numrows($r) > 0) {
  * @param integer $fid Forum ID of the page.
  * @return void
  */
-function pageheader($pagetitle = "", $fid = 0) {
+function pageheader($pagetitle = "", $fid = null) {
 	global $dateformat, $sql, $log, $loguser, $views, $sqluser, $boardtitle, $boardlogo, $homepageurl,
 	$theme, $themefile, $url, $config, $favicon, $showonusers, $count, $bot;
 
@@ -287,7 +287,7 @@ HTML;
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : "") . " currently in $fname" . ($onusercount > 0 ? ": " : "") . $onuserlist;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
-	} else if ($fid == 0) {
+	} else if (isset($fid) && $fid == 0) {
 		$birthdaylimit = 86400 * 30;
 		$rbirthdays = $sql->prepare("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? AND lastview > ? ORDER BY name",
 			[date('m-d').'%', (time() - $birthdaylimit)]);
