@@ -12,7 +12,7 @@ if (has_perm("edit-groups"))
 if (has_perm("edit-attentions-box"))
 	$mlinks[] = ['url' => "editattn.php", 'title' => 'Edit news box'];
 
-if (!is_empty($mlinks)) {
+if (!empty($mlinks)) {
 	$mlinkstext = '';
 	foreach ($mlinks as $l)
 		$mlinkstext .= ' <a href="'.$l['url'].'"><input type="submit" class="submit" name=action value="'.$l['title'].'"></a> ';
