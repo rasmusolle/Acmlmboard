@@ -81,9 +81,7 @@ DROP TABLE IF EXISTS `guests`;
 CREATE TABLE `guests` (
   `date` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(15) NOT NULL,
-  `url` varchar(255) NOT NULL,
   `ipbanned` tinyint(4) NOT NULL DEFAULT '0',
-  `useragent` varchar(255) NOT NULL,
   `bot` int(11) NOT NULL,
   `lastforum` int(10) NOT NULL,
   UNIQUE KEY `ip` (`ip`)
@@ -271,7 +269,6 @@ CREATE TABLE `users` (
   `lastview` int(11) NOT NULL DEFAULT '0',
   `lastforum` int(10) NOT NULL,
   `ip` varchar(15) NOT NULL,
-  `ipfwd` varchar(64) NOT NULL,
   `url` varchar(255) NOT NULL,
   `ipbanned` tinyint(4) NOT NULL DEFAULT '0',
   `tempbanned` int(12) NOT NULL,

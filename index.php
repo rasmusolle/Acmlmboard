@@ -3,7 +3,6 @@ if (isset($_GET['p'])) redirect("thread.php?pid={$_GET['p']}#{$_GET['p']}");
 if (isset($_GET['t'])) redirect("thread.php?id={$_GET['t']}");
 if (isset($_GET['u'])) redirect("profile.php?id={$_GET['u']}");
 
-$showonusers = 1;
 require('lib/common.php');
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
@@ -24,7 +23,7 @@ if ($log && $action == 'markread') {
 	redirect('index.php');
 }
 
-pageheader();
+pageheader(null,0);
 
 $categs = $sql->query("SELECT * FROM categories ORDER BY ord,id");
 while ($c = $sql->fetch($categs)) {
