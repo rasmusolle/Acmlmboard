@@ -1,14 +1,6 @@
 <?php
 require('lib/common.php');
 
-function randstr($l) {
-	$str = "";
-	$chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$+/~";
-	for($i = 0; $i < $l; ++$i)
-		$str .= $chars[rand(0, strlen($chars)-1)];
-	return $str;
-}
-
 $act = (isset($_POST['action']) ? $_POST['action'] : '');
 if ($act == 'Register') {
 	$name = trim(stripslashes($_POST['name']));
@@ -77,7 +69,6 @@ foreach (timezone_identifiers_list() as $tz) {
 	$listtimezones[$tz] = $tz;
 }
 
-$cap = encryptpwd($_SERVER['REMOTE_ADDR'].",".($str=randstr(6)));
 if(!empty($err)) noticemsg("Error", $err);
 ?>
 <form action="register.php" method="post">
