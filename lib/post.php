@@ -99,23 +99,6 @@ function postfilter($msg) {
 	return $msg;
 }
 
-function amptags($post, $s) {
-	global $sql;
-	if (!$post['num'])
-		$post['num'] = $post['uposts'];
-	$s = str_replace("&postnum&", $post['num'], $s);
-	$s = str_replace("&numdays&", floor((time() - $post['uregdate']) / 86400), $s);
-	$s = str_replace("&postcount&", $post['uposts'], $s);
-	$s = str_replace("&rank&", $post['ranktext'], $s);
-	$s = str_replace("&rankname&", preg_replace("'<(.*?)>'si", "", $post['ranktext']), $s);
-	// e modifier is no longer supported... using preg_replace_callback to stop the complaining.
-	$replace_callback = function($match) use ($post) {
-		return max($match[1] - $post['num'], 0);
-	};
-	$s = preg_replace_callback('@&(\d+)&@si', $replace_callback, $s);
-	return $s;
-}
-
 function tvalidate($str) {
 	$l = strlen($str);
 	$isquot = 0;
@@ -334,7 +317,7 @@ HTML;
 <br>Last post: $lastpost
 <br>Last view: " . timeunits(time() - $post['ulastview']);
 			$text .= "</td>
-<td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter(amptags($post, $post['uhead']) . $post['text'] . amptags($post, $post['usign'])) . "</td>
+<td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter($post['uhead'] . $post['text'] . $post['usign']) . "</td>
 </table>";
 
 	return $text;
