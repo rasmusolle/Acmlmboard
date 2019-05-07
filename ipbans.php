@@ -8,13 +8,12 @@ $what = (isset($_GET['what']) ? $_GET['what'] : 'needle');
 
 function ipfmt($a) {
 	$expl = explode(".",$a);
-	$dot = "<span~style='color:#808080'>.</span>";
 	for ($i = 0; $i < 4; $i++) {
 		if (!isset($expl[$i])) {
 			$expl[$i] = '*';
 		}
 	}
-	return str_replace("~"," ",str_replace(" ","&nbsp;",sprintf("%3s%s%3s%s%3s%s%3s",$expl[0],$dot,$expl[1],$dot,$expl[2],$dot,$expl[3])));
+	return str_replace(" ","&nbsp;",sprintf("%3s%s%3s%s%3s%s%3s",$expl[0],'.',$expl[1],'.',$expl[2],'.',$expl[3]));
 }
 
 pageheader('IP bans');
@@ -24,7 +23,7 @@ if ($action == "del") {
 	$sql->prepare("DELETE FROM ipbans WHERE ipmask = ? AND expires = ?", [$data[0], $data[1]]);
 } else if ($action == "add") {
 	if ($_POST['ipmask']) {
-		$hard = $_POST['hard'];
+		$hard = (isset($_POST['hard']) ? $_POST['hard'] : null);
 		$expires = ($_POST['expires'] > 0 ? ($_POST['expires'] + time()) : 0);
 		$sql->prepare("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES (?,?,?,?,?)",
 			[$_POST['ipmask'], $hard, $expires, addslashes($loguser['name']), $_POST['reason']]);
@@ -36,21 +35,27 @@ $ipbans = $sql->query("SELECT * FROM ipbans");
 if (isset($err)) noticemsg("Error", $err);
 ?><form action="ipbans.php?action=add" method="post">
 	<table class="c1">
-		<tr class="h"><td class="b h" colspan="9">New IP ban</td></tr>
+		<tr class="h"><td class="b h" colspan="2">New IP ban</td></tr>
 		<tr>
-			<td class="b n1">IP mask</td>
+			<td class="b n1" width=150>IP mask</td>
 			<td class="b n2"><input type="text" name="ipmask"></td>
+		</tr><tr>
 			<td class="b n1">Hard?</td>
 			<td class="b n2"><input type="checkbox" name="hard" value="1"></td>
+		</tr><tr>
 			<td class="b n1">Expires?</td>
 			<td class="b n2"><?=fieldselect("expires",0,["600"=>"10 minutes",
-						"3600" => "1 hour", "10800" => "3 hours", "86400" => "1 day",
-						"172800" => "2 days", "259200" => "3 days", "604800" => "1 week",
-						"1209600" => "2 weeks", "2419200" => "1 month", "4838400" => "2 months",
-						"0" => "never"]) ?></td>
+				"3600" => "1 hour", "10800" => "3 hours", "86400" => "1 day",
+				"172800" => "2 days", "259200" => "3 days", "604800" => "1 week",
+				"1209600" => "2 weeks", "2419200" => "1 month", "4838400" => "2 months",
+				"0" => "never"]) ?></td>
+		</tr></tr>
 			<td class="b n1">Comment</td>
-			<td class="b n2" style="width:100%"><input type="text" name="reason" style="width:100%">
-			<td class="b n2 center" colspan="8"><input type="submit" class="submit" value='Add IP ban'>
+			<td class="b n2"><input type="text" name="reason" size="64">
+		</tr><tr>
+			<td class="b n1"></td>
+			<td class="b n1"><input type="submit" class="submit" value='Add IP ban'>
+		</tr>
 	</table>
 </form><br>
 <table class="c1">
