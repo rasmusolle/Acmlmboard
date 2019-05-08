@@ -5,6 +5,8 @@ if (!file_exists('lib/config.php')) {
 
 $start = microtime(true);
 
+$rankset_names = ['None'];
+
 foreach (glob("lib/*.php") as $filename)
 	if ($filename != 'lib/config.sample.php')
 		require_once($filename);

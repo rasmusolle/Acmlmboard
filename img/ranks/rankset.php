@@ -1,5 +1,7 @@
 <?php
 
+$rankset_names[] = 'Mario';
+
 $rankset_data['Mario'] = [
 	['p' => 0, 'str' => 'Non-poster'],
 	['p' => 1, 'str' => 'Newcomer'],

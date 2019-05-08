@@ -110,7 +110,7 @@ $smilies = [
 	['text' => 'OwO', 'url' => 'img/smilies/owo.png']
 ];
 
-$rankset_names = ['None', 'Mario']; // List of ranksets, add any new ones here. Don't remove the "None" rankset!
+// Ranksets
 require('img/ranks/rankset.php'); // Default (Mario) rankset
 
 $spatulas = [
