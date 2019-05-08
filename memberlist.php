@@ -83,8 +83,8 @@ if_empty_query($users, "No users found.", 5);
 
 $i = 1;
 while ($user = $sql->fetch($users)) {
-    $picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>":'');
-    ?><tr class="n<?=$i ?>" style="height:69px">
+		$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>":'');
+		?><tr class="n<?=$i ?>" style="height:69px">
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>
 		<td class="b"><?=userlink($user) ?></td>
@@ -100,10 +100,7 @@ if ($pagelist)
 pagefooter();
 
 function mlink($sort, $pow, $page = 1, $orderby) {
-	return '<a href=memberlist.php?'
-			. ($sort ? "sort=$sort" : '')
-			. ($pow != '' ? "&pow=$pow" : '')
-			. ($page != 1 ? "&page=$page" : '')
-			. ($orderby != '' ? "&orderby=$orderby" : '')
-			. '>';
+	return '<a href=memberlist.php?'.
+		($sort ? "sort=$sort" : '').($pow != '' ? "&pow=$pow" : '').($page != 1 ? "&page=$page" : '').
+		($orderby != '' ? "&orderby=$orderby" : '').'>';
 }
