@@ -37,6 +37,7 @@ while ($ncr = $sql->fetch($ncx)) {
 ?>
 <style>
 p {
+	margin-bottom: 0.5em;
 	margin-top: 0.5em;
 }
 .title {
@@ -197,7 +198,7 @@ p {
 		<td class="b n1" style="padding:10px!important;">
 			<p>They reflect the group of the user.</p>
 			<table class="center"><?=$nctable ?></table>
-			<p><?=($config['perusercolor'] ? "Keep in mind that some users might have a specific colour assigned to them." : '') ?></p>
+			<p>Keep in mind that some users might have a specific colour assigned to them.</p>
 		</td>
 	</tr>
 </table>

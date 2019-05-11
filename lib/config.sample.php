@@ -15,11 +15,10 @@ $sqldb = 'sqldatabase';
 $trashid = 2; // Designates the id for your trash forum.
 
 $boardtitle = "Insert title here"; // This is what will be displayed at the top of your browser window.
-$defaultlogo = "theme/abII.png"; // Replace with the logo of your choice. Note: This is used if a theme doesn't have it's own logo. It is replaced per theme depending on the theme used.
+$defaultlogo = "theme/abII.png"; // Replace with the logo of your choice.
 $favicon = "theme/fav.png"; // Replace with your favicon of choice
-$defaulttheme = "new"; // Select the default theme to be used. This will also be showed to users who are not logged in.
-$homepageurl = "http://something/"; // This defines the link for the header image.
-$boardlogo = "<a href='$homepageurl'><img src='$defaultlogo' title='$boardtitle'></a>"; // This defines the logo. Recommended you leave this the default.
+$defaulttheme = "0"; // Select the default theme to be used. This will also be showed to users who are not logged in.
+$boardlogo = "<a href='./'><img src='$defaultlogo' title='$boardtitle'></a>"; // This defines the logo. Recommended you leave this the default.
 
 // Registeration Bot Protection
 $config['registrationpuzzle'] = true;
@@ -45,9 +44,6 @@ $config['override_theme'] = ""; // If you want to lock everyone to a specific th
 
 // This will create a delay between consecutive posts if you have the override perm. This is used exclusively to stop mobile double posting.
 $config['secafterpost'] = 5; // (in seconds, 0 == off)
-
-$config['displayname'] = false; // Enable the use of the "Display Name" System. (allows a second name to be used instead of the User's)
-$config['perusercolor'] = false; // Enable the use of per-user colors.
 
 $config['lockdown'] = false; // Put board in lockdown mode.
 

@@ -60,8 +60,6 @@ function checkcusercolor($uid) {
 function checkcdisplayname($uid) {
 	global $sql, $loguser, $config, $defaultgroup;
 
-	if (!$config['displayname']) return false;
-
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('has-displayname')) return false;
 
@@ -164,7 +162,7 @@ function userlink($user, $u = '') {
 function userdisp($user, $u = '') {
 	global $sql, $config, $usergroups, $userbirthdays;
 
-	if ($config['perusercolor'] && $user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours
+	if ($user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours
 		$nc = $user[$u.'nick_color'];
 	} else {
 		$group = $usergroups[$user[$u.'group_id']];
@@ -175,7 +173,7 @@ function userdisp($user, $u = '') {
 		$nc = randnickcolor();
 
 	$n = $user[$u.'name'];
-	if ($config['displayname'] && $user[$u.'displayname'])
+	if ($user[$u.'displayname'])
 		$n = $user[$u.'displayname'];
 
 	$userdisname = "<span style='color:#$nc;'>".str_replace(" ", "&nbsp;", htmlval($n)).'</span>';

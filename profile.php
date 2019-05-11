@@ -155,11 +155,8 @@ $userdisplayname = false;
 $showrealnick = false;
 
 //If user has a a displayname, a custom username color, or both, we need to show the real name field.
-if ($config['perusercolor'] && $user['enablecolor'])
-	$usercnickcolor = $user['nick_color'];
-
-if ($config['displayname'] && $user['displayname'])
-	$userdisplayname = true;
+if ($user['enablecolor']) $usercnickcolor = $user['nick_color'];
+if ($user['displayname']) $userdisplayname = true;
 
 if ($userdisplayname || $usercnickcolor) {
 	$showrealnick = true;
