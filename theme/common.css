@@ -34,3 +34,29 @@ a {
 .left	{ text-align: left; }
 .center	{ text-align: center; }
 .right	{ text-align: right; }
+
+
+/* Prettify styles */
+.prettyprint { font-family: Monaco, Consolas, monospace }
+.prettyprint, ol.linenums, ol.linenums li { background: #2f3640 }
+
+ol.linenums { color: #656d78; margin: 0; }
+ol.linenums li { padding-left: 1em; list-style-type: decimal; }
+
+@media screen {
+	.str { color: #ffce54 }
+	.kwd { color: #4fc1e9 }
+	.com { color: #656d78 }
+	.typ { color: #4fc1e9 }
+	.lit { color: #ac92ec }
+	.pun { color: #e6e9ed }
+	.opn { color: #e6e9ed }
+	.clo { color: #e6e9ed }
+	.tag { color: #ed5565 }
+	.atn { color: #a0d468 }
+	.atv { color: #ffce54 }
+	.dec { color: #ac92ec }
+	.var { color: #e6e9ed }
+	.fun { color: #e6e9ed }
+	.pln { color: #e6e9ed }
+}

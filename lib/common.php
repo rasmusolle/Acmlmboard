@@ -185,8 +185,7 @@ HTML;
 		<link rel="icon" type="image/png" href="<?=$favicon?>">
 		<link rel="stylesheet" href="theme/common.css">
 		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
-		<link href="lib/prettify/sunburst.css" type="text/css" rel="stylesheet" />
-		<script src="lib/prettify/prettify.js"></script>
+		<script src="lib/js/prettify.js"></script>
 		<script src="lib/js/tools.js"></script>
 	</head>
 	<body onload="prettyPrint()">
