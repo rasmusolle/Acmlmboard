@@ -37,8 +37,8 @@ else if (!can_create_forum_thread($forum))
 	$err = "You have no permissions to create threads in this forum!<br>$forumlink";
 else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
 	$err = "Don't post threads so fast, wait a little longer.<br>$forumlink";
-else if ($user['lastpost'] > time() - $config['secafterpost'] && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
-	$err = "You must wait ".$config['secafterpost']." seconds before posting a thread.<br>$forumlink";
+else if ($user['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
+	$err = "You must wait 2 seconds before posting a thread.<br>$forumlink";
 
 // table breach protection
 if ($act == 'Submit') {

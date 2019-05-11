@@ -34,12 +34,12 @@ if ($act == 'Submit') {
 	$lastpost = $sql->fetchp("SELECT id,user,date FROM posts WHERE thread = ? ORDER BY id DESC LIMIT 1", [$thread['id']]);
 	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - 86400) && !has_perm('consecutive-posts'))
 		$err = "You can't double post until it's been at least one day!<br>$threadlink";
-	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - $config['secafterpost']) && !has_perm('consecutive-posts'))
-		$err = "You must wait $config[secafterpost] seconds before posting consecutively.<br>$threadlink";
+	if ($lastpost['user'] == $userid && $lastpost['date'] >= (time() - 2) && !has_perm('consecutive-posts'))
+		$err = "You must wait 2 seconds before posting consecutively.<br>$threadlink";
 	if (strlen(trim($_POST['message'])) == 0)
 		$err = "Your post is empty! Enter a message and try again.<br>$threadlink";
-	if ($user['regdate'] > (time() - $config['secafterpost']))
-		$err = "You must wait {$config['secafterpost']} seconds before posting on a freshly registered account.<br>$threadlink";
+	if ($user['regdate'] > (time() - 2))
+		$err = "You must wait 2 seconds before posting on a freshly registered account.<br>$threadlink";
 }
 
 $topbot = [

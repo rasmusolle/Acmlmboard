@@ -43,9 +43,7 @@ function checkctitle($uid) {
 }
 
 function checkcusercolor($uid) {
-	global $loguser, $config;
-
-	if (!$config["perusercolor"]) return false;
+	global $loguser;
 
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('has-customusercolor')) return false;
@@ -58,7 +56,7 @@ function checkcusercolor($uid) {
 }
 
 function checkcdisplayname($uid) {
-	global $sql, $loguser, $config, $defaultgroup;
+	global $sql, $loguser, $defaultgroup;
 
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('has-displayname')) return false;
@@ -160,7 +158,7 @@ function userlink($user, $u = '') {
 }
 
 function userdisp($user, $u = '') {
-	global $sql, $config, $usergroups, $userbirthdays;
+	global $sql, $usergroups, $userbirthdays;
 
 	if ($user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours
 		$nc = $user[$u.'nick_color'];

@@ -57,7 +57,6 @@ p {
 			<a href="#move">I just made a thread, where did it go?</a><br>
 			<a href="#rude">I feel that a user is being rude to me. What do I do?</a><br>
 			<a href="#smile">Are smilies and BBCode supported?</a><br>
-			<?php if ($config['hasirc']) echo '<a href="#irc">What\'s this IRC thing I keep hearing about?</a><br>' ?>
 			<a href="#reg">Can I register more than one account?</a><br>
 			<a href="#css">What are we not allowed to do in our custom CSS layouts?</a><br>
 			<a href="#private">Are private messages supported?</a><br>
@@ -160,15 +159,6 @@ p {
 			<p>Also, most HTML tags are able to be used in your posts.</p>
 		</td>
 	</tr>
-	<?php if ($config['hasirc']) { ?>
-	<tr class="h"><td class="b h" id="irc">What's this IRC thing I keep hearing about?</td></tr>
-	<tr>
-		<td class="b n1" style="padding:10px!important;">
-			<p>If you have an IRC client like <a href="https://hexchat.github.io">HexChat</a>, you can join a chatroom related to this board.<br>
-			The IRC channel is <?=$config['channel'] ?> at <?=$config['network'] ?>.</p>
-		</td>
-	</tr>
-	<?php } ?>
 	<tr class="h"><td class="b h" id="reg">Can I register more than one account?</td></tr>
 	<tr>
 		<td class="b n1" style="padding:10px!important;">

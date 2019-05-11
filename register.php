@@ -24,7 +24,7 @@ if ($act == 'Register') {
 		$err = 'Your password must be at least 4 characters long.';
 	elseif ($_POST['pass'] != $_POST['pass2'])
 		$err = "The two passwords you entered don't match.";
-	elseif ($config['registrationpuzzle'] && $_POST['puzzle'] != $puzzleAnswer)
+	elseif ($puzzle && $_POST['puzzle'] != $puzzleAnswer)
 		$err = "You are either a bot or very bad at simple mathematics.";
 
 	if (empty($err)) {
@@ -88,9 +88,9 @@ if(!empty($err)) noticemsg("Error", $err);
 		<?php
 		echo fieldrow('Gender',fieldoption('gender',2,$listgender));
 		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
-		if ($config['registrationpuzzle']) { ?>
+		if ($puzzle) { ?>
 			<tr>
-				<td class="b n1 center" width="120"><?=$puzzle ?></td>
+				<td class="b n1 center" width="120"><?=$puzzleQuestion ?></td>
 				<td class="b n2"><input type="text" name="puzzle" size="25" maxlength="20"></td>
 			</tr>
 		<?php } ?>

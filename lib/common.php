@@ -34,8 +34,7 @@ if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
 	load_guest_permset();
 }
 
-if ($config['lockdown']) {
-	//lock down
+if ($lockdown) {
 	if (has_perm('bypass-lockdown'))
 		echo "<span style=\"color:red\"><center>LOCKDOWN!!</center></span>";
 	else {
@@ -98,8 +97,8 @@ $count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) F
 $date = date("m-d-y", time());
 
 //Config definable theme override
-if ($config['override_theme']) {
-	$theme = $config['override_theme'];
+if ($override_theme) {
+	$theme = $override_theme;
 } elseif (isset($_GET['theme'])) {
 	$theme = $_GET['theme'];
 } else {
@@ -145,7 +144,7 @@ if (@$sql->numrows($r) > 0) {
  */
 function pageheader($pagetitle = "", $fid = null) {
 	global $dateformat, $sql, $log, $loguser, $views, $sqluser, $boardtitle, $boardlogo, $homepageurl,
-	$theme, $themefile, $url, $config, $favicon, $showonusers, $count, $bot;
+	$theme, $themefile, $url, $meta, $favicon, $showonusers, $count, $bot;
 
 	if ($log) {
 		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [$fid, $loguser['id']]);
@@ -182,7 +181,7 @@ HTML;
 <html>
 	<head>
 		<title><?=$pagetitle.$boardtitle?></title>
-		<?=$config['meta']?>
+		<?=$meta?>
 		<link rel="icon" type="image/png" href="<?=$favicon?>">
 		<link rel="stylesheet" href="theme/common.css">
 		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">

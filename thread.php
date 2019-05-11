@@ -411,7 +411,7 @@ while ($post = $sql->fetch($posts)) {
 	} else {
 		$post['maxrevision'] = $sql->resultp("SELECT MAX(revision) FROM poststext WHERE id = ?", [$_GET['pin']]);
 	}
-	if (isset($thread['forum']) && can_edit_forum_posts($thread['forum']) && $post['id'] == $_GET['pin'])
+	if (isset($thread['forum']) && can_edit_forum_posts($thread['forum']) && isset($_GET['pin']) && $post['id'] == $_GET['pin'])
 		$post['deleted'] = false;
 
 	echo "<br>".threadpost($post);

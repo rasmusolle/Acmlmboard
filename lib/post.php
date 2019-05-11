@@ -1,7 +1,7 @@
 <?php
 
 function userlink_by_name($name) {
-	global $sql, $config;
+	global $sql;
 	$u = $sql->fetchp("SELECT ".userfields()." FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
 	if ($u)
 		return userlink($u, null);
@@ -58,7 +58,7 @@ function filterstyle($match) {
 }
 
 function postfilter($msg) {
-	global $smilies, $config, $sql, $swfid;
+	global $smilies, $sql, $swfid;
 
 	//[code] tag
 	$msg = preg_replace_callback("'\[code\](.*?)\[/code\]'si", 'makecode', $msg);
@@ -186,7 +186,7 @@ function LoadBlocklayouts() {
 }
 
 function threadpost($post, $pthread = '') {
-	global $dateformat, $loguser, $sql, $blocklayouts, $config, $signsep;
+	global $dateformat, $loguser, $blocklayouts;
 
 	$post['head'] = '';
 	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);

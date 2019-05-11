@@ -106,11 +106,11 @@ if (!isset($_POST['action'])) {
 
 	if ($userto && $_POST['message']) {
 		$recentpms = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP()-30) AND userfrom = ?", [$loguser['id']]);
-		$secafterpm = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP() - $config[secafterpost]) AND userfrom = ?", [$loguser['id']]);
+		$secafterpm = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP() - 2) AND userfrom = ?", [$loguser['id']]);
 		if (($sql->numrows($recentpms) > 0) && (!has_perm('consecutive-posts'))) {
 			$msg = "You can't send more than one PM within 30 seconds!";
 		} else if (($sql->numrows($secafterpm) > 0) && (has_perm('consecutive-posts'))) {
-			$msg = "You can't send more than one PM within ".$config['secafterpost']." seconds!";
+			$msg = "You can't send more than one PM within 2 seconds!";
 		} else {
 			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text) VALUES (?,?,?,?,?,?)",
 				[time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message']]);

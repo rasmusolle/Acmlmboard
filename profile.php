@@ -87,7 +87,18 @@ $post['num'] = 0;
 
 $post['id'] = 0; $post['thread'] = 0;
 
-$post['text'] = $config['samplepost'];
+$post['text'] = <<<HTML
+[b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.
+[quote=Anonymous][spoiler]Hello![/spoiler][/quote]
+[code]if (true) {
+	print "The world isn't broken.";
+} else {
+	print "Something is very wrong.";
+}[/code]
+[irc]This is like code tags but without formatting.
+<Anonymous> I said something![/irc]
+[url=]Test Link. Ooh![/url]
+HTML;
 
 foreach ($user as $field => $val) {
 	$post['u' . $field] = $val;

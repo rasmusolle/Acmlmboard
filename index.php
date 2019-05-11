@@ -77,7 +77,7 @@ while ($forum = $sql->fetch($forums)) {
 		<td class="b n1"><?=$status ?></td>
 		<td class="b n2 left">
 			<?=($forum['private'] ? '(' : '') ?><a href="forum.php?id=<?=$forum['id'] ?>"><?=$forum['title'] ?></a><?=($forum['private'] ? ')' : '') ?>
-			<br><span class=sfont><?=str_replace("%%%SPATULANDOM%%%", $spatulas[$spaturand], $forum['descr']) ?></span>
+			<br><span class=sfont><?=str_replace("%%%RANDOM%%%", $randdesc[array_rand($randdesc)], $forum['descr']) ?></span>
 		</td>
 		<td class="b n1"><?=$forum['threads'] ?></td>
 		<td class="b n1"><?=$forum['posts'] ?></td>
