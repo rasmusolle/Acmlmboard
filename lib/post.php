@@ -37,7 +37,7 @@ function makecode($match) {
 	$code = htmlspecialchars($match[1]);
 	$list = ["\r\n", "[", ":", ")", "_", "@", "-"];
 	$list2 = ["<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
-	return "<code class=\"prettyprint linenums\" style=\"white-space: PRE\">" . str_replace($list, $list2, $code) . "</code>";
+	return "<code class=\"prettyprint\">" . str_replace($list, $list2, $code) . "</code>";
 }
 
 function makeirc($match) {

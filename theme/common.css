@@ -37,11 +37,13 @@ a {
 
 
 /* Prettify styles */
-.prettyprint { font-family: Monaco, Consolas, monospace }
-.prettyprint, ol.linenums, ol.linenums li { background: #2f3640 }
-
-ol.linenums { color: #656d78; margin: 0; }
-ol.linenums li { padding-left: 1em; list-style-type: decimal; }
+.prettyprint {
+	background: #2f3640;
+	font-family: Monaco, Consolas, monospace;
+	display: block;
+	white-space: pre;
+	padding: 5px;
+}
 
 @media screen {
 	.str { color: #ffce54 }
