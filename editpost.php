@@ -37,11 +37,6 @@ if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
 	$err = "Your PID code is invalid!<br>$threadlink";
 }
 
-if ($act == 'Submit') {
-	if (($tdepth = tvalidate($_POST['message'])) != 0)
-		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$threadlink";
-}
-
 $topbot = [
 	'breadcrumb' => [['href' => './', 'title' => 'Main']],
 	'title' => 'Edit post'

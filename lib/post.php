@@ -99,53 +99,6 @@ function postfilter($msg) {
 	return $msg;
 }
 
-function tvalidate($str) {
-	$l = strlen($str);
-	$isquot = 0;
-	$istag = 0;
-	$isneg = 0;
-	$iscomment = 0;
-	$params = 0;
-	$iscode = 0;
-	$t_depth = 0;
-
-	for ($i = 0; $i < $l; ++$i) {
-		if ($iscode) {
-			if (!strcasecmp(substr($str, $i, 7), '[/code]'))
-				$iscode = 0;
-			else
-				continue;
-		}
-		if (!strcasecmp(substr($str, $i, 6), '[code]'))
-			$iscode = 1;
-		if (($str[$i] == '\"' || $str[$i] == '\'') && $str[$i - 1] != '\\')
-			$isquot = !$isquot;
-		if ($str[$i] == '<' && !$isquot) {
-			$istag = 1;
-			$isneg = 0;
-			$params = 0;
-		} elseif ($str[$i] == '>' && !$isquot)
-			$istag = 0;
-		if ($str[$i] == '/' && !$isquot && $istag)
-			$isneg = 1;
-		if (!strcmp(substr($str, $i, 4), "<!--"))
-			$iscomment = 1;
-		if (!strcmp(substr($str, $i, 3), "-->"))
-			$iscomment = 0;
-		if ($istag && !$params && !$iscomment && !strcasecmp(substr($str, $i, 5), 'table'))
-			$t_depth+=($isneg == 1 ? -1 : 1);
-		if ($t_depth < 0)
-			return -1; //disrupture
-		if ($istag && !$params && !$iscomment && $t_depth == 0 && !strcasecmp(substr($str, $i, 2), 'td'))
-			return -1; //td on top level
-		if ($istag && !$params && !$iscomment && $t_depth == 0 && !strcasecmp(substr($str, $i, 2), 'tr'))
-			return -1; //tr on top level
-		if ($istag && $str[$i] != ' ' && $str[$i] != '/' && $str[$i] != '<')
-			$params = 1;
-	}
-	return $t_depth;
-}
-
 function htmlval($text) {
 	$text = str_replace('&', '&amp;', $text);
 	$text = str_replace('<', '&lt;', $text);

@@ -77,14 +77,6 @@ if ($act == 'Edit profile') {
 	if (isset($_POST['picturedel']))
 		$usepic = 0;
 
-	//check for table breach
-	if (tvalidate($_POST['head'] . $_POST['sign']) != 0) {
-		$error .= "- Table tag count mismatch in post layout.<br />";
-	}
-	if (tvalidate($_POST['title']) != 0) {
-		$error .= "- Table tag count mismatch in custom title.<br />";
-	}
-
 	if ($_POST['gender'] < 0) $_POST['gender'] = 0;
 	if ($_POST['gender'] > 2) $_POST['gender'] = 2;
 

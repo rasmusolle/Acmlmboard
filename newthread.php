@@ -40,10 +40,7 @@ else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignor
 else if ($user['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
 	$err = "You must wait 2 seconds before posting a thread.<br>$forumlink";
 
-// table breach protection
 if ($act == 'Submit') {
-	if (($tdepth = tvalidate($_POST['message'])) != 0)
-		$err = "This post would disrupt the board's table layout! The calculated table depth is $tdepth.<br>$forumlink";
 	if (strlen(trim(str_replace(" ", "", $_POST['title']))) < 4)
 		$err = "You need to enter a longer $type title.<br>$forumlink";
 }
