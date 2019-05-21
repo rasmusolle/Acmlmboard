@@ -95,26 +95,15 @@ if ($act == 'new' || $act == 'edit') {
 		while ($g = $sql->fetch($allgroups))
 			$grouplist[$g['id']] = $g['title'];
 
-		$visiblelist = [1=>'Visible', 0=>'Invisible'];
-
-		$form = [
-			'action' => '',
-			'method' => 'POST',
-			'title' => 'Group settings',
-			'fields' => [
-				'title' => ['title'=>'Name', 'type'=>'text', 'length'=>255, 'size'=>50, 'value'=>$group['title']],
-				'inherit_group_id' => ['title'=>'Parent group', 'type'=>'dropdown', 'choices'=>$grouplist, 'value'=>$group['inherit_group_id']],
-				'sortorder' => ['title'=>'Sort order', 'type'=>'numeric', 'length'=>8, 'size'=>4, 'value'=>$group['sortorder']],
-				'visible' => ['title'=>'Visibility', 'type'=>'radio', 'choices'=>$visiblelist, 'value'=>$group['visible']],
-				'nc' => ['title'=>'Username color', 'type'=>'text', 'length'=>6, 'size'=>6, 'value'=>$group['nc']],
-				'submit' => ['title'=>($act=='new' ? 'Create group':'Apply changes'), 'type'=>'submit'],
-			],
-		];
-
 		RenderPageBar($pagebar);
-		echo '<br>';
-		RenderForm($form);
-		echo '<br>';
+		echo '<br><form method="post"><table class="c1">' .
+		catheader('Group Settings')
+.	fieldrow('Name', fieldinput(50, 255, 'title', $group['title']))
+.	fieldrow('Parent group', fieldselect('inherit_group_id', $group['inherit_group_id'], $grouplist))
+.	fieldrow('Sort order', fieldinput(4, 8, 'sortorder', $group['sortorder']))
+.	fieldrow('Visibility', fieldoption('visible', $group['visible'], ['Invisible', 'Visible']))
+.	fieldrow('Color', fieldinput(6,6,'nc',$group['nc']))
+.	'<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="submit" value="Apply changes"></td></table></form><br>';
 		$pagebar['message'] = '';
 		RenderPageBar($pagebar);
 	}

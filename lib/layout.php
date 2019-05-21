@@ -39,10 +39,6 @@ function RenderTable($data, $headers) {
 	echo "</table>";
 }
 
-function HTMLAttribEncode($string) {
-	return "'".htmlentities($string, ENT_QUOTES)."'";
-}
-
 function rendernewstatus($type) {
 	switch ($type) {
 		case "n":
@@ -60,78 +56,6 @@ function rendernewstatus($type) {
 	}
 
 	return "<img src=\"img/status/$statusimg\" alt=\"$text\">";
-}
-
-function RenderForm($form) {
-	$formp = "<form action=%s method=%s>\n%s</form>\n";
-	$table = "\t<table class=c1>\n%s\t</table>\n";
-	$row = "\t\t<tr>\n%s\t\t</tr>\n";
-	$rowaction = "\t\t<tr class=\"n1\">\n%s\t\t</tr>\n";
-	$rowhead = "\t\t<tr class=\"h\">\n%s\t\t</tr>\n";
-	$cell = "\t\t\t<td class=\"b n2\">\n%s\t\t\t</td>\n";
-	$cellhead = "\t\t\t<td class=\"b h\" colspan=\"2\">%s</td>\n";
-	$celltitle = "\t\t\t<td class=\"b n1 center\">%s</td>\n";
-	$cellaction = "\t\t\t<td class=\"b\">\n%s\t\t\t</td>\n";
-	$select = "\t\t\t\t<select id=%s name=%s>\n%s\t\t\t\t</select>\n";
-	$option = "\t\t\t\t\t<option value=%s %s>%s</option>\n";
-	$input = "\t\t\t\t<input id=%s name=%s type=%s %s />\n";
-	$radio = "\t\t\t\t<label><input type=\"radio\" id=%s name=%s value=%s %s /> %s</label> \n";
-
-	$title = (isset($form['title'])) ? $form['title'] : '&nbsp;';
-	$formout = sprintf($rowhead, sprintf($cellhead, $title));
-	foreach ($form['fields'] as $fieldid => $field) {
-		$type = $field['type'];
-		if ($type != 'submit') {
-			$title = (isset($field['title'])) ? $field['title'] . ':' : '&nbsp;';
-			$fieldout = sprintf($celltitle, $title);
-		} else {
-			$fieldout = sprintf($celltitle, '&nbsp;');
-		}
-		switch ($type) {
-			case 'numeric':
-			case 'text':
-				$length = (isset($field['length'])) ? $field['length'] : 60;
-				if (!isset($field['size']) && !isset($field['length'])) {
-					$size = 40;	
-				} elseif (!isset($field['size'])) {
-					$size = $length;
-				} else {
-					$size = $field['size'];
-				}
-				$valuestring = (isset($field['value'])) ? ' value=' . HTMLAttribEncode($field['value']) . ' ' : '';
-				$fieldout .= sprintf($cell, sprintf($input, $fieldid, $fieldid, 'text', "size=$size maxlength=$length $valuestring"));
-			break;
-			case 'dropdown':
-				$optout = '';
-				foreach ($field['choices'] as $choiceid => $choice) {
-					$selected = ($field['value'] == $choiceid) ? ' selected="selected" ' : '';
-					$optout .= sprintf($option, HTMLAttribEncode($choiceid), $selected, $choice);
-				}
-				$fieldout .= sprintf($cell, sprintf($select, $fieldid, $fieldid, $optout));
-			break;
-			case 'radio':
-				$optout = '';
-				foreach ($field['choices'] as $choiceid => $choice) {
-					$selected = ($field['value'] == $choiceid) ? ' checked="checked" ' : '';
-					$optout .= sprintf($radio, HTMLAttribEncode($fieldid . '_' . $choiceid), $fieldid, HTMLAttribEncode($choiceid), $selected, $choice);
-				}
-				$fieldout .= sprintf($cell, $optout);
-			break;
-			case 'submit':
-				$title = (isset($field['title'])) ? $field['title'] : 'Submit';
-				$fieldout .= sprintf($cellaction, sprintf($input, $fieldid, $fieldid, 'submit', 'class=submit value=' . HTMLAttribEncode($title)));
-			break;
-			default:
-				$fieldout .= sprintf($cell, '&nbsp;');
-			break;
-		}
-		$formout .= sprintf(($type == 'submit') ? $rowaction : $row, $fieldout);
-	}
-
-	$method = (isset($form['method'])) ? $form['method'] : 'POST';
-	$action = (isset($form['action'])) ? $form['action'] : '#';
-	$out = sprintf($formp, '"' . $action . '"', '"' . $method . '"', sprintf($table, $formout));
-	echo $out;
 }
 
 function RenderActions($actions, $ret = false) {
@@ -152,7 +76,7 @@ function RenderActions($actions, $ret = false) {
 		if ($i++)
 			$out.= ' | ';
 		if (isset($action['href'])) {
-			$out .= sprintf('<a href=%s>%s</a>', HTMLAttribEncode($href), $action['title']);
+			$out .= sprintf('<a href=%s>%s</a>', '"'.htmlentities($href, ENT_QUOTES).'"', $action['title']);
 		} else {
 			$out .= $action['title'];
 		}
@@ -165,7 +89,7 @@ function RenderActions($actions, $ret = false) {
 
 function RenderBreadcrumb($breadcrumb) {
 	foreach ($breadcrumb as $action) {
-		echo sprintf('<a href=%s>%s</a> - ', HTMLAttribEncode($action['href']), $action['title']);
+		echo sprintf('<a href=%s>%s</a> - ', '"'.htmlentities($action['href'], ENT_QUOTES).'"', $action['title']);
 	}
 }
 
@@ -194,9 +118,14 @@ function fieldrow($title, $input) {
 	return "<tr><td class=\"b n1 center\">$title:</td><td class=\"b n2\">" . stripslashes($input) . "</td>";
 }
 
-function fieldinput($avatarsize, $max, $field) {
+function fieldinput($avatarsize, $max, $field, $value = null) {
 	global $user;
-	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $user[$field]) . "\">";
+	if (isset($value)) {
+		$val = $value;
+	} else {
+		$val = $user[$field];
+	}
+	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $val) . "\">";
 }
 
 function fieldtext($rows, $cols, $field) {
