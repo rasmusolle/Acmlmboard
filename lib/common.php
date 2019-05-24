@@ -173,10 +173,6 @@ HTML;
 HTML;
 	}
 
-	if ($log) {
-		$logbar = $loguser;
-	}
-
 	?><!DOCTYPE html>
 <html>
 	<head>
@@ -204,7 +200,7 @@ HTML;
 					| <a href="search.php">Search</a>
 				</td>
 				<td class="b"><div style="width: 150px"><?=date($dateformat, time())?></div></td>
-				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($logbar) : "Guest")?>
+				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : "Guest")?>
 <?php
 	if ($log) {
 		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
