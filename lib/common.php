@@ -181,10 +181,10 @@ HTML;
 		<link rel="icon" type="image/png" href="<?=$favicon?>">
 		<link rel="stylesheet" href="theme/common.css">
 		<link rel="stylesheet" href="theme/<?=$theme?>/<?=$themefile?>">
-		<script src="lib/js/prettify.js"></script>
+		<script src="lib/js/microlight.js"></script>
 		<script src="lib/js/tools.js"></script>
 	</head>
-	<body onload="prettyPrint()">
+	<body>
 		<table class="c1">
 			<tr class="nt n2 center"><td class="b n1 center" colspan="3"><?=$boardlogo?></td></tr>
 			<tr class="n2 center">

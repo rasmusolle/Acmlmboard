@@ -90,10 +90,10 @@ $post['id'] = 0; $post['thread'] = 0;
 $post['text'] = <<<HTML
 [b]This[/b] is a [i]sample message.[/i] It shows how [u]your posts[/u] will look on the board.
 [quote=Anonymous][spoiler]Hello![/spoiler][/quote]
-[code]if (true) {
-	print "The world isn't broken.";
-} else {
-	print "Something is very wrong.";
+[code]if (true) {\r\n
+	print "The world isn't broken.";\r\n
+} else {\r\n
+	print "Something is very wrong.";\r\n
 }[/code]
 [irc]This is like code tags but without formatting.
 <Anonymous> I said something![/irc]

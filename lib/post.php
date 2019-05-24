@@ -35,9 +35,9 @@ function securityfilter($msg) {
 
 function makecode($match) {
 	$code = htmlspecialchars($match[1]);
-	$list = ["\r\n", "[", ":", ")", "_", "@", "-"];
-	$list2 = ["<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
-	return "<code class=\"prettyprint\">" . str_replace($list, $list2, $code) . "</code>";
+	$list = ["[", ":", ")", "_", "@", "-"];
+	$list2 = ["&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
+	return "<code class=\"microlight\">" . str_replace($list, $list2, $code) . "</code>";
 }
 
 function makeirc($match) {

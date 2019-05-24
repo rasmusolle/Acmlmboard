@@ -9,7 +9,7 @@ pageheader("Credits");
 
 		<p>Third-party tools used:</p>
 		<ul>
-			<li><a href="http://code.google.com/p/google-code-prettify/">Prettify</a></li>
+			<li><a href="http://asvd.github.io/microlight/">Microlight</a></li>
 		</ul>
 	</td></tr>
 </table>

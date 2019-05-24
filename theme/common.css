@@ -36,29 +36,11 @@ a {
 .right	{ text-align: right; }
 
 
-/* Prettify styles */
-.prettyprint {
-	background: #2f3640;
-	font-family: Monaco, Consolas, monospace;
+.microlight {
+	background-color: #2f3640;
+	color: #ffd66f;
 	display: block;
-	white-space: pre;
+	font-family: Monaco, Consolas, monospace;
 	padding: 5px;
-}
-
-@media screen {
-	.str { color: #ffce54 }
-	.kwd { color: #4fc1e9 }
-	.com { color: #656d78 }
-	.typ { color: #4fc1e9 }
-	.lit { color: #ac92ec }
-	.pun { color: #e6e9ed }
-	.opn { color: #e6e9ed }
-	.clo { color: #e6e9ed }
-	.tag { color: #ed5565 }
-	.atn { color: #a0d468 }
-	.atv { color: #ffce54 }
-	.dec { color: #ac92ec }
-	.var { color: #e6e9ed }
-	.fun { color: #e6e9ed }
-	.pln { color: #e6e9ed }
+	white-space: pre;
 }
