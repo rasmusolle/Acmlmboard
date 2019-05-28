@@ -115,38 +115,32 @@ function catheader($title) {
 }
 
 function fieldrow($title, $input) {
-	return "<tr><td class=\"b n1 center\">$title:</td><td class=\"b n2\">" . stripslashes($input) . "</td>";
+	return sprintf('<tr><td class="b n1 center">%s:</td><td class="b n2">%s</td>',$title,$input);
 }
 
-function fieldinput($avatarsize, $max, $field, $value = null) {
+function fieldinput($size, $max, $field, $value = null) {
 	global $user;
-	if (isset($value)) {
-		$val = $value;
-	} else {
-		$val = $user[$field];
-	}
-	return "<input type=\"text\" name=$field size=$avatarsize maxlength=$max value=\"" . str_replace("\"", "&quot;", $val) . "\">";
+	$val = str_replace('"', '&quot;', (isset($value) ? $value : $user[$field]));
+	return sprintf('<input type="text" name="%s" size="%s" maxlength="%s" value="%s">', $field, $size, $max, $val);
 }
 
 function fieldtext($rows, $cols, $field) {
 	global $user;
-	return "<textarea wrap=\"virtual\" name=$field rows=$rows cols=$cols>" . stripslashes(htmlval($user[$field])) . '</textarea>';
+	return sprintf('<textarea wrap="virtual" name="%s" rows=%s cols=%s>%s</textarea>', $field, $rows, $cols, htmlval($user[$field]));
 }
 
 function fieldoption($field, $checked, $choices) {
 	$text = '';
-	foreach ($choices as $key => $val)
-		$text.="<label><input type=\"radio\" class=\"radio\" name=$field value=$key" . ($key == $checked ? ' checked=1' : '') . ">$val &nbsp;</label>\n";
+	foreach ($choices as $k => $v)
+		$text .= sprintf('<label><input type="radio" class="radio" name="%s" value="%s" %s>%s </label>', $field, $k, ($k == $checked ? ' checked' : ''), $v);
 	return $text;
 }
 
-// takes $choices (array with "value" and "name")
 function fieldselect($field, $checked, $choices) {
-	$text = "<select name=$field>\n";
-	foreach ($choices as $key => $val) {
-		$text .= "\t<option value=\"$key\"" . ($key == $checked ? ' selected' : '') . ">$val</option>\n";
-	}
-	$text .= "</select>\n";
+	$text = sprintf('<select name="%s">', $field);
+	foreach ($choices as $k => $v)
+		$text .= sprintf('<option value="%s"%s>%s</option>', $k, ($k == $checked ? ' selected' : ''), $v);
+	$text .= '</select>';
 	return $text;
 }
 
