@@ -76,7 +76,7 @@ if (isset($err)) noticemsg("Error", $err);
 			<?=($i['expires'] ? date($loguser['dateformat'],$i['expires'])."&nbsp;".date($loguser['timeformat'],$i['expires']) : "never") ?>
 		</td>
 		<td class="b n2 center"><?=$i['banner'] ?></td>
-		<td class="b n2"><?=stripslashes($i['reason']) ?></td>
+		<td class="b n2"><?=$i['reason'] ?></td>
 		<td class="b n2 center">
 			<a href="ipbans.php?action=del&what=<?=urlencode(encryptpwd($i['ipmask'].",".$i['expires'])) ?>"><img src="img/smilies/no.png" align=absmiddle></a>
 		</td>

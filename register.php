@@ -3,7 +3,7 @@ require('lib/common.php');
 
 $act = (isset($_POST['action']) ? $_POST['action'] : '');
 if ($act == 'Register') {
-	$name = trim(stripslashes($_POST['name']));
+	$name = trim($_POST['name']);
 
 	$cname = str_replace([' ',"\xC2\xA0"],'',$name);
 	$cname = strtolower($cname);

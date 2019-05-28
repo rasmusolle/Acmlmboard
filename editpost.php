@@ -92,7 +92,6 @@ if (isset($err)) {
 	</table></form>
 <?php
 } else if ($act == 'Preview') {
-	$_POST['message'] = stripslashes($_POST['message']);
 	$euser = $sql->fetchq("SELECT * FROM users WHERE id = ?", [$post['id']]);
 	$post['date'] = time();
 	$post['ip'] = $userip;

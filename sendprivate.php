@@ -58,9 +58,6 @@ if (!isset($_POST['action'])) {
 	</form>
 	<?php
 } elseif ($_POST['action'] == 'Preview') {
-	$_POST['title'] = stripslashes($_POST['title']);
-	$_POST['message'] = stripslashes($_POST['message']);
-
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = 0;

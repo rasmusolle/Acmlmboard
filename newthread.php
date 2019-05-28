@@ -89,9 +89,6 @@ if (isset($err)) {
 	</table></form>
 	<?php
 } elseif ($act == 'Preview') {
-	$_POST['title'] = stripslashes($_POST['title']);
-	$_POST['message'] = stripslashes($_POST['message']);
-
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = ++ $user['posts'];

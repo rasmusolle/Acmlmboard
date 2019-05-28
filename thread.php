@@ -73,7 +73,7 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 		editthread($tid, '', $trashid, 1);
 	} elseif ($act == 'rename') {
 		if(!empty($_POST['title'])) {
-			$newtitle=stripslashes($_POST['title']);
+			$newtitle=$_POST['title'];
 			$action=",title='".$sql->escape($newtitle)."'";
 		}
 	} elseif ($act == 'move') {

@@ -77,10 +77,6 @@ if ($err) {
 	echo '<br>';
 	noticemsg("Error", $err);
 } elseif ($act == 'Preview' || !$act) {
-	if ($act == 'Preview') {
-		$_POST['message'] = stripslashes($_POST['message']);
-	}
-
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = ++$user['posts'];

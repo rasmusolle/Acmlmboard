@@ -16,7 +16,7 @@ if (!isset($_GET['f'])) $_GET['f'] = 0;
 		<form action="search.php" method="get"><table>
 			<tr>
 				<td>Search for</td>
-				<td><input type="text" name="q" size=40 value="<?=htmlspecialchars(stripslashes($_GET['q']), ENT_QUOTES) ?>"></td>
+				<td><input type="text" name="q" size=40 value="<?=htmlspecialchars($_GET['q'], ENT_QUOTES) ?>"></td>
 			</tr><tr>
 				<td></td>
 				<td>

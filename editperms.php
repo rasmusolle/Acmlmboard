@@ -49,7 +49,7 @@ $errmsg = '';
 
 if (isset($_POST['addnew'])) {
 	$revoke = (int)$_POST['revoke_new'];
-	$permid = stripslashes($_POST['permid_new']);
+	$permid = $_POST['permid_new'];
 	$bindval = (int)$_POST['bindval_new'];
 
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
@@ -64,7 +64,7 @@ if (isset($_POST['addnew'])) {
 	$pid = $keys[0];
 
 	$revoke = (int)$_POST['revoke'][$pid];
-	$permid = stripslashes($_POST['permid'][$pid]);
+	$permid = $_POST['permid'][$pid];
 	$bindval = (int)$_POST['bindval'][$pid];
 
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
@@ -77,7 +77,7 @@ if (isset($_POST['addnew'])) {
 } else if (isset($_POST['del'])) {
 	$keys = array_keys($_POST['del']);
 	$pid = $keys[0];
-	$permid = stripslashes($_POST['permid'][$pid]);
+	$permid = $_POST['permid'][$pid];
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
 		$sql->prepare("DELETE FROM `x_perm`WHERE `id`=?", [$pid]); $msg="The ".title_for_perm($permid)." permission has been successfully deleted!";
 	} else {

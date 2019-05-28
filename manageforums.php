@@ -8,7 +8,7 @@ $error = '';
 if (isset($_POST['savecat'])) {
 	// save new/existing category
 	$cid = $_GET['cid'];
-	$title = stripslashes($_POST['title']);
+	$title = $_POST['title'];
 	$ord = (int)$_POST['ord'];
 	if (!trim($title))
 		$error = 'Please enter a title for the category.';
@@ -35,8 +35,8 @@ if (isset($_POST['savecat'])) {
 	// save new/existing forum
 	$fid = $_GET['fid'];
 	$cat = (int)$_POST['cat'];
-	$title = stripslashes($_POST['title']);
-	$descr = stripslashes($_POST['descr']);
+	$title = $_POST['title'];
+	$descr = $_POST['descr'];
 	$ord = (int)$_POST['ord'];
 	$private = isset($_POST['private']) ? 1 : 0;
 	$readonly = isset($_POST['readonly']) ? 1 : 0;
