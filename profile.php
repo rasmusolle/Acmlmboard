@@ -12,16 +12,12 @@ $group = $sql->fetchp("SELECT * FROM groups WHERE id = ?", [$user['group_id']]);
 pageheader("Profile for " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 $days = (time() - $user['regdate']) / 86400;
-$pfound = $sql->resultp("SELECT count(*) FROM posts WHERE user = ?", [$uid]);
-$pavg = sprintf("%1.02f", $user['posts'] / $days);
-$tfound = $sql->resultp("SELECT count(*) FROM threads WHERE user = ?", [$uid]);
-$tavg = sprintf('%1.02f', $user['threads'] / $days);
 
 $thread = $sql->fetchp("SELECT p.id, t.title ttitle, f.title ftitle, t.forum, f.private FROM forums f
 	LEFT JOIN threads t ON t.forum = f.id LEFT JOIN posts p ON p.thread = t.id
 	WHERE p.date = ? AND p.user = ? AND f.id IN " . forums_with_view_perm(), [$user['lastpost'], $uid]);
 
-if ($pfound && $thread) {
+if ($thread) {
 	$lastpostlink = "<br>in <a href=\"thread.php?pid=$thread[id]#$thread[id]\">".htmlval($thread['ttitle'])."</a>
 		(<a href=\"forum.php?id=$thread[forum]\">" . htmlval($thread['ftitle']) . "</a>)";
 } else if ($user['posts'] == 0) {
@@ -40,7 +36,6 @@ foreach ($themes as $k => $v) {
 
 if ($user['birth'] != -1) {
 	//Crudely done code.
-	//You're Goddamn right. :P
 	$monthnames = [1 => 'January', 'February', 'March', 'April',
 		'May', 'June', 'July', 'August',
 		'September', 'October', 'November', 'December'];
@@ -50,36 +45,20 @@ if ($user['birth'] != -1) {
 	if ($bdec['2'] <= 0 && $bdec['2'] > -2)
 		$birthday = $monthnames[$mn] . " " . $bdec[1];
 	else
-		$birthday = date("l, F j, Y", strtotime($bstr));
+		$birthday = date("F j Y", strtotime($bstr));
 
-	$age = '<!-- This feature requires PHP 5.3.0 or higher -->';
-	if (class_exists('DateTime') && method_exists('DateTime', 'diff')) {
-		$bd1 = new DateTime($bstr);
-		$bd2 = new DateTime(date("Y-m-d"));
-		if ($bd2 < $bd1 && !$bdec['2'] <= 0)
-			$age = '(not born yet)';
-		else if ($bdec['2'] <= 0 && $bdec['2'] > -2)
-			$age = '';
-		else {
-			$bd3 = $bd1->diff($bd2);
-			$age = "(" . intval($bd3->format("%Y")) . " years old)";
-		}
-	}
+	$bd1 = new DateTime($bstr);
+	$bd2 = new DateTime(date("Y-m-d"));
+	if (($bd2 < $bd1 && !$bdec['2'] <= 0) || ($bdec['2'] <= 0 && $bdec['2'] > -2))
+		$age = '';
+	else
+		$age = '('.intval($bd1->diff($bd2)->format("%Y")).' years old)';
 } else {
 	$birthday = "";
 	$age = "";
 }
 
-if ($user['email'] && !$user['emailhide']) {
-	$email = str_replace(".", "<b> (dot) </b>", str_replace("@", "<b> (at) </b>", $user['email']));
-} else {
-	$email = "";
-}
-
-if ($user['url'][0] == "!") {
-	$user['url'] = substr($user['url'], 1);
-	$user['ssl'] = 1;
-}
+$email = ($user['email'] && !$user['emailhide'] ? str_replace(".", "<b> (dot) </b>", str_replace("@", "<b> (at) </b>", $user['email'])) : '');
 
 $post['date'] = time();
 $post['ip'] = $user['ip'];
@@ -101,16 +80,13 @@ $post['text'] = <<<HTML
 HTML;
 
 foreach ($user as $field => $val) {
-	$post['u' . $field] = $val;
+	$post['u'.$field] = $val;
 }
 
 //More indepth test to not show the link if you can't edit your own perms
 $editpermissions = "";
-if (has_perm('edit-permissions')) {
-	if (!has_perm('edit-own-permissions') && $loguser['id'] == $uid)
-		$editpermissions = "";
-	else
-		$editpermissions = "| <a href=\"editperms.php?uid=" . $user['id'] . "\">Edit user permissions</a>";
+if (has_perm('edit-permissions') && (has_perm('edit-own-permissions') || $loguser['id'] != $uid)) {
+	$editpermissions = '| <a href="editperms.php?uid='.$uid.'">Edit user permissions</a>';
 }
 
 $banuser = "";
@@ -118,9 +94,9 @@ if (has_perm('edit-permissions')) {
 	if (!has_perm('ban-users'))
 		$banuser = "";
 	elseif ($user['group_id'] != $bannedgroup)
-		$banuser = "| <a href=\"banmanager.php?id=" . $user['id'] . "\">Ban user</a>";
-	elseif ($user['group_id'] = $bannedgroup)
-		$banuser = "| <a href=\"banmanager.php?unban&id=" . $user['id'] . "\">Unban user</a>";
+		$banuser = '| <a href=\"banmanager.php?id='.$uid.'">Ban user</a>';
+	elseif ($user['group_id'] == $bannedgroup)
+		$banuser = '| <a href="banmanager.php?unban&id='.$uid.'">Unban user</a>';
 }
 
 $rblock = $sql->prepare("SELECT * FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
@@ -129,7 +105,7 @@ $blocklayoutlink = '';
 
 if ($log) {
 	if (isset($_GET['block'])) {
-		$block = (int) $_GET['block'];
+		$block = (int)$_GET['block'];
 
 		if ($block && !$isblocked) {
 			$rblock = $sql->prepare("INSERT INTO blockedlayouts (user, blockee) values (?,?)", [$uid, $loguser['id']]);
@@ -155,32 +131,14 @@ $logtz = new DateTimeZone($loguser['timezone']);
 $usertzoff = $usertz->getOffset($now);
 $logtzoff = $logtz->getOffset($now);
 
-//User color override - Should be moved to a function.
-$u = ''; // what was this originally?
-$group = $usergroups[$user[$u . 'group_id']];
-$realnc = $group['nc'];
-
-//Toggles class define for spans where appropriate
-$usercnickcolor = '';
-$userdisplayname = false;
-$showrealnick = false;
-
-//If user has a a displayname, a custom username color, or both, we need to show the real name field.
-if ($user['enablecolor']) $usercnickcolor = $user['nick_color'];
-if ($user['displayname']) $userdisplayname = true;
-
-if ($userdisplayname || $usercnickcolor) {
-	$showrealnick = true;
-}
-
 $gender = ['Male', 'Female', 'N/A'];
 
 $profilefields = [
 	"General information" => [
-		['title' => 'Real handle', 'value' => "<span style='color:#".$realnc.";'><b>".htmlval($user['name'])."</b></span>"],
+		['title' => 'Real handle', 'value' => '<span style="color:#'.$group['nc'].';"><b>'.htmlval($user['name']).'</b></span>'],
 		['title' => 'Group', 'value' => $group['title']],
-		['title' => 'Total posts', 'value' => $user['posts']." ($pfound found, $pavg per day)"],
-		['title' => 'Total threads', 'value' => $user['threads']." ($tfound found, $tavg per day)"],
+		['title' => 'Total posts', 'value' => $user['posts'].' ('.sprintf("%1.02f", $user['posts'] / $days).' per day)'],
+		['title' => 'Total threads', 'value' => $user['threads'].' ('.sprintf('%1.02f', $user['threads'] / $days).' per day)'],
 		['title' => 'Registered on', 'value' => date($dateformat, $user['regdate']).' ('.timeunits($days * 86400).' ago)'],
 		['title' => 'Last post', 'value'=>($user['lastpost'] ? date($dateformat, $user['lastpost'])." (".timeunits(time()-$user['lastpost'])." ago)" : "None").$lastpostlink],
 		['title' => 'Last view', 
@@ -212,7 +170,7 @@ RenderPageBar($topbot);
 foreach ($profilefields as $k => $v) {
 	echo '<br><table class="c1"><tr class="h"><td class="b h" colspan="2">'.$k.'</td></tr>';
 	foreach ($v as $pf) {
-		if ($pf['title'] == 'Real handle' && !$showrealnick) continue;
+		if ($pf['title'] == 'Real handle' && !$user['displayname'] && !$user['displayname']) continue;
 		echo '<tr><td class="b n1" width="130"><b>'.$pf['title'].'</b></td><td class="b n2">'.$pf['value'].'</td>';
 	}
 	echo '</table>';
@@ -224,12 +182,12 @@ foreach ($profilefields as $k => $v) {
 <br>
 <table class="c1">
 	<tr class="h"><td class="b n3">
-		<a href="forum.php?user=<?=$user['id'] ?>">View threads</a>
-		| <a href="thread.php?user=<?=$user['id'] ?>">Show posts</a>
+		<a href="forum.php?user=<?=$uid ?>">View threads</a>
+		| <a href="thread.php?user=<?=$uid ?>">Show posts</a>
 		<?=$blocklayoutlink ?>
-		<?=(has_perm('create-pms') ? '| <a href="sendprivate.php?uid=' . $user['id'] . '">Send private message</a>' : "") ?>
-		<?=(has_perm('view-user-pms') ? '| <a href="private.php?id=' . $user['id'] . '">View private messages</a>' : "") ?>
-		<?=(has_perm('edit-users') ? '| <a href="editprofile.php?id=' . $user['id'] . '">Edit user</a>' : "") ?>
+		<?=($log && has_perm('create-pms') ? '| <a href="sendprivate.php?uid='.$uid.'">Send private message</a>' : '') ?>
+		<?=(has_perm('view-user-pms') ? '| <a href="private.php?id='.$uid.'">View private messages</a>' : '') ?>
+		<?=(has_perm('edit-users') ? '| <a href="editprofile.php?id='.$uid.'">Edit user</a>' : '') ?>
 		<?=$banuser . " " . $editpermissions ?>
 	</td></tr>
 </table><br>

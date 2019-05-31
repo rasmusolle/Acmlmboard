@@ -158,7 +158,7 @@ function threadpost($post, $pthread = '') {
 
 	// Blocklayouts, supports user/user ($blocklayouts) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
-	$isBlocked = $loguser['blocklayouts'];
+	$isBlocked = (isset($loguser['blocklayouts']) ? $loguser['blocklayouts'] : '');
 	if ($isBlocked)
 		$post['usign'] = $post['uhead'] = "";
 
