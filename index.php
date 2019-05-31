@@ -51,14 +51,11 @@ $cat = -1;
 <?php
 
 while ($forum = $sql->fetch($forums)) {
-	if (!can_view_forum($forum))
-		continue;
+	if (!can_view_forum($forum)) continue;
 
 	if ($forum['cat'] != $cat) {
 		$cat = $forum['cat'];
-		?><tr class="c">
-			<td class="b" colspan="5"><?=$categ[$cat]['title'] ?></td>
-		</tr><?php
+		?><tr class="c"><td class="b" colspan="5"><?=$categ[$cat]['title'] ?></td></tr><?php
 	}
 
 	if ($forum['posts'] > 0 && $forum['lastdate'] > 0)
@@ -66,14 +63,9 @@ while ($forum = $sql->fetch($forums)) {
 	else
 		$lastpost = 'None';
 
-	if ($forum['lastdate'] > ($log ? $forum['rtime'] : time() - 3600)) {
-		$status = rendernewstatus("n");
-	} else {
-		$status = '';
-	}
+	$status = ($forum['lastdate'] > ($log ? $forum['rtime'] : time() - 3600) ? rendernewstatus("n") : '');
 
-	?>
-	<tr class="center">
+	?><tr class="center">
 		<td class="b n1"><?=$status ?></td>
 		<td class="b n2 left">
 			<?=($forum['private'] ? '(' : '') ?><a href="forum.php?id=<?=$forum['id'] ?>"><?=$forum['title'] ?></a><?=($forum['private'] ? ')' : '') ?>
@@ -82,7 +74,7 @@ while ($forum = $sql->fetch($forums)) {
 		<td class="b n1"><?=$forum['threads'] ?></td>
 		<td class="b n1"><?=$forum['posts'] ?></td>
 		<td class="b n2"><?=$lastpost ?></td>
-	<?php
+	</tr><?php
 }
 ?></table><?php
 pagefooter();
