@@ -58,7 +58,7 @@ function filterstyle($match) {
 }
 
 function postfilter($msg) {
-	global $smilies, $sql, $swfid;
+	global $smilies;
 
 	//[code] tag
 	$msg = preg_replace_callback("'\[code\](.*?)\[/code\]'si", 'makecode', $msg);
@@ -139,16 +139,9 @@ function LoadBlocklayouts() {
 }
 
 function threadpost($post, $pthread = '') {
-	global $dateformat, $loguser, $blocklayouts;
+	global $dateformat, $loguser;
 
-	$post['head'] = '';
-	$post['head'] = str_replace("<!--", "&lt;!--", $post['head']);
 	$post['uhead'] = str_replace("<!--", "&lt;!--", $post['uhead']);
-
-	if (isset($post['sign']))
-		$post['text'] = $post['head'] . $post['text'] . '____________________' . $post['sign'];
-	else
-		$post['text'] = $post['head'] . $post['text'];
 
 	$post['ranktext'] = getrank($post['urankset'], $post['uposts']);
 	$post['utitle'] = $post['ranktext']
@@ -206,7 +199,7 @@ HTML;
 	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 	if (isset($post['isannounce'])) {
 		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
-	} else if (isset($post['thread']) && isset($post['id']) && $loguser['id'] != 0) {
+	} else if (isset($post['thread']) && $post['id'] && $loguser['id'] != 0) {
 		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
 	}
 

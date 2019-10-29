@@ -68,7 +68,7 @@ function packsafenumeric($i) {
 function unpacksafenumeric($s, $fallback = -1) {
 	global $loguser;
 	$a = explode(",", decryptpwd($s));
-	if ($a[1] != $loguser[id])
+	if ($a[1] != $loguser['id'])
 		return $fallback;
 	else
 		return $a[0];

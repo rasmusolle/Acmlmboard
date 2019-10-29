@@ -26,7 +26,7 @@ function checkuid($userid, $pass) {
 }
 
 function checkctitle($uid) {
-	global $sql, $loguser, $defaultgroup;
+	global $loguser, $defaultgroup;
 
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('edit-own-title')) return false;
@@ -56,7 +56,7 @@ function checkcusercolor($uid) {
 }
 
 function checkcdisplayname($uid) {
-	global $sql, $loguser, $defaultgroup;
+	global $loguser, $defaultgroup;
 
 	if (!$loguser['id']) return false;
 	if (has_perm_revoked('has-displayname')) return false;
@@ -73,7 +73,7 @@ function checkcdisplayname($uid) {
 }
 
 function getrank($set, $posts) {
-	global $ranks, $rankset_data, $rankset_names;
+	global $rankset_data, $rankset_names;
 
 	if ($set == 0) return '';
 
@@ -123,7 +123,6 @@ function randnickcolor() {
 		$b = 255 - $h + 500;
 	}
 	$rndcolor = substr(dechex($r * 65536 + $g * 256 + $b), -6);
-	$namecolor = "color=$rndcolor";
 	return $rndcolor;
 }
 
@@ -151,14 +150,13 @@ function userlink_by_id($uid) {
 }
 
 function userlink($user, $u = '') {
-	global $loguser;
 	if (!$user[$u.'name']) $user[$u.'name'] = 'null';
 
 	return '<a href="profile.php?id='.$user[$u.'id'] . '">'.userdisp($user, $u).'</a>';
 }
 
 function userdisp($user, $u = '') {
-	global $sql, $usergroups, $userbirthdays;
+	global $usergroups, $userbirthdays;
 
 	if ($user[$u.'nick_color'] && $user[$u.'enablecolor']) { //Over-ride for custom colours
 		$nc = $user[$u.'nick_color'];

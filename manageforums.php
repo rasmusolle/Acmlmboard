@@ -211,7 +211,6 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 pagefooter();
 
 function rec_grouplist($parent, $level, $tgroups, $groups) {
-	$total = count($tgroups);
 	foreach ($tgroups as $g) {
 		if ($g['inherit_group_id'] != $parent)
 			continue;
@@ -224,7 +223,7 @@ function rec_grouplist($parent, $level, $tgroups, $groups) {
 	return $groups;
 }
 function grouplist() {
-	global $sql, $usergroups;
+	global $usergroups;
 
 	$groups = [];
 	$groups = rec_grouplist(0, 0, $usergroups, $groups);

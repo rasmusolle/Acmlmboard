@@ -143,8 +143,8 @@ if (@$sql->numrows($r) > 0) {
  * @return void
  */
 function pageheader($pagetitle = "", $fid = null) {
-	global $dateformat, $sql, $log, $loguser, $views, $sqluser, $boardtitle, $boardlogo, $homepageurl,
-	$theme, $themefile, $url, $meta, $favicon, $showonusers, $count, $bot;
+	global $dateformat, $sql, $log, $loguser, $views, $boardtitle, $boardlogo,
+	$theme, $themefile, $meta, $favicon, $count, $bot;
 
 	if ($log) {
 		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [$fid, $loguser['id']]);

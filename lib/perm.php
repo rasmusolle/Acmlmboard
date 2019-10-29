@@ -16,7 +16,7 @@ while ($g = $sql->fetch($r))
 //-user's primary group permissions, then the parent group's permissions, recursively until it reaches the top
 //first encountered occurence of a permission has precendence (+/-)
 function load_user_permset() {
-	global $logpermset, $loguser, $sql, $loggroups;
+	global $logpermset, $loguser;
 
 	//load user specific permissions
 	$logpermset = perms_for_x('user',$loguser['id']);
@@ -26,7 +26,6 @@ function load_user_permset() {
 //Badge permset
 
 function permset_for_user($userid) {
-	global $sql;
 	$permset = [];
 	//load user specific permissions
 	$permset = perms_for_x('user',$userid);
@@ -105,21 +104,19 @@ function can_edit_post($post) {
 }
 
 function can_edit_group_assets($gid) {
-	global $sql,$loguser;
 	if (has_perm('edit-all-group')) return true;
 	else if (has_perm_with_bindvalue('can-edit-group', $gid)) return true;
 	return false;
 }
 
 function can_edit_user_assets($gid) {
-	global $sql,$loguser;
 	if (has_perm('edit-all-group-member')) return true;
 	else if (has_perm_with_bindvalue('can-edit-group-member', $gid)) return true;
 	return false;
 }
 
 function can_edit_user($uid) {
-	global $sql,$loguser;
+	global $loguser;
 
 	$gid = gid_for_user($uid);
 	if (is_root_gid($gid) && !has_perm('no-restrictions')) return false;

@@ -32,8 +32,6 @@ if ($act == 'Edit profile') {
 		setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt)), 2147483647);
 }
 
-global $user;
-
 $user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$targetuserid]);
 
 if (!$user) noticemsg("Error", "This user doesn't exist!", true);
