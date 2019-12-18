@@ -154,7 +154,7 @@ if ($act == 'Edit profile') {
 			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $_POST['enablecolor'], $user['id']]);
 		if (checkctitle($targetuserid))
 			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
-		
+
 		if (has_perm("edit-users") && $targetgroup != 0)
 			$sql->prepare("UPDATE users SET group_id = ? WHERE id = ?", [$targetgroup, $user['id']]);
 
@@ -223,7 +223,7 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 .	fieldrow('Signature', fieldtext(5, 80, 'sign'))
 .	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide']))
 .		catheader('Options')
-.	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist()))
+.	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist(), "themePreview(this.value)"))
 .	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
 .	fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
 .	fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
@@ -235,5 +235,11 @@ Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
 	<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
 	</table><input type="hidden" name=token value='<?=$token?>'></form><?php
 }
+
+?><script>
+function themePreview(id) {
+	document.head.getElementsByTagName('link')[2].href = 'theme/'+id+'/'+id+'.css';
+}
+</script><?php
 
 pagefooter();

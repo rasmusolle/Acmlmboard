@@ -136,8 +136,10 @@ function fieldoption($field, $checked, $choices) {
 	return $text;
 }
 
-function fieldselect($field, $checked, $choices) {
-	$text = sprintf('<select name="%s">', $field);
+function fieldselect($field, $checked, $choices, $onchange = '') {
+	if ($onchange != '')
+		$onchange = ' onchange="'.$onchange.'"';
+	$text = sprintf('<select name="%s"%s>', $field, $onchange);
 	foreach ($choices as $k => $v)
 		$text .= sprintf('<option value="%s"%s>%s</option>', $k, ($k == $checked ? ' selected' : ''), $v);
 	$text .= '</select>';
