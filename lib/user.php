@@ -134,10 +134,10 @@ function userfields($tbl = '', $pf = '') {
 		if ($ret)
 			$ret .= ',';
 		if ($tbl)
-			$ret .= '`' . $tbl . '`.';
-		$ret .= '`' . $f . '`';
+			$ret .= $tbl . '.';
+		$ret .= $f;
 		if ($pf)
-			$ret .= ' AS `' . $pf . $f . '`';
+			$ret .= ' ' . $pf . $f;
 	}
 
 	return $ret;
