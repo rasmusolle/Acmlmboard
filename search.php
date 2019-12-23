@@ -83,10 +83,7 @@ if ($forum)
 	$string .= " AND f.id='$forum' ";
 
 if ($where == 1) {
-	$fieldlist = '';
-	$ufields = ['posts','regdate','lastpost','lastview','rankset','title','usepic','head','sign','signsep'];
-	foreach ($ufields as $field)
-		$fieldlist .= "u.$field u$field,";
+	$fieldlist = userfields_post();
 	$posts = $sql->query("SELECT ".userfields('u','u').", $fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, t.title ttitle, t.forum tforum "
 		."FROM posts p "
 		."LEFT JOIN poststext pt ON p.id=pt.id "

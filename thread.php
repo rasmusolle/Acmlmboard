@@ -4,11 +4,7 @@ require('lib/common.php');
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0) noticemsg("Error", "Invalid page number", true);
 
-$fieldlist = '';
-$ufields = ['posts', 'regdate', 'lastpost', 'lastview', 'rankset', 'title', 'usepic', 'head', 'sign', 'signsep'];
-foreach ($ufields as $field) {
-	$fieldlist.="u.$field u$field,";
-}
+$fieldlist = userfields('u', 'u') . userfields_post();
 
 $ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : $loguser['ppp'];
 if ($ppp < 0) noticemsg("Error", "Invalid posts per page number", true);
@@ -104,7 +100,7 @@ if ($viewmode == "thread") {
 	//append thread's title to page title
 	pageheader($thread['title'], $thread['fid']);
 
-	//mark thread as read 
+	//mark thread as read
 	if ($log && $thread['lastdate'] > $thread['frtime'])
 		$sql->prepare("REPLACE INTO threadsread VALUES (?,?,?)", [$loguser['id'], $thread['id'], time()]);
 
@@ -120,7 +116,7 @@ if ($viewmode == "thread") {
 	}
 
 	//select top revision
-	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ", " . $fieldlist . " p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
+	$posts = $sql->prepare("SELECT $fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN threads t ON t.id = p.thread "
 		. "LEFT JOIN poststext pt ON p.id = pt.id "
@@ -136,7 +132,7 @@ if ($viewmode == "thread") {
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 
 	pageheader("Posts by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+	$posts = $sql->query("SELECT $fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "
@@ -151,7 +147,7 @@ if ($viewmode == "thread") {
 } elseif ($viewmode == "announce") {
 	pageheader('Announcements');
 
-	$posts = $sql->query("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum, p.announce isannounce "
+	$posts = $sql->query("SELECT $fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, t.title ttitle, t.forum tforum, p.announce isannounce "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr " //SQL barrel roll
@@ -171,7 +167,7 @@ if ($viewmode == "thread") {
 
 	pageheader('Latest posts');
 
-	$posts = $sql->prepare("SELECT " . userfields('u', 'u') . ",$fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
+	$posts = $sql->prepare("SELECT $fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, f.id fid, f.private fprivate, t.title ttitle, t.forum tforum "
 		. "FROM posts p "
 		. "LEFT JOIN poststext pt ON p.id=pt.id "
 		. "LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) $pinstr "

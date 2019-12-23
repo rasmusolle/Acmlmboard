@@ -143,6 +143,13 @@ function userfields($tbl = '', $pf = '') {
 	return $ret;
 }
 
+function userfields_post() {
+	$ufields = ['posts','regdate','lastpost','lastview','rankset','title','usepic','head','sign','signsep'];
+	foreach ($ufields as $field)
+		$fieldlist .= "u.$field u$field,";
+	return $fieldlist;
+}
+
 function userlink_by_id($uid) {
 	global $sql;
 	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", [$uid]);
