@@ -78,8 +78,8 @@ HTML
 <p>Here's a table with all available smileys.</p>
 $smilietext
 <p>Likewise, some BBCode is supported. See the table below.</p>
-<table>
-	<tr>
+<table class="c1" style="width:auto">
+	<tr class="h">
 		<td class="b h">Tag</td>
 		<td class="b h">Effect</td>
 	</tr><tr>
