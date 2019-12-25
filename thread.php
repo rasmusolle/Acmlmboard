@@ -4,7 +4,7 @@ require('lib/common.php');
 $page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
 if ($page < 0) noticemsg("Error", "Invalid page number", true);
 
-$fieldlist = userfields('u', 'u') . userfields_post();
+$fieldlist = userfields('u', 'u') . ',' . userfields_post();
 
 $ppp = isset($_REQUEST['ppp']) ? (int)$_REQUEST['ppp'] : $loguser['ppp'];
 if ($ppp < 0) noticemsg("Error", "Invalid posts per page number", true);
