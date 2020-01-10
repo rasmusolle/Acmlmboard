@@ -5,30 +5,25 @@ needs_login(1);
 
 $page = (isset($_GET['page']) ? $_GET['page'] : null);
 if (!$page) $page = 1;
+$view = (isset($_GET['view']) ? $_GET['view'] : 'read');
 
-if (!isset($_GET['view'])) $_GET['view'] = 'read';
-if (!isset($_GET['action'])) $_GET['action'] = 'read';
-
-if ($_GET['view'] == 'sent') {
-	$tablehead = 'To';
+if ($view == 'sent') {
 	$fieldn = 'to';
 	$fieldn2 = 'from';
 	$sent = true;
 } else {
-	$tablehead = 'From';
 	$fieldn = 'from';
 	$fieldn2 = 'to';
 	$sent = false;
 }
 
-if (has_perm('view-user-pms')) $id = (isset($_GET['id']) ? $_GET['id'] : 0);
-else $id = 0;
+$id = (has_perm('view-user-pms') ? (isset($_GET['id']) ? $_GET['id'] : 0) : 0);
 
 if (!has_perm('view-own-pms') && $id == 0) noticemsg("Error", "You are not allowed to do this!", true);
 
 $showdel = isset($_GET['showdel']);
 
-if ($_GET['action'] == "del") {
+if (isset($_GET['action']) && $_GET['action'] == "del") {
 	$owner = $sql->resultp("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
 	if (has_perm('delete-user-pms') || ($owner == $loguser['id'] && has_perm('delete-own-pms'))) {
 		$sql->prepare("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
@@ -65,7 +60,7 @@ $topbot = [
 ];
 
 if ($sent)
-	$topbot['actions'] = [['href' => 'private.php?'.($id != $loguser['id'] ? "id=$id&" : ''), 'title' => "View received"]];
+	$topbot['actions'] = [['href' => 'private.php'.($id != $loguser['id'] ? "?id=$id&" : ''), 'title' => "View received"]];
 else
 	$topbot['actions'] = [['href' => 'private.php?'.($id != $loguser['id'] ? "id=$id&" : '').'view=sent', 'title' => "View sent"]];
 
@@ -74,10 +69,7 @@ $topbot['actions'][] = ['href' => 'sendprivate.php', 'title' => 'Send new'];
 if ($pmsgc <= $loguser['tpp'])
 	$fpagelist = '<br>';
 else {
-	if ($sent)
-		$txt = "&view=sent";
-	else
-		$txt = '';
+	$txt = ($sent ? '&view=sent' : '');
 	$fpagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
 	for ($p = 1; $p <= 1 + floor(($pmsgc - 1) / $loguser['tpp']); $p++)
 		if ($p == $page)
@@ -96,15 +88,13 @@ RenderPageBar($topbot);
 		<td class="b" width="17">&nbsp;</td>
 		<td class="b" width="17">&nbsp;</td>
 		<td class="b">Title</td>
-		<td class="b" width="130"><?=$tablehead ?></td>
+		<td class="b" width="130"><?=ucfirst($fieldn) ?></td>
 		<td class="b" width="130">Sent on</td>
 	</tr>
 	<?php
-	if_empty_query($pmsgs, "There are no private messages here.", 5);
+	if_empty_query($pmsgs, "There are no private messages.", 5);
 	for ($i = 1; $pmsg = $sql->fetch($pmsgs); $i++) {
-		$status = '';
-		if ($pmsg['unread'])
-			$status = rendernewstatus("n");
+		$status = ($pmsg['unread'] ? rendernewstatus("n") : '');
 		if (!$pmsg['title'])
 			$pmsg['title'] = '(untitled)';
 
@@ -112,10 +102,10 @@ RenderPageBar($topbot);
 		?>
 		<tr class="<?=$tr ?> center">
 			<td class="b n2">
-				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$_GET['view'] ?>"><img src="img/smilies/no.png" align=absmiddle></a>
+				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$view ?>"><img src="img/smilies/no.png" align="absmiddle"></a>
 			</td>
 			<td class="b n1"><?=$status ?></td>
-			<td class="b left" style="word-break:break-word"><a href=showprivate.php?id=<?=$pmsg['id'] ?>><?=htmlval($pmsg['title']) ?></a></td>
+			<td class="b left" style="word-break:break-word"><a href="showprivate.php?id=<?=$pmsg['id'] ?>"><?=htmlval($pmsg['title']) ?></a></td>
 			<td class="b"><?=userlink($pmsg, 'u') ?></td>
 			<td class="b"><nobr><?=date($dateformat, $pmsg['date']) ?></nobr></td>
 		</tr>
