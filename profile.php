@@ -117,9 +117,9 @@ if ($log) {
 	}
 
 	if ($isblocked)
-		$blocklayoutlink = "| <a href=\"profile.php?id=$uid&amp;block=0\">Unblock layout</a>";
+		$blocklayoutlink = "| <a href=\"profile.php?id=$uid&block=0\">Unblock layout</a>";
 	else
-		$blocklayoutlink = "| <a href=\"profile.php?id=$uid&amp;block=1\">Block layout</a>";
+		$blocklayoutlink = "| <a href=\"profile.php?id=$uid&block=1\">Block layout</a>";
 }
 
 //timezone calculations

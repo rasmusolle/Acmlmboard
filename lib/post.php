@@ -158,8 +158,8 @@ function threadpost($post, $pthread = '') {
 	if (isset($post['deleted']) && $post['deleted']) {
 		$postlinks = "";
 		if (can_edit_forum_posts(getforumbythread($post['thread']))) {
-			$postlinks.="<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&rev=$post[revision]#$post[id]\">Peek</a> | ";
-			$postlinks.="<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=undelete\">Undelete</a>";
+			$postlinks .= "<a href=\"thread.php?pid=$post[id]&pin=$post[id]&rev=$post[revision]#$post[id]\">Peek</a> | ";
+			$postlinks .= "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&act=undelete\">Undelete</a>";
 		}
 
 		if ($post['id'])
@@ -200,7 +200,7 @@ HTML;
 	if (isset($post['isannounce'])) {
 		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
 	} else if (isset($post['thread']) && $post['id'] && $loguser['id'] != 0) {
-		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&amp;pid=$post[id]\">Reply</a>";
+		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&pid=$post[id]\">Reply</a>";
 	}
 
 	// "Edit" link for admins or post owners, but not banned users
@@ -208,7 +208,7 @@ HTML;
 		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=$post[id]\">Edit</a>";
 
 	if (isset($post['thread']) && isset($post['id']) && can_delete_forum_posts(getforumbythread($post['thread'])))
-		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&amp;act=delete\">Delete</a>";
+		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&act=delete\">Delete</a>";
 
 	if ($post['id'])
 		$postlinks.=" | ID: $post[id]";
@@ -218,8 +218,8 @@ HTML;
 
 	if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
 		$revisionstr.=" | Go to revision: ";
-		for ($i = 1; $i <= $post['maxrevision']; ++$i)
-			$revisionstr .= "<a href=\"thread.php?pid=$post[id]&amp;pin=$post[id]&amp;rev=$i#$post[id]\">$i</a> ";
+		for ($i = 1; $i <= $post['maxrevision']; $i++)
+			$revisionstr .= "<a href=\"thread.php?pid=$post[id]&pin=$post[id]&rev=$i#$post[id]\">$i</a> ";
 	}
 
 	$tbar1 = (!$isBlocked) ? "topbar" . $post['uid'] . "_1" : "";
