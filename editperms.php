@@ -188,7 +188,7 @@ function PermSelect($name, $sel) {
 	}
 
 	$out = "<select name=\"{$name}\">";
-	$firstletter = ''; 
+	$firstletter = '';
 	foreach ($permlist as $perm) {
 		if (substr($perm['permtitle'], 0, 1) !== $firstletter) {
 			if (!empty($firstletter)) $out .= '</optgroup>';
