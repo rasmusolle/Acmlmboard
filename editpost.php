@@ -6,16 +6,9 @@ $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : '');
 
 if ($act = $_POST['action']) {
 	$pid = $_POST['pid'];
-
-	if ($_POST['passenc'] !== md5($pwdsalt2 . $loguser['pass'] . $pwdsalt))
-		$err = 'Invalid token.';
 } else {
 	$pid = $_GET['pid'];
 }
-
-$userid = $loguser['id'];
-$user = $loguser;
-$pass = md5($pwdsalt2.$loguser['pass'].$pwdsalt);
 
 if ($_GET['act'] == 'delete' || $_GET['act'] == 'undelete') {
 	$act = $_GET['act'];
@@ -33,8 +26,8 @@ if ($thread['closed'] && !can_edit_forum_posts($thread['forum'])) {
 	$err = "You can't edit a post in closed threads!<br>$threadlink";
 } else if (!can_edit_post(['user' => $thread['puser'], 'tforum' => $thread['forum']])) {
 	$err = "You do not have permission to edit this post.<br>$threadlink";
-} else if ($pid==-1) {
-	$err = "Your PID code is invalid!<br>$threadlink";
+} else if ($pid == -1) {
+	$err = "Invalid post ID.<br>$threadlink";
 }
 
 $topbot = [
@@ -62,7 +55,6 @@ if ($act == "Submit" && $post['text'] == $_POST['message']) {
 }
 
 if (isset($err)) {
-	if ($act == "Submit") { pageheader('Edit post', $thread['forum']); }
 	pageheader('Edit post',$thread['forum']);
 	$topbot['title'] .= ' - Error';
 	RenderPageBar($topbot);
@@ -83,8 +75,7 @@ if (isset($err)) {
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
-				<input type="hidden" name=passenc value="<?=$pass ?>">
-				<input type="hidden" name=pid value=<?=$pid ?>>
+				<input type="hidden" name="pid" value="<?=$pid ?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
 			</td>
@@ -97,7 +88,7 @@ if (isset($err)) {
 	$post['ip'] = $userip;
 	$post['num'] = $euser['posts']++;
 	$post['text'] = $_POST['message'];
-	foreach($euser as $field => $val)
+	foreach ($euser as $field => $val)
 		$post['u'.$field] = $val;
 	$post['ulastpost'] = time();
 
@@ -107,18 +98,17 @@ if (isset($err)) {
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</table>
 	<?=threadpost($post)?><br>
-	<form action=editpost.php method=post><table class="c1">
+	<form action="editpost.php" method="post"><table class="c1">
 		<tr class="h"><td class="b h" colspan=2>Post</td></tr>
 		<tr>
 			<td class="b n1 center" width=120>Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center" width=120>Post:</td>
-			<td class="b n2"><textarea wrap="virtual" name=message id='message' rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>
+			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
-				<input type="hidden" name="passenc" value="<?=$pass?>">
 				<input type="hidden" name="pid" value="<?=$pid?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
@@ -127,17 +117,13 @@ if (isset($err)) {
 	</table></form>
 	<?php
 } else if ($act == 'Submit') {
-	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$userid]);
+	$rev = $sql->resultp("SELECT MAX(revision) FROM poststext WHERE id = ?", [$pid]) + 1;
 
-	$rev = $sql->fetchp("SELECT MAX(revision) m FROM poststext WHERE id = ?", [$pid]);
-	$rev = $rev['m'];
-
-	$rev++;
-	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)", [$pid,$_POST['message'],$rev,$userid,time()]);
+	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)", [$pid,$_POST['message'],$rev,$loguser['id'],time()]);
 
 	redirect("thread.php?pid=$pid#edit");
 } else if ($act == 'delete' || $act == 'undelete') {
-	if(!(can_delete_forum_posts($thread['forum']))) {
+	if (!(can_delete_forum_posts($thread['forum']))) {
 		pageheader('Edit post',$thread['forum']);
 		$topbot['title'] .= ' - Preview';
 		RenderPageBar($topbot);

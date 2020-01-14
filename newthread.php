@@ -3,24 +3,16 @@ require('lib/common.php');
 
 needs_login(1);
 
-if (isset($_REQUEST['announce'])) $announce = $_REQUEST['announce'];
-else $announce = null;
+$announce = (isset($_REQUEST['announce']) ? $_REQUEST['announce'] : null);
 
 if (!isset($_POST['action'])) { $_POST['action'] = ''; }
 if ($act = $_POST['action']) {
 	$fid = $_POST['fid'];
-	$userid = $loguser['id'];
-	$user = $loguser;
 } else {
-	$user = $loguser;
 	$fid = (isset($_GET['id']) ? $_GET['id'] : 0);
 }
 
-if ($announce) {
-	$type = "announcement";
-} else {
-	$type = "thread";
-}
+$type = ($announce ? "announcement" : "thread");
 
 if ($announce && $fid == 0)
 	$forum = ['id' => 0, 'readonly' => 1];
@@ -35,9 +27,9 @@ else if ($announce && !has_perm('create-forum-announcements'))
 	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
 else if (!can_create_forum_thread($forum))
 	$err = "You have no permissions to create threads in this forum!<br>$forumlink";
-else if ($user['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
+else if ($loguser['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
 	$err = "Don't post threads so fast, wait a little longer.<br>$forumlink";
-else if ($user['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
+else if ($loguser['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
 	$err = "You must wait 2 seconds before posting a thread.<br>$forumlink";
 
 if ($act == 'Submit') {
@@ -76,7 +68,7 @@ if (isset($err)) {
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center">Post:</td>
-			<td class="b n2"><textarea name=message id='message' rows=20 cols=80></textarea></td>
+			<td class="b n2"><textarea name="message" id="message" rows=20 cols=80></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
@@ -91,9 +83,9 @@ if (isset($err)) {
 } elseif ($act == 'Preview') {
 	$post['date'] = time();
 	$post['ip'] = $userip;
-	$post['num'] = ++ $user['posts'];
+	$post['num'] = $loguser['posts']++;
 	$post['text'] = $_POST['message'];
-	foreach ($user as $field => $val)
+	foreach ($loguser as $field => $val)
 		$post['u' . $field] = $val;
 	$post['ulastpost'] = time();
 
@@ -126,36 +118,26 @@ if (isset($err)) {
 		</tr>
 	</table></form><?php
 } elseif ($act == 'Submit') {
-	$modclose = "0";
-	$modstick = "0";
+	$modclose = ($announce ? "1" : "0");
 
-	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$userid]);
-	$user['posts']++;
-
-	if ($announce) {
-		$modclose = $announce;
-	}
-
-	$sql->prepare("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $userid]);
-	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed,sticky) VALUES (?,?,?,?,?,?,?,?)",
-		[$_POST['title'],$fid,$userid,time(),$userid,$announce,$modclose,$modstick]);
+	$sql->prepare("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $loguser['id']]);
+	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed) VALUES (?,?,?,?,?,?,?)",
+		[$_POST['title'],$fid,$loguser['id'],time(),$loguser['id'],$announce,$modclose]);
 	$tid = $sql->insertid();
 	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,announce) VALUES (?,?,?,?,?,?)",
-		[$userid,$tid,time(),$userip,$user['posts'],$announce]);
+		[$loguser['id'],$tid,time(),$userip,$loguser['posts']++,$announce]);
 	$pid = $sql->insertid();
 	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
 		[$pid,$_POST['message']]);
 	if (!$announce) {
-		$sql->prepare("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?", [time(), $userid, $pid, $fid]);
+		$sql->prepare("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?", [time(), $loguser['id'], $pid, $fid]);
 	}
 	$sql->prepare("UPDATE threads SET lastid = ? WHERE id = ?", [$pid, $tid]);
 
 	if ($announce) {
 		$viewlink = "thread.php?announce";
-		$shortlink = "a=" . $forum['id'];
 	} else {
 		$viewlink = "thread.php?id=$tid";
-		$shortlink = "t=$tid";
 	}
 
 	redirect($viewlink);
