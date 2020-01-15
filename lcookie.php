@@ -1,6 +1,6 @@
 <?php
 require('lib/common.php');
-needs_login(1);
+needs_login();
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 if ($action == "update") {
@@ -8,10 +8,7 @@ if ($action == "update") {
 		$err = "Range string contains illegal characters.<br><a href=''>Go back</a>.";
 
 	if (isset($err)) {
-		pageheader('Advanced login cookie setup');
-		noticemsg("Error", $err);
-		pagefooter();
-		die();
+		noticemsg("Error", $err, true);
 	} else {
 		$_COOKIE['pass'] = packlcookie(unpacklcookie($_COOKIE['pass']), $_POST['ranges']);
 		setcookie('pass', $_COOKIE['pass'], 2147483647);

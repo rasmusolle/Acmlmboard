@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-needs_login(1);
+needs_login();
 
 $page = (isset($_GET['page']) ? $_GET['page'] : null);
 if (!$page) $page = 1;

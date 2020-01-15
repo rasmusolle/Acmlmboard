@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-needs_login(1);
+needs_login();
 
 $topbot = [
 	'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "private.php", 'title' => 'Private messages']],

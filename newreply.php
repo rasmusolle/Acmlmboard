@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-needs_login(1);
+needs_login();
 
 $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : null);
 

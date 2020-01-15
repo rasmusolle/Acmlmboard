@@ -1,6 +1,6 @@
 <?php
 require('lib/common.php');
-needs_login(1);
+needs_login();
 
 if (!has_perm('view-own-pms')) noticemsg("Error", "You have no permissions to do this!", true);
 

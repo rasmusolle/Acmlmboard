@@ -1,7 +1,7 @@
 <?php
 require("lib/common.php");
 
-needs_login(1);
+needs_login();
 
 $targetuserid = $loguser['id'];
 $act = isset($_POST['action']) ? $_POST['action'] : '';

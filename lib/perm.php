@@ -151,10 +151,10 @@ function can_view_forum($forum) {
 	return true;
 }
 
-function needs_login($head = 0) {
+function needs_login() {
 	global $log;
 	if (!$log) {
-		if ($head) pageheader('Login required');
+		pageheader('Login required');
 		noticemsg("Error", "You need to be logged in to do that!<br><a href=login.php>Please login here.</a>");
 		pagefooter();
 		die();

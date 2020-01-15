@@ -1,7 +1,7 @@
 <?php
 require('lib/common.php');
 
-needs_login(1);
+needs_login();
 
 $announce = (isset($_REQUEST['announce']) ? $_REQUEST['announce'] : null);
 

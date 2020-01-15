@@ -15,7 +15,7 @@ if ($_GET['act'] == 'delete' || $_GET['act'] == 'undelete') {
 	$pid = unpacksafenumeric($pid);
 }
 
-needs_login(1);
+needs_login();
 
 $thread = $sql->fetchp("SELECT p.user puser, t.*, f.title ftitle, f.private fprivate, f.readonly freadonly FROM posts p LEFT JOIN threads t ON t.id = p.thread "
 	."LEFT JOIN forums f ON f.id=t.forum WHERE p.id = ? AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce >= 1))", [$pid]);
