@@ -43,7 +43,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	pageheader("Threads by " . ($user['displayname'] ? $user['displayname'] : $user['name']));
 
 	$threads = $sql->prepare("SELECT " . userfields('u1', 'u1') . "," . userfields('u2', 'u2') . ", t.*, f.id fid, "
-		. ($log ? " (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread " : ' ')
+		. ($log ? " (NOT (r.time<t.lastdate OR isnull(r.time)) OR t.lastdate<fr.time) isread, " : ' ')
 		. "f.title ftitle FROM threads t "
 		. "LEFT JOIN users u1 ON u1.id=t.user "
 		. "LEFT JOIN users u2 ON u2.id=t.lastuser "
