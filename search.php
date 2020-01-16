@@ -132,7 +132,7 @@ if ($where == 1) {
 
 		?><tr class="<?=$tr ?> center">
 			<td class="b left" style="word-break:break-word">
-				<a href=thread.php?id=<?=$thread['id'] ?>><?=htmlval($thread['title']) ?></a> <?=($thread['sticky'] ? ' (Sticky)' : '')?>
+				<a href="thread.php?id=<?=$thread['id'] ?>"><?=htmlval($thread['title']) ?></a> <?=($thread['sticky'] ? ' (Sticky)' : '')?>
 			</td>
 			<td class="b"><?=userlink($thread,'u') ?></td>
 			<td class="b"><?=date($dateformat,$thread['lastdate']) ?></td>
