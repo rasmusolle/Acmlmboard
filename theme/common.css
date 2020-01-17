@@ -35,6 +35,11 @@ a {
 .center	{ text-align: center; }
 .right	{ text-align: right; }
 
+.pagelist {
+	margin-left: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
 
 .microlight {
 	background-color: #2f3640;

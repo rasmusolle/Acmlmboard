@@ -146,6 +146,34 @@ function fieldselect($field, $checked, $choices, $onchange = '') {
 	return $text;
 }
 
+function pagelist($total, $limit, $url, $sel = 0, $showall = false, $tree = false) {
+	$pagelist = "";
+	$pages = ceil($total / $limit);
+	if ($pages < 2) return "";
+	for ($i = 1; $i <= $pages; $i++) { // for some reason the indexes start from 1, not 0
+		if (	$showall // If we don't show all the pages, show:
+			|| ($i < 7 || $i > $pages - 7)      // First / last 7 pages
+			|| ($i > $sel - 5 && $i < $sel + 5) // 10 choices around the selected page
+			|| !($i % 10)                       // Show 10, 20, etc...
+		) {
+			$w = ($i == $sel) ? 'w' : 'a';
+			if ($i == $sel)
+			$pagelist .= " $i";
+			else
+				$pagelist .= " <a href=\"$url&page=$i\">$i</a>";
+		} else if (substr($pagelist, -1) != '.') {
+			$pagelist .= ' ...';
+		}
+	}
+
+	if ($tree)
+		$listhtml = '<span class="sfont">(pages: %s)</span>';
+	else
+		$listhtml = '<div class="pagelist">Pages: %s</div>';
+
+	return sprintf($listhtml, $pagelist);
+}
+
 function themelist() {
 	$themes = glob('theme/*', GLOB_ONLYDIR);
 	sort($themes);

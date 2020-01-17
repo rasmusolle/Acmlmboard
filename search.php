@@ -113,9 +113,8 @@ if ($where == 1) {
 		."WHERE $string AND f.id IN ".forums_with_view_perm()
 		."ORDER BY t.lastdate DESC "
 		."LIMIT ".(($page-1)*$loguser['tpp']).",".$loguser['tpp']);
-	$forum['threads'] = $sql->resultq("SELECT COUNT(*) "
+	$threadcount = $sql->resultq("SELECT COUNT(*) "
 		."FROM threads t "
-		."LEFT JOIN users u ON u.id=t.user "
 		."LEFT JOIN forums f ON f.id=t.forum "
 		."WHERE $string AND f.id IN ".forums_with_view_perm());
 	?><table class="c1">
@@ -138,13 +137,9 @@ if ($where == 1) {
 			<td class="b"><?=date($dateformat,$thread['lastdate']) ?></td>
 		</tr><?php
 	}
-	if ($forum['threads'] <= $loguser['tpp']) $fpagelist = '<br>';
-	else {
-		$fpagelist = 'Pages:';
-		for ($p = 1; $p <= (1 + floor(($forum['threads'] - 1) / $loguser['tpp'])); $p++)
-			if ($p == $page) $fpagelist .= " $p";
-			else $fpagelist .= ' <a href=search.php?q=' . urlencode($query) . '&action=Search&w=0&f=0&t=&p=&page=' . $p . '>' . $p . '</a>';
-	}
+
+	$query = urlencode($query);
+	$fpagelist = pagelist($threadcount, $loguser['tpp'], "search.php?q=$query&action=Search&w=0&f=$forum", $page);
 	?></table><?php echo $fpagelist;
 }
 

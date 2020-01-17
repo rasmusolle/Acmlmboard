@@ -69,16 +69,11 @@ $topbot['actions'][] = ['href' => 'sendprivate.php', 'title' => 'Send new'];
 if ($pmsgc <= $loguser['tpp'])
 	$fpagelist = '<br>';
 else {
-	$txt = ($sent ? '&view=sent' : '');
-	$fpagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
-	for ($p = 1; $p <= 1 + floor(($pmsgc - 1) / $loguser['tpp']); $p++)
-		if ($p == $page)
-			$fpagelist .= " $p";
-		elseif ($id != $loguser['id'])
-			$fpagelist .= " <a href=private.php?id=$id&page=$p$txt>$p</a>";
-		else
-			$fpagelist .= " <a href=private.php?page=$p$txt>$p</a>";
-	$fpagelist .= '</div>';
+	if ($id != $loguser['id'])
+		$furl = "private.php?id=$id&view=$view";
+	else
+		$furl = "private.php?view=$view";
+	$fpagelist = pagelist($pmsgc, $loguser['tpp'], $furl, $page).'<br>';
 }
 
 RenderPageBar($topbot);

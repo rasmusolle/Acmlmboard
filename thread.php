@@ -182,24 +182,18 @@ if ($viewmode == "thread") {
 } else
 	pageheader();
 
-if ($thread['replies'] < $ppp) {
+if ($thread['replies'] <= $ppp) {
 	$pagelist = '';
-	$pagebr = '';
 } else {
-	$pagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
-	for ($p = 1; $p <= 1 + floor($thread['replies'] / $ppp); $p++)
-		if ($p == $page)
-			$pagelist.=" $p";
-		elseif ($viewmode == "thread")
-			$pagelist.=" <a href=thread.php?id=$tid&page=$p>$p</a>";
-		elseif ($viewmode == "user")
-			$pagelist.=" <a href=thread.php?user=$uid&page=$p>$p</a>";
-		elseif ($viewmode == "time")
-			$pagelist.=" <a href=thread.php?time=$time&page=$p>$p</a>";
-		elseif ($viewmode == "announce")
-			$pagelist.=" <a href=thread.php?announce&page=$p>$p</a>";
-	$pagebr = '<br>';
-	$pagelist.='</div>';
+	if ($viewmode == "thread")
+		$furl = "thread.php?id=$tid";
+	elseif ($viewmode == "user")
+		$furl = "thread.php?user=$uid";
+	elseif ($viewmode == "time")
+		$furl = "thread.php?time=$time";
+	elseif ($viewmode == "announce")
+		$furl = "thread.php?announce";
+	$pagelist = '<br>'.pagelist($thread['replies'], $ppp, $furl, $page, true);
 }
 
 if ($viewmode == "thread") {
@@ -413,7 +407,7 @@ while ($post = $sql->fetch($posts)) {
 	echo "<br>".threadpost($post);
 }
 
-echo "$pagelist$pagebr" . (!isset($time) ? '<br>' : '');
+echo "$pagelist" . (!isset($time) ? '<br>' : '');
 
 if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed']) {
 	?><table class="c1">

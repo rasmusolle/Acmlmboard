@@ -98,21 +98,15 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 $showforum = (isset($time) ? $time : $uid);
 
 if ($forum['threads'] <= $loguser['tpp']) {
-	$fpagelist = (!isset($time) ? '<br>' : '');
-	$fpagebr = '';
+	$fpagelist = '';
 } else {
-	$fpagelist = '<div style="margin-left: 3px; margin-top: 3px; margin-bottom: 3px; display:inline-block">Pages:';
-	for ($p = 1; $p <= 1 + floor(($forum['threads'] - 1) / $loguser['tpp']); $p++)
-		if ($p == $page)
-			$fpagelist .= " $p";
-		elseif ($fid)
-			$fpagelist .= " <a href=forum.php?id=$fid&page=$p>$p</a>";
-		elseif ($uid)
-			$fpagelist .= " <a href=forum.php?user=$uid&page=$p>$p</a>";
-		elseif ($time)
-			$fpagelist .= " <a href=forum.php?time=$time&page=$p>$p</a>";
-	$fpagelist .= '</div>';
-	$fpagebr = '<br>';
+	if ($fid)
+		$furl = "forum.php?id=$fid";
+	elseif ($uid)
+		$furl = "forum.php?user=$uid";
+	elseif ($time)
+		$furl = "forum.php?time=$time";
+	$fpagelist = '<br>'.pagelist($forum['threads'], $loguser['tpp'], $furl, $page);
 }
 
 RenderPageBar($topbot);
@@ -144,16 +138,7 @@ $lsticky = 0;
 if_empty_query($threads, "No threads found.", ($showforum ? 7 : 6));
 
 for ($i = 1; $thread = $sql->fetch($threads); $i++) {
-	$pagelist = '';
-	if ($thread['replies'] >= $loguser['ppp']) {
-		for ($p = 1; $p <= ($pmax = (1 + floor($thread['replies'] / $loguser['ppp']))); $p++) {
-			if ($p < 7 || $p > ($pmax - 7) || !($p % 10))
-				$pagelist.=" <a href=thread.php?id=$thread[id]&page=$p>$p</a>";
-			else if (substr($pagelist, -1) != ".")
-				$pagelist.=" ...";
-		}
-		$pagelist = " <span class=sfont>(pages: $pagelist)</span>";
-	}
+	$pagelist = ' '.pagelist($thread['replies'], $loguser['ppp'], 'thread.php?id='.$thread['id'], 0, false, true);
 
 	$status = '';
 	if ($thread['closed']) $status .= 'o';
@@ -194,7 +179,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		</td>
 	</tr><?php
 }
-echo "</table>$fpagelist$fpagebr";
+echo "</table>$fpagelist".(!isset($time) ? '<br>' : '');
 
 RenderPageBar($topbot);
 
