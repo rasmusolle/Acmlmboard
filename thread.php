@@ -359,10 +359,10 @@ function renametitle() {
 	return document.getElementsByTagName('input')[x].value;
 }
 		</script>
-		<input type=hidden id=\"arg\" name=\"arg\" value=\"\" />
-		<input type=hidden id=\"id\" name=\"id\" value=\"$tid\" />
-		<input type=hidden id=\"action\" name=\"action\" value=\"\" />
-		<input type=hidden id=\"c\" name=\"c\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . " />
+		<input type=hidden id=\"arg\" name=\"arg\" value=\"\">
+		<input type=hidden id=\"id\" name=\"id\" value=\"$tid\">
+		<input type=hidden id=\"action\" name=\"action\" value=\"\">
+		<input type=hidden id=\"c\" name=\"c\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . ">
 	</td>
 </table>
 </form>";

@@ -40,7 +40,7 @@ if ($act == 'Edit profile') {
 	$error = '';
 
 	if ($_POST['pass'] && $_POST['pass2'] && $_POST['pass'] != $_POST['pass2'])
-		$error = "- The passwords you entered don't match.<br />";
+		$error = "- The passwords you entered don't match.<br>";
 
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
@@ -109,12 +109,12 @@ if ($act == 'Edit profile') {
 			$targetgroup = 0;
 
 		if (!can_edit_group_assets($targetgroup) && $targetgroup != $loguser['group_id']) {
-			$error .= "- You do not have the permissions to assign this group.<br />";
+			$error .= "- You do not have the permissions to assign this group.<br>";
 		}
 		$targetname = $_POST['name'];
 
 		if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetname, $targetname, $user['id']])) {
-			$error .= "- Name already in use.<br />";
+			$error .= "- Name already in use.<br>";
 		}
 	}
 	if (checkcdisplayname($targetuserid)) {
@@ -123,7 +123,7 @@ if ($act == 'Edit profile') {
 
 		if (checkcdisplayname($targetuserid) && $targetdname != "") {
 			if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetdname, $targetdname, $user['id']])) {
-				$error .= "- Displayname already in use.<br />";
+				$error .= "- Displayname already in use.<br>";
 			}
 		}
 	}
@@ -134,7 +134,7 @@ if ($act == 'Edit profile') {
 
 		if ($_POST['nick_color'] != "") {
 			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color'])) {
-				$error .= "- Custom usercolor is not a valid RGB hex color.<br />";
+				$error .= "- Custom usercolor is not a valid RGB hex color.<br>";
 			}
 		}
 	}

@@ -9,7 +9,7 @@ $x = 0;
 foreach ($smilies as $smily) {
 	if ($x == 0) $smilietext .= "<tr>";
 	$smily['text'] = htmlspecialchars($smily['text']);
-	$smilietext .= "<td class=\"b n1\"><img src='$smily[url]' alt='$smily[text]'/> $smily[text]</td>";
+	$smilietext .= "<td class=\"b n1\"><img src='$smily[url]' alt='$smily[text]'> $smily[text]</td>";
 	$x++;
 	$x %= $smiliewidth;
 	if ($x == 0) $smilietext .= "</tr>";

@@ -346,7 +346,7 @@ function noticemsg($name, $msg, $error = false) {
 	}
 	?><table class="c1">
 		<tr class="h"><td class="b h center"><?=$name ?></td></tr>
-		<tr><td class="b n1 center"><?=$msg ?><?=($error ? "<br><a href=./>Back to main</a>" : '') ?></td></tr>
+		<tr><td class="b n1 center"><?=$msg ?><?=($error ? '<br><a href="./">Back to main</a>' : '') ?></td></tr>
 	</table><?php
 	if ($error) {
 		pagefooter(); die();

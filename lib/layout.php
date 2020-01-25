@@ -105,7 +105,7 @@ function RenderPageBar($pagebar) {
 			echo "&nbsp;";
 		echo "</td></table>";
 		if (!empty($pagebar['message'])) {
-			echo "<table width=100% class=c1><tr><td class='center'>".$pagebar['message']."</td></tr></table><br/>";
+			echo "<table width=100% class=c1><tr><td class='center'>".$pagebar['message']."</td></tr></table><br>";
 		}
 	}
 }
