@@ -12,10 +12,7 @@ if (isset($_GET['id'])) {
 
 if (!can_edit_user($targetuserid)) noticemsg("Error", "You have no permissions to do this!", true);
 
-if (has_perm('no-restrictions'))
-	$blockroot = "";
-else
-	$blockroot = "AND id != $rootgroup";
+$blockroot = (!has_perm('no-restrictions') ? "AND id != $rootgroup" : '');
 
 $allgroups = $sql->query("SELECT * FROM groups WHERE visible = '1' $blockroot ORDER BY sortorder ASC");
 $listgroup = [];
@@ -75,8 +72,7 @@ if ($act == 'Edit profile') {
 	if (isset($_POST['picturedel']))
 		$usepic = 0;
 
-	if ($_POST['gender'] < 0) $_POST['gender'] = 0;
-	if ($_POST['gender'] > 2) $_POST['gender'] = 2;
+	if ($_POST['gender'] < 0 || $_POST['gender'] > 2) $_POST['gender'] = 2;
 
 	$pass = $_POST['pass'];
 	if (!strlen($_POST['pass2']))
@@ -171,72 +167,69 @@ if ($act == 'Edit profile') {
 
 pageheader('Edit profile');
 
-if (empty($act)) {
-	$listtimezones = [];
-	foreach (timezone_identifiers_list() as $tz) {
-		$listtimezones[$tz] = $tz;
-	}
-
-	$birthM = ''; $birthD = ''; $birthY = '';
-	if ($user['birth'] != -1) {
-		$birthday = explode('-', $user['birth']);
-		$birthM = $birthday[0]; $birthD = $birthday[1]; $birthY = $birthday[2];
-	}
-
-	$passinput = "<input type=\"password\" name=pass size=13 maxlength=32> / Retype: <input type=\"password\" name=pass2 size=13 maxlength=32>";
-	$birthinput = "
-Month: <input type=\"text\" name=birthM size=2 maxlength=2 value=$birthM>
-Day: <input type=\"text\" name=birthD size=2 maxlength=2 value=$birthD>
-Year: <input type=\"text\" name=birthY size=4 maxlength=4 value=$birthY>";
-
-	$colorinput = "<input type=\"color\" name=\"nick_color\" value=#" . $user['nick_color'] . ">
-<input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>";
-
-	echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'><table class=\"c1\">" .
-		catheader('Login information')
-.	(has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name']))
-.	(checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : "" )
-.	fieldrow('Password', $passinput);
-
-	if (has_perm("edit-users"))
-		echo
-		catheader('Administrative bells and whistles')
-.	fieldrow('Group', fieldselect('group_id', $user['group_id'], $listgroup))
-.	(($user['tempbanned'] > 0) ? fieldrow('Ban Information', '<input type=checkbox name=permaban value=1 id=permaban><label for=permaban>Make ban permanent</label>') : "" );
-
-	echo
-		catheader('Appearance')
-.	fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist()))
-.	((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
-.	fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
-		<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within 180x180.</span>')
-.	(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
-.		catheader('User information')
-.	fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
-.	fieldrow('Location', fieldinput(40, 60, 'location'))
-.	fieldrow('Birthday', $birthinput)
-.	fieldrow('Bio', fieldtext(5, 80, 'bio'))
-.	fieldrow('Email address', fieldinput(40, 60, 'email'))
-.	fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], ['Show my email', 'Hide my email']))
-.		catheader('Post layout')
-.	fieldrow('Header', fieldtext(5, 80, 'head'))
-.	fieldrow('Signature', fieldtext(5, 80, 'sign'))
-.	fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide']))
-.		catheader('Options')
-.	fieldrow('Theme', fieldselect('theme', $user['theme'], themelist(), "themePreview(this.value)"))
-.	fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
-.	fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
-.	fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
-.	fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
-.	fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
-.	fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']));
-
-	echo catheader('&nbsp;'); ?>
-	<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
-	</table><input type="hidden" name=token value='<?=$token?>'></form><?php
+$listtimezones = [];
+foreach (timezone_identifiers_list() as $tz) {
+	$listtimezones[$tz] = $tz;
 }
 
-?><script>
+$birthM = ''; $birthD = ''; $birthY = '';
+if ($user['birth'] != -1) {
+	$birthday = explode('-', $user['birth']);
+	$birthM = $birthday[0]; $birthD = $birthday[1]; $birthY = $birthday[2];
+}
+
+$passinput = "<input type=\"password\" name=pass size=13 maxlength=32> / Retype: <input type=\"password\" name=pass2 size=13 maxlength=32>";
+$birthinput = sprintf(
+	'Month: <input type="text" name="birthM" size="2" maxlength="2" value="%s">
+	Day: <input type="text" name="birthD size="2" maxlength="2" value="%s">
+	Year: <input type="text" name="birthY" size="4" maxlength="4" value="%s">',
+$birthM, $birthD, $birthY);
+
+$colorinput = "<input type=\"color\" name=\"nick_color\" value=#" . $user['nick_color'] . ">
+<input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>";
+
+echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'><table class=\"c1\">" .
+	catheader('Login information')
+.(has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name']))
+.(checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : "" )
+.fieldrow('Password', $passinput);
+
+if (has_perm("edit-users"))
+	echo
+	catheader('Administrative bells and whistles')
+.fieldrow('Group', fieldselect('group_id', $user['group_id'], $listgroup))
+.(($user['tempbanned'] > 0) ? fieldrow('Ban Information', '<input type=checkbox name=permaban value=1 id=permaban><label for=permaban>Make ban permanent</label>') : "" );
+
+echo
+	catheader('Appearance')
+.fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist()))
+.((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
+.fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
+	<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within 180x180.</span>')
+.(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
+.	catheader('User information')
+.fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
+.fieldrow('Location', fieldinput(40, 60, 'location'))
+.fieldrow('Birthday', $birthinput)
+.fieldrow('Bio', fieldtext(5, 80, 'bio'))
+.fieldrow('Email address', fieldinput(40, 60, 'email'))
+.fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], ['Show my email', 'Hide my email']))
+.	catheader('Post layout')
+.fieldrow('Header', fieldtext(5, 80, 'head'))
+.fieldrow('Signature', fieldtext(5, 80, 'sign'))
+.fieldrow('Signature line', fieldoption('signsep', $user['signsep'], ['Display', 'Hide']))
+.	catheader('Options')
+.fieldrow('Theme', fieldselect('theme', $user['theme'], themelist(), "themePreview(this.value)"))
+.fieldrow('Timezone', fieldselect('timezone', $user['timezone'], $listtimezones))
+.fieldrow('Posts per page', fieldinput(3, 3, 'ppp'))
+.fieldrow('Threads per page', fieldinput(3, 3, 'tpp'))
+.fieldrow('Date format', fieldinput(15, 15, 'dateformat'))
+.fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
+.fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']))
+.	catheader('&nbsp;'); ?>
+<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
+</table><input type="hidden" name=token value='<?=$token?>'></form>
+<script>
 function themePreview(id) {
 	document.head.getElementsByTagName('link')[2].href = 'theme/'+id+'/'+id+'.css';
 }
