@@ -108,7 +108,11 @@ function htmlval($text) {
 }
 
 function posttoolbutton($name, $title, $leadin, $leadout) {
-	return "<td style='text-align:center'><a href=\"javascript:buttonProc('$leadin','$leadout')\"><input style=\"font-size:10pt;\" type=\"button\" class=\"submit\" title='$title' value='$name'></a></td>";
+	return sprintf(
+		'<td style="text-align:center">
+			<a href="javascript:toolBtn(\'%s\',\'%s\')"><input style="font-size:10pt;" type="button" class="submit" title="%s" value="%s"></a>
+		</td>',
+	$leadin, $leadout, $title, $name);
 }
 
 function posttoolbar() {
