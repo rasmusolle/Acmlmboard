@@ -200,16 +200,14 @@ HTML;
 					| <a href="search.php">Search</a>
 				</td>
 				<td class="b"><div style="width: 150px"><?=date($dateformat, time())?></div></td>
-				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : "Guest")?>
+				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : "Guest ")?>
 <?php
-	if ($log) {
+	if ($log && has_perm('view-own-pms')) {
 		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
 
-		if (has_perm('view-own-pms')) {
-			echo '<a href="private.php">
-			<img src="img/pm'.(!$unreadpms ? '-off' : '').'.png" width="20" alt="Private messages" title="Private message"></a>
-			'.($unreadpms ?  "($unreadpms new)" : '').' | ';
-		}
+		printf(
+			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages" title="Private message"></a> %s | ',
+		(!$unreadpms ? '-off' : ''), ($unreadpms ?  "($unreadpms new)" : ''));
 	}
 
 	if ($fid && is_numeric($fid))
