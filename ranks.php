@@ -15,10 +15,9 @@ $ranksetcount = 0;
 
 foreach ($rankset_names as $rankset) {
 	if ($ranksetcount != 0) {
-		if ($ranksetcount == 1)
-			$rankselection .= "<a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
-		else
-			$rankselection .= " | <a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
+		if ($ranksetcount != 1)
+			$rankselection .= " | ";
+		$rankselection .= "<a href=\"ranks.php?rankset=$ranksetcount\">$rankset</a>";
 	}
 	$ranksetcount++;
 }

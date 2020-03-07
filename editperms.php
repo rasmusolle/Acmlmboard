@@ -140,31 +140,20 @@ echo "</form><br>";
 $permset = PermSet($type, $id);
 $permsassigned = [];
 
-$permoverview = '<strong>'.ucfirst($type).' permissions:</strong><br>';
-$permoverview .= PermTable($permset);
+$permoverview = '<strong>'.ucfirst($type).' permissions:</strong><br>'.PermTable($permset);
 
 if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
-	$permoverview .= '<br><hr>';
-	$permoverview .= '<strong>Permissions inherited from parent groups:</strong><br>';
-
+	$permoverview .= '<br><hr><strong>Permissions inherited from parent groups:</strong><br>';
 	$parentid = $permowner['inherit_group_id'];
-	while ($parentid > 0) {
-		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
-		$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
-		$permoverview .= PermTable(PermSet('group', $parentid));
-		$parentid = $parent['inherit_group_id'];
-	}
 } else if ($type == 'user') {
-	$permoverview .= '<hr>';
-	$permoverview .= '<strong>Permissions inherited from the group \''.htmlspecialchars($permowner['group_title']).'\':</strong><br>';
-
+	$permoverview .= '<hr><strong>Permissions inherited from the group "'.htmlspecialchars($permowner['group_title']).'":</strong><br>';
 	$parentid = $permowner['group_id'];
-	while ($parentid > 0) {
-		$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
-		$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>';
-		$permoverview .= PermTable(PermSet('group', $parentid));
-		$parentid = $parent['inherit_group_id'];
-	}
+}
+
+while ($parentid > 0) {
+	$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
+	$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>' . PermTable(PermSet('group', $parentid));
+	$parentid = $parent['inherit_group_id'];
 }
 
 $header = ['cell' => ['name'=>"Permissions overview for {$type} '".htmlspecialchars($permowner['title'])."'"]];

@@ -68,7 +68,9 @@ function RenderActions($actions, $ret = false) {
 			else
 				$confirmmsg = str_replace("'", "\\'", $action['confirm']);
 
-			$href = "javascript:if(confirm('" . $confirmmsg . "')){window.location.href='" . $action['href'] . "';} else {void('');};";
+			$href = sprintf(
+				"javascript:if(confirm('%s')) window.location.href='%s'; else void('');",
+			$confirmmsg, $action['href']);
 		}
 		else {
 			$href = $action['href'];
@@ -76,7 +78,7 @@ function RenderActions($actions, $ret = false) {
 		if ($i++)
 			$out.= ' | ';
 		if (isset($action['href'])) {
-			$out .= sprintf('<a href=%s>%s</a>', '"'.htmlentities($href, ENT_QUOTES).'"', $action['title']);
+			$out .= sprintf('<a href="%s">%s</a>', htmlentities($href, ENT_QUOTES), $action['title']);
 		} else {
 			$out .= $action['title'];
 		}
@@ -89,7 +91,7 @@ function RenderActions($actions, $ret = false) {
 
 function RenderBreadcrumb($breadcrumb) {
 	foreach ($breadcrumb as $action) {
-		echo sprintf('<a href=%s>%s</a> - ', '"'.htmlentities($action['href'], ENT_QUOTES).'"', $action['title']);
+		printf('<a href=%s>%s</a> - ', '"'.htmlentities($action['href'], ENT_QUOTES).'"', $action['title']);
 	}
 }
 
@@ -111,11 +113,11 @@ function RenderPageBar($pagebar) {
 }
 
 function catheader($title) {
-	return "<tr class=\"h\"><td class=\"b h\" colspan=2>$title</td>";
+	return sprintf('<tr class="h"><td class="b h" colspan="2">%s</td>', $title);
 }
 
 function fieldrow($title, $input) {
-	return sprintf('<tr><td class="b n1 center">%s:</td><td class="b n2">%s</td>',$title,$input);
+	return sprintf('<tr><td class="b n1 center">%s:</td><td class="b n2">%s</td>', $title, $input);
 }
 
 function fieldinput($size, $max, $field, $value = null) {
@@ -150,15 +152,15 @@ function pagelist($total, $limit, $url, $sel = 0, $showall = false, $tree = fals
 	$pagelist = "";
 	$pages = ceil($total / $limit);
 	if ($pages < 2) return "";
-	for ($i = 1; $i <= $pages; $i++) { // for some reason the indexes start from 1, not 0
-		if (	$showall // If we don't show all the pages, show:
-			|| ($i < 7 || $i > $pages - 7)      // First / last 7 pages
-			|| ($i > $sel - 5 && $i < $sel + 5) // 10 choices around the selected page
-			|| !($i % 10)                       // Show 10, 20, etc...
+	for ($i = 1; $i <= $pages; $i++) {
+		if (	$showall	// If we don't show all the pages, show:
+			|| ($i < 7 || $i > $pages - 7)		// First / last 7 pages
+			|| ($i > $sel - 5 && $i < $sel + 5)	// 10 choices around the selected page
+			|| !($i % 10)						// Show 10, 20, etc...
 		) {
 			$w = ($i == $sel) ? 'w' : 'a';
 			if ($i == $sel)
-			$pagelist .= " $i";
+				$pagelist .= " $i";
 			else
 				$pagelist .= " <a href=\"$url&page=$i\">$i</a>";
 		} else if (substr($pagelist, -1) != '.') {

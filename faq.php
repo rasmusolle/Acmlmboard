@@ -8,8 +8,7 @@ $smilietext = '<table class="smileytbl">';
 $x = 0;
 foreach ($smilies as $smily) {
 	if ($x == 0) $smilietext .= "<tr>";
-	$smily['text'] = htmlspecialchars($smily['text']);
-	$smilietext .= "<td class=\"b n1\"><img src='$smily[url]' alt='$smily[text]'> $smily[text]</td>";
+	$smilietext .= sprintf('<td class="b n1"><img src="%s"> %s</td>', $smily['url'], htmlspecialchars($smily['text']));
 	$x++;
 	$x %= $smiliewidth;
 	if ($x == 0) $smilietext .= "</tr>";
@@ -90,13 +89,13 @@ $smilietext
 		<td class="b n2"><i>Italic Text</i></td>
 	</tr><tr>
 		<td class="b n1">[u]<i>text</i>[/u]</td>
-		<td class="b n2" style="text-decoration:underline">Underlined Text</td>
+		<td class="b n2"><u>Underlined Text</u></td>
 	</tr><tr>
 		<td class="b n1">[s]<i>text</i>[/s]</td>
-		<td class="b n2"><?='<s>Striked-out Text</s>' ?></td>
+		<td class="b n2"><s>Striked-out Text</s></td>
 	</tr><tr>
 		<td class="b n1">[color=<b>hexcolor</b>]<i>text</i>[/color]</td>
-		<td class="b n2"><span style="color: #BCDE9A">Custom color Text</span></td>
+		<td class="b n2"><span style="color:#BCDE9A">Custom color Text</span></td>
 	</tr><tr>
 		<td class="b n1">[img]<i>URL of image to display</i>[/img]</td>
 		<td class="b n2">Displays an image.</td>

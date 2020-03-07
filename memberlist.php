@@ -31,10 +31,7 @@ if ($num <= $ppp)
 else {
 	$pagelist = 'Pages:';
 	for ($p = 1; $p <= 1 + floor(($num - 1) / $ppp); $p++)
-		if ($p == $page)
-			$pagelist.=" $p";
-		else
-			$pagelist.=' ' . mlink($sort, $pow, $p, $orderby) . "$p</a>";
+		$pagelist .= ($p == $page ? " $p" : ' ' . mlink($sort, $pow, $p, $orderby) . "$p</a>");
 }
 
 $activegroups = $sql->query("SELECT * FROM groups WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
@@ -72,18 +69,18 @@ while ($group = $sql->fetch($activegroups)) {
 </table><br>
 <table class="c1">
 	<tr class="h">
-		<td class="b h" width=32>#</td>
-		<td class="b h" width=62>Picture</td>
+		<td class="b h" width="32">#</td>
+		<td class="b h" width="62">Picture</td>
 		<td class="b h">Name</td>
-		<td class="b h" width=130>Registered on</td>
-		<td class="b h" width=50>Posts</td>
+		<td class="b h" width="130">Registered on</td>
+		<td class="b h" width="50">Posts</td>
 	</tr>
 <?php
 if_empty_query($users, "No users found.", 5);
 
 $i = 1;
 while ($user = $sql->fetch($users)) {
-		$picture = ($user['usepic'] ? "<img src=userpic/$user[id] width=60 height=60>":'');
+		$picture = ($user['usepic'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
 		?><tr class="n<?=$i ?>" style="height:69px">
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>
@@ -100,7 +97,7 @@ if ($pagelist)
 pagefooter();
 
 function mlink($sort, $pow, $page = 1, $orderby) {
-	return '<a href=memberlist.php?'.
+	return '<a href="memberlist.php?'.
 		($sort ? "sort=$sort" : '').($pow != '' ? "&pow=$pow" : '').($page != 1 ? "&page=$page" : '').
-		($orderby != '' ? "&orderby=$orderby" : '').'>';
+		($orderby != '' ? "&orderby=$orderby" : '').'">';
 }

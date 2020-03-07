@@ -115,7 +115,7 @@ if (isset($time)) {
 	?><table class="c1" style="width:auto">
 		<tr class="h"><td class="b">Latest Threads</td></tr>
 		<tr><td class="b n1 center">
-			By Threads | <a href=thread.php?time=<?=$time ?>>By Posts</a></a><br><br>
+			By Threads | <a href="thread.php?time=<?=$time ?>">By Posts</a></a><br><br>
 			<?=timelink(900,'forum').' | '.timelink(3600,'forum').' | '.timelink(86400,'forum').' | '.timelink(604800,'forum') ?>
 		</td></tr>
 	</table><?php
@@ -163,12 +163,12 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 		$tr = ($i % 2 ? 'n2' : 'n3');
 
 	if (!$thread['sticky'] && $lsticky)
-		echo '<tr class="c"><td class="b" colspan='.($showforum ? 8 : 7).' style="font-size:1px">&nbsp;</td>';
+		echo '<tr class="c"><td class="b" colspan="'.($showforum ? 8 : 7).'" style="font-size:1px">&nbsp;</td>';
 	$lsticky = $thread['sticky'];
 
 	?><tr class="<?=$tr ?> center">
 		<td class="b n1"><?=$status ?></td>
-		<?=($showforum ? "<td class=\"b\"><a href=forum.php?id=$thread[fid]>$thread[ftitle]</a></td>" : '')?>
+		<?=($showforum ? sprintf('<td class="b"><a href="forum.php?id=%s">%s</a></td>', $thread['fid'], $thread['ftitle']) : '')?>
 		<td class="b left" style="word-break:break-word"><a href="thread.php?id=<?=$thread['id'] ?>"><?=htmlval($thread['title']) ?></a><?=$pagelist ?></td>
 		<td class="b"><?=userlink($thread, 'u1') ?></td>
 		<td class="b"><?=$thread['replies'] ?></td>

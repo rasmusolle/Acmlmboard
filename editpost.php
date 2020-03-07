@@ -96,16 +96,16 @@ if (isset($err)) {
 	$topbot['title'] .= ' - Preview';
 	RenderPageBar($topbot);
 	?><br>
-	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</table>
+	<table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</table>
 	<?=threadpost($post)?><br>
 	<form action="editpost.php" method="post"><table class="c1">
 		<tr class="h"><td class="b h" colspan=2>Post</td></tr>
 		<tr>
-			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n1 center" width="120">Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
-			<td class="b n1 center" width=120>Post:</td>
-			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows=10 cols=80><?=htmlval($_POST['message'])?></textarea></td>
+			<td class="b n1 center" width="120">Post:</td>
+			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows="10" cols="80"><?=htmlval($_POST['message'])?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">

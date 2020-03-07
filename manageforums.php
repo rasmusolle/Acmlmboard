@@ -172,7 +172,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 
 	$catlist = ''; $c = 1;
 	foreach ($cats as $cat) {
-		$catlist .= "<tr><td class=\"b n$c\"><a href=\"?cid={$cat['id']}\">{$cat['title']}</a></td></tr>";
+		$catlist .= sprintf('<tr><td class="b n%s"><a href="?cid=%s">%s</a></td></tr>', $c, $cat['id'], $cat['title']);
 		$c = ($c == 1) ? 2 : 1;
 	}
 
@@ -180,10 +180,10 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 	foreach ($forums as $forum) {
 		if ($forum['cat'] != $lc) {
 			$lc = $forum['cat'];
-			$forumlist .= "<tr class=\"c\"><td class=\"b c\">{$cats[$forum['cat']]['title']}</td></tr>";
+			$forumlist .= sprintf('<tr class="c"><td class="b c">%s</td></tr>', $cats[$forum['cat']]['title']);
 		}
-		$forumlist .= "<tr><td class=\"b n$c\"><a href=\"?fid={$forum['id']}\">{$forum['title']}</a></td></tr>";
-		$c = ($c==1) ? 2:1;
+		$forumlist .= sprintf('<tr><td class="b n%s"><a href="?fid=%s">%s</a></td></tr>', $c, $forum['id'], $forum['title']);
+		$c = ($c == 1) ? 2 : 1;
 	}
 
 	?><table style="width:100%;">
@@ -246,9 +246,8 @@ function permtable($bind, $id) {
 	while ($perm = $sql->fetch($qpermdata))
 		$permdata[$perm['x_id']][$perm['perm_id']] = !$perm['revoke'];
 
-	?><table class="c1">
-		<tr class="h"><td class="b">Group</td><td class="b" colspan="2">Permissions</td></tr>
-	<?php
+	echo '<table class="c1"><tr class="h"><td class="b">Group</td><td class="b" colspan="2">Permissions</td></tr>';
+
 	$c = 1;
 	foreach ($groups as $group) {
 		if ($group['id'] == $rootgroup) break;
@@ -268,15 +267,18 @@ function permtable($bind, $id) {
 			$doinherit = !isset($permdata[$gid]) || empty($permdata[$gid]);
 
 			$check = $doinherit ? ' checked="checked"' : '';
-			$inherit = "<label><input type=\"checkbox\" name=\"inherit[{$gid}]\" value=1 onclick=\"toggleAll('perm_{$gid}',!this.checked);\"{$check}> Inherit from parent</label>&nbsp;";
+			$inherit = sprintf(
+				'<label><input type="checkbox" name="inherit[%s]" value="1" onclick="toggleAll(\'perm_%s\',!this.checked);"%s> Inherit from parent</label>&nbsp;',
+			$gid, $gid, $check);
 		}
 
 		$permlist = '';
 		foreach ($perms as $pid => $ptitle) {
-			if ($doinherit) $check = ' disabled="disabled"';
-			else $check = $permdata[$gid][$pid] ? ' checked="checked"':'';
+			$check = ($doinherit ? ' disabled="disabled"' : ($permdata[$gid][$pid] ? ' checked="checked"' : ''));
 
-			$permlist .= "<label><input type=\"checkbox\" name=\"perm[{$gid}][{$pid}]\" value=1 class=\"perm_{$gid}\"{$check}> {$ptitle}</label> ";
+			$permlist .= sprintf(
+				'<label><input type="checkbox" name="perm[%s][%s]" value="1" class="perm_%s"%s> %s</label> ',
+			$gid, $pid, $gid, $check, $ptitle);
 		}
 
 		?><tr class="n<?=$c ?>">
@@ -291,11 +293,10 @@ function permtable($bind, $id) {
 	?><tr class="n<?=$c ?>">
 		<td class="b"></td>
 		<td class="b" colspan="2">
-			<input type="submit" class="submit" name="save<?=($bind == 'forums' ? 'forum' : 'cat') ?>" value="Save <?=($bind == 'forums' ? 'forum' : 'category') ?>">
+			<input type="submit" class="submit" name="saveforum" value="Save forum">
 		</td>
 	</tr></table><?php
 }
-
 
 function deleteperms($bind, $id) {
 	global $sql;
@@ -316,7 +317,7 @@ function saveperms($bind, $id) {
 	deleteperms($bind, $id);
 
 	// apply the new perms
-	foreach ($usergroups as $gid=>$group) {
+	foreach ($usergroups as $gid => $group) {
 		if (is_root_gid($gid)) continue;
 
 		if ($_POST['inherit'][$gid])

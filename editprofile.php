@@ -178,17 +178,19 @@ if ($user['birth'] != -1) {
 	$birthM = $birthday[0]; $birthD = $birthday[1]; $birthY = $birthday[2];
 }
 
-$passinput = "<input type=\"password\" name=pass size=13 maxlength=32> / Retype: <input type=\"password\" name=pass2 size=13 maxlength=32>";
+$passinput = '<input type="password" name="pass" size="13" maxlength="32"> / Retype: <input type="password" name="pass2" size="13" maxlength="32">';
 $birthinput = sprintf(
 	'Month: <input type="text" name="birthM" size="2" maxlength="2" value="%s">
 	Day: <input type="text" name="birthD size="2" maxlength="2" value="%s">
 	Year: <input type="text" name="birthY" size="4" maxlength="4" value="%s">',
 $birthM, $birthD, $birthY);
 
-$colorinput = "<input type=\"color\" name=\"nick_color\" value=#" . $user['nick_color'] . ">
-<input type=checkbox name=enablecolor value=1 id=enablecolor " . ($user['enablecolor'] ? "checked" : "") . "><label for=enablecolor>Enable Color</label>";
+$colorinput = sprintf(
+	'<input type="color" name="nick_color" value="#%s">
+	<input type="checkbox" name="enablecolor" value="1" id="enablecolor" %s><label for="enablecolor">Enable Color</label>',
+$user['nick_color'], ($user['enablecolor'] ? "checked" : ""));
 
-echo "<form action='editprofile.php?id=$targetuserid' method='post' enctype='multipart/form-data'><table class=\"c1\">" .
+echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype="multipart/form-data"><table class="c1">' .
 	catheader('Login information')
 .(has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name']))
 .(checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : "" )
@@ -228,7 +230,7 @@ echo
 .fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']))
 .	catheader('&nbsp;'); ?>
 <tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
-</table><input type="hidden" name=token value='<?=$token?>'></form>
+</table><input type="hidden" name="token" value="<?=$token?>"></form>
 <script>
 function themePreview(id) {
 	document.head.getElementsByTagName('link')[2].href = 'theme/'+id+'/'+id+'.css';

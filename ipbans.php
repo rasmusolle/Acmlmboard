@@ -66,12 +66,12 @@ if (isset($err)) noticemsg("Error", $err);
 		<td class="b">Expires</td>
 		<td class="b">Banner</td>
 		<td class="b" width="100%">Comment</td>
-		<td class="b" width=20></td>
+		<td class="b" width="20"></td>
 	</tr>
 <?php while ($i = $sql->fetch($ipbans)) { ?>
 	<tr>
-		<td class="b n1"><span style="font-family:'Courier New',monospace"><?=ipfmt($i['ipmask']) ?></span></td>
-		<td class="b n2 center"><span style=color:<?=($i['hard'] ? "red>Yes" : "green>No") ?></span></td>
+		<td class="b n1"><span style="font-family:monospace"><?=ipfmt($i['ipmask']) ?></span></td>
+		<td class="b n2 center"><?=($i['hard'] ? "Yes" : "No") ?></td>
 		<td class="b n2 center">
 			<?=($i['expires'] ? date($loguser['dateformat'],$i['expires'])."&nbsp;".date($loguser['timeformat'],$i['expires']) : "never") ?>
 		</td>

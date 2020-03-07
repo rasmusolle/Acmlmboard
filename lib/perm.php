@@ -253,8 +253,7 @@ function parent_group_for_group($groupid) {
 
 function perms_for_x($xtype,$xid) {
 	global $sql;
-	$res = $sql->prepare("SELECT * FROM x_perm WHERE x_type=? AND x_id=?",
-					[$xtype,$xid]);
+	$res = $sql->prepare("SELECT * FROM x_perm WHERE x_type=? AND x_id=?", [$xtype,$xid]);
 
 	$out = [];
 	$c = 0;

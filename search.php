@@ -14,7 +14,7 @@ $forum = (isset($_GET['f']) ? $_GET['f'] : 0);
 		<form action="search.php" method="get"><table>
 			<tr>
 				<td>Search for</td>
-				<td><input type="text" name="q" size=40 value="<?=htmlspecialchars($query, ENT_QUOTES) ?>"></td>
+				<td><input type="text" name="q" size="40" value="<?=htmlspecialchars($query, ENT_QUOTES) ?>"></td>
 			</tr><tr>
 				<td></td>
 				<td>
@@ -121,7 +121,7 @@ if ($where == 1) {
 		<tr class="c">
 			<td class="b h">Title</td>
 			<td class="b h" style="min-width:80px">Started by</td>
-			<td class="b h" width=200>Date</td>
+			<td class="b h" width="200">Date</td>
 		</tr><?php
 	if_empty_query($threads, "No threads found.", 6);
 	for ($i = 1; $thread = $sql->fetch($threads); $i++) {

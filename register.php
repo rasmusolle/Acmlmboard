@@ -50,7 +50,7 @@ if ($act == 'Register') {
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
 
-			?><span style='text-align:center;'>
+			?><span style="text-align:center;">
 				If you aren't redirected, then please <a href="./">go here.</a>
 				<?='<meta http-equiv="refresh" content="0;url=./">' ?>
 			</span><?php
@@ -77,13 +77,13 @@ if(!empty($err)) noticemsg("Error", $err);
 			<td class="b h" colspan="2">Register</td>
 		</tr><tr>
 			<td class="b n1 center" width=150>Username:</td>
-			<td class="b n2"><input type="text" name=name size=25 maxlength=25></td>
+			<td class="b n2"><input type="text" name="name" size="25" maxlength="25"></td>
 		</tr><tr>
 			<td class="b n1 center">Password:</td>
-			<td class="b n2"><input type="password" name=pass size=25 maxlength=32></td>
+			<td class="b n2"><input type="password" name="pass" size="25" maxlength="32"></td>
 		</tr><tr>
 			<td class="b n1 center">Password (again):</td>
-			<td class="b n2"><input type="password" name=pass2 size=25 maxlength=32></td>
+			<td class="b n2"><input type="password" name="pass2" size="25" maxlength="32"></td>
 		</tr>
 		<?php
 		echo fieldrow('Gender',fieldoption('gender',2,$listgender));
@@ -98,7 +98,7 @@ if(!empty($err)) noticemsg("Error", $err);
 			<td class="b"></td>
 			<td class="b">
 				<input type="submit" class="submit" name="action" value="Register">
-				<span class='sfont'>Please take a moment to read the <a href='faq.php'>FAQ</a> before registering.</span>
+				<span class="sfont">Please take a moment to read the <a href="faq.php">FAQ</a> before registering.</span>
 			</td>
 		</tr>
 	</table>

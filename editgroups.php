@@ -137,7 +137,7 @@ if ($act == 'new' || $act == 'edit') {
 		$actions = [];
 		if ($caneditperms) $actions[] = ['href'=>'editperms.php?gid='.$group['id'], 'title'=>'Edit perms'];
 		$actions[] = ['href'=>'editgroups.php?act=edit&id='.$group['id'], 'title'=>'Edit'];
-		if ($caneditperms && $group['id'] > 7) 
+		if ($caneditperms && $group['id'] > 7)
 			$actions[] = ['href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete',
 				'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"?'];
 

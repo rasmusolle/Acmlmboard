@@ -37,7 +37,7 @@ function makecode($match) {
 	$code = htmlspecialchars($match[1]);
 	$list = ["[", ":", ")", "_", "@", "-"];
 	$list2 = ["&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
-	return "<code class=\"microlight\">" . str_replace($list, $list2, $code) . "</code>";
+	return '<code class="microlight">' . str_replace($list, $list2, $code) . '</code>';
 }
 
 function makeirc($match) {

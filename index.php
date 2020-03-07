@@ -42,11 +42,11 @@ $cat = -1;
 <table class="c1">
 	<?=announcement_row(5) ?>
 	<tr class="h">
-		<td class="b h" width=17>&nbsp;</td>
+		<td class="b h" width="17">&nbsp;</td>
 		<td class="b h">Forum</td>
-		<td class="b h" width=50>Threads</td>
-		<td class="b h" width=50>Posts</td>
-		<td class="b h" width=150>Last post</td>
+		<td class="b h" width="50">Threads</td>
+		<td class="b h" width="50">Posts</td>
+		<td class="b h" width="150">Last post</td>
 	</tr>
 <?php
 
@@ -59,7 +59,9 @@ while ($forum = $sql->fetch($forums)) {
 	}
 
 	if ($forum['posts'] > 0 && $forum['lastdate'] > 0)
-		$lastpost = '<nobr>' . date($dateformat, $forum['lastdate']) . '</nobr><br><span class=sfont>by&nbsp;' . userlink($forum, 'u') . "&nbsp;<a href='thread.php?pid=" . $forum['lastid'] . "#" . $forum['lastid'] . "'>&raquo;</a></span>";
+		$lastpost = sprintf(
+			'<nobr>%s</nobr><br><span class=sfont>by %s<a href="thread.php?pid=%s#%s">&raquo;</a></span>',
+		date($dateformat, $forum['lastdate']), userlink($forum, 'u'), $forum['lastid'], $forum['lastid']);
 	else
 		$lastpost = 'None';
 
@@ -69,7 +71,7 @@ while ($forum = $sql->fetch($forums)) {
 		<td class="b n1"><?=$status ?></td>
 		<td class="b n2 left">
 			<?=($forum['private'] ? '(' : '') ?><a href="forum.php?id=<?=$forum['id'] ?>"><?=$forum['title'] ?></a><?=($forum['private'] ? ')' : '') ?>
-			<br><span class=sfont><?=str_replace("%%%RANDOM%%%", $randdesc[array_rand($randdesc)], $forum['descr']) ?></span>
+			<br><span class="sfont"><?=str_replace("%%%RANDOM%%%", $randdesc[array_rand($randdesc)], $forum['descr']) ?></span>
 		</td>
 		<td class="b n1"><?=$forum['threads'] ?></td>
 		<td class="b n1"><?=$forum['posts'] ?></td>

@@ -17,25 +17,25 @@ $thread = $sql->fetchp('SELECT t.*, f.title ftitle, f.private fprivate, f.readon
 		. 'LEFT JOIN forums f ON f.id=t.forum '
 		. "WHERE t.id = ? AND t.forum IN " . forums_with_view_perm(), [$tid]);
 
-$threadlink = "<a href=thread.php?id=$tid>Back to thread</a>";
+$threadlink = "";
 $err = '';
 if (!$thread) {
 	noticemsg("Error", "Thread does not exist.", true);
 } else if (!can_create_forum_post(['id' => $thread['forum'], 'private' => $thread['fprivate'], 'readonly' => $thread['freadonly']])) {
-	$err = "You have no permissions to create posts in this forum!<br>$forumlink";
+	$err = "You have no permissions to create posts in this forum!";
 } elseif ($thread['closed'] && !has_perm('override-closed')) {
-	$err = "You can't post in closed threads!<br>$threadlink";
+	$err = "You can't post in closed threads!";
 }
 if ($act == 'Submit') {
 	$lastpost = $sql->fetchp("SELECT id,user,date FROM posts WHERE thread = ? ORDER BY id DESC LIMIT 1", [$thread['id']]);
 	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 86400) && !has_perm('consecutive-posts'))
-		$err = "You can't double post until it's been at least one day!<br>$threadlink";
+		$err = "You can't double post until it's been at least one day!";
 	if ($lastpost['user'] == $loguser['id'] && $lastpost['date'] >= (time() - 2) && !has_perm('consecutive-posts'))
-		$err = "You must wait 2 seconds before posting consecutively.<br>$threadlink";
+		$err = "You must wait 2 seconds before posting consecutively.";
 	if (strlen(trim($_POST['message'])) == 0)
-		$err = "Your post is empty! Enter a message and try again.<br>$threadlink";
+		$err = "Your post is empty! Enter a message and try again.";
 	if ($loguser['regdate'] > (time() - 2))
-		$err = "You must wait 2 seconds before posting on a freshly registered account.<br>$threadlink";
+		$err = "You must wait 2 seconds before posting on a freshly registered account.";
 }
 
 $topbot = [
@@ -63,7 +63,7 @@ if ($pid) {
 		$post['text'] = "";
 	}
 
-	$quotetext = "[quote=\"$post[name]\" id=\"$pid\"]" . str_replace("&", "&amp", $post['text']) . "[/quote]";
+	$quotetext = sprintf('[quote="%s" id="%s"]%s[/quote]', $post['name'], $pid, str_replace("&", "&amp;", $post['text']));
 }
 
 if ($err) {
@@ -71,7 +71,7 @@ if ($err) {
 	$topbot['title'] .= ' - Error';
 	RenderPageBar($topbot);
 	echo '<br>';
-	noticemsg("Error", $err);
+	noticemsg("Error", $err."<br><a href=\"thread.php?id=$tid\">Back to thread</a>");
 } elseif ($act == 'Preview' || !$act) {
 	$post['date'] = time();
 	$post['ip'] = $userip;
@@ -85,7 +85,7 @@ if ($err) {
 		pageheader('New reply', $thread['forum']);
 		$topbot['title'] .= ' - Preview';
 		RenderPageBar($topbot);
-		echo '<br><table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</table>'.threadpost($post);
+		echo '<br><table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</table>'.threadpost($post);
 	} else {
 		pageheader('New reply', $thread['forum']);
 		RenderPageBar($topbot);
@@ -98,11 +98,11 @@ if ($err) {
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center">Post:</td>
-			<td class="b n2"><textarea name="message" id="message" rows=20 cols=80><?=htmlval($post['text']) ?></textarea></td>
+			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval($post['text']) ?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
-				<input type="hidden" name="tid" value=<?=$tid ?>>
+				<input type="hidden" name="tid" value="<?=$tid ?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">
 			</td>

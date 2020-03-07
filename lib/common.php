@@ -166,7 +166,7 @@ HTML;
 
 	if (isset($extratitle)) {
 		$boardlogo = <<<HTML
-<table width=100%><tr class="center">
+<table width="100%"><tr class="center">
 	<td class="nb" valign="center">$boardlogo</td>
 	<td class="nb" valign="center" width="300">$extratitle</td>
 </tr></table>
@@ -206,7 +206,7 @@ HTML;
 		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
 
 		printf(
-			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages" title="Private message"></a> %s | ',
+			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages"></a> %s | ',
 		(!$unreadpms ? '-off' : ''), ($unreadpms ?  "($unreadpms new)" : ''));
 	}
 

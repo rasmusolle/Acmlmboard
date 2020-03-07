@@ -19,22 +19,20 @@ if ($announce && $fid == 0)
 else
 	$forum = $sql->fetchp("SELECT * FROM forums WHERE id = ? AND id IN ".forums_with_view_perm(), [$fid]);
 
-$forumlink = "<a href=forum.php?id=$fid>Back to forum</a>";
-
 if (!$forum)
 	noticemsg("Error", "Forum does not exist.", true);
 else if ($announce && !has_perm('create-forum-announcements'))
-	$err = "You have no permissions to create announcements in this forum!<br>$forumLink";
+	$err = "You have no permissions to create announcements in this forum!";
 else if (!can_create_forum_thread($forum))
-	$err = "You have no permissions to create threads in this forum!<br>$forumlink";
+	$err = "You have no permissions to create threads in this forum!";
 else if ($loguser['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
-	$err = "Don't post threads so fast, wait a little longer.<br>$forumlink";
+	$err = "Don't post threads so fast, wait a little longer.";
 else if ($loguser['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('ignore-thread-time-limit'))
-	$err = "You must wait 2 seconds before posting a thread.<br>$forumlink";
+	$err = "You must wait 2 seconds before posting a thread.";
 
 if ($act == 'Submit') {
 	if (strlen(trim(str_replace(" ", "", $_POST['title']))) < 4)
-		$err = "You need to enter a longer $type title.<br>$forumlink";
+		$err = "You need to enter a longer $type title.";
 }
 
 $topbot = [
@@ -53,7 +51,7 @@ if (isset($err)) {
 	$topbot['title'] .= ' - Error';
 	RenderPageBar($topbot);
 	echo '<br>';
-	noticemsg("Error", $err);
+	noticemsg("Error", $err."<a href=\"forum.php?id=$fid\">Back to forum</a>");
 } elseif (!$act) {
 	pageheader("New $type", $forum['id']);
 	RenderPageBar($topbot);
@@ -61,14 +59,14 @@ if (isset($err)) {
 	<form action="newthread.php" method="post"><table class="c1">
 		<tr class="h"><td class="b h" colspan="2"><?=ucfirst($type) ?></td></tr>
 		<tr>
-			<td class="b n1 center" width=120><?=ucfirst($type) ?> title:</td>
-			<td class="b n2"><input type="text" name=title size=100 maxlength=100></td>
+			<td class="b n1 center" width="120"><?=ucfirst($type) ?> title:</td>
+			<td class="b n2"><input type="text" name="title" size="100" maxlength="100"></td>
 		</tr><tr>
 			<td class="b n1 center">Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center">Post:</td>
-			<td class="b n2"><textarea name="message" id="message" rows=20 cols=80></textarea></td>
+			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
@@ -93,24 +91,24 @@ if (isset($err)) {
 	$topbot['title'] .= ' - Preview';
 	RenderPageBar($topbot);
 	?><br>
-	<table class="c1"><tr class="h"><td class="b h" colspan=2>Post preview</td></tr>
+	<table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</td></tr>
 	<?=threadpost($post) ?>
 	<br>
 	<form action="newthread.php" method="post"><table class="c1">
-		<tr class="h"><td class="b h" colspan=2><?=ucfirst($type) ?></td></tr>
+		<tr class="h"><td class="b h" colspan="2"><?=ucfirst($type) ?></td></tr>
 		<tr>
 			<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
-			<td class="b n2"><input type="text" name=title size=100 maxlength=100 value="<?=htmlval($_POST['title']) ?>"></td>
+			<td class="b n2"><input type="text" name="title" size="100" maxlength="100" value="<?=htmlval($_POST['title']) ?>"></td>
 		</tr><tr>
-			<td class="b n1 center" width=120>Format:</td>
+			<td class="b n1 center" width="120">Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
-			<td class="b n1 center" width=120>Post:</td>
-			<td class="b n2"><textarea name=message id='message' rows=20 cols=80><?=htmlval($_POST['message']) ?></textarea></td>
+			<td class="b n1 center" width="120">Post:</td>
+			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval($_POST['message']) ?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
-				<input type="hidden" name=fid value=<?=$fid ?>>
+				<input type="hidden" name="fid" value="<?=$fid ?>">
 				<input type="hidden" name="announce" value="<?=$announce ?>">
 				<input type="submit" class="submit" name="action" value="Submit">
 				<input type="submit" class="submit" name="action" value="Preview">

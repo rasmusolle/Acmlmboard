@@ -70,7 +70,7 @@ if (!isset($_POST['action'])) {
 	$topbot['title'] .= ' - Preview';
 	RenderPageBar($topbot);
 	?><br>
-	<table class="c1"><tr class="h"><td class="b h" colspan=2>Message preview</td></tr></table>
+	<table class="c1"><tr class="h"><td class="b h" colspan="2">Message preview</td></tr></table>
 	<?=threadpost($post) ?>
 	<br>
 	<form action="sendprivate.php" method="post">

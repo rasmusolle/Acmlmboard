@@ -5,7 +5,7 @@ needs_login();
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 if ($action == "update") {
 	if (!preg_match("/^([0-9|.|,|\*]*)$/", $_POST['ranges']))
-		$err = "Range string contains illegal characters.<br><a href=''>Go back</a>.";
+		$err = 'Range string contains illegal characters.<br><a href="">Go back</a>.';
 
 	if (isset($err)) {
 		noticemsg("Error", $err, true);
@@ -19,9 +19,9 @@ pageheader('Advanced login cookie setup');
 
 $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 ?>
-<table class="c1" style='width:200px!important'>
+<table class="c1" style="width:200px!important">
 	<tr class="h">
-		<td class="b h" colspan=2>Current data</td>
+		<td class="b h" colspan="2">Current data</td>
 	</tr><tr class="h">
 		<td class="b h">Field</td>
 		<td class="b h">Value</td>
