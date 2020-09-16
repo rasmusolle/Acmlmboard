@@ -36,11 +36,11 @@ $topbot = [
 ];
 
 if ($thread['announce']) {
-	array_push($topbot['breadcrumb'], ['href' => 'thread.php?announce', 'title' => 'Announcements']);
+	array_push($topbot['breadcrumb'], ['href' => 'thread.php?announce=1', 'title' => 'Announcements']);
 } else {
 	array_push($topbot['breadcrumb'],
 		['href' => "forum.php?id={$thread['forum']}", 'title' => $thread['ftitle']],
-		['href' => "thread.php?id={$thread['id']}", 'title' => htmlval($thread['title'])]);
+		['href' => "thread.php?id={$thread['id']}", 'title' => esc($thread['title'])]);
 }
 
 $post = $sql->fetchp("SELECT u.id, p.user, pt.text FROM posts p LEFT JOIN poststext pt ON p.id=pt.id "
@@ -49,14 +49,14 @@ $post = $sql->fetchp("SELECT u.id, p.user, pt.text FROM posts p LEFT JOIN postst
 
 if (!isset($post)) $err = "Post doesn't exist.";
 
-$quotetext = htmlval($post['text']);
+$quotetext = esc($post['text']);
 if ($act == "Submit" && $post['text'] == $_POST['message']) {
 	$err = "No changes detected.<br>$threadlink";
 }
 
 if (isset($err)) {
 	pageheader('Edit post',$thread['forum']);
-	$topbot['title'] .= ' - Error';
+	$topbot['title'] .= ' (Error)';
 	RenderPageBar($topbot);
 	echo '<br>';
 	noticemsg("Error", $err);
@@ -76,8 +76,8 @@ if (isset($err)) {
 			<td class="b n1"></td>
 			<td class="b n1">
 				<input type="hidden" name="pid" value="<?=$pid ?>">
-				<input type="submit" class="submit" name="action" value="Submit">
-				<input type="submit" class="submit" name="action" value="Preview">
+				<input type="submit" name="action" value="Submit">
+				<input type="submit" name="action" value="Preview">
 			</td>
 		</tr>
 	</table></form>
@@ -93,7 +93,7 @@ if (isset($err)) {
 	$post['ulastpost'] = time();
 
 	pageheader('Edit post',$thread['forum']);
-	$topbot['title'] .= ' - Preview';
+	$topbot['title'] .= ' (Preview)';
 	RenderPageBar($topbot);
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</table>
@@ -105,13 +105,13 @@ if (isset($err)) {
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center" width="120">Post:</td>
-			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows="10" cols="80"><?=htmlval($_POST['message'])?></textarea></td>
+			<td class="b n2"><textarea wrap="virtual" name="message" id="message" rows="10" cols="80"><?=esc($_POST['message'])?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
 				<input type="hidden" name="pid" value="<?=$pid?>">
-				<input type="submit" class="submit" name="action" value="Submit">
-				<input type="submit" class="submit" name="action" value="Preview">
+				<input type="submit" name="action" value="Submit">
+				<input type="submit" name="action" value="Preview">
 			</td>
 		</tr>
 	</table></form>
@@ -125,7 +125,7 @@ if (isset($err)) {
 } else if ($act == 'delete' || $act == 'undelete') {
 	if (!(can_delete_forum_posts($thread['forum']))) {
 		pageheader('Edit post',$thread['forum']);
-		$topbot['title'] .= ' - Preview';
+		$topbot['title'] .= ' (Error)';
 		RenderPageBar($topbot);
 		echo '<br>';
 		noticemsg("Error", "You do not have the permission to do this.");

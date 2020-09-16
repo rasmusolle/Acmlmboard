@@ -100,16 +100,13 @@ CREATE TABLE `ipbans` (
 
 DROP TABLE IF EXISTS `misc`;
 CREATE TABLE `misc` (
-  `field` varchar(255) NOT NULL,
-  `intval` int(11) NOT NULL DEFAULT '0',
-  `txtval` text NOT NULL,
-  PRIMARY KEY (`field`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `views` int(11) NOT NULL DEFAULT '0',
+  `botviews` int(11) NOT NULL DEFAULT '0',
+  `attention` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `misc` (`field`, `intval`, `txtval`) VALUES
-('views',	0,	''),
-('botviews',	0,	''),
-('attention',	0,	'');
+INSERT INTO `misc` (`views`, `botviews`, `attention`) VALUES
+(0,	0,	'<b>Welcome to your new Acmlmboard!</b>');
 
 DROP TABLE IF EXISTS `perm`;
 CREATE TABLE `perm` (
@@ -271,7 +268,7 @@ CREATE TABLE `users` (
   `ip` varchar(15) NOT NULL,
   `url` varchar(255) NOT NULL,
   `ipbanned` tinyint(4) NOT NULL DEFAULT '0',
-  `tempbanned` int(12) NOT NULL,
+  `tempbanned` tinyint(4) NOT NULL DEFAULT '0',
   `gender` tinyint(4) NOT NULL DEFAULT '2',
   `dateformat` varchar(15) NOT NULL DEFAULT 'Y-m-d',
   `timeformat` varchar(15) NOT NULL DEFAULT 'H:i',
@@ -283,17 +280,17 @@ CREATE TABLE `users` (
   `title` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `emailhide` tinyint(1) NOT NULL DEFAULT '0',
   `usepic` tinyint(4) NOT NULL DEFAULT '0',
   `head` text NOT NULL,
   `sign` text NOT NULL,
-  `signsep` int(1) NOT NULL DEFAULT '0',
+  `signsep` tinyint(1) NOT NULL DEFAULT '0',
   `bio` text NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '1',
   `nick_color` varchar(6) NOT NULL,
-  `enablecolor` int(1) NOT NULL DEFAULT '0',
+  `enablecolor` tinyint(1) NOT NULL DEFAULT '0',
   `blocklayouts` int(11) NOT NULL DEFAULT '0',
   `timezone` varchar(128) NOT NULL DEFAULT 'UTC',
-  `emailhide` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

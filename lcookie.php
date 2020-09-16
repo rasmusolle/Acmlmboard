@@ -28,7 +28,7 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 	</tr><tr>
 		<td class="b n1 center">generating IP</td>
 		<td class="b n2 center"><?=$dsegments[0] ?></td>
-	</tr><?php for ($i = 2; $i < count($dsegments);  $i++) { ?>
+	</tr><?php for ($i = 2; $i < count($dsegments); $i++) { ?>
 	<tr>
 		<td class="b n1 center">allowed range</td>
 		<td class="b n2 center"><?=$dsegments[$i] ?></td>
@@ -41,7 +41,7 @@ $dsegments = explode(",", decryptpwd($_COOKIE['pass']));
 		<tr>
 			<td class="b n2">
 				<input type="text" name="ranges" value="<?=implode(",", array_slice($dsegments, 2)) ?>" style="width:80%">
-				<input type="submit" class="submit" name value="Update">
+				<input type="submit" value="Update">
 				<br><span class="sfont">Data must be provided as comma-separated IPs without spaces,
 				each potentially ending in a single * wildcard. (e.g. <span style="color:#C0C020">127.*,10.0.*,1.2.3.4</span>)
 				</span>

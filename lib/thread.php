@@ -4,7 +4,7 @@ function editthread($id, $title = '', $forum = 0, $closed= -1, $sticky= -1, $del
 	global $sql;
 	if ($delete < 1) {
 		$set = '';
-		if ($title != '') $set .= ",title=\"$title\"";
+		if ($title != '') $set .= ",title='$title'";
 		if ($closed >= 0) $set .= ",closed=$closed";
 		if ($sticky >= 0) $set .= ",sticky=$sticky";
 		$set[0] = ' ';

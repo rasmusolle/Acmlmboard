@@ -36,7 +36,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 	if (can_create_forum_thread($forum))
 		$topbot['actions'] = [['href' => "newthread.php?id=$fid", 'title' => 'New thread']];
 } elseif (isset($_GET['user']) && $uid = $_GET['user']) {
-	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
+	$user = $sql->fetchp("SELECT displayname, name FROM users WHERE id = ?", [$uid]);
 
 	if (!isset($user)) noticemsg("Error", "User does not exist.", true);
 
@@ -81,7 +81,7 @@ if (isset($_GET['id']) && $fid = $_GET['id']) {
 		. ($log ? "LEFT JOIN threadsread r ON (r.tid=t.id AND r.uid=$loguser[id]) "
 			. "LEFT JOIN forumsread fr ON (fr.fid=f.id AND fr.uid=$loguser[id]) " : '')
 		. "WHERE t.lastdate>$mintime "
-		. "  AND f.id IN " . forums_with_view_perm() . " "
+		. " AND f.id IN " . forums_with_view_perm() . " "
 		. "ORDER BY t.lastdate DESC "
 		. "LIMIT " . (($page - 1) * $loguser['tpp']) . "," . $loguser['tpp']);
 	$forum['threads'] = $sql->resultq("SELECT count(*) "
@@ -169,7 +169,7 @@ for ($i = 1; $thread = $sql->fetch($threads); $i++) {
 	?><tr class="<?=$tr ?> center">
 		<td class="b n1"><?=$status ?></td>
 		<?=($showforum ? sprintf('<td class="b"><a href="forum.php?id=%s">%s</a></td>', $thread['fid'], $thread['ftitle']) : '')?>
-		<td class="b left" style="word-break:break-word"><a href="thread.php?id=<?=$thread['id'] ?>"><?=htmlval($thread['title']) ?></a><?=$pagelist ?></td>
+		<td class="b left" style="word-break:break-word"><a href="thread.php?id=<?=$thread['id'] ?>"><?=esc($thread['title']) ?></a><?=$pagelist ?></td>
 		<td class="b"><?=userlink($thread, 'u1') ?></td>
 		<td class="b"><?=$thread['replies'] ?></td>
 		<td class="b"><?=$thread['views'] ?></td>

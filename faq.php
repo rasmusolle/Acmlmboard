@@ -8,7 +8,7 @@ $smilietext = '<table class="smileytbl">';
 $x = 0;
 foreach ($smilies as $smily) {
 	if ($x == 0) $smilietext .= "<tr>";
-	$smilietext .= sprintf('<td class="b n1"><img src="%s"> %s</td>', $smily['url'], htmlspecialchars($smily['text']));
+	$smilietext .= sprintf('<td class="b n1"><img src="%s"> %s</td>', $smily['url'], esc($smily['text']));
 	$x++;
 	$x %= $smiliewidth;
 	if ($x == 0) $smilietext .= "</tr>";
@@ -22,7 +22,7 @@ if (isset($_GET['testshit'])) {
 }
 
 $ncx = $sql->query("SELECT title, nc FROM groups WHERE nc != '' ORDER BY sortorder ASC");
-$nctable = "";
+$nctable = '';
 
 while ($ncr = $sql->fetch($ncx)) {
 	$nctable .= sprintf('<tr><td class="b n1"><b><span style="color:#%s">%s</span></b></td></tr>',$ncr['nc'],$ncr['title']);

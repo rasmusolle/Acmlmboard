@@ -5,9 +5,7 @@ $act = (isset($_POST['action']) ? $_POST['action'] : '');
 if ($act == 'Register') {
 	$name = trim($_POST['name']);
 
-	$cname = str_replace([' ',"\xC2\xA0"],'',$name);
-	$cname = strtolower($cname);
-
+	$cname = strtolower(str_replace([' ',"\xC2\xA0"],'',$name));
 	$dupe = $sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", [$cname,$cname]);
 
 	$gender = (int)$_POST['gender'];
@@ -25,7 +23,7 @@ if ($act == 'Register') {
 	elseif ($_POST['pass'] != $_POST['pass2'])
 		$err = "The two passwords you entered don't match.";
 	elseif ($puzzle && $_POST['puzzle'] != $puzzleAnswer)
-		$err = "You are either a bot or very bad at simple mathematics.";
+		$err = "Wrong security question.";
 
 	if (empty($err)) {
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
@@ -50,10 +48,8 @@ if ($act == 'Register') {
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
 
-			?><span style="text-align:center;">
-				If you aren't redirected, then please <a href="./">go here.</a>
-				<?='<meta http-equiv="refresh" content="0;url=./">' ?>
-			</span><?php
+			echo 'If you aren\'t redirected, then please <a href="./">go here.</a>
+				<script>window.location = "./"</script>';
 			die();
 		} else {
 			$err = "Registration failed: ".$sql->error();
@@ -62,14 +58,13 @@ if ($act == 'Register') {
 }
 
 pageheader('Register');
-$listgender = ['Male','Female','N/A'];
 
-$listtimezones = [];
+$timezones = [];
 foreach (timezone_identifiers_list() as $tz) {
-	$listtimezones[$tz] = $tz;
+	$timezones[$tz] = $tz;
 }
 
-if(!empty($err)) noticemsg("Error", $err);
+if (!empty($err)) noticemsg("Error", $err);
 ?>
 <form action="register.php" method="post">
 	<table class="c1">
@@ -86,8 +81,8 @@ if(!empty($err)) noticemsg("Error", $err);
 			<td class="b n2"><input type="password" name="pass2" size="25" maxlength="32"></td>
 		</tr>
 		<?php
-		echo fieldrow('Gender',fieldoption('gender',2,$listgender));
-		echo fieldrow('Timezone',fieldselect('timezone','UTC',$listtimezones));
+		echo fieldrow('Gender',fieldoption('gender',2,$gender));
+		echo fieldrow('Timezone',fieldselect('timezone','UTC',$timezones));
 		if ($puzzle) { ?>
 			<tr>
 				<td class="b n1 center" width="120"><?=$puzzleQuestion ?></td>
@@ -97,8 +92,8 @@ if(!empty($err)) noticemsg("Error", $err);
 		<tr class="n1">
 			<td class="b"></td>
 			<td class="b">
-				<input type="submit" class="submit" name="action" value="Register">
-				<span class="sfont">Please take a moment to read the <a href="faq.php">FAQ</a> before registering.</span>
+				<input type="submit" name="action" value="Register">
+				<span class="sfont">Please read the <a href="faq.php">FAQ</a> before registering.</span>
 			</td>
 		</tr>
 	</table>

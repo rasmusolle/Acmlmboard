@@ -3,11 +3,11 @@ require('lib/common.php');
 
 if (!has_perm('edit-attentions-box')) noticemsg("Error", "You have no permissions to do this!", true);
 
-if (isset($_POST['action']) && $_POST['action'] == 'Submit') {
-	$sql->prepare("UPDATE misc SET txtval = ? WHERE field = 'attention'",[$_POST['txtval']]);
+if (isset($_POST['action'])) {
+	$sql->prepare("UPDATE misc SET attention = ?", [$_POST['attn']]);
 }
 
-$attndata = $sql->resultq("SELECT txtval FROM misc WHERE field = 'attention'");
+$attndata = $sql->resultq("SELECT attention FROM misc");
 
 pageheader("Edit news");
 ?>
@@ -16,8 +16,8 @@ pageheader("Edit news");
 		<tr class="h"><td class="b h">Edit news box</td></tr>
 		<tr class="n1">
 			<td class="b center">
-				<textarea name="txtval" rows="8" cols="120"><?=$attndata ?></textarea>
-				<br><input type="submit" class="submit" name="action" value="Submit">
+				<textarea name="attn" rows="8" cols="120"><?=$attndata ?></textarea>
+				<br><input type="submit" name="action" value="Submit">
 			</td>
 		</tr>
 	</table>

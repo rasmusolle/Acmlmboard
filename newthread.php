@@ -5,7 +5,7 @@ needs_login();
 
 $announce = (isset($_REQUEST['announce']) ? $_REQUEST['announce'] : null);
 
-if (!isset($_POST['action'])) { $_POST['action'] = ''; }
+if (!isset($_POST['action'])) $_POST['action'] = '';
 if ($act = $_POST['action']) {
 	$fid = $_POST['fid'];
 } else {
@@ -14,7 +14,7 @@ if ($act = $_POST['action']) {
 
 $type = ($announce ? "announcement" : "thread");
 
-if ($announce && $fid == 0)
+if ($announce)
 	$forum = ['id' => 0, 'readonly' => 1];
 else
 	$forum = $sql->fetchp("SELECT * FROM forums WHERE id = ? AND id IN ".forums_with_view_perm(), [$fid]);
@@ -22,7 +22,7 @@ else
 if (!$forum)
 	noticemsg("Error", "Forum does not exist.", true);
 else if ($announce && !has_perm('create-forum-announcements'))
-	$err = "You have no permissions to create announcements in this forum!";
+	$err = "You have no permissions to create announcements!";
 else if (!can_create_forum_thread($forum))
 	$err = "You have no permissions to create threads in this forum!";
 else if ($loguser['lastpost'] > time() - 30 && $act == 'Submit' && !has_perm('ignore-thread-time-limit'))
@@ -31,8 +31,8 @@ else if ($loguser['lastpost'] > time() - 2 && $act == 'Submit' && has_perm('igno
 	$err = "You must wait 2 seconds before posting a thread.";
 
 if ($act == 'Submit') {
-	if (strlen(trim(str_replace(" ", "", $_POST['title']))) < 4)
-		$err = "You need to enter a longer $type title.";
+	if (strlen(trim(str_replace(' ', '', $_POST['title']))) < 4)
+		$err = "You need to enter a longer title.";
 }
 
 $topbot = [
@@ -43,12 +43,12 @@ $topbot = [
 if (!$announce) {
 	$topbot['breadcrumb'][] = ['href' => "forum.php?id=$fid", 'title' => $forum['title']];
 } else {
-	$topbot['breadcrumb'][] = ['href' => "forum.php?announce", 'title' => 'Announcements'];
+	$topbot['breadcrumb'][] = ['href' => "forum.php?announce=1", 'title' => 'Announcements'];
 }
 
 if (isset($err)) {
 	pageheader("New $type", $forum['id']);
-	$topbot['title'] .= ' - Error';
+	$topbot['title'] .= ' (Error)';
 	RenderPageBar($topbot);
 	echo '<br>';
 	noticemsg("Error", $err."<a href=\"forum.php?id=$fid\">Back to forum</a>");
@@ -72,8 +72,8 @@ if (isset($err)) {
 			<td class="b n1">
 				<input type="hidden" name="fid" value="<?=$fid ?>">
 				<input type="hidden" name="announce" value="<?=$announce ?>">
-				<input type="submit" class="submit" name="action" value="Submit">
-				<input type="submit" class="submit" name="action" value="Preview">
+				<input type="submit" name="action" value="Submit">
+				<input type="submit" name="action" value="Preview">
 			</td>
 		</tr>
 	</table></form>
@@ -88,7 +88,7 @@ if (isset($err)) {
 	$post['ulastpost'] = time();
 
 	pageheader("New $type", $forum['id']);
-	$topbot['title'] .= ' - Preview';
+	$topbot['title'] .= ' (Preview)';
 	RenderPageBar($topbot);
 	?><br>
 	<table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</td></tr>
@@ -97,21 +97,21 @@ if (isset($err)) {
 	<form action="newthread.php" method="post"><table class="c1">
 		<tr class="h"><td class="b h" colspan="2"><?=ucfirst($type) ?></td></tr>
 		<tr>
-			<td class="b n1 center"><?=ucfirst($type) ?> title:</td>
-			<td class="b n2"><input type="text" name="title" size="100" maxlength="100" value="<?=htmlval($_POST['title']) ?>"></td>
+			<td class="b n1 center">Title:</td>
+			<td class="b n2"><input type="text" name="title" size="100" maxlength="100" value="<?=esc($_POST['title']) ?>"></td>
 		</tr><tr>
 			<td class="b n1 center" width="120">Format:</td>
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center" width="120">Post:</td>
-			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval($_POST['message']) ?></textarea></td>
+			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=esc($_POST['message']) ?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
 				<input type="hidden" name="fid" value="<?=$fid ?>">
 				<input type="hidden" name="announce" value="<?=$announce ?>">
-				<input type="submit" class="submit" name="action" value="Submit">
-				<input type="submit" class="submit" name="action" value="Preview">
+				<input type="submit" name="action" value="Submit">
+				<input type="submit" name="action" value="Preview">
 			</td>
 		</tr>
 	</table></form><?php
@@ -133,7 +133,7 @@ if (isset($err)) {
 	$sql->prepare("UPDATE threads SET lastid = ? WHERE id = ?", [$pid, $tid]);
 
 	if ($announce) {
-		$viewlink = "thread.php?announce";
+		$viewlink = "thread.php?announce=1";
 	} else {
 		$viewlink = "thread.php?id=$tid";
 	}

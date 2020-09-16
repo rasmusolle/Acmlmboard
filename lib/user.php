@@ -90,7 +90,7 @@ function getrank($set, $posts) {
 		}
 		$i++;
 	}
-	return "";
+	return '';
 }
 
 function randnickcolor() {
@@ -176,11 +176,9 @@ function userdisp($user, $u = '') {
 	if (isset($userbirthdays[$user[$u.'id']]))
 		$nc = randnickcolor();
 
-	$n = $user[$u.'name'];
-	if ($user[$u.'displayname'])
-		$n = $user[$u.'displayname'];
+	$n = ($user[$u.'displayname'] ? $user[$u.'displayname'] : $user[$u.'name']);
 
-	$userdisname = "<span style='color:#$nc;'>".str_replace(" ", "&nbsp;", htmlval($n)).'</span>';
+	$userdisname = "<span style='color:#$nc;'>".str_replace(" ", "&nbsp;", esc($n)).'</span>';
 
 	return $userdisname;
 }

@@ -6,6 +6,7 @@ if (!file_exists('lib/config.php')) {
 $start = microtime(true);
 
 $rankset_names = ['None'];
+$gender = ['Male', 'Female', 'N/A'];
 
 foreach (glob("lib/*.php") as $filename)
 	if ($filename != 'lib/config.sample.php')
@@ -21,7 +22,7 @@ $log = false;
 $logpermset = [];
 
 if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
-	if($user = checkuid($_COOKIE['user'], unpacklcookie($_COOKIE['pass']))) {
+	if ($user = checkuid($_COOKIE['user'], unpacklcookie($_COOKIE['pass']))) {
 		$log = true;
 		$loguser = $user;
 		load_user_permset();
@@ -36,7 +37,7 @@ if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
 
 if ($lockdown) {
 	if (has_perm('bypass-lockdown'))
-		echo "<span style=\"color:red\"><center>LOCKDOWN!!</center></span>";
+		echo '<span style="color:red"><center>LOCKDOWN!!</center></span>';
 	else {
 		echo <<<HTML
 <body style="background-color:#C02020;padding:5em;color:#ffffff;margin:auto;">
@@ -68,7 +69,7 @@ if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 //Unban users whose tempbans have expired.
 $sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
 
-$dateformat = "$loguser[dateformat] $loguser[timeformat]";
+$dateformat = $loguser['dateformat'].' '.$loguser['timeformat'];
 
 if (str_replace($botlist, "x", strtolower($_SERVER['HTTP_USER_AGENT'])) != strtolower($_SERVER['HTTP_USER_AGENT'])) {
 	$bot = 1;
@@ -86,12 +87,12 @@ if ($log) {
 }
 
 if (!$bot) {
-	$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'views'");
+	$sql->query("UPDATE misc SET views = views + 1");
 } else {
-	$sql->query("UPDATE misc SET intval = intval + 1 WHERE field = 'botviews'");
+	$sql->query("UPDATE misc SET botviews = botviews + 1");
 }
 
-$views = $sql->resultq("SELECT intval FROM misc WHERE field = 'views'");
+$views = $sql->resultq("SELECT views FROM misc");
 
 $count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
 $date = date("m-d-y", time());
@@ -142,7 +143,7 @@ if (@$sql->numrows($r) > 0) {
  * @param integer $fid Forum ID of the page.
  * @return void
  */
-function pageheader($pagetitle = "", $fid = null) {
+function pageheader($pagetitle = '', $fid = null) {
 	global $dateformat, $sql, $log, $loguser, $views, $boardtitle, $boardlogo,
 	$theme, $themefile, $meta, $favicon, $count, $bot;
 
@@ -154,13 +155,13 @@ function pageheader($pagetitle = "", $fid = null) {
 
 	if ($pagetitle) $pagetitle .= " - ";
 
-	$t = $sql->resultq("SELECT txtval FROM misc WHERE field = 'attention'");
+	$t = $sql->resultq("SELECT attention FROM misc");
 
-	if ($t != "")
+	if ($t != '')
 		$extratitle = <<<HTML
 <table class="c1 center" width="100%">
 	<tr class="h"><td class="b h">News</td></tr>
-	<tr class="n2 center"><td class="b sfont">$t</td></tr>
+	<tr class="n1 center"><td class="b sfont">$t</td></tr>
 </table>
 HTML;
 
@@ -200,20 +201,20 @@ HTML;
 					| <a href="search.php">Search</a>
 				</td>
 				<td class="b"><div style="width: 150px"><?=date($dateformat, time())?></div></td>
-				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : "Guest ")?>
+				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : 'Not logged in ')?>
 <?php
 	if ($log && has_perm('view-own-pms')) {
 		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
 
 		printf(
-			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages"></a> %s | ',
-		(!$unreadpms ? '-off' : ''), ($unreadpms ?  "($unreadpms new)" : ''));
+			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages"></a> %s ',
+		(!$unreadpms ? '-off' : ''), ($unreadpms ? "($unreadpms new)" : ''));
 	}
 
 	if ($fid && is_numeric($fid))
-		$markread = ["url" => "index.php?action=markread&fid=$fid", "title" => "Mark forum read"];
+		$markread = ['url' => "index.php?action=markread&fid=$fid", 'title' => "Mark forum read"];
 	else
-		$markread = ["url" => "index.php?action=markread&fid=all", "title" => "Mark all forums read"];
+		$markread = ['url' => "index.php?action=markread&fid=all", 'title' => "Mark all forums read"];
 
 	$userlinks = [];
 
@@ -233,20 +234,16 @@ HTML;
 		$userlinks[] = $markread;
 	}
 
-	$c = 0;
-	foreach ($userlinks as $k => $v) {
-		if ($c > 0) echo " | ";
-		echo "<a href=\"{$v['url']}\">{$v['title']}</a>";
-		$c++;
+	foreach ($userlinks as $v) {
+		echo " | <a href=\"{$v['url']}\">{$v['title']}</a>";
 	}
 
-	echo "</td>";
+	echo "</td></table>";
 	if ($log) {
 		?><form action="login.php" method="post" name="logout">
 			<input type="hidden" name="action" value="logout">
 		</form><?php
 	}
-	echo "</table>";
 
 	if (!function_exists('mcrypt_encrypt')) {
 		echo '<p style="color:red;text-align:center">Warning: Cookie encryption has been disabled since mcrypt has not been installed.<br>This could cause security issues.</p>';
@@ -257,10 +254,10 @@ HTML;
 	if ($fid || $fid == 0) {
 		$onusers = $sql->prepare("SELECT ".userfields().",lastpost,lastview FROM users WHERE lastview > ? ".($fid != 0 ? " AND lastforum =".$fid : '')." ORDER BY name",
 			[(time()-300)]);
-		$onuserlist = "";
+		$onuserlist = '';
 		$onusercount = 0;
 		while ($user = $sql->fetch($onusers)) {
-			$onuserlist.=($onusercount ? ", " : "") . userlink($user);
+			$onuserlist.=($onusercount ? ', ' : '') . userlink($user);
 			$onusercount++;
 		}
 
@@ -271,14 +268,14 @@ HTML;
 			$numbots = $data['bot_count'];
 			$numguests = $data['guest_count'] - $numbots;
 
-			if ($numguests)	$onuserlist .= " | $numguests guest" . ($numguests != 1 ? "s" : "");
-			if ($numbots)	$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : "");
+			if ($numguests)	$onuserlist .= " | $numguests guest" . ($numguests != 1 ? "s" : '');
+			if ($numbots)	$onuserlist .= " | $numbots bot" . ($numbots != 1 ? "s" : '');
 		}
 	}
 
 	if ($fid) {
 		$fname = $sql->resultp("SELECT title FROM forums WHERE id = ?", [$fid]);
-		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : "") . " currently in $fname" . ($onusercount > 0 ? ": " : "") . $onuserlist;
+		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : '') . " currently in $fname" . ($onusercount > 0 ? ": " : '') . $onuserlist;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
 	} else if (isset($fid) && $fid == 0) {
@@ -288,15 +285,13 @@ HTML;
 		$birthdays = [];
 		while ($user = $sql->fetch($rbirthdays)) {
 			$b = explode('-', $user['birth']);
-			if ($b['2'] <= 0 && $b['2'] > -2)
-				$p = "";
-			else
-				$p = "(";
-			if ($b['2'] <= 0 && $b['2'] > -2)
-				$y = "";
-			else
-				$y = date("Y") - $b[2] . ")";
-			$birthdays[] = userlink($user) . " " . $p . "" . $y;
+			if ($b['2'] <= 0 && $b['2'] > -2) {
+				$y = '';
+			} else {
+				$y = "(" . (date("Y") - $b['2']) . ")";
+			}
+
+			$birthdays[] = userlink($user) . " " . $y;
 		}
 
 		$birthdaybox = '';

@@ -31,7 +31,7 @@ if (isset($err))
 		<td class="b n2"><input type="password" name="pass" size="25" maxlength="32"></td>
 	</tr><tr>
 		<td class="b n1"></td>
-		<td class="b n1"><input type="submit" class="submit" name="action" value="Login"></td>
+		<td class="b n1"><input type="submit" name="action" value="Login"></td>
 	</tr>
 </table></form>
 <?php pagefooter();

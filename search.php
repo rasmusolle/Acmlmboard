@@ -18,12 +18,10 @@ $forum = (isset($_GET['f']) ? $_GET['f'] : 0);
 			</tr><tr>
 				<td></td>
 				<td>
-					in <input type="radio" class="radio" name="w" value="0" id="threadtitle" <?=(($where == 0) ? "checked" : "") ?>><label for="threadtitle">thread title</label>
-					<input type="radio" class="radio" name="w" value="1" id="posttext" <?=(($where == 1) ? "checked" : "") ?>><label for="posttext">post text</label>
+					in <input type="radio" class="radio" name="w" value="0" id="threadtitle" <?=(($where == 0) ? 'checked' : '') ?>><label for="threadtitle">thread title</label>
+					<input type="radio" class="radio" name="w" value="1" id="posttext" <?=(($where == 1) ? 'checked' : '') ?>><label for="posttext">post text</label>
+					<br><input type="submit" name="action" value="Search">
 				</td>
-			</tr><tr>
-				<td></td>
-				<td><input type="submit" class="submit" name="action" value="Search"></td>
 			</tr>
 		</table></form>
 	</td></tr>
@@ -40,21 +38,19 @@ if (!isset($_GET['action']) || strlen($query) < 3) {
 ?><br>
 <table class="c1"><tr class="h"><td class="b h" style="border-bottom:0">Results</td></tr></table>
 <?php
-$searchquery = $query;
-$searchquery = preg_replace("@[^\" a-zA-Z0-9]@", "", $searchquery);
-preg_match_all("@\"([^\"]+)\"@", $searchquery, $matches);
+$squery = preg_replace("@[^\" a-zA-Z0-9]@", '', $query);
+preg_match_all("@\"([^\"]+)\"@", $squery, $matches);
 foreach ($matches[0] as $key => $value) {
-	$searchquery = str_replace($value, " !".$key." ", $searchquery);
+	$squery = str_replace($value, " !$key ", $squery);
 }
-$searchquery = str_replace("\"", "", $searchquery);
-while (strpos($searchquery, "  ") != false) {
-	$searchquery = str_replace("  ", " ", $searchquery);
+$squery = str_replace('"', '', $squery);
+while (strpos($squery, "  ") != false) {
+	$squery = str_replace("  ", " ", $squery);
 }
-$wordor = explode(" ", trim($searchquery));
-$string = "";
+$wordor = explode(" ", trim($squery));
+$string = $nextbool = '';
 $lastbool = 0;
 $defbool = "AND";
-$nextbool = "";
 if ($where == 1) {
 	$searchfield = "pt.text";
 } else {
@@ -84,7 +80,7 @@ if ($forum)
 
 if ($where == 1) {
 	$fieldlist = userfields_post();
-	$posts = $sql->query("SELECT ".userfields('u','u').", $fieldlist p.*,  pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, t.title ttitle, t.forum tforum "
+	$posts = $sql->query("SELECT ".userfields('u','u').", $fieldlist p.*, pt.text, pt.date ptdate, pt.user ptuser, pt.revision, t.id tid, t.title ttitle, t.forum tforum "
 		."FROM posts p "
 		."LEFT JOIN poststext pt ON p.id=pt.id "
 		."LEFT JOIN poststext pt2 ON pt2.id=pt.id AND pt2.revision=(pt.revision+1) "
@@ -131,7 +127,7 @@ if ($where == 1) {
 
 		?><tr class="<?=$tr ?> center">
 			<td class="b left" style="word-break:break-word">
-				<a href="thread.php?id=<?=$thread['id'] ?>"><?=htmlval($thread['title']) ?></a> <?=($thread['sticky'] ? ' (Sticky)' : '')?>
+				<a href="thread.php?id=<?=$thread['id'] ?>"><?=esc($thread['title']) ?></a> <?=($thread['sticky'] ? ' (Sticky)' : '')?>
 			</td>
 			<td class="b"><?=userlink($thread,'u') ?></td>
 			<td class="b"><?=date($dateformat,$thread['lastdate']) ?></td>

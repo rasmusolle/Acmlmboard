@@ -68,7 +68,7 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 	} elseif ($act == 'trash') {
 		editthread($tid, '', $trashid, 1);
 	} elseif ($act == 'rename') {
-		if(!empty($_POST['title'])) {
+		if (!empty($_POST['title'])) {
 			$newtitle=$_POST['title'];
 			$action=",title='".$sql->escape($newtitle)."'";
 		}
@@ -83,7 +83,7 @@ if (isset($tid) && $log && $post_c == md5($pwdsalt2 . $loguser['pass'] . $pwdsal
 if (isset($_GET['pin']) && isset($_GET['rev']) && is_numeric($_GET['pin']) && is_numeric($_GET['rev']) && has_perm('view-post-history')) {
 	$pinstr = "AND (pt2.id<>$_GET[pin] OR pt2.revision<>($_GET[rev]+1)) ";
 } else
-	$pinstr = "";
+	$pinstr = '';
 
 if ($viewmode == "thread") {
 	if (!$tid) $tid = 0;
@@ -126,7 +126,7 @@ if ($viewmode == "thread") {
 		. "GROUP BY p.id ORDER BY p.id "
 		. "LIMIT ".(($page - 1) * $ppp).",$ppp",
 		[$tid]);
-}elseif ($viewmode == "user") {
+} elseif ($viewmode == "user") {
 	$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
 
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
@@ -192,14 +192,14 @@ if ($thread['replies'] <= $ppp) {
 	elseif ($viewmode == "time")
 		$furl = "thread.php?time=$time";
 	elseif ($viewmode == "announce")
-		$furl = "thread.php?announce";
+		$furl = "thread.php?announce=1";
 	$pagelist = '<br>'.pagelist($thread['replies'], $ppp, $furl, $page, true);
 }
 
 if ($viewmode == "thread") {
 	$topbot = [
-		'breadcrumb' => [['href' => './', 'title' => 'Main'],['href' => "forum.php?id=$thread[forum]", 'title' => $thread['ftitle']]],
-		'title' => htmlval($thread['title'])
+		'breadcrumb' => [['href' => './', 'title' => 'Main'],['href' => 'forum.php?id='.$thread['forum'], 'title' => $thread['ftitle']]],
+		'title' => esc($thread['title'])
 	];
 
 	$faccess = $sql->fetch($sql->prepare("SELECT id,private,readonly FROM forums WHERE id = ?",[$thread['forum']]));
@@ -212,10 +212,6 @@ if ($viewmode == "thread") {
 			$topbot['actions'] = [['href' => "newreply.php?id=$tid", 'title' => 'New reply']];
 	}
 } elseif ($viewmode == "user") {
-	$topbot = [
-		'breadcrumb' => [['href' => './', 'title' => 'Main']],
-		'title' => "Posts by ".userlink($user, "")
-	];
 	$topbot = [
 		'breadcrumb' => [['href' => './', 'title' => 'Main'], ['href' => "profile.php?id=$uid", 'title' => ($user['displayname'] ? $user['displayname'] : $user['name'])]],
 		'title' => 'Posts'
@@ -240,34 +236,19 @@ $modlinks = '';
 if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] == $thread['user'] && !$thread['closed'] && has_perm('rename-own-thread')))) {
 	$link = "<a href=javascript:submitmod";
 	if (can_edit_forum_threads($thread['forum'])) {
-		if ($thread['sticky']) {
-			$stick = "$link('unstick')>Unstick</a>";
-			$stick2 = "$link(\'unstick\')>Unstick</a>";
-		} else {
-			$stick = "$link('stick')>Stick</a>";
-			$stick2 = "$link(\'stick\')>Stick</a>";
-		}
+		$stick = ($thread['sticky'] ? "$link('unstick')>Unstick</a>" : "$link('stick')>Stick</a>");
+		$stick2 = addcslashes($stick, "'");
 
-		if ($thread['closed']) {
-			$close = "| $link('open')>Open</a>";
-			$close2 = "| $link(\'open\')>Open</a>";
-		} else {
-			$close = "| $link('close')>Close</a>";
-			$close2 = "| $link(\'close\')>Close</a>";
-		}
+		$close = '| ' . ($thread['closed'] ? "$link('open')>Open</a>" : "$link('close')>Close</a>");
+		$close2 = addcslashes($close, "'");
 
-		if ($thread['forum'] != $trashid) {
-			$trash = "| <a href=javascript:submitmod('trash') onclick=\"trashConfirm(event)\">Trash</a> |";
-			$trash2 = "| <a href=javascript:submitmod(\'trash\') onclick=\"trashConfirm(event)\">Trash</a> |";
-		} else {
-			$trash = '| ';
-			$trash2 = '| ';
-		}
+		$trash = '| ' . ($thread['forum'] != $trashid ? '<a href=javascript:submitmod(\'trash\') onclick="trashConfirm(event)">Trash</a>' : '');
+		$trash2 = addcslashes($trash, "'");
 
-		$edit = "<a href=javascript:showrbox()>Rename</a> | <a href=javascript:showmove()>Move</a>";
+		$edit = '| <a href="javascript:showrbox()">Rename</a> | <a href="javascript:showmove()">Move</a>';
 
 		$r = $sql->query("SELECT c.title ctitle,f.id,f.title,f.cat,f.private FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord,c.id,f.ord,f.id");
-		$fmovelinks = "<select id=\"forumselect\">";
+		$fmovelinks = '<select id="forumselect">';
 		$c = -1;
 		while ($d = $sql->fetch($r)) {
 			if (!can_view_forum($d))
@@ -279,41 +260,34 @@ if (isset($tid) && (can_edit_forum_threads($thread['forum']) || ($loguser['id'] 
 				$c = $d['cat'];
 				$fmovelinks .= '<optgroup label="' . $d['ctitle'] . '">';
 			}
-			$fmovelinks.="<option value=\"" . $d['id'] . "\"" . ($d['id'] == $thread['forum'] ? " selected=\"selected\"" : "") . ">" . $d['title'] . "</option>";
+			$fmovelinks .= sprintf(
+				'<option value="%s"%s>%s</option>',
+			$d['id'], ($d['id'] == $thread['forum'] ? ' selected="selected"' : ''), $d['title']);
 		}
 		$fmovelinks.="</optgroup></select>";
 		$fmovelinks = addslashes($fmovelinks);
-		$fmovelinks.="<input type=\"submit\" class=\"submit\" id=\"move\" value=\"Submit\" name=\"movethread\" onclick=\"submitmove(movetid());\">";
-		$fmovelinks.="<input type=\"button\" class=\"submit\" value=\"Cancel\" onclick=\"hidethreadedit(); return false;\">";
-
-		$opt = "Moderating";
+		$fmovelinks.='<input type="submit" id="move" value="Submit" name="movethread" onclick="submitmove(movetid())">';
+		$fmovelinks.='<input type="button" value="Cancel" onclick="hidethreadedit(); return false;">';
 	} else {
-		$fmovelinks = "";
-		$close = $stick = $trash = "";
-		$edit = "<a href=javascript:showrbox()>Rename</a>";
-		$opt = "Thread";
+		$fmovelinks = $close = $stick = $trash = '';
+		$edit = '<a href=javascript:showrbox()>Rename</a>';
 	}
 
-	$renamefield = "<input type=\"text\" name=\"title\" id=\"title\" size=60 maxlength=255 value=\"".htmlspecialchars($thread['title'])."\">";
-	$renamefield .= "<input type=\"submit\" class=\"submit\" name=\"submit\" value=\"Rename\" onclick=\"submitmod('rename');\">";
-	$renamefield .= "<input type=\"button\" class=\"submit\" value=\"Cancel\" onclick=\"hidethreadedit(); return false;\">";
+	$renamefield = '<input type="text" name="title" id="title" size=60 maxlength=255 value="'.esc($thread['title']).'">';
+	$renamefield.= '<input type="submit" name="submit" value="Rename" onclick="submitmod(\'rename\')">';
+	$renamefield.= '<input type="button" value="Cancel" onclick="hidethreadedit(); return false">';
 	$renamefield = addcslashes($renamefield, "'"); //because of javascript, single quotes will gum up the works
 
-	echo "<script>
-function trashConfirm(e) {
-	if (confirm(\"Are you sure you want to trash this thread?\"));
-	else {
-		e.preventDefault();
-	}
-}
-</script>";
+	$threadtitle = addcslashes(htmlentities($thread['title'], ENT_COMPAT | ENT_HTML401, 'UTF-8'), "'");
+	$c = md5($pwdsalt2 . $loguser['pass'] . $pwdsalt);
 
-	$modlinks = "<form action=\"thread.php\" method=\"post\" name=\"mod\" id=\"mod\">
-<table class=\"c1\"><tr class=\"n2\">
-	<td class=\"b n3\">
-		<span id=\"moptions\">$opt options: $stick $close $trash $edit </span>
-		<span id=\"mappend\"></span>
-		<span id=\"canceledit\"></span>
+	$modlinks = <<<HTML
+<form action="thread.php" method="post" name="mod" id="mod">
+<table class="c1"><tr class="n2">
+	<td class="b n2">
+		<span id="moptions">Thread options: $stick $close $trash $edit </span>
+		<span id="mappend"></span>
+		<span id="canceledit"></span>
 		<script>
 function submitmod(act){
 	document.getElementById('action').value=act;
@@ -341,11 +315,11 @@ function submit_on_return(event,act){
 	a=event.keyCode?event.keyCode:event.which?event.which:event.charCode;
 	document.mod.action.value=act;
 	document.mod.arg.value=document.mod.tmp.value;
-	if(a==13) document.mod.submit();
+	if (a==13) document.mod.submit();
 }
 function hidethreadedit() {
-	document.getElementById('moptions').innerHTML = '$opt options: $stick2 $close2 $trash2 $edit';
-	document.getElementById('mappend').innerHTML = '<input type=hidden name=tmp style=\'width:80%!important;border-width:0px!important;padding:0px!important\' onkeypress=\"submit_on_return(event,\'rename\')\" value=\"" . addcslashes(htmlentities($thread['title'], ENT_COMPAT | ENT_HTML401, 'UTF-8'), "'") . "\" maxlength=100>';
+	document.getElementById('moptions').innerHTML = 'Thread options: $stick2 $close2 $trash2 $edit';
+	document.getElementById('mappend').innerHTML = '<input type=hidden name=tmp style="width:80%!important;border-width:0px!important;padding:0px!important" onkeypress="submit_on_return(event,\'rename\')" value="$threadtitle" maxlength="100">';
 	document.getElementById('canceledit').style.display = 'none';
 }
 function movetid() {
@@ -358,14 +332,21 @@ function renametitle() {
 	document.getElementById('rename').innerHTML = document.getElementsByTagName('input')[x].value;
 	return document.getElementsByTagName('input')[x].value;
 }
+function trashConfirm(e) {
+	if (confirm('Are you sure you want to trash this thread?'));
+	else {
+		e.preventDefault();
+	}
+}
 		</script>
-		<input type=hidden id=\"arg\" name=\"arg\" value=\"\">
-		<input type=hidden id=\"id\" name=\"id\" value=\"$tid\">
-		<input type=hidden id=\"action\" name=\"action\" value=\"\">
-		<input type=hidden id=\"c\" name=\"c\" value=" . md5($pwdsalt2 . $loguser['pass'] . $pwdsalt) . ">
+		<input type=hidden id="arg" name="arg" value="">
+		<input type=hidden id="id" name="id" value="$tid">
+		<input type=hidden id="action" name="action" value="">
+		<input type=hidden id="c" name="c" value="$c">
 	</td>
 </table>
-</form>";
+</form>
+HTML;
 }
 
 RenderPageBar($topbot);
@@ -386,11 +367,9 @@ if ($sql->numrows($posts) < 1) echo '<br>';
 if_empty_query($posts, "No posts were found.", 0, true);
 
 while ($post = $sql->fetch($posts)) {
-	if (!isset($_GET['time'])) {
 	if (isset($post['fid'])) {
 		if (!can_view_forum(['id' => $post['fid'], 'private' => $post['fprivate']]))
 			continue;
-	}
 	}
 	if (isset($uid) || isset($time)) {
 		$pthread['id'] = $post['tid'];
@@ -423,12 +402,11 @@ if (isset($thread['id']) && can_create_forum_post($faccess) && !$thread['closed'
 		<td class="b"></td>
 		<td class="b">
 			<input type="hidden" name="tid" value="<?=$tid ?>">
-			<input type="submit" class="submit" name="action" value="Submit">
-			<input type="submit" class="submit" name="action" value="Preview">
+			<input type="submit" name="action" value="Submit">
+			<input type="submit" name="action" value="Preview">
 		</td>
 	</tr>
-</form></table><br>
-<?php
+</form></table><br><?php
 }
 
 RenderPageBar($topbot);

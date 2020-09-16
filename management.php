@@ -15,7 +15,7 @@ if (has_perm("edit-attentions-box"))
 if (!empty($mlinks)) {
 	$mlinkstext = '';
 	foreach ($mlinks as $l)
-		$mlinkstext .= sprintf(' <a href="%s"><input type="submit" class="submit" name="action" value="%s"></a> ', $l['url'], $l['title']);
+		$mlinkstext .= sprintf(' <a href="%s"><input type="submit" name="action" value="%s"></a> ', $l['url'], $l['title']);
 } else {
 	$mlinkstext = "You don't have permission to access any management tools.";
 }

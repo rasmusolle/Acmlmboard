@@ -18,14 +18,14 @@ $defaultlogo = "theme/abII.png"; // Replace with the logo of your choice.
 $favicon = "theme/fav.png"; // Replace with your favicon of choice
 $defaulttheme = "0"; // Select the default theme to be used.
 $boardlogo = "<a href='./'><img src='$defaultlogo'></a>"; // This defines the logo.
-$meta = "<meta name='description' content=\"Stuff goes here!\">"; // This is used for search engine keywords.
+$meta = '<meta name="description" content="Stuff goes here!">'; // This is used for search engine keywords.
 
 // Registration Bot Protection
 $puzzle = true;
 $puzzleQuestion = "What forum software does this board run?";
 $puzzleAnswer = "Acmlmboard";
 
-$override_theme = ""; // If you want to lock everyone to a specific theme.
+$override_theme = ''; // If you want to lock everyone to a specific theme.
 $lockdown = false; // Put board in lockdown mode.
 
 // List of bots (web crawlers)

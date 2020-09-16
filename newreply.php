@@ -12,12 +12,10 @@ if ($act = $_POST['action']) {
 }
 $act = (isset($act) ? $act : null);
 
-$thread = $sql->fetchp('SELECT t.*, f.title ftitle, f.private fprivate, f.readonly freadonly '
-		. 'FROM threads t '
-		. 'LEFT JOIN forums f ON f.id=t.forum '
-		. "WHERE t.id = ? AND t.forum IN " . forums_with_view_perm(), [$tid]);
+$thread = $sql->fetchp("SELECT t.*, f.title ftitle, f.private fprivate, f.readonly freadonly
+	FROM threads t LEFT JOIN forums f ON f.id=t.forum
+	WHERE t.id = ? AND t.forum IN " . forums_with_view_perm(), [$tid]);
 
-$threadlink = "";
 $err = '';
 if (!$thread) {
 	noticemsg("Error", "Thread does not exist.", true);
@@ -41,12 +39,13 @@ if ($act == 'Submit') {
 $topbot = [
 	'breadcrumb' => [
 		['href' => './', 'title' => 'Main'], ['href' => "forum.php?id={$thread['forum']}", 'title' => $thread['ftitle']],
-		['href' => "thread.php?id={$thread['id']}", 'title' => htmlval($thread['title'])]
+		['href' => "thread.php?id={$thread['id']}", 'title' => esc($thread['title'])]
 	],
 	'title' => "New reply"
 ];
 
 $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : 0;
+$quotetext = '';
 if ($pid) {
 	$post = $sql->fetchp("SELECT IF(u.displayname='',u.name,u.displayname) name, p.user, pt.text, f.id fid, f.private fprivate, p.thread "
 			. "FROM posts p "
@@ -60,7 +59,7 @@ if ($pid) {
 	//does the user have reading access to the quoted post?
 	if (!can_view_forum(['id' => $post['fid'], 'private' => $post['fprivate']])) {
 		$post['name'] = 'your overlord';
-		$post['text'] = "";
+		$post['text'] = '';
 	}
 
 	$quotetext = sprintf('[quote="%s" id="%s"]%s[/quote]', $post['name'], $pid, str_replace("&", "&amp;", $post['text']));
@@ -68,7 +67,7 @@ if ($pid) {
 
 if ($err) {
 	pageheader('New reply', $thread['forum']);
-	$topbot['title'] .= ' - Error';
+	$topbot['title'] .= ' (Error)';
 	RenderPageBar($topbot);
 	echo '<br>';
 	noticemsg("Error", $err."<br><a href=\"thread.php?id=$tid\">Back to thread</a>");
@@ -83,7 +82,7 @@ if ($err) {
 
 	if ($act == 'Preview') {
 		pageheader('New reply', $thread['forum']);
-		$topbot['title'] .= ' - Preview';
+		$topbot['title'] .= ' (Preview)';
 		RenderPageBar($topbot);
 		echo '<br><table class="c1"><tr class="h"><td class="b h" colspan="2">Post preview</table>'.threadpost($post);
 	} else {
@@ -98,13 +97,13 @@ if ($err) {
 			<td class="b n2"><?=posttoolbar() ?></td>
 		</tr><tr>
 			<td class="b n1 center">Post:</td>
-			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=htmlval($post['text']) ?></textarea></td>
+			<td class="b n2"><textarea name="message" id="message" rows="20" cols="80"><?=esc($post['text']) ?></textarea></td>
 		</tr><tr>
 			<td class="b n1"></td>
 			<td class="b n1">
 				<input type="hidden" name="tid" value="<?=$tid ?>">
-				<input type="submit" class="submit" name="action" value="Submit">
-				<input type="submit" class="submit" name="action" value="Preview">
+				<input type="submit" name="action" value="Submit">
+				<input type="submit" name="action" value="Preview">
 			</td>
 		</tr>
 	</table></form><?php

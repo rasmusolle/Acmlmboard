@@ -26,11 +26,11 @@ $pagebar = [
 		['href' => './', 'title' => 'Main'],
 		['href' => "private.php".(!$tologuser ? '?id='.$pmsgs['userto'] : ''), 'title' => 'Private messages']
 	],
-	'title' => htmlval($pmsgs['title']),
+	'title' => esc($pmsgs['title']),
 	'actions' => [['href' => "sendprivate.php?pid=$pid", 'title' => 'Reply']]
 ];
 
-$pmsgs['id'] = 0; $pmsgs['num'] = 0;
+$pmsgs['id'] = $pmsgs['num'] = 0;
 
 RenderPageBar($pagebar);
 echo '<br>' . threadpost($pmsgs) . '<br>';

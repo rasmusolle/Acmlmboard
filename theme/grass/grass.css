@@ -30,6 +30,6 @@ textarea, input, select, button {
 	color: #FFFFFF;
 }
 
-.submit {
+input[type=submit] {
 	font-weight: bold;
 }

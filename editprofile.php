@@ -42,19 +42,17 @@ if ($act == 'Edit profile') {
 	$usepic = 'usepic';
 	$fname = $_FILES['picture'];
 	if ($fname['size'] > 0) {
-		$ftypes = ["png","jpeg","jpg","gif"];
+		$ftypes = ['png','jpeg','jpg','gif'];
 		$img_data = getimagesize($fname['tmp_name']);
-		$err = "";
-		if ($img_data[0] > 180)
-			$err .= "<br>Too wide.";
-		if ($img_data[1] > 180)
-			$err .= "<br>Too tall.";
+		$err = '';
+		if ($img_data[0] > 180 || $img_data[1] > 180)
+			$err .= "<br>The image is too big.";
 		if ($fname['size'] > 81920)
-			$err .= "<br>Filesize limit of 80KB exceeded.";
-		if (!in_array(str_replace("image/","",$img_data['mime']),$ftypes))
+			$err .= "<br>The image filesize too big.";
+		if (!in_array(str_replace('image/','',$img_data['mime']),$ftypes))
 			$err = "Invalid file type.";
 
-		if ($err != "")
+		if ($err != '')
 			$ava_out = $err;
 		else {
 			if (move_uploaded_file($fname['tmp_name'], "userpic/$user[id]")) {
@@ -67,16 +65,14 @@ if ($act == 'Edit profile') {
 		if ($ava_out != "OK!") {
 			$error .= $ava_out;
 		} else
-			$usepic = "usepic+1";
+			$usepic = 1;
 	}
 	if (isset($_POST['picturedel']))
 		$usepic = 0;
 
 	if ($_POST['gender'] < 0 || $_POST['gender'] > 2) $_POST['gender'] = 2;
 
-	$pass = $_POST['pass'];
-	if (!strlen($_POST['pass2']))
-		$pass = "";
+	$pass = (strlen($_POST['pass2']) ? $_POST['pass'] : '');
 
 	//Validate birthday values.
 	if (!$_POST['birthM'] || !$_POST['birthD']) //Reject if any are missing.
@@ -90,7 +86,7 @@ if ($act == 'Edit profile') {
 	$year = $_POST['birthY'];
 	if (!$_POST['birthY'] || !is_numeric($_POST['birthY']))
 		$year = -1;
-	if ($birthday != -1 && $_POST['birthM'] != "" && $_POST['birthD'] != "")
+	if ($birthday != -1 && $_POST['birthM'] != '' && $_POST['birthD'] != '')
 		$birthday = str_pad($_POST['birthM'], 2, "0", STR_PAD_LEFT) . '-' . str_pad($_POST['birthD'], 2, "0", STR_PAD_LEFT) . '-' . $year;
 	else
 		$birthday = -1;
@@ -117,7 +113,7 @@ if ($act == 'Edit profile') {
 		//Checks Displayname to name and other displaynames
 		$targetdname = $_POST['displayname'];
 
-		if (checkcdisplayname($targetuserid) && $targetdname != "") {
+		if (checkcdisplayname($targetuserid) && $targetdname != '') {
 			if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetdname, $targetdname, $user['id']])) {
 				$error .= "- Displayname already in use.<br>";
 			}
@@ -128,7 +124,7 @@ if ($act == 'Edit profile') {
 		//Validate Custom username color is a 6 digit hex RGB color
 		$_POST['nick_color'] = ltrim($_POST['nick_color'], '#');
 
-		if ($_POST['nick_color'] != "") {
+		if ($_POST['nick_color'] != '') {
 			if (!preg_match('/^([A-Fa-f0-9]{6})$/', $_POST['nick_color'])) {
 				$error .= "- Custom usercolor is not a valid RGB hex color.<br>";
 			}
@@ -137,9 +133,9 @@ if ($act == 'Edit profile') {
 
 	if (!$error) {
 		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
-			theme = ?, blocklayouts = ?, emailhide = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
-			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['location'], $_POST['email'], $_POST['head'], $_POST['sign'], 
-			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['emailhide'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
+			theme = ?, blocklayouts = ?, showemail = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
+			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['location'], $_POST['email'], $_POST['head'], $_POST['sign'],
+			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['showemail'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
 
 		if ($pass)
@@ -172,50 +168,50 @@ foreach (timezone_identifiers_list() as $tz) {
 	$listtimezones[$tz] = $tz;
 }
 
-$birthM = ''; $birthD = ''; $birthY = '';
+$birthM = $birthD = $birthY = '';
 if ($user['birth'] != -1) {
 	$birthday = explode('-', $user['birth']);
 	$birthM = $birthday[0]; $birthD = $birthday[1]; $birthY = $birthday[2];
 }
 
-$passinput = '<input type="password" name="pass" size="13" maxlength="32"> / Retype: <input type="password" name="pass2" size="13" maxlength="32">';
+$passinput = '<input type="password" name="pass" size="13" maxlength="32"> Retype: <input type="password" name="pass2" size="13" maxlength="32">';
 $birthinput = sprintf(
-	'Month: <input type="text" name="birthM" size="2" maxlength="2" value="%s">
-	Day: <input type="text" name="birthD size="2" maxlength="2" value="%s">
+	'Day: <input type="text" name="birthD" size="2" maxlength="2" value="%s">
+	Month: <input type="text" name="birthM" size="2" maxlength="2" value="%s">
 	Year: <input type="text" name="birthY" size="4" maxlength="4" value="%s">',
-$birthM, $birthD, $birthY);
+$birthD, $birthM, $birthY);
 
 $colorinput = sprintf(
 	'<input type="color" name="nick_color" value="#%s">
 	<input type="checkbox" name="enablecolor" value="1" id="enablecolor" %s><label for="enablecolor">Enable Color</label>',
-$user['nick_color'], ($user['enablecolor'] ? "checked" : ""));
+$user['nick_color'], ($user['enablecolor'] ? 'checked' : ''));
 
 echo '<form action="editprofile.php?id='.$targetuserid.'" method="post" enctype="multipart/form-data"><table class="c1">' .
 	catheader('Login information')
 .(has_perm("edit-users") ? fieldrow('Username', fieldinput(40, 255, 'name')) : fieldrow('Username', $user['name']))
-.(checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : "" )
+.(checkcdisplayname($targetuserid) ? fieldrow('Display name', fieldinput(40, 255, 'displayname')) : '')
 .fieldrow('Password', $passinput);
 
 if (has_perm("edit-users"))
 	echo
 	catheader('Administrative bells and whistles')
 .fieldrow('Group', fieldselect('group_id', $user['group_id'], $listgroup))
-.(($user['tempbanned'] > 0) ? fieldrow('Ban Information', '<input type=checkbox name=permaban value=1 id=permaban><label for=permaban>Make ban permanent</label>') : "" );
+.(($user['tempbanned'] > 0) ? fieldrow('Ban Information', '<input type=checkbox name=permaban value=1 id=permaban><label for=permaban>Make ban permanent</label>') : '');
 
 echo
 	catheader('Appearance')
 .fieldrow('Rankset', fieldselect('rankset', $user['rankset'], ranklist()))
-.((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : "")
+.((checkctitle($targetuserid)) ? fieldrow('Title', fieldinput(40, 255, 'title')) : '')
 .fieldrow('Picture', '<input type=file name=picture size=40> <input type=checkbox name=picturedel value=1 id=picturedel><label for=picturedel>Erase</label>
 	<br><span class=sfont>Must be PNG, JPG or GIF, within 80KB, within 180x180.</span>')
-.(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : "" )
+.(checkcusercolor($targetuserid) ? fieldrow('Custom username color', $colorinput) : '')
 .	catheader('User information')
 .fieldrow('Gender', fieldoption('gender', $user['gender'], ['Male', 'Female', 'N/A']))
 .fieldrow('Location', fieldinput(40, 60, 'location'))
 .fieldrow('Birthday', $birthinput)
 .fieldrow('Bio', fieldtext(5, 80, 'bio'))
-.fieldrow('Email address', fieldinput(40, 60, 'email'))
-.fieldrow('Hide Email', fieldoption('emailhide', $user['emailhide'], ['Show my email', 'Hide my email']))
+.fieldrow('Email address', fieldinput(40, 60, 'email')
+				.'<br>'.fieldcheckbox('showemail', $user['showemail'], 'Show email on profile page'))
 .	catheader('Post layout')
 .fieldrow('Header', fieldtext(5, 80, 'head'))
 .fieldrow('Signature', fieldtext(5, 80, 'sign'))
@@ -229,7 +225,7 @@ echo
 .fieldrow('Time format', fieldinput(15, 15, 'timeformat'))
 .fieldrow('Post layouts', fieldoption('blocklayouts', $user['blocklayouts'], ['Show everything in general', 'Block everything']))
 .	catheader('&nbsp;'); ?>
-<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="action" value="Edit profile"></td>
+<tr class="n1"><td class="b"></td><td class="b"><input type="submit" name="action" value="Edit profile"></td>
 </table><input type="hidden" name="token" value="<?=$token?>"></form>
 <script>
 function themePreview(id) {

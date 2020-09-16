@@ -129,12 +129,12 @@ function can_edit_user($uid) {
 
 function forums_with_view_perm() {
 	global $sql;
-	static $cache = "";
-	if ($cache != "") return $cache;
+	static $cache = '';
+	if ($cache != '') return $cache;
 	$cache = "(";
 	$r = $sql->query("SELECT f.id, f.private, f.cat FROM forums f");
 	while ($d = $sql->fetch($r)) {
-		if (can_view_forum($d)) $cache .= "$d[id],";
+		if (can_view_forum($d)) $cache .= $d['id'].',';
 	}
 	$cache .= "NULL)";
 	return $cache;
@@ -143,9 +143,9 @@ function forums_with_view_perm() {
 function can_view_forum($forum) {
 	//must fulfill the following criteria
 
-	//and if the forum is private
+	//if the forum is private
 	if ($forum['private']) {
-		//can view the forum
+		//and can view the forum
 		if (!has_perm('view-all-private-forums') && !has_perm_with_bindvalue('view-private-forum',$forum['id'])) return false;
 	}
 	return true;

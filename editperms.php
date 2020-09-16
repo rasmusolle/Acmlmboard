@@ -23,8 +23,8 @@ if (isset($_GET['gid'])) {
 } else if (isset($_GET['uid'])) {
 	$id = (int)$_GET['uid'];
 
-	$tuser = $sql->fetchp("SELECT `group_id` FROM users WHERE id=?",[$id]);
-	if ((is_root_gid($tuser[$u.'group_id']) || (!can_edit_user_assets($tuser[$u.'group_id']) && $id!=$loguser['id'])) && !has_perm('no-restrictions')) {
+	$tuser = $sql->resultp("SELECT group_id FROM users WHERE id = ?",[$id]);
+	if ((is_root_gid($tuser) || (!can_edit_user_assets($tuser) && $id != $loguser['id'])) && !has_perm('no-restrictions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
 
@@ -55,9 +55,9 @@ if (isset($_POST['addnew'])) {
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
 		$sql->prepare("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`) VALUES (?,?,?,'',?,?)",
 			[$id, $type, $permid, $bindval, $revoke]);
-		$msg = "The ".title_for_perm($permid)." permission has been successfully assigned!";
+		$msg = "The %s permission has been successfully assigned!";
 	} else {
-		$msg = "You do not have the permissions to assign the ".title_for_perm($permid)." permission!";
+		$msg = "You do not have the permissions to assign the %s permission!";
 	}
 } else if (isset($_POST['apply'])) {
 	$keys = array_keys($_POST['apply']);
@@ -70,18 +70,18 @@ if (isset($_POST['addnew'])) {
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
 		$sql->prepare("UPDATE `x_perm` SET `perm_id`=?, `bindvalue`=?, `revoke`=? WHERE `id`=?",
 			[$permid, $bindval, $revoke, $pid]);
-		$msg = "The ".title_for_perm($permid)." permission has been successfully edited!";
+		$msg = "The %s permission has been successfully edited!";
 	} else {
-		$msg = "You do not have the permissions to edit the ".title_for_perm($permid)." permission!";
+		$msg = "You do not have the permissions to edit the %s permission!";
 	}
 } else if (isset($_POST['del'])) {
 	$keys = array_keys($_POST['del']);
 	$pid = $keys[0];
 	$permid = $_POST['permid'][$pid];
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
-		$sql->prepare("DELETE FROM `x_perm`WHERE `id`=?", [$pid]); $msg="The ".title_for_perm($permid)." permission has been successfully deleted!";
+		$sql->prepare("DELETE FROM `x_perm`WHERE `id`=?", [$pid]); $msg="The %s permission has been successfully deleted!";
 	} else {
-		$msg = "You do not have the permissions to delete the ".title_for_perm($permid)." permission!";
+		$msg = "You do not have the permissions to delete the %s permission!";
 	}
 }
 
@@ -91,7 +91,7 @@ $pagebar = [
 	'breadcrumb' => [['href'=>'./', 'title'=>'Main']],
 	'title' => 'Edit permissions',
 	'actions' => [],
-	'message' => (isset($msg) ? $msg : '')
+	'message' => (isset($msg) ? sprintf($msg, title_for_perm($permid)) : '')
 ];
 
 RenderPageBar($pagebar);
@@ -106,11 +106,13 @@ $row = []; $i = 0;
 while ($perm = $sql->fetch($permset)) {
 	$pid = $perm['id'];
 
-	$field = RevokeSelect("revoke[{$pid}]", $perm['revoke']);
-	$field .= PermSelect("permid[{$pid}]", $perm['perm_id']);
-	$field .= "for ID <input type=\"text\" name=\"bindval[{$pid}]\" value=\"".$perm['bindvalue']."\" size=3 maxlength=8> ";
-	$field .= "<input type=\"submit\" name=\"apply[{$pid}]\" value=\"Apply changes\">";
-	$field .= "<input type=\"submit\" name=\"del[{$pid}]\" value=\"Remove\">";
+	$field = RevokeSelect("revoke[{$pid}]", $perm['revoke'])
+			.PermSelect("permid[{$pid}]", $perm['perm_id'])
+			.sprintf(
+				 ' for ID <input type="text" name="bindval[%s]" value="%s" size="3" maxlength="8">'
+				.' <input type="submit" name="apply[%s]" value="Apply">'
+				.' <input type="submit" name="del[%s]" value="Remove">',
+			$pid, $perm['bindvalue'], $pid, $pid);
 	$row['c'.$i] = $field;
 
 	$i++;
@@ -128,10 +130,10 @@ if (($i % 2) != 0) {
 RenderTable($data, $header);
 
 $header = ['c0' => ['name' => 'Add permission']];
-$field = RevokeSelect("revoke_new", 0);
-$field .= PermSelect("permid_new", null);
-$field .= "for ID <input type=\"text\" name=\"bindval_new\" value=\"\" size=3 maxlength=8> ";
-$field .= "<input type=\"submit\" name=\"addnew\" value=\"Add\">";
+
+$field = RevokeSelect("revoke_new", 0)
+		.PermSelect("permid_new", null)
+		.'for ID <input type="text" name="bindval_new" value="" size=3 maxlength=8> <input type="submit" name="addnew" value="Add">';
 $data = [['c0' => $field]];
 RenderTable($data, $header);
 
@@ -146,17 +148,17 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 	$permoverview .= '<br><hr><strong>Permissions inherited from parent groups:</strong><br>';
 	$parentid = $permowner['inherit_group_id'];
 } else if ($type == 'user') {
-	$permoverview .= '<hr><strong>Permissions inherited from the group "'.htmlspecialchars($permowner['group_title']).'":</strong><br>';
+	$permoverview .= '<hr><strong>Permissions inherited from the group "'.esc($permowner['group_title']).'":</strong><br>';
 	$parentid = $permowner['group_id'];
 }
 
-while ($parentid > 0) {
+while (isset($parentid) && $parentid > 0) {
 	$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
-	$permoverview .= '<br>'.htmlspecialchars($parent['title']).':<br>' . PermTable(PermSet('group', $parentid));
+	$permoverview .= '<br>'.esc($parent['title']).':<br>' . PermTable(PermSet('group', $parentid));
 	$parentid = $parent['inherit_group_id'];
 }
 
-$header = ['cell' => ['name'=>"Permissions overview for {$type} '".htmlspecialchars($permowner['title'])."'"]];
+$header = ['cell' => ['name'=>"Permissions overview for {$type} '".esc($permowner['title'])."'"]];
 $data = [['cell' => $permoverview]];
 RenderTable($data, $header);
 
@@ -176,7 +178,7 @@ function PermSelect($name, $sel) {
 		while ($perm = $sql->fetch($perms)) $permlist[] = $perm;
 	}
 
-	$out = "<select name=\"{$name}\">";
+	$out = '<select name="'.$name.'">';
 	$firstletter = '';
 	foreach ($permlist as $perm) {
 		if (substr($perm['permtitle'], 0, 1) !== $firstletter) {
@@ -185,15 +187,16 @@ function PermSelect($name, $sel) {
 			$out .= '<optgroup label="'.$firstletter.'">';
 		}
 		$chk = ($perm['permid'] == $sel) ? ' selected="selected"' : '';
-		$out .= "<option value=\"".htmlspecialchars($perm['permid'])."\"{$chk}>".htmlspecialchars($perm['permtitle'])."</option>";
+		$out .= sprintf('<option value="%s"%s>%s</option>', esc($perm['permid']), $chk, esc($perm['permtitle']));
 	}
-	$out .= "</select>";
+	$out .= '</select>';
 
 	return $out;
 }
 
 function RevokeSelect($name, $sel) {
-	$out = "<select name=\"$name\"><option value=\"0\"".($sel==0 ? ' selected="selected"':'').">Grant</option><option value=\"1\"".($sel==1 ? ' selected="selected"':'').">Revoke</option></select> ";
+	$out = sprintf('<select name="%s"><option value="0"%s>Grant</option><option value="1"%s>Revoke</option></select> ',
+		$name, ($sel == 0 ? ' selected="selected"' : ''), ($sel == 1 ? ' selected="selected"' : ''));
 	return $out;
 }
 
@@ -220,31 +223,31 @@ function PermTable($permset) {
 		$permtitle = $perm['permtitle'];
 		if (!$permtitle) $permtitle = $perm['perm_id'];
 
-		$ret .= "<td style=\"width:25%;\">&bull; ";
+		$ret .= '<td style="width:25%">&bull; ';
 		if ($discarded) $ret .= '<s>';
 		if ($perm['revoke']) $ret .= '<span style="color:#f88;">Revoke</span>: ';
 		else $ret .= '<span style="color:#8f8;">Grant</span>: ';
-		$ret .= '\''.htmlspecialchars($permtitle).'\'';
+		$ret .= "'".esc($permtitle)."'";
 
 		if ($perm['bindvalue']) {
 			$bindtitle = strtolower($perm['bindtitle']);
 			if (!$bindtitle) $bindtitle = $perm['permbind_id'];
 			if (!$bindtitle) $bindtitle = 'ID';
-			$ret .= ' for '.htmlspecialchars($bindtitle).' #'.$perm['bindvalue'];
+			$ret .= ' for '.esc($bindtitle).' #'.$perm['bindvalue'];
 		}
 
 		if ($discarded) $ret .= '</s>';
 
-		$ret .= "</td>\n";
+		$ret .= '</td>';
 
 		$i++;
-		if (($i % 4) == 0) $ret .= "</tr>\n<tr>\n";
+		if (($i % 4) == 0) $ret .= '</tr><tr>';
 	}
 
 	if (($i % 4) != 0)
-		$ret .= "<td colspan=\"".(4-($i%4))."\">&nbsp;</td>\n";
+		$ret .= '<td colspan="'.(4-($i%4)).'">&nbsp;</td>';
 
-	if (!$ret) $ret = "<td>&bull; None</td>\n";
+	if (!$ret) $ret = '<td>&bull; None</td>';
 
-	return "<table style=\"width:100%;\">\n<tr>\n{$ret}</tr>\n</table>\n";
+	return '<table style="width:100%"><tr>'.$ret.'</tr></table>';
 }

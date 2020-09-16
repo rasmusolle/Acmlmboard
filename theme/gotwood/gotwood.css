@@ -42,7 +42,7 @@ textarea, input, select {
 	font: 1em verdana;
 }
 
-.submit {
+input[type=submit] {
 	border: #643007 outset 2px;
 	background: url("wood.jpg") #643007;
 	font-weight: bold;

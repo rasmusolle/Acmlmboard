@@ -35,10 +35,10 @@ if (isset($_GET['action']) && $_GET['action'] == "del") {
 
 $ptitle = 'Private messages' . ($sent ? ' (sent)' : '');
 if ($id && has_perm('view-user-pms')) {
-	$user = $sql->fetchp("SELECT id,name,group_id FROM users WHERE id = ?", [$id]);
+	$user = $sql->fetchp("SELECT id,name,displayname,enablecolor,nick_color,group_id FROM users WHERE id = ?", [$id]);
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
-	pageheader("$user[name]'s " . strtolower($ptitle));
-	$title = userlink($user) . "'s " . strtolower($ptitle);
+	pageheader($user['name']."'s ".strtolower($ptitle));
+	$title = userlink($user)."'s ".strtolower($ptitle);
 } else {
 	$id = $loguser['id'];
 	pageheader($ptitle);
@@ -100,7 +100,7 @@ RenderPageBar($topbot);
 				<a href="private.php?action=del&id=<?=$pmsg['id'] ?>&view=<?=$view ?>"><img src="img/smilies/no.png" align="absmiddle"></a>
 			</td>
 			<td class="b n1"><?=$status ?></td>
-			<td class="b left" style="word-break:break-word"><a href="showprivate.php?id=<?=$pmsg['id'] ?>"><?=htmlval($pmsg['title']) ?></a></td>
+			<td class="b left" style="word-break:break-word"><a href="showprivate.php?id=<?=$pmsg['id'] ?>"><?=esc($pmsg['title']) ?></a></td>
 			<td class="b"><?=userlink($pmsg, 'u') ?></td>
 			<td class="b"><nobr><?=date($dateformat, $pmsg['date']) ?></nobr></td>
 		</tr>

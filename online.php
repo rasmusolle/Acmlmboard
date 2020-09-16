@@ -17,7 +17,7 @@ $users = $sql->prepare("SELECT * FROM users WHERE lastview > ?", [(time()-$time)
 	<tr class="h">
 		<td class="b h" width="30">#</td>
 		<td class="b h" width="230">Name</td>
-		<td class="b h" width="80">Last view</td>
+		<td class="b h" width="130">Last view</td>
 		<td class="b h">URL</td>
 		<?=(has_perm('view-post-ips') ? '<td class="b h" width="120">IP</td>' : '') ?>
 	</tr>

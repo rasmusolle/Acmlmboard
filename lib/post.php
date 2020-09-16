@@ -34,17 +34,17 @@ function securityfilter($msg) {
 }
 
 function makecode($match) {
-	$code = htmlspecialchars($match[1]);
+	$code = esc($match[1]);
 	$list = ["[", ":", ")", "_", "@", "-"];
 	$list2 = ["&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
 	return '<code class="microlight">' . str_replace($list, $list2, $code) . '</code>';
 }
 
 function makeirc($match) {
-	$code = htmlspecialchars($match[1]);
+	$code = esc($match[1]);
 	$list = ["\r\n", "[", ":", ")", "_", "@", "-"];
 	$list2 = ["<br>", "&#91;", "&#58;", "&#41;", "&#95;", "&#64;", "&#45;"];
-	return "<table style=\"width: 90%; min-width: 90%;\"><tr><td class=\"b n3\"><code>" . str_replace($list, $list2, $code) . "</code></table>";
+	return '<table style="width:90%;min-width:90%;"><tr><td class="b n3"><code>' . str_replace($list, $list2, $code) . '</code></table>';
 }
 
 function filterstyle($match) {
@@ -72,8 +72,8 @@ function postfilter($msg) {
 
 	$msg = str_replace("\n", '<br>', $msg);
 
-	for ($i = 0; $i < sizeof($smilies); $i++)
-		$msg = str_replace($smilies[$i]['text'], '<img src=' . $smilies[$i]['url'] . ' align=absmiddle alt="' . $smilies[$i]['text'] . '" title="' . $smilies[$i]['text'] . '">', $msg);
+	foreach ($smilies as $smiley)
+		$msg = str_replace($smiley['text'], sprintf('<img src="%s" align=absmiddle alt="%s" title="%s">', $smiley['url'], $smiley['text'], $smiley['text']), $msg);
 
 	//Relocated here due to conflicts with specific smilies.
 	$msg = preg_replace("@(</?(?:table|caption|col|colgroup|thead|tbody|tfoot|tr|th|td|ul|ol|li|div|p|style|link).*?>)\r?\n@si", '$1', $msg);
@@ -99,7 +99,7 @@ function postfilter($msg) {
 	return $msg;
 }
 
-function htmlval($text) {
+function esc($text) {
 	$text = str_replace('&', '&amp;', $text);
 	$text = str_replace('<', '&lt;', $text);
 	$text = str_replace('"', '&quot;', $text);
@@ -110,7 +110,7 @@ function htmlval($text) {
 function posttoolbutton($name, $title, $leadin, $leadout) {
 	return sprintf(
 		'<td style="text-align:center">
-			<a href="javascript:toolBtn(\'%s\',\'%s\')"><input style="font-size:10pt;" type="button" class="submit" title="%s" value="%s"></a>
+			<a href="javascript:toolBtn(\'%s\',\'%s\')"><input style="font-size:10pt;" type="button" title="%s" value="%s"></a>
 		</td>',
 	$leadin, $leadout, $title, $name);
 }
@@ -149,18 +149,18 @@ function threadpost($post, $pthread = '') {
 
 	$post['ranktext'] = getrank($post['urankset'], $post['uposts']);
 	$post['utitle'] = $post['ranktext']
-			. ((strlen($post['ranktext']) >= 1) ? "<br>" : "")
+			. ((strlen($post['ranktext']) >= 1) ? '<br>' : '')
 			. $post['utitle']
-			. ((strlen($post['utitle']) >= 1) ? "<br>" : "");
+			. ((strlen($post['utitle']) >= 1) ? '<br>' : '');
 
 	// Blocklayouts, supports user/user ($blocklayouts) and user/world (token).
 	LoadBlockLayouts(); //load the blocklayout data - this is just once per page.
 	$isBlocked = (isset($loguser['blocklayouts']) ? $loguser['blocklayouts'] : '');
 	if ($isBlocked)
-		$post['usign'] = $post['uhead'] = "";
+		$post['usign'] = $post['uhead'] = '';
 
 	if (isset($post['deleted']) && $post['deleted']) {
-		$postlinks = "";
+		$postlinks = '';
 		if (can_edit_forum_posts(getforumbythread($post['thread']))) {
 			$postlinks .= "<a href=\"thread.php?pid=$post[id]&pin=$post[id]&rev=$post[revision]#$post[id]\">Peek</a> | ";
 			$postlinks .= "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&act=undelete\">Undelete</a>";
@@ -184,15 +184,12 @@ HTML;
 		return $text;
 	}
 
-	$postheaderrow = '';
-	$threadlink = '';
-	$postlinks = '';
-	$revisionstr = '';
+	$postheaderrow = $threadlink = $postlinks = $revisionstr = '';
 
 	$post['id'] = (isset($post['id']) ? $post['id'] : 0);
 
 	if ($pthread)
-		$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . htmlval($pthread['title']) . "</a>";
+		$threadlink = ", in <a href=\"thread.php?id=$pthread[id]\">" . esc($pthread['title']) . "</a>";
 
 	if (isset($post['id']) && $post['id'])
 		$postlinks = "<a href=\"thread.php?pid=$post[id]#$post[id]\">Link</a>"; // headlinks for posts
@@ -202,7 +199,7 @@ HTML;
 
 	// I have no way to tell if it's closed (or otherwise impostable (hah)) so I can't hide it in those circumstances...
 	if (isset($post['isannounce'])) {
-		$postheaderrow = "<tr class=\"h\"><td class=\"b\" colspan=2>" . $post['ttitle'] . "</td></tr>";
+		$postheaderrow = '<tr class="h"><td class="b" colspan=2>' . $post['ttitle'] . '</td></tr>';
 	} else if (isset($post['thread']) && $post['id'] && $loguser['id'] != 0) {
 		$postlinks .= ($postlinks ? ' | ' : '') . "<a href=\"newreply.php?id=$post[thread]&pid=$post[id]\">Reply</a>";
 	}
@@ -214,22 +211,22 @@ HTML;
 	if (isset($post['thread']) && isset($post['id']) && can_delete_forum_posts(getforumbythread($post['thread'])))
 		$postlinks.=($postlinks ? ' | ' : '') . "<a href=\"editpost.php?pid=" . urlencode(packsafenumeric($post['id'])) . "&act=delete\">Delete</a>";
 
-	if ($post['id'])
+	if (isset($post['thread']) && $post['id'])
 		$postlinks.=" | ID: $post[id]";
 
-	if (has_perm('view-post-ips'))
+	if (isset($post['thread']) && has_perm('view-post-ips'))
 		$postlinks.=($postlinks ? ' | ' : '') . "IP: $post[ip]";
 
 	if (isset($post['maxrevision']) && isset($post['thread']) && has_perm('view-post-history') && $post['maxrevision'] > 1) {
-		$revisionstr.=" | Go to revision: ";
+		$revisionstr.=" | Revision ";
 		for ($i = 1; $i <= $post['maxrevision']; $i++)
 			$revisionstr .= "<a href=\"thread.php?pid=$post[id]&pin=$post[id]&rev=$i#$post[id]\">$i</a> ";
 	}
 
-	$tbar1 = (!$isBlocked) ? "topbar" . $post['uid'] . "_1" : "";
-	$tbar2 = (!$isBlocked) ? "topbar" . $post['uid'] . "_2" : "";
-	$sbar = (!$isBlocked) ? "sidebar" . $post['uid'] : "";
-	$mbar = (!$isBlocked) ? "mainbar" . $post['uid'] : "";
+	$tbar1 = (!$isBlocked) ? "topbar" . $post['uid'] . "_1" : '';
+	$tbar2 = (!$isBlocked) ? "topbar" . $post['uid'] . "_2" : '';
+	$sbar = (!$isBlocked) ? "sidebar" . $post['uid'] : '';
+	$mbar = (!$isBlocked) ? "mainbar" . $post['uid'] : '';
 	$ulink = userlink($post, 'u');
 	$pdate = date($dateformat, $post['date']);
 	$text = <<<HTML
@@ -258,16 +255,16 @@ HTML;
 			$post['usign'] = '<br><br>' . $signsep . $post['usign'];
 	}
 
-	$text .= postfilter($post['utitle']);
-	$text .= "$picture
-<br>Posts: " . ($post['num'] ? "$post[num]/" : '') . "$post[uposts]
-<br>
-<br>Since: " . date('Y-m-d', $post['uregdate']) . "
-<br>
-<br>Last post: $lastpost
-<br>Last view: " . timeunits(time() - $post['ulastview']);
-			$text .= "</td>
-<td class=\"b n2 $mbar\" id=\"post_" . $post['id'] . "\">" . postfilter($post['uhead'] . $post['text'] . $post['usign']) . "</td>
+	$text .= postfilter($post['utitle'])
+		."$picture
+		<br>Posts: $post[uposts]
+		<br>
+		<br>Since: ".date('Y-m-d', $post['uregdate'])."
+		<br>
+		<br>Last post: $lastpost
+		<br>Last view: ".timeunits(time() - $post['ulastview'])."
+	</td>
+	<td class=\"b n2 $mbar\" id=\"post_".$post['id'].'">'.postfilter($post['uhead'].$post['text'].$post['usign'])."</td>
 </table>";
 
 	return $text;

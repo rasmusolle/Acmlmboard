@@ -30,9 +30,9 @@ if ($ranksetcount != 2) { ?>
 <?php } ?>
 <table class="c1">
 	<tr class="h">
-		<td class="b" width="150px">Rank</td>
-		<td class="b" width="40px">Posts</td>
-		<td class="b" width="50px">Users</td>
+		<td class="b" width="150">Rank</td>
+		<td class="b" width="40">Posts</td>
+		<td class="b" width="50">Users</td>
 		<td class="b">Users On Rank</td>
 	</tr>
 <?php
@@ -63,7 +63,7 @@ foreach ($rankset_data[$rankset_names[$getrankset]] as $rank) {
 		<td class="b n1"><?=(($usercount - $idlecount) ? $rank['str'] : '???') ?></td>
 		<td class="b n2 center"><?=(($usercount - $idlecount) ? $neededposts : '???') ?></td>
 		<td class="b n2 center"><?=$usercount ?></td>
-		<td class="b n1 center"><?=(isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? " ($idlecount inactive)" : "") ?></td>
+		<td class="b n1 center"><?=(isset($usersonthisrank) ? $usersonthisrank : '') . ($idlecount ? " ($idlecount inactive)" : '') ?></td>
 	</tr><?php
 	unset($usersonthisrank);
 	$i++;

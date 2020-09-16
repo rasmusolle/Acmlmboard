@@ -103,7 +103,7 @@ if ($act == 'new' || $act == 'edit') {
 .	fieldrow('Sort order', fieldinput(4, 8, 'sortorder', $group['sortorder']))
 .	fieldrow('Visibility', fieldoption('visible', $group['visible'], ['Invisible', 'Visible']))
 .	fieldrow('Color', fieldinput(6,6,'nc',$group['nc']))
-.	'<tr class="n1"><td class="b"></td><td class="b"><input type="submit" class="submit" name="submit" value="Apply changes"></td></table></form><br>';
+.	'<tr class="n1"><td class="b"></td><td class="b"><input type="submit" name="submit" value="Apply changes"></td></table></form><br>';
 		$pagebar['message'] = '';
 		RenderPageBar($pagebar);
 	}
@@ -130,7 +130,7 @@ if ($act == 'new' || $act == 'edit') {
 	$data = [];
 
 	while ($group = $sql->fetch($groups)) {
-		$name = htmlspecialchars($group['title']);
+		$name = esc($group['title']);
 		if ($group['visible']) $name = "<strong>{$name}</strong>";
 		if ($group['nc']) $name = str_replace('<strong>', "<strong style=\"color: #{$group['nc']};\">", $name);
 
@@ -139,13 +139,13 @@ if ($act == 'new' || $act == 'edit') {
 		$actions[] = ['href'=>'editgroups.php?act=edit&id='.$group['id'], 'title'=>'Edit'];
 		if ($caneditperms && $group['id'] > 7)
 			$actions[] = ['href'=>'editgroups.php?act=delete&id='.urlencode(packsafenumeric($group['id'])), 'title'=>'Delete',
-				'confirm'=>'Are you sure you want to delete the group "'.htmlspecialchars($group['title']).'"?'];
+				'confirm'=>'Are you sure you want to delete the group "'.esc($group['title']).'"?'];
 
 		$data[] = [
 			'sort' => $group['sortorder'],
 			'id' => $group['id'],
 			'name' => $name,
-			'parent' => $group['parenttitle'] ? htmlspecialchars($group['parenttitle']) : '<small>(none)</small>',
+			'parent' => $group['parenttitle'] ? esc($group['parenttitle']) : '<small>(none)</small>',
 			'actions' => RenderActions($actions,true),
 		];
 	}

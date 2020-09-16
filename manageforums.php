@@ -93,7 +93,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<tr class="h"><td class="b h" colspan="2"><?=($cid == 'new' ? 'Create' : 'Edit') ?> category</td></tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" value="<?=htmlspecialchars($cat['title']) ?>" size="50" maxlength="500"></td>
+				<td class="b n2"><input type="text" name="title" value="<?=esc($cat['title']) ?>" size="50" maxlength="500"></td>
 			</tr><tr>
 				<td class="b n1 center">Display order:</td>
 				<td class="b n2"><input type="text" name="ord" value="<?=$cat['ord'] ?>" size="4" maxlength="10"></td>
@@ -102,9 +102,9 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<tr>
 				<td class="b n1 center"></td>
 				<td class="b n2">
-					<input type="submit" class="submit" name="savecat" value="Save category">
-						<?=($cid == 'new' ? '' : '<input type="submit" class="submit" name="delcat" value="Delete category" onclick="if (!confirm("Really delete this category?")) return false;"> ') ?>
-					<button type="button" class="submit" id="back" onclick="window.location='manageforums.php';">Back</button>
+					<input type="submit" name="savecat" value="Save category">
+						<?=($cid == 'new' ? '' : '<input type="submit" name="delcat" value="Delete category" onclick="if (!confirm("Really delete this category?")) return false;"> ') ?>
+					<button type="button" id="back" onclick="window.location='manageforums.php';">Back</button>
 				</td>
 			</tr>
 		</table>
@@ -128,10 +128,10 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			<tr class="h"><td class="b h" colspan="2"><?=($fid == 'new' ? 'Create' : 'Edit') ?> forum</td></tr>
 			<tr>
 				<td class="b n1 center">Title:</td>
-				<td class="b n2"><input type="text" name="title" value="<?=htmlspecialchars($forum['title']) ?>" size="50" maxlength="500"></td>
+				<td class="b n2"><input type="text" name="title" value="<?=esc($forum['title']) ?>" size="50" maxlength="500"></td>
 			</tr><tr>
 				<td class="b n1 center">Description:<br><small>HTML allowed.</small></td>
-				<td class="b n2"><textarea wrap="virtual" name="descr" rows="3" cols="50"><?=htmlspecialchars($forum['descr']) ?></textarea></td>
+				<td class="b n2"><textarea wrap="virtual" name="descr" rows="3" cols="50"><?=esc($forum['descr']) ?></textarea></td>
 			</tr><tr>
 				<td class="b n1 center">Category:</td>
 				<td class="b n2"><?=$catlist ?></td>
@@ -141,17 +141,17 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 			</tr><tr>
 				<td class="b n1 center"></td>
 				<td class="b n2">
-					<label><input type="checkbox" name="private" value="1" <?=($forum['private'] ? ' checked="checked"':'') ?>> Private forum</label>
-					<label><input type="checkbox" name="readonly" value="1"<?=($forum['readonly'] ? ' checked="checked"' : '')?>> Read-only</label>
+					<label><input type="checkbox" name="private" value="1" <?=($forum['private'] ? ' checked':'') ?>> Private forum</label>
+					<label><input type="checkbox" name="readonly" value="1" <?=($forum['readonly'] ? ' checked' : '')?>> Read-only</label>
 				</td>
 			</tr>
 			<tr class="h"><td class="b h" colspan="2">&nbsp;</td></tr>
 			<tr>
 				<td class="b n1 center"></td>
 				<td class="b n2">
-					<input type="submit" class="submit" name="saveforum" value="Save forum">
-					<?php ($fid == 'new' ? '' : '<input type="submit" class="submit" name="delforum" value="Delete forum" onclick="if (!confirm("Really delete this forum?")) return false;">') ?>
-					<button type="button" class="submit" id="back" onclick="window.location='manageforums.php';">Back</button>
+					<input type="submit" name="saveforum" value="Save forum">
+					<?php ($fid == 'new' ? '' : '<input type="submit" name="delforum" value="Delete forum" onclick="if (!confirm("Really delete this forum?")) return false;">') ?>
+					<button type="button" id="back" onclick="window.location='manageforums.php'">Back</button>
 				</td>
 			</tr>
 		</table><br>
@@ -253,10 +253,10 @@ function permtable($bind, $id) {
 		if ($group['id'] == $rootgroup) break;
 
 		$gid = $group['id'];
-		$gtitle = htmlspecialchars($group['title']);
+		$gtitle = esc($group['title']);
 
 		$pf = $group['visible'] ? '<strong' : '<span';
-		if ($group['nc']) $pf .= ' style="color: #'.htmlspecialchars($group['nc']).';"';
+		if ($group['nc']) $pf .= ' style="color:#'.esc($group['nc']).'"';
 		$pf .= '>';
 		$sf = $group['visible'] ? '</strong>' : '</span>';
 		$gtitle = "{$pf}{$gtitle}{$sf}";
@@ -293,7 +293,7 @@ function permtable($bind, $id) {
 	?><tr class="n<?=$c ?>">
 		<td class="b"></td>
 		<td class="b" colspan="2">
-			<input type="submit" class="submit" name="saveforum" value="Save forum">
+			<input type="submit" name="saveforum" value="Save forum">
 		</td>
 	</tr></table><?php
 }

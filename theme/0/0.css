@@ -38,7 +38,7 @@ textarea, input, select, button {
 	font: 1em verdana;
 }
 
-.submit {
+input[type=submit] {
 	border: #FFD040 ridge 2px;
 	color: #FFD040;
 	font-weight: bold;

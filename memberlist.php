@@ -10,28 +10,22 @@ $orderby = isset($_REQUEST['orderby']) ? $_REQUEST['orderby'] : '';
 $ppp = 50;
 if ($page < 1) $page = 1;
 
-if ($orderby == 'a') $sortby = " ASC";
-else $sortby = " DESC";
+$sortby = ($orderby == 'a' ? " ASC" : " DESC");
 
 $order = 'posts' . $sortby;
 if ($sort == 'name') $order = 'name' . $sortby;
 if ($sort == 'reg') $order = 'regdate' . $sortby;
 
-$where = '1';
+$where = (is_numeric($pow) ? "WHERE group_id = $pow" : '');
 
-if ($pow != '' && is_numeric($pow)) {
-	$where .= " AND group_id=$pow";
-}
+$users = $sql->query("SELECT * FROM users $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
+$num = $sql->resultq("SELECT COUNT(*) FROM users $where");
 
-$users = $sql->query("SELECT * FROM users WHERE $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
-$num = $sql->resultq("SELECT COUNT(*) FROM users WHERE $where");
-
-if ($num <= $ppp)
-	$pagelist = '';
-else {
+$pagelist = '';
+if ($num >= $ppp) {
 	$pagelist = 'Pages:';
 	for ($p = 1; $p <= 1 + floor(($num - 1) / $ppp); $p++)
-		$pagelist .= ($p == $page ? " $p" : ' ' . mlink($sort, $pow, $p, $orderby) . "$p</a>");
+		$pagelist .= ($p == $page ? " $p" : ' ' . mlink($p, $sort, $pow, $p, $orderby) . "</a>");
 }
 
 $activegroups = $sql->query("SELECT * FROM groups WHERE id IN (SELECT `group_id` FROM users GROUP BY `group_id`) ORDER BY `sortorder` ASC ");
@@ -39,8 +33,8 @@ $activegroups = $sql->query("SELECT * FROM groups WHERE id IN (SELECT `group_id`
 $groups = [];
 $gc = 0;
 while ($group = $sql->fetch($activegroups)) {
-	$grouptitle = "<span style=\"color:#" . $group['nc'] . ";\">" . $group['title'] . "</span>";
-	$groups[$gc++] = mlink($sort, $group['id'], $page, $orderby) . $grouptitle . "</a>";
+	$grouptitle = '<span style="color:#' . $group['nc'] . '">' . $group['title'] . '</span>';
+	$groups[$gc++] = mlink($grouptitle, $sort, $group['id'], $page, $orderby);
 }
 
 ?>
@@ -49,21 +43,17 @@ while ($group = $sql->fetch($activegroups)) {
 	<tr>
 		<td class="b n1" width="80">Sort by:</td>
 		<td class="b n2 center">
-			<?=mlink('', $pow, $page, $orderby) ?> Posts</a> |
-			<?=mlink('name', $pow, $page, $orderby) ?> Username</a> |
-			<?=mlink('reg', $pow, $page, $orderby) ?> Registration date</a> |
-			<?=mlink($sort, $pow, $page, 'd') ?>&#x25BC;</a>
-			<?=mlink($sort, $pow, $page, 'a') ?>&#x25B2;</a>
+			<?=mlink('Posts', '', $pow, $page, $orderby) ?> |
+			<?=mlink('Username', 'name', $pow, $page, $orderby) ?> |
+			<?=mlink('Registration date', 'reg', $pow, $page, $orderby) ?> |
+			<?=mlink('[ &#x25BC; ]', $sort, $pow, $page, 'd') ?>
+			<?=mlink('[ &#x25B2; ]', $sort, $pow, $page, 'a') ?>
 		</td>
 	</tr><tr>
 		<td class="b n1">Group:</td>
 		<td class="b n2 center">
-			<?php $c = 0;
-			foreach ($groups as $k => $v) {
-				$c++;
-				echo $v . " | ";
-			}
-			echo mlink($sort, '', $page, $orderby) . "All</a>" ?>
+			<?php foreach ($groups as $group) echo $group.' | ' ?>
+			<?=mlink('All', $sort, '', $page, $orderby) ?>
 		</td>
 	</tr>
 </table><br>
@@ -80,13 +70,13 @@ if_empty_query($users, "No users found.", 5);
 
 $i = 1;
 while ($user = $sql->fetch($users)) {
-		$picture = ($user['usepic'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
-		?><tr class="n<?=$i ?>" style="height:69px">
+	$picture = ($user['usepic'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
+	?><tr class="n<?=$i ?>" style="height:69px">
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>
 		<td class="b"><?=userlink($user) ?></td>
-		<td class="b"><?=date($dateformat,$user['regdate']) ?></td>
-		<td class="b"><?=$user['posts'] ?></td>
+		<td class="b center"><?=date($dateformat,$user['regdate']) ?></td>
+		<td class="b center"><?=$user['posts'] ?></td>
 	</tr><?php
 	$i = ($i == 1 ? 2 : 1);
 }
@@ -96,8 +86,9 @@ if ($pagelist)
 	echo '<br>'.$pagelist.'<br>';
 pagefooter();
 
-function mlink($sort, $pow, $page = 1, $orderby) {
+function mlink($name, $sort, $pow, $page, $orderby) {
 	return '<a href="memberlist.php?'.
 		($sort ? "sort=$sort" : '').($pow != '' ? "&pow=$pow" : '').($page != 1 ? "&page=$page" : '').
-		($orderby != '' ? "&orderby=$orderby" : '').'">';
+		($orderby != '' ? "&orderby=$orderby" : '').'">'
+		.$name.'</a>';
 }
