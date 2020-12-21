@@ -1,25 +1,15 @@
 <?php
 
 function encryptpwd($pass) {
-	global $ckey;
-	if (function_exists('mcrypt_encrypt')) {
-		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-		return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $ckey, $pass, MCRYPT_MODE_ECB, $iv)));
-	} else {
-		return trim(base64_encode($pass));
-	}
+	global $ckey, $civ;
+
+	return trim(base64_encode(openssl_encrypt($pass, "aes-128-cbc", $ckey, $options=0, $civ)));
 }
 
 function decryptpwd($pass) {
-	global $ckey;
-	if (function_exists('mcrypt_decrypt')) {
-		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-		return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $ckey, base64_decode($pass), MCRYPT_MODE_ECB, $iv));
-	} else {
-		return trim(base64_decode($pass));
-	}
+	global $ckey, $civ;
+
+	return trim(openssl_decrypt(base64_decode($pass), "aes-128-cbc", $ckey, $options=0, $civ));
 }
 
 function packlcookie($pass) {

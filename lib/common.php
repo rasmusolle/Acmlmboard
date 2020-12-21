@@ -245,11 +245,7 @@ HTML;
 		</form><?php
 	}
 
-	if (!function_exists('mcrypt_encrypt')) {
-		echo '<p style="color:red;text-align:center">Warning: Cookie encryption has been disabled since mcrypt has not been installed.<br>This could cause security issues.</p>';
-	} else {
-		echo '<br>';
-	}
+	echo '<br>';
 
 	if ($fid || $fid == 0) {
 		$onusers = $sql->prepare("SELECT ".userfields().",lastpost,lastview FROM users WHERE lastview > ? ".($fid != 0 ? " AND lastforum =".$fid : '')." ORDER BY name",

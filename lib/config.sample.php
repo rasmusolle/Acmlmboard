@@ -10,6 +10,7 @@ $sqldb   = 'sqldatabase';
 $pwdsalt = 'Please change me!';
 $pwdsalt2 = 'Addtional Salt. Please change me!';
 $ckey = "Cookie key. Please change me!";
+$civ = "Initialization Vector. This should be 16 characters long.";
 
 $trashid = 2; // Designates the id for your trash forum.
 
