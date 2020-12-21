@@ -6,22 +6,22 @@ function dobirthdays() { //Function for calling after we get the timezone for th
 	global $sql, $userbirthdays;
 	// Check for birthdays globally.
 	// Makes stuff like checking for rainbow usernames a lot easier.
-	$rbirthdays = $sql->prepare("SELECT id FROM users WHERE birth LIKE ?", [date('m-d').'%']);
-	while ($bd = $sql->fetch($rbirthdays))
+	$rbirthdays = $sql->query("SELECT id FROM users WHERE birth LIKE ?", [date('m-d').'%']);
+	while ($bd = $rbirthdays->fetch())
 		$userbirthdays[$bd['id']] = true;
 	return;
 }
 
 function checkuser($name, $pass) {
 	global $sql;
-	$id = $sql->resultp("SELECT id FROM users WHERE (name = ? OR displayname = ?) AND pass = ?", [$name, $name, $pass]);
+	$id = $sql->result("SELECT id FROM users WHERE (name = ? OR displayname = ?) AND pass = ?", [$name, $name, $pass]);
 	if (!$id) $id = 0;
 	return $id;
 }
 
 function checkuid($userid, $pass) {
 	global $sql;
-	$user = $sql->fetchp("SELECT * FROM users WHERE id = ? AND pass = ?", [$userid, addslashes($pass)]);
+	$user = $sql->fetch("SELECT * FROM users WHERE id = ? AND pass = ?", [$userid, addslashes($pass)]);
 	return $user;
 }
 
@@ -153,7 +153,7 @@ function userfields_post() {
 
 function userlink_by_id($uid) {
 	global $sql;
-	$u = $sql->fetchp("SELECT " . userfields() . " FROM users WHERE id=?", [$uid]);
+	$u = $sql->fetch("SELECT ".userfields()." FROM users WHERE id=?", [$uid]);
 	return userlink($u);
 }
 

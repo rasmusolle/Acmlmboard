@@ -8,7 +8,7 @@ $rootgroup = 7;
 // preload group data, makes things a lot easier afterwards
 $usergroups = [];
 $r = $sql->query("SELECT * FROM groups");
-while ($g = $sql->fetch($r))
+while ($g = $r->fetch())
 	$usergroups[$g['id']] = $g;
 
 //this processes the permission stack, in this order:
@@ -44,7 +44,7 @@ function is_root_gid($gid) {
 
 function gid_for_user($userid) {
 	global $sql;
-	$row = $sql->fetchp("SELECT group_id FROM users WHERE id=?",[$userid]);
+	$row = $sql->fetch("SELECT group_id FROM users WHERE id=?",[$userid]);
 	return $row['group_id'];
 }
 
@@ -68,7 +68,7 @@ function load_bot_permset() {
 
 function title_for_perm($permid) {
 	global $sql;
-	$row = $sql->fetchp("SELECT title FROM perm WHERE id=?",[$permid]);
+	$row = $sql->fetch("SELECT title FROM perm WHERE id=?",[$permid]);
 	return $row['title'];
 }
 
@@ -133,7 +133,7 @@ function forums_with_view_perm() {
 	if ($cache != '') return $cache;
 	$cache = "(";
 	$r = $sql->query("SELECT f.id, f.private, f.cat FROM forums f");
-	while ($d = $sql->fetch($r)) {
+	while ($d = $r->fetch()) {
 		if (can_view_forum($d)) $cache .= $d['id'].',';
 	}
 	$cache .= "NULL)";
@@ -253,11 +253,11 @@ function parent_group_for_group($groupid) {
 
 function perms_for_x($xtype,$xid) {
 	global $sql;
-	$res = $sql->prepare("SELECT * FROM x_perm WHERE x_type=? AND x_id=?", [$xtype,$xid]);
+	$res = $sql->query("SELECT * FROM x_perm WHERE x_type=? AND x_id=?", [$xtype,$xid]);
 
 	$out = [];
 	$c = 0;
-	while ($row = $sql->fetch($res)) {
+	while ($row = $res->fetch()) {
 		$out[$c++] = [
 			'id' => $row['perm_id'],
 			'bind_id' => $row['permbind_id'],

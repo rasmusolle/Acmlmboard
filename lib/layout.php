@@ -221,7 +221,7 @@ function ranklist() {
 function announcement_row($tblspan) {
 	global $dateformat, $sql;
 
-	$anc = $sql->fetchq("SELECT t.title,t.user,t.lastdate date,".userfields('u')." FROM threads t JOIN users u ON t.user = u.id WHERE t.announce = 1 ORDER BY lastdate DESC LIMIT 1");
+	$anc = $sql->fetch("SELECT t.title,t.user,t.lastdate date,".userfields('u')." FROM threads t JOIN users u ON t.user = u.id WHERE t.announce = 1 ORDER BY lastdate DESC LIMIT 1");
 
 	if (isset($anc['title']) || has_perm('create-forum-announcements')) {
 		if (isset($anc['title'])) {
@@ -242,8 +242,7 @@ function announcement_row($tblspan) {
  * Display $message if $result (the result of a SQL query) is empty (has no lines).
  */
 function if_empty_query($result, $message, $colspan = 0, $table = false) {
-	global $sql;
-	if ($sql->numrows($result) < 1) {
+	if ($result == 1) {
 		if ($table) echo '<table class="c1">';
 		echo '<tr><td class="b n1 center" '.($colspan != 0 ? "colspan=$colspan" : '')."><p>$message</p></td></tr>";
 		if ($table) echo '</table>';

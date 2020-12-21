@@ -13,7 +13,7 @@ if (!has_perm('create-pms')) noticemsg("Error", "You have no permissions to do t
 if (!isset($_POST['action'])) {
 	$userto = '';
 	if (isset($_GET['pid']) && $pid = $_GET['pid']) {
-		$post = $sql->fetchp("SELECT IF(u.displayname = '',u.name,u.displayname) name, p.title, p.text "
+		$post = $sql->fetch("SELECT IF(u.displayname = '',u.name,u.displayname) name, p.title, p.text "
 			."FROM pmsgs p LEFT JOIN users u ON p.userfrom = u.id "
 			."WHERE p.id = ?" . (!has_perm('view-user-pms') ? " AND (p.userfrom=".$loguser['id']." OR p.userto=".$loguser['id'].")" : ''), [$pid]);
 		if ($post) {
@@ -24,7 +24,7 @@ if (!isset($_POST['action'])) {
 	}
 
 	if (isset($_GET['uid']) && $uid = $_GET['uid']) {
-		$userto = $sql->resultp("SELECT IF(displayname = '',name,displayname) name FROM users WHERE id = ?", [$uid]);
+		$userto = $sql->result("SELECT IF(displayname = '',name,displayname) name FROM users WHERE id = ?", [$uid]);
 	} elseif (!isset($userto)) {
 		$userto = $_POST['userto'];
 	}
@@ -99,17 +99,17 @@ if (!isset($_POST['action'])) {
 	</form>
 	<?php
 } elseif ($_POST['action'] == 'Submit') {
-	$userto = $sql->resultp("SELECT id FROM users WHERE name LIKE ? OR displayname LIKE ?", [$_POST['userto'], $_POST['userto']]);
+	$userto = $sql->result("SELECT id FROM users WHERE name LIKE ? OR displayname LIKE ?", [$_POST['userto'], $_POST['userto']]);
 
 	if ($userto && $_POST['message']) {
-		$recentpms = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP()-30) AND userfrom = ?", [$loguser['id']]);
-		$secafterpm = $sql->prepare("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP() - 2) AND userfrom = ?", [$loguser['id']]);
-		if (($sql->numrows($recentpms) > 0) && (!has_perm('consecutive-posts'))) {
+		$recentpms = $sql->fetch("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP()-30) AND userfrom = ?", [$loguser['id']]);
+		$secafterpm = $sql->fetch("SELECT date FROM pmsgs WHERE date >= (UNIX_TIMESTAMP() - 2) AND userfrom = ?", [$loguser['id']]);
+		if ($recentpms && (!has_perm('consecutive-posts'))) {
 			$msg = "You can't send more than one PM within 30 seconds!";
-		} else if (($sql->numrows($secafterpm) > 0) && (has_perm('consecutive-posts'))) {
+		} else if ($secafterpm && (has_perm('consecutive-posts'))) {
 			$msg = "You can't send more than one PM within 2 seconds!";
 		} else {
-			$sql->prepare("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text) VALUES (?,?,?,?,?,?)",
+			$sql->query("INSERT INTO pmsgs (date,ip,userto,userfrom,title,text) VALUES (?,?,?,?,?,?)",
 				[time(),$userip,$userto,$loguser['id'],$_POST['title'],$_POST['message']]);
 
 			redirect("private.php");

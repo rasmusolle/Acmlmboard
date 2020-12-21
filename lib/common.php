@@ -67,7 +67,7 @@ if ($loguser['ppp'] < 1) $loguser['ppp'] = 20;
 if ($loguser['tpp'] < 1) $loguser['tpp'] = 20;
 
 //Unban users whose tempbans have expired.
-$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
+$sql->query("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE tempbanned < ? AND tempbanned > 0", [$defaultgroup, time()]);
 
 $dateformat = $loguser['dateformat'].' '.$loguser['timeformat'];
 
@@ -78,12 +78,12 @@ if (str_replace($botlist, "x", strtolower($_SERVER['HTTP_USER_AGENT'])) != strto
 	$bot = 0;
 }
 
-$sql->prepare("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
+$sql->query("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
 if ($log) {
-	$sql->prepare("UPDATE users SET lastview = ?, ip = ?, url = ? WHERE id = ?",
+	$sql->query("UPDATE users SET lastview = ?, ip = ?, url = ? WHERE id = ?",
 		[time(), $userip, addslashes($url), $loguser['id']]);
 } else {
-	$sql->prepare("INSERT INTO guests (date, ip, bot) VALUES (?,?,?)", [time(),$userip,$bot]);
+	$sql->query("INSERT INTO guests (date, ip, bot) VALUES (?,?,?)", [time(),$userip,$bot]);
 }
 
 if (!$bot) {
@@ -92,9 +92,9 @@ if (!$bot) {
 	$sql->query("UPDATE misc SET botviews = botviews + 1");
 }
 
-$views = $sql->resultq("SELECT views FROM misc");
+$views = $sql->result("SELECT views FROM misc");
 
-$count = $sql->fetchq("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
+$count = $sql->fetch("SELECT (SELECT COUNT(*) FROM users) u, (SELECT COUNT(*) FROM threads) t, (SELECT COUNT(*) FROM posts) p");
 $date = date("m-d-y", time());
 
 //Config definable theme override
@@ -113,17 +113,16 @@ if (is_file("theme/$theme/$theme.css")) {
 	$themefile = "$theme.css";
 }
 
-$sql->prepare("DELETE FROM ipbans WHERE expires < ? AND expires > 0", [time()]);
+$sql->query("DELETE FROM ipbans WHERE expires < ? AND expires > 0", [time()]);
 
-$r = $sql->prepare("SELECT * FROM ipbans WHERE ? LIKE ipmask", [$userip]);
-if (@$sql->numrows($r) > 0) {
-	$i = $sql->fetch($r);
-	if ($i['hard']) {
+$r = $sql->fetch("SELECT * FROM ipbans WHERE ? LIKE ipmask", [$userip]);
+if ($r) {
+	if ($r['hard']) {
 		pageheader('IP banned');
 		echo '<table class="c1"><tr class="n2"><td class="b n1 center">Sorry, but your IP address has been banned.</td></tr></table>';
 		pagefooter();
 		die();
-	} else if (!$i['hard'] && (!$log || $loguser['group_id'] == $bannedgroup)) {
+	} else if (!$r['hard'] && (!$log || $loguser['group_id'] == $bannedgroup)) {
 		if (!strstr($_SERVER['PHP_SELF'], "login.php")) {
 			pageheader('IP restricted');
 			echo '<table class="c1"><tr class="n2"><td class="b n1 center">Access from your IP address has been limited.<br><a href=login.php>Login</a></table>';
@@ -145,14 +144,14 @@ function pageheader($pagetitle = '', $fid = null) {
 	$theme, $themefile, $meta, $favicon, $count, $bot;
 
 	if ($log) {
-		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [($fid == null ? 0 : $fid), $loguser['id']]);
+		$sql->query("UPDATE users SET lastforum = ? WHERE id = ?", [($fid == null ? 0 : $fid), $loguser['id']]);
 	} else {
-		$sql->prepare("UPDATE guests SET lastforum = ? WHERE ip = ?", [($fid == null ? 0 : $fid), $_SERVER['REMOTE_ADDR']]);
+		$sql->query("UPDATE guests SET lastforum = ? WHERE ip = ?", [($fid == null ? 0 : $fid), $_SERVER['REMOTE_ADDR']]);
 	}
 
 	if ($pagetitle) $pagetitle .= " - ";
 
-	$t = $sql->resultq("SELECT attention FROM misc");
+	$t = $sql->result("SELECT attention FROM misc");
 
 	if ($t != '')
 		$extratitle = <<<HTML
@@ -201,7 +200,7 @@ HTML;
 				<tr class="n1 center"><td class="b" colspan="3"><?=($log ? userlink($loguser) : 'Not logged in ')?>
 <?php
 	if ($log && has_perm('view-own-pms')) {
-		$unreadpms = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
+		$unreadpms = $sql->result("SELECT COUNT(*) FROM pmsgs WHERE userto = ? AND unread = 1 AND del_to = 0", [$loguser['id']]);
 
 		printf(
 			' <a href="private.php"><img src="img/pm%s.png" width="20" alt="Private messages"></a> %s ',
@@ -245,19 +244,19 @@ HTML;
 	echo '<br>';
 
 	if ($fid || $fid == 0) {
-		$onusers = $sql->prepare("SELECT ".userfields().",lastpost,lastview FROM users WHERE lastview > ? ".($fid != 0 ? " AND lastforum =".$fid : '')." ORDER BY name",
+		$onusers = $sql->query("SELECT ".userfields().",lastpost,lastview FROM users WHERE lastview > ? ".($fid != 0 ? " AND lastforum =".$fid : '')." ORDER BY name",
 			[(time()-300)]);
 		$onuserlist = '';
 		$onusercount = 0;
-		while ($user = $sql->fetch($onusers)) {
+		while ($user = $onusers->fetch()) {
 			$onuserlist.=($onusercount ? ', ' : '') . userlink($user);
 			$onusercount++;
 		}
 
-		$result = $sql->prepare("SELECT COUNT(*) guest_count, SUM(bot) bot_count FROM guests WHERE date > ?".($fid != 0 ? " AND lastforum =".$fid : ''),
+		$result = $sql->query("SELECT COUNT(*) guest_count, SUM(bot) bot_count FROM guests WHERE date > ?".($fid != 0 ? " AND lastforum =".$fid : ''),
 			[(time()-300)]);
 
-		while ($data = $sql->fetch($result)) {
+		while ($data = $result->fetch()) {
 			$numbots = $data['bot_count'];
 			$numguests = $data['guest_count'] - $numbots;
 
@@ -267,16 +266,16 @@ HTML;
 	}
 
 	if ($fid) {
-		$fname = $sql->resultp("SELECT title FROM forums WHERE id = ?", [$fid]);
+		$fname = $sql->result("SELECT title FROM forums WHERE id = ?", [$fid]);
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? "s" : '') . " currently in $fname" . ($onusercount > 0 ? ": " : '') . $onuserlist;
 
 		?><table class="c1"><tr class="n1"><td class="b n1 center"><?=$onuserlist ?></td></tr></table><br><?php
 	} else if (isset($fid) && $fid == 0) {
 		$birthdaylimit = 86400 * 30;
-		$rbirthdays = $sql->prepare("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? AND lastview > ? ORDER BY name",
+		$rbirthdays = $sql->query("SELECT birth, ".userfields()." FROM users WHERE birth LIKE ? AND lastview > ? ORDER BY name",
 			[date('m-d').'%', (time() - $birthdaylimit)]);
 		$birthdays = [];
-		while ($user = $sql->fetch($rbirthdays)) {
+		while ($user = $rbirthdays->fetch()) {
 			$b = explode('-', $user['birth']);
 			if ($b['2'] <= 0 && $b['2'] > -2) {
 				$y = '';
@@ -293,9 +292,9 @@ HTML;
 			$birthdaybox = "<tr class=\"n1 center\"><td class=\"b n2 center\">Birthdays today: $birthdaystoday</td></tr>";
 		}
 
-		$count['d'] = $sql->resultp("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
-		$count['h'] = $sql->resultp("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
-		$lastuser = $sql->fetchq("SELECT ".userfields()." FROM users ORDER BY id DESC LIMIT 1");
+		$count['d'] = $sql->result("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
+		$count['h'] = $sql->result("SELECT COUNT(*) FROM posts WHERE date > ?", [(time() - 86400)]);
+		$lastuser = $sql->fetch("SELECT ".userfields()." FROM users ORDER BY id DESC LIMIT 1");
 
 		$onuserlist = "$onusercount user" . ($onusercount != 1 ? 's' : '') . ' online' . ($onusercount > 0 ? ': ' : '') . $onuserlist;
 
@@ -345,15 +344,14 @@ function noticemsg($name, $msg, $error = false) {
  * @return void
  */
 function pagefooter() {
-	global $start, $sql;
+	global $start;
 	$time = microtime(true) - $start;
 	?><br>
 	<table class="c1">
 		<tr>
 			<td class="b n2 sfont">
 				<span style="float:right; text-align:right;">
-					<?=sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024) . "<br>
-						MySQL - queries: $sql->queries, rows: $sql->rowsf/$sql->rowst, time: " . sprintf("%1.3f seconds.", $sql->time) . "<br>"; ?>
+					<?=sprintf("Page rendered in %1.3f seconds. (%dKB of memory used)", $time, memory_get_usage(false) / 1024); ?>
 				</span>
 				<a href="http://github.com/rasmusolle/acmlmboard"><img src="img/poweredbyacmlm.png" title="Acmlmboard 2" style="float:left; margin-right:4px;"></a>
 				Acmlmboard v2.5.3MOD<br>

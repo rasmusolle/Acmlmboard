@@ -12,13 +12,13 @@ if ($log && $action == 'markread') {
 	$fid = $_GET['fid'];
 	if ($fid != 'all') {
 		//delete obsolete threadsread entries
-		$sql->prepare("DELETE r FROM threadsread r LEFT JOIN threads t ON t.id = r.tid WHERE t.forum = ? AND r.uid = ?", [$fid, $loguser['id']]);
+		$sql->query("DELETE r FROM threadsread r LEFT JOIN threads t ON t.id = r.tid WHERE t.forum = ? AND r.uid = ?", [$fid, $loguser['id']]);
 		//add new forumsread entry
-		$sql->prepare("REPLACE INTO forumsread VALUES (?,?,?)", [$loguser['id'], $fid, time()]);
+		$sql->query("REPLACE INTO forumsread VALUES (?,?,?)", [$loguser['id'], $fid, time()]);
 	} else {
 		//mark all read
-		$sql->prepare("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
-		$sql->prepare("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
+		$sql->query("DELETE FROM threadsread WHERE uid=" . $loguser['id']);
+		$sql->query("REPLACE INTO forumsread (uid,fid,time) SELECT " . $loguser['id'] . ",f.id," . time() . " FROM forums f");
 	}
 	redirect('index.php');
 }
@@ -26,11 +26,11 @@ if ($log && $action == 'markread') {
 pageheader(null,0);
 
 $categs = $sql->query("SELECT * FROM categories ORDER BY ord,id");
-while ($c = $sql->fetch($categs)) {
+while ($c = $categs->fetch()) {
 	$categ[$c['id']] = $c;
 }
 
-$forums = $sql->prepare("SELECT f.*, ".($log ? "r.time rtime, " : '').userfields('u', 'u')." "
+$forums = $sql->query("SELECT f.*, ".($log ? "r.time rtime, " : '').userfields('u', 'u')." "
 		. "FROM forums f "
 		. "LEFT JOIN users u ON u.id=f.lastuser "
 		. "LEFT JOIN categories c ON c.id=f.cat "
@@ -50,7 +50,7 @@ $cat = -1;
 	</tr>
 <?php
 
-while ($forum = $sql->fetch($forums)) {
+while ($forum = $forums->fetch()) {
 	if (!can_view_forum($forum)) continue;
 
 	if ($forum['cat'] != $cat) {

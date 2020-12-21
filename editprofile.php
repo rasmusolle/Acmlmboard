@@ -17,7 +17,7 @@ $blockroot = (!has_perm('no-restrictions') ? "AND id != $rootgroup" : '');
 $allgroups = $sql->query("SELECT * FROM groups WHERE visible = '1' $blockroot ORDER BY sortorder ASC");
 $listgroup = [];
 
-while ($group = $sql->fetch($allgroups)) {
+while ($group = $allgroups->fetch()) {
 	$listgroup[$group['id']] = $group['title'];
 }
 
@@ -29,7 +29,7 @@ if ($act == 'Edit profile') {
 		setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt)), 2147483647);
 }
 
-$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$targetuserid]);
+$user = $sql->fetch("SELECT * FROM users WHERE id = ?", [$targetuserid]);
 
 if (!$user) noticemsg("Error", "This user doesn't exist!", true);
 
@@ -105,7 +105,7 @@ if ($act == 'Edit profile') {
 		}
 		$targetname = $_POST['name'];
 
-		if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetname, $targetname, $user['id']])) {
+		if ($sql->result("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetname, $targetname, $user['id']])) {
 			$error .= "- Name already in use.<br>";
 		}
 	}
@@ -114,7 +114,7 @@ if ($act == 'Edit profile') {
 		$targetdname = $_POST['displayname'];
 
 		if (checkcdisplayname($targetuserid) && $targetdname != '') {
-			if ($sql->resultp("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetdname, $targetdname, $user['id']])) {
+			if ($sql->result("SELECT COUNT(name) FROM users WHERE (name = ? OR displayname = ?) AND id != ?", [$targetdname, $targetdname, $user['id']])) {
 				$error .= "- Displayname already in use.<br>";
 			}
 		}
@@ -135,23 +135,23 @@ if ($act == 'Edit profile') {
 		$showemail = ($_POST['showemail'] ? 1 : 0);
 		$enablecolor = ($_POST['enablecolor'] ? 1 : 0);
 
-		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
+		$sql->query("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
 			theme = ?, blocklayouts = ?, showemail = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
 			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['location'], $_POST['email'], $_POST['head'], $_POST['sign'],
 			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $showemail, $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
 
 		if ($pass)
-			$sql->prepare("UPDATE users SET pass = ? WHERE id = ?", [md5($pwdsalt2 . $pass . $pwdsalt), $user['id']]);
+			$sql->query("UPDATE users SET pass = ? WHERE id = ?", [md5($pwdsalt2 . $pass . $pwdsalt), $user['id']]);
 		if (checkcdisplayname($targetuserid))
-			$sql->prepare("UPDATE users SET displayname = ? WHERE id = ?", [$_POST['displayname'], $user['id']]);
+			$sql->query("UPDATE users SET displayname = ? WHERE id = ?", [$_POST['displayname'], $user['id']]);
 		if (checkcusercolor($targetuserid))
-			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $enablecolor, $user['id']]);
+			$sql->query("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $enablecolor, $user['id']]);
 		if (checkctitle($targetuserid))
-			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
+			$sql->query("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
 
 		if (has_perm("edit-users") && $targetgroup != 0)
-			$sql->prepare("UPDATE users SET group_id = ? WHERE id = ?", [$targetgroup, $user['id']]);
+			$sql->query("UPDATE users SET group_id = ? WHERE id = ?", [$targetgroup, $user['id']]);
 
 		redirect("profile.php?id=$user[id]");
 	} else {

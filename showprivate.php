@@ -10,14 +10,14 @@ $pid = (isset($_GET['id']) ? $_GET['id'] : null);
 
 if (!$pid) noticemsg("Error", "Private message does not exist.", true);
 
-$pmsgs = $sql->fetchp("SELECT $fieldlist p.* FROM pmsgs p LEFT JOIN users u ON u.id = p.userfrom WHERE p.id = ?", [$pid]);
+$pmsgs = $sql->fetch("SELECT $fieldlist p.* FROM pmsgs p LEFT JOIN users u ON u.id = p.userfrom WHERE p.id = ?", [$pid]);
 if ($pmsgs == null) noticemsg("Error", "Private message does not exist.", true);
 $tologuser = ($pmsgs['userto'] == $loguser['id']);
 
 if ((!$tologuser && $pmsgs['userfrom'] != $loguser['id']) && !has_perm('view-user-pms'))
 	noticemsg("Error", "Private message does not exist.", true);
 elseif ($tologuser && $pmsgs['unread'])
-	$sql->prepare("UPDATE pmsgs SET unread = 0 WHERE id = ?", [$pid]);
+	$sql->query("UPDATE pmsgs SET unread = 0 WHERE id = ?", [$pid]);
 
 pageheader($pmsgs['title']);
 

@@ -4,7 +4,7 @@ pageheader('Active users');
 
 $time = (isset($_GET['time']) && is_numeric($_GET['time']) ? $_GET['time'] : 86400);
 
-$users = $sql->prepare("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) num FROM users u LEFT JOIN posts p ON p.user = u.id WHERE p.date > ? GROUP BY u.id ORDER BY num DESC",
+$users = $sql->query("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) num FROM users u LEFT JOIN posts p ON p.user = u.id WHERE p.date > ? GROUP BY u.id ORDER BY num DESC",
 	[(time() - $time)]);
 ?>
 <table class="c1" style="width:auto">
@@ -20,11 +20,8 @@ $users = $sql->prepare("SELECT ".userfields('u').",u.posts,u.regdate,COUNT(*) nu
 		<td class="b h" width="50">Total</td>
 	</tr>
 <?php
-if_empty_query($users, "There are no active users in the given timespan.", 5);
-
-$tr = 1;
-for ($i = 1; $user = $sql->fetch($users); $i++) {
-	$tr = ($i % 2 ? 1: 2);
+for ($i = 1; $user = $users->fetch(); $i++) {
+	$tr = ($i % 2 ? 1 : 2);
 	?><tr class="n<?=$tr ?> center">
 		<td class="b"><?=$i ?>.</td>
 		<td class="b left"><?=userlink($user) ?></td>
@@ -33,6 +30,7 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b"><b><?=$user['posts'] ?></b></td>
 	</tr><?php
 }
+if_empty_query($i, "There are no active users in the given timespan.", 5);
 
 echo '</table>';
 

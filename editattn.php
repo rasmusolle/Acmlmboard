@@ -4,10 +4,10 @@ require('lib/common.php');
 if (!has_perm('edit-attentions-box')) noticemsg("Error", "You have no permissions to do this!", true);
 
 if (isset($_POST['action'])) {
-	$sql->prepare("UPDATE misc SET attention = ?", [$_POST['attn']]);
+	$sql->query("UPDATE misc SET attention = ?", [$_POST['attn']]);
 }
 
-$attndata = $sql->resultq("SELECT attention FROM misc");
+$attndata = $sql->result("SELECT attention FROM misc");
 
 pageheader("Edit news");
 ?>

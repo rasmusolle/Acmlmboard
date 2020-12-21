@@ -5,17 +5,17 @@ if (!has_perm('ban-users')) noticemsg("Error", "You have no permissions to do th
 
 $id = (int)$_GET['id'];
 
-$tuser = $sql->resultp("SELECT group_id FROM users WHERE id = ?",[$id]);
+$tuser = $sql->result("SELECT group_id FROM users WHERE id = ?",[$id]);
 if ((is_root_gid($tuser) || (!can_edit_user_assets($tuser) && $id != $loguser['id'])) && !has_perm('no-restrictions')) {
 	noticemsg("Error", "You have no permissions to do this!", true);
 }
 
 if ($uid = $_GET['id']) {
-	$numid = $sql->fetchp("SELECT id FROM users WHERE id = ?",[$uid]);
+	$numid = $sql->fetch("SELECT id FROM users WHERE id = ?",[$uid]);
 	if (!$numid) noticemsg("Error", "Invalid user ID.", true);
 }
 
-$user = $sql->fetchp("SELECT * FROM users WHERE id = ?",[$uid]);
+$user = $sql->fetch("SELECT * FROM users WHERE id = ?",[$uid]);
 
 if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 	if ($_POST['tempbanned'] > 0) {
@@ -27,14 +27,14 @@ if (isset($_POST['banuser']) && $_POST['banuser'] == "Ban User") {
 		$banreason .= ': '.esc($_POST['title']);
 	}
 
-	$sql->prepare("UPDATE users SET group_id = ?, title = ?, tempbanned = ? WHERE id = ?",
+	$sql->query("UPDATE users SET group_id = ?, title = ?, tempbanned = ? WHERE id = ?",
 		[$bannedgroup, $banreason, ($_POST['tempbanned'] > 0 ? ($_POST['tempbanned'] + time()) : 0), $user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 } elseif (isset($_POST['unbanuser']) && $_POST['unbanuser'] == "Unban User") {
 	if ($user['group_id'] != $bannedgroup) noticemsg("Error", "This user is not a banned user.", true);
 
-	$sql->prepare("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE id = ?", [$defaultgroup,$user['id']]);
+	$sql->query("UPDATE users SET group_id = ?, title = '', tempbanned = 0 WHERE id = ?", [$defaultgroup,$user['id']]);
 
 	redirect("profile.php?id=$user[id]");
 }

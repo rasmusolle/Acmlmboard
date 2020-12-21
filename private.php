@@ -24,9 +24,9 @@ if (!has_perm('view-own-pms') && $id == 0) noticemsg("Error", "You are not allow
 $showdel = isset($_GET['showdel']);
 
 if (isset($_GET['action']) && $_GET['action'] == "del") {
-	$owner = $sql->resultp("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
+	$owner = $sql->result("SELECT user$fieldn2 FROM pmsgs WHERE id = ?", [$id]);
 	if (has_perm('delete-user-pms') || ($owner == $loguser['id'] && has_perm('delete-own-pms'))) {
-		$sql->prepare("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
+		$sql->query("UPDATE pmsgs SET del_$fieldn2 = ? WHERE id = ?", [!$showdel, $id]);
 	} else {
 		noticemsg("Error", "You are not allowed to (un)delete that message.", true);
 	}
@@ -35,7 +35,7 @@ if (isset($_GET['action']) && $_GET['action'] == "del") {
 
 $ptitle = 'Private messages' . ($sent ? ' (sent)' : '');
 if ($id && has_perm('view-user-pms')) {
-	$user = $sql->fetchp("SELECT id,name,displayname,enablecolor,nick_color,group_id FROM users WHERE id = ?", [$id]);
+	$user = $sql->fetch("SELECT id,name,displayname,enablecolor,nick_color,group_id FROM users WHERE id = ?", [$id]);
 	if ($user == null) noticemsg("Error", "User doesn't exist.", true);
 	pageheader($user['name']."'s ".strtolower($ptitle));
 	$title = userlink($user)."'s ".strtolower($ptitle);
@@ -45,8 +45,8 @@ if ($id && has_perm('view-user-pms')) {
 	$title = $ptitle;
 }
 
-$pmsgc = $sql->resultp("SELECT COUNT(*) FROM pmsgs WHERE user$fieldn2 = ? AND del_$fieldn2 = ?", [$id, $showdel]);
-$pmsgs = $sql->prepare("SELECT ".userfields('u', 'u').", p.* FROM pmsgs p "
+$pmsgc = $sql->result("SELECT COUNT(*) FROM pmsgs WHERE user$fieldn2 = ? AND del_$fieldn2 = ?", [$id, $showdel]);
+$pmsgs = $sql->query("SELECT ".userfields('u', 'u').", p.* FROM pmsgs p "
 					."LEFT JOIN users u ON u.id = p.user$fieldn "
 					."WHERE p.user$fieldn2 = ? "
 				."AND del_$fieldn2 = ? "
@@ -87,8 +87,7 @@ RenderPageBar($topbot);
 		<td class="b" width="130">Sent on</td>
 	</tr>
 	<?php
-	if_empty_query($pmsgs, "There are no private messages.", 5);
-	for ($i = 1; $pmsg = $sql->fetch($pmsgs); $i++) {
+	for ($i = 1; $pmsg = $pmsgs->fetch(); $i++) {
 		$status = ($pmsg['unread'] ? rendernewstatus("n") : '');
 		if (!$pmsg['title'])
 			$pmsg['title'] = '(untitled)';
@@ -106,6 +105,7 @@ RenderPageBar($topbot);
 		</tr>
 		<?php
 	}
+	if_empty_query($i, "There are no private messages.", 5);
 	?>
 </table>
 <?php

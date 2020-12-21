@@ -17,7 +17,7 @@ if ($_GET['act'] == 'delete' || $_GET['act'] == 'undelete') {
 
 needs_login();
 
-$thread = $sql->fetchp("SELECT p.user puser, t.*, f.title ftitle, f.private fprivate, f.readonly freadonly FROM posts p LEFT JOIN threads t ON t.id = p.thread "
+$thread = $sql->fetch("SELECT p.user puser, t.*, f.title ftitle, f.private fprivate, f.readonly freadonly FROM posts p LEFT JOIN threads t ON t.id = p.thread "
 	."LEFT JOIN forums f ON f.id=t.forum WHERE p.id = ? AND (t.forum IN ".forums_with_view_perm()." OR (t.forum IN (0, NULL) AND t.announce >= 1))", [$pid]);
 
 if (!$thread) $pid = 0;
@@ -43,7 +43,7 @@ if ($thread['announce']) {
 		['href' => "thread.php?id={$thread['id']}", 'title' => esc($thread['title'])]);
 }
 
-$post = $sql->fetchp("SELECT u.id, p.user, pt.text FROM posts p LEFT JOIN poststext pt ON p.id=pt.id "
+$post = $sql->fetch("SELECT u.id, p.user, pt.text FROM posts p LEFT JOIN poststext pt ON p.id=pt.id "
 		."JOIN (SELECT id,MAX(revision) toprev FROM poststext GROUP BY id) as pt2 ON pt2.id = pt.id AND pt2.toprev = pt.revision "
 		."LEFT JOIN users u ON p.user = u.id WHERE p.id = ?", [$pid]);
 
@@ -83,7 +83,7 @@ if (isset($err)) {
 	</table></form>
 <?php
 } else if ($act == 'Preview') {
-	$euser = $sql->fetchq("SELECT * FROM users WHERE id = ?", [$post['id']]);
+	$euser = $sql->fetch("SELECT * FROM users WHERE id = ?", [$post['id']]);
 	$post['date'] = time();
 	$post['ip'] = $userip;
 	$post['num'] = $euser['posts']++;
@@ -117,9 +117,9 @@ if (isset($err)) {
 	</table></form>
 	<?php
 } else if ($act == 'Submit') {
-	$rev = $sql->resultp("SELECT MAX(revision) FROM poststext WHERE id = ?", [$pid]) + 1;
+	$rev = $sql->result("SELECT MAX(revision) FROM poststext WHERE id = ?", [$pid]) + 1;
 
-	$sql->prepare("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)", [$pid,$_POST['message'],$rev,$loguser['id'],time()]);
+	$sql->query("INSERT INTO poststext (id,text,revision,user,date) VALUES (?,?,?,?,?)", [$pid,$_POST['message'],$rev,$loguser['id'],time()]);
 
 	redirect("thread.php?pid=$pid#edit");
 } else if ($act == 'delete' || $act == 'undelete') {
@@ -130,7 +130,7 @@ if (isset($err)) {
 		echo '<br>';
 		noticemsg("Error", "You do not have the permission to do this.");
 	} else {
-		$sql->prepare("UPDATE posts SET deleted = ? WHERE id = ?", [($act == 'delete' ? 1 : 0), $pid]);
+		$sql->query("UPDATE posts SET deleted = ? WHERE id = ?", [($act == 'delete' ? 1 : 0), $pid]);
 		redirect("thread.php?pid=$pid#edit");
 	}
 }

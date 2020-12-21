@@ -17,7 +17,7 @@ $type = ($announce ? "announcement" : "thread");
 if ($announce)
 	$forum = ['id' => 0, 'readonly' => 1];
 else
-	$forum = $sql->fetchp("SELECT * FROM forums WHERE id = ? AND id IN ".forums_with_view_perm(), [$fid]);
+	$forum = $sql->fetch("SELECT * FROM forums WHERE id = ? AND id IN ".forums_with_view_perm(), [$fid]);
 
 if (!$forum)
 	noticemsg("Error", "Forum does not exist.", true);
@@ -119,19 +119,19 @@ if (isset($err)) {
 	$modclose = ($announce ? '1' : '0');
 	$announce = ($announce ? '1' : '0');
 
-	$sql->prepare("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $loguser['id']]);
-	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed) VALUES (?,?,?,?,?,?,?)",
+	$sql->query("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $loguser['id']]);
+	$sql->query("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed) VALUES (?,?,?,?,?,?,?)",
 		[$_POST['title'],$fid,$loguser['id'],time(),$loguser['id'],$announce,$modclose]);
 	$tid = $sql->insertid();
-	$sql->prepare("INSERT INTO posts (user,thread,date,ip,num,announce) VALUES (?,?,?,?,?,?)",
+	$sql->query("INSERT INTO posts (user,thread,date,ip,num,announce) VALUES (?,?,?,?,?,?)",
 		[$loguser['id'],$tid,time(),$userip,$loguser['posts']++,$announce]);
 	$pid = $sql->insertid();
-	$sql->prepare("INSERT INTO poststext (id,text) VALUES (?,?)",
+	$sql->query("INSERT INTO poststext (id,text) VALUES (?,?)",
 		[$pid,$_POST['message']]);
 	if (!$announce) {
-		$sql->prepare("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?", [time(), $loguser['id'], $pid, $fid]);
+		$sql->query("UPDATE forums SET threads = threads + 1, posts = posts + 1, lastdate = ?,lastuser = ?,lastid = ? WHERE id = ?", [time(), $loguser['id'], $pid, $fid]);
 	}
-	$sql->prepare("UPDATE threads SET lastid = ? WHERE id = ?", [$pid, $tid]);
+	$sql->query("UPDATE threads SET lastid = ? WHERE id = ?", [$pid, $tid]);
 
 	if ($announce) {
 		$viewlink = "thread.php?announce=1";

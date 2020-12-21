@@ -13,12 +13,12 @@ if (isset($_GET['gid'])) {
 	if ($loguser['group_id'] == $id && !has_perm('edit-own-permissions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
-	$permowner = $sql->fetchp("SELECT id,title,inherit_group_id FROM groups WHERE id=?", [$id]);
+	$permowner = $sql->fetch("SELECT id,title,inherit_group_id FROM groups WHERE id=?", [$id]);
 	$type = 'group';
 } else if (isset($_GET['uid'])) {
 	$id = (int)$_GET['uid'];
 
-	$tuser = $sql->resultp("SELECT group_id FROM users WHERE id = ?",[$id]);
+	$tuser = $sql->result("SELECT group_id FROM users WHERE id = ?",[$id]);
 	if ((is_root_gid($tuser) || (!can_edit_user_assets($tuser) && $id != $loguser['id'])) && !has_perm('no-restrictions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
@@ -26,11 +26,11 @@ if (isset($_GET['gid'])) {
 	if ($id == $loguser['id'] && !has_perm('edit-own-permissions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
-	$permowner = $sql->fetchp("SELECT u.id,u.name title,u.group_id,g.title group_title FROM users u LEFT JOIN groups g ON g.id=u.group_id WHERE u.id=?", [$id]);
+	$permowner = $sql->fetch("SELECT u.id,u.name title,u.group_id,g.title group_title FROM users u LEFT JOIN groups g ON g.id=u.group_id WHERE u.id=?", [$id]);
 	$type = 'user';
 } else if (isset($_GET['fid'])) {
 	$id = (int)$_GET['fid'];
-	$permowner = $sql->fetchp("SELECT id,title FROM forums WHERE id=?", [$id]);
+	$permowner = $sql->fetch("SELECT id,title FROM forums WHERE id=?", [$id]);
 	$type = 'forum';
 } else {
 	$id = 0;
@@ -48,7 +48,7 @@ if (isset($_POST['addnew'])) {
 	$bindval = (int)$_POST['bindval_new'];
 
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
-		$sql->prepare("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`) VALUES (?,?,?,'',?,?)",
+		$sql->query("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`) VALUES (?,?,?,'',?,?)",
 			[$id, $type, $permid, $bindval, $revoke]);
 		$msg = "The %s permission has been successfully assigned!";
 	} else {
@@ -63,7 +63,7 @@ if (isset($_POST['addnew'])) {
 	$bindval = (int)$_POST['bindval'][$pid];
 
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
-		$sql->prepare("UPDATE `x_perm` SET `perm_id`=?, `bindvalue`=?, `revoke`=? WHERE `id`=?",
+		$sql->query("UPDATE `x_perm` SET `perm_id`=?, `bindvalue`=?, `revoke`=? WHERE `id`=?",
 			[$permid, $bindval, $revoke, $pid]);
 		$msg = "The %s permission has been successfully edited!";
 	} else {
@@ -74,7 +74,7 @@ if (isset($_POST['addnew'])) {
 	$pid = $keys[0];
 	$permid = $_POST['permid'][$pid];
 	if (has_perm('no-restrictions') || $permid != 'no-restrictions') {
-		$sql->prepare("DELETE FROM `x_perm`WHERE `id`=?", [$pid]); $msg="The %s permission has been successfully deleted!";
+		$sql->query("DELETE FROM `x_perm`WHERE `id`=?", [$pid]); $msg="The %s permission has been successfully deleted!";
 	} else {
 		$msg = "You do not have the permissions to delete the %s permission!";
 	}
@@ -98,7 +98,7 @@ $data = [];
 
 $permset = PermSet($type, $id);
 $row = []; $i = 0;
-while ($perm = $sql->fetch($permset)) {
+while ($perm = $permset->fetch()) {
 	$pid = $perm['id'];
 
 	$field = RevokeSelect("revoke[{$pid}]", $perm['revoke'])
@@ -148,7 +148,7 @@ if ($type == 'group' && $permowner['inherit_group_id'] > 0) {
 }
 
 while (isset($parentid) && $parentid > 0) {
-	$parent = $sql->fetchp("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
+	$parent = $sql->fetch("SELECT title,inherit_group_id FROM groups WHERE id=?", [$parentid]);
 	$permoverview .= '<br>'.esc($parent['title']).':<br>' . PermTable(PermSet('group', $parentid));
 	$parentid = $parent['inherit_group_id'];
 }
@@ -170,7 +170,7 @@ function PermSelect($name, $sel) {
 		$perms = $sql->query("SELECT p.id permid, p.title permtitle FROM perm p ORDER BY p.title ASC");
 
 		$permlist = [];
-		while ($perm = $sql->fetch($perms)) $permlist[] = $perm;
+		while ($perm = $perms->fetch()) $permlist[] = $perm;
 	}
 
 	$out = '<select name="'.$name.'">';
@@ -197,17 +197,17 @@ function RevokeSelect($name, $sel) {
 
 function PermSet($type, $id) {
 	global $sql;
-	return $sql->prepare("SELECT x.*, p.title permtitle
+	return $sql->query("SELECT x.*, p.title permtitle
 		FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id
 		WHERE x.x_type=? AND x.x_id=?", [$type,$id]);
 }
 
 function PermTable($permset) {
-	global $sql, $permsassigned;
+	global $permsassigned;
 	$ret = '';
 
 	$i = 0;
-	while ($perm = $sql->fetch($permset)) {
+	while ($perm = $permset->fetch()) {
 		$key = $perm['perm_id'];
 		if ($perm['bindvalue']) $key .= '['.$perm['bindvalue'].']';
 

@@ -17,14 +17,10 @@ $smilietext .= '</table>';
 
 pageheader("FAQ");
 
-if (isset($_GET['testshit'])) {
-	echo $sqluser . ' ' . $sqlpass . ' ' . $sqldb;
-}
-
 $ncx = $sql->query("SELECT title, nc FROM groups WHERE nc != '' ORDER BY sortorder ASC");
 $nctable = '';
 
-while ($ncr = $sql->fetch($ncx)) {
+while ($ncr = $ncx->fetch()) {
 	$nctable .= sprintf('<tr><td class="b n1"><b><span style="color:#%s">%s</span></b></td></tr>',$ncr['nc'],$ncr['title']);
 }
 

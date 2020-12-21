@@ -2,7 +2,7 @@
 
 function userlink_by_name($name) {
 	global $sql;
-	$u = $sql->fetchp("SELECT ".userfields()." FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
+	$u = $sql->fetch("SELECT ".userfields()." FROM users WHERE UPPER(name)=UPPER(?) OR UPPER(displayname)=UPPER(?)", [$name, $name]);
 	if ($u)
 		return userlink($u, null);
 	else
@@ -137,8 +137,8 @@ function LoadBlocklayouts() {
 	if (isset($blocklayouts) || !$log) return;
 
 	$blocklayouts = [];
-	$rBlocks = $sql->prepare("SELECT * FROM blockedlayouts WHERE blockee = ?",[$loguser['id']]);
-	while ($block = $sql->fetch($rBlocks))
+	$rBlocks = $sql->query("SELECT * FROM blockedlayouts WHERE blockee = ?",[$loguser['id']]);
+	while ($block = $rBlocks->fetch())
 		$blocklayouts[$block['user']] = 1;
 }
 

@@ -19,7 +19,7 @@ if ($sort == 'reg') $order = 'regdate' . $sortby;
 $where = (is_numeric($pow) ? "WHERE group_id = $pow" : '');
 
 $users = $sql->query("SELECT * FROM users $where ORDER BY $order LIMIT " . ($page - 1) * $ppp . ",$ppp");
-$num = $sql->resultq("SELECT COUNT(*) FROM users $where");
+$num = $sql->result("SELECT COUNT(*) FROM users $where");
 
 $pagelist = '';
 if ($num >= $ppp) {
@@ -32,7 +32,7 @@ $activegroups = $sql->query("SELECT * FROM groups WHERE id IN (SELECT `group_id`
 
 $groups = [];
 $gc = 0;
-while ($group = $sql->fetch($activegroups)) {
+while ($group = $activegroups->fetch()) {
 	$grouptitle = '<span style="color:#' . $group['nc'] . '">' . $group['title'] . '</span>';
 	$groups[$gc++] = mlink($grouptitle, $sort, $group['id'], $page, $orderby);
 }
@@ -66,20 +66,19 @@ while ($group = $sql->fetch($activegroups)) {
 		<td class="b h" width="50">Posts</td>
 	</tr>
 <?php
-if_empty_query($users, "No users found.", 5);
 
-$i = 1;
-while ($user = $sql->fetch($users)) {
+for ($i = 1; $user = $users->fetch(); $i++) {
+	$tr = ($i % 2 ? 1 : 2);
 	$picture = ($user['usepic'] ? '<img src="userpic/'.$user['id'].'" width="60" height="60">' : '');
-	?><tr class="n<?=$i ?>" style="height:69px">
+	?><tr class="n<?=$tr ?>" style="height:69px">
 		<td class="b center"><?=$user['id'] ?>.</td>
 		<td class="b center"><?=$picture ?></td>
 		<td class="b"><?=userlink($user) ?></td>
 		<td class="b center"><?=date($dateformat,$user['regdate']) ?></td>
 		<td class="b center"><?=$user['posts'] ?></td>
 	</tr><?php
-	$i = ($i == 1 ? 2 : 1);
 }
+if_empty_query($i, "No users found.", 5);
 echo '</table>';
 
 if ($pagelist)

@@ -14,21 +14,21 @@ if (isset($_POST['savecat'])) {
 		$error = 'Please enter a title for the category.';
 	else {
 		if ($cid == 'new') {
-			$cid = $sql->resultq("SELECT MAX(id) FROM categories");
+			$cid = $sql->result("SELECT MAX(id) FROM categories");
 			if (!$cid) $cid = 0;
 			$cid++;
-			$sql->prepare("INSERT INTO categories (id,title,ord) VALUES (?,?,?)", [$cid, $title, $ord]);
+			$sql->query("INSERT INTO categories (id,title,ord) VALUES (?,?,?)", [$cid, $title, $ord]);
 		} else {
 			$cid = (int)$cid;
-			if (!$sql->resultp("SELECT COUNT(*) FROM categories WHERE id=?",[$cid])) redirect('manageforums.php');
-			$sql->prepare("UPDATE categories SET title = ?, ord = ? WHERE id = ?", [$title, $ord, $cid]);
+			if (!$sql->result("SELECT COUNT(*) FROM categories WHERE id=?",[$cid])) redirect('manageforums.php');
+			$sql->query("UPDATE categories SET title = ?, ord = ? WHERE id = ?", [$title, $ord, $cid]);
 		}
 		redirect('manageforums.php?cid='.$cid);
 	}
 } else if (isset($_POST['delcat'])) {
 	// delete category
 	$cid = (int)$_GET['cid'];
-	$sql->prepare("DELETE FROM categories WHERE id = ?",[$cid]);
+	$sql->query("DELETE FROM categories WHERE id = ?",[$cid]);
 
 	redirect('manageforums.php');
 } else if (isset($_POST['saveforum'])) {
@@ -45,16 +45,16 @@ if (isset($_POST['savecat'])) {
 		$error = 'Please enter a title for the forum.';
 	else {
 		if ($fid == 'new') {
-			$fid = $sql->resultq("SELECT MAX(id) FROM forums");
+			$fid = $sql->result("SELECT MAX(id) FROM forums");
 			if (!$fid) $fid = 0;
 			$fid++;
-			$sql->prepare("INSERT INTO forums (id,cat,title,descr,ord,private,readonly) VALUES (?,?,?,?,?,?,?)",
+			$sql->query("INSERT INTO forums (id,cat,title,descr,ord,private,readonly) VALUES (?,?,?,?,?,?,?)",
 				[$fid, $cat, $title, $descr, $ord, $private, $readonly]);
 		} else {
 			$fid = (int)$fid;
-			if (!$sql->resultp("SELECT COUNT(*) FROM forums WHERE id=?",[$fid]))
+			if (!$sql->result("SELECT COUNT(*) FROM forums WHERE id=?",[$fid]))
 				redirect('manageforums.php');
-			$sql->prepare("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, readonly=? WHERE id=?",
+			$sql->query("UPDATE forums SET cat=?, title=?, descr=?, ord=?, private=?, readonly=? WHERE id=?",
 				[$cat, $title, $descr, $ord, $private, $readonly, $fid]);
 		}
 		saveperms('forums', $fid);
@@ -63,7 +63,7 @@ if (isset($_POST['savecat'])) {
 } else if (isset($_POST['delforum'])) {
 	// delete forum
 	$fid = (int)$_GET['fid'];
-	$sql->prepare("DELETE FROM forums WHERE id=?",[$fid]);
+	$sql->query("DELETE FROM forums WHERE id=?",[$fid]);
 	deleteperms('forums', $fid);
 	redirect('manageforums.php');
 }
@@ -86,7 +86,7 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		$cat = ['id' => 0, 'title' => '', 'ord' => 0];
 	} else {
 		$cid = (int)$cid;
-		$cat = $sql->fetchp("SELECT * FROM categories WHERE id=?",[$cid]);
+		$cat = $sql->fetch("SELECT * FROM categories WHERE id=?",[$cid]);
 	}
 	?><form action="" method="POST">
 		<table class="c1">
@@ -115,11 +115,11 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 		$forum = ['id' => 0, 'cat' => 1, 'title' => '', 'descr' => '', 'ord' => 0, 'private' => 0, 'readonly' => 0];
 	} else {
 		$fid = (int)$fid;
-		$forum = $sql->fetchp("SELECT * FROM forums WHERE id=?",[$fid]);
+		$forum = $sql->fetch("SELECT * FROM forums WHERE id=?",[$fid]);
 	}
 	$qcats = $sql->query("SELECT id,title FROM categories ORDER BY ord, id");
 	$cats = [];
-	while ($cat = $sql->fetch($qcats))
+	while ($cat = $qcats->fetch())
 		$cats[$cat['id']] = $cat['title'];
 	$catlist = fieldselect('cat', $forum['cat'], $cats);
 
@@ -162,12 +162,12 @@ if (isset($_GET['cid']) && $cid = $_GET['cid']) {
 
 	$qcats = $sql->query("SELECT id,title FROM categories ORDER BY ord, id");
 	$cats = [];
-	while ($cat = $sql->fetch($qcats))
+	while ($cat = $qcats->fetch())
 		$cats[$cat['id']] = $cat;
 
 	$qforums = $sql->query("SELECT f.id,f.title,f.cat FROM forums f LEFT JOIN categories c ON c.id=f.cat ORDER BY c.ord, c.id, f.ord, f.id");
 	$forums = [];
-	while ($forum = $sql->fetch($qforums))
+	while ($forum = $qforums->fetch())
 		$forums[$forum['id']] = $forum;
 
 	$catlist = ''; $c = 1;
@@ -233,17 +233,17 @@ function grouplist() {
 function permtable($bind, $id) {
 	global $sql, $rootgroup;
 
-	$qperms = $sql->prepare("SELECT id,title FROM perm WHERE permbind_id=?",[$bind]);
+	$qperms = $sql->query("SELECT id,title FROM perm WHERE permbind_id=?",[$bind]);
 	$perms = [];
-	while ($perm = $sql->fetch($qperms))
+	while ($perm = $qperms->fetch())
 		$perms[$perm['id']] = $perm['title'];
 
 	$groups = grouplist();
 
-	$qpermdata = $sql->prepare("SELECT x.x_id,x.perm_id,x.revoke FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
+	$qpermdata = $sql->query("SELECT x.x_id,x.perm_id,x.revoke FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
 		['group',$bind,$id]);
 	$permdata = [];
-	while ($perm = $sql->fetch($qpermdata))
+	while ($perm = $qpermdata->fetch())
 		$permdata[$perm['x_id']][$perm['perm_id']] = !$perm['revoke'];
 
 	echo '<table class="c1"><tr class="h"><td class="b">Group</td><td class="b" colspan="2">Permissions</td></tr>';
@@ -301,16 +301,16 @@ function permtable($bind, $id) {
 function deleteperms($bind, $id) {
 	global $sql;
 
-	$sql->prepare("DELETE x FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
+	$sql->query("DELETE x FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id WHERE x.x_type=? AND p.permbind_id=? AND x.bindvalue=?",
 		['group', $bind, $id]);
 }
 
 function saveperms($bind, $id) {
 	global $sql, $usergroups;
 
-	$qperms = $sql->prepare("SELECT id FROM perm WHERE permbind_id=?",[$bind]);
+	$qperms = $sql->query("SELECT id FROM perm WHERE permbind_id=?",[$bind]);
 	$perms = [];
-	while ($perm = $sql->fetch($qperms))
+	while ($perm = $qperms->fetch())
 		$perms[] = $perm['id'];
 
 	// delete the old perms
@@ -325,7 +325,7 @@ function saveperms($bind, $id) {
 
 		$myperms = $_POST['perm'][$gid];
 		foreach ($perms as $perm)
-			$sql->prepare("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`)
+			$sql->query("INSERT INTO `x_perm` (`x_id`,`x_type`,`perm_id`,`permbind_id`,`bindvalue`,`revoke`)
 				VALUES (?,?,?,?,?,?)", [$gid, 'group', $perm, $bind, $id, $myperms[$perm]?0:1]);
 	}
 }

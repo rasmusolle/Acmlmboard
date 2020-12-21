@@ -4,16 +4,16 @@ require("lib/common.php");
 $uid = isset($_GET['id']) ? (int)$_GET['id'] : -1;
 if ($uid < 0) noticemsg("Error", "You must specify a user ID!", true);
 
-$user = $sql->fetchp("SELECT * FROM users WHERE id = ?", [$uid]);
+$user = $sql->fetch("SELECT * FROM users WHERE id = ?", [$uid]);
 if (!$user) noticemsg("Error", "This user does not exist!", true);
 
-$group = $sql->fetchp("SELECT * FROM groups WHERE id = ?", [$user['group_id']]);
+$group = $sql->fetch("SELECT * FROM groups WHERE id = ?", [$user['group_id']]);
 
 pageheader("Profile for ".($user['displayname'] ? $user['displayname'] : $user['name']));
 
 $days = (time() - $user['regdate']) / 86400;
 
-$thread = $sql->fetchp("SELECT p.id, t.title ttitle, f.title ftitle, t.forum, f.private FROM forums f
+$thread = $sql->fetch("SELECT p.id, t.title ttitle, f.title ftitle, t.forum, f.private FROM forums f
 	LEFT JOIN threads t ON t.forum = f.id LEFT JOIN posts p ON p.thread = t.id
 	WHERE p.date = ? AND p.user = ? AND f.id IN " . forums_with_view_perm(), [$user['lastpost'], $uid]);
 
@@ -85,17 +85,17 @@ $links = [];
 $links[] = ['url' => "forum.php?user=$uid", 'title' => 'View threads'];
 $links[] = ['url' => "thread.php?user=$uid", 'title' => 'Show posts'];
 
-$rblock = $sql->prepare("SELECT * FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
-$isblocked = $sql->numrows($rblock);
+$rblock = $sql->query("SELECT * FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
+$isblocked = $rblock;
 if ($log) {
 	if (isset($_GET['block'])) {
 		$block = (int)$_GET['block'];
 
 		if ($block && !$isblocked) {
-			$rblock = $sql->prepare("INSERT INTO blockedlayouts (user, blockee) values (?,?)", [$uid, $loguser['id']]);
+			$rblock = $sql->query("INSERT INTO blockedlayouts (user, blockee) values (?,?)", [$uid, $loguser['id']]);
 			$isblocked = true;
 		} elseif (!$block && $isblocked) {
-			$rblock = $sql->prepare("DELETE FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
+			$rblock = $sql->query("DELETE FROM blockedlayouts WHERE user = ? AND blockee = ?", [$uid, $loguser['id']]);
 			$isblocked = false;
 		}
 	}

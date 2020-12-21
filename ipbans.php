@@ -20,12 +20,12 @@ pageheader('IP bans');
 
 if ($action == "del") {
 	$data = explode(",",decryptpwd($what));
-	$sql->prepare("DELETE FROM ipbans WHERE ipmask = ? AND expires = ?", [$data[0], $data[1]]);
+	$sql->query("DELETE FROM ipbans WHERE ipmask = ? AND expires = ?", [$data[0], $data[1]]);
 } else if ($action == "add") {
 	if ($_POST['ipmask']) {
 		$hard = (isset($_POST['hard']) ? $_POST['hard'] : null);
 		$expires = ($_POST['expires'] > 0 ? ($_POST['expires'] + time()) : 0);
-		$sql->prepare("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES (?,?,?,?,?)",
+		$sql->query("INSERT INTO ipbans (ipmask,hard,expires,banner,reason) VALUES (?,?,?,?,?)",
 			[$_POST['ipmask'], $hard, $expires, addslashes($loguser['name']), $_POST['reason']]);
 	} else {
 		$err = "You must enter an IP mask";
@@ -64,7 +64,7 @@ if (isset($err)) noticemsg("Error", $err);
 		<td class="b" width="100%">Comment</td>
 		<td class="b" width="20"></td>
 	</tr>
-<?php while ($i = $sql->fetch($ipbans)) { ?>
+<?php while ($i = $ipbans->fetch()) { ?>
 	<tr>
 		<td class="b n1"><span style="font-family:monospace"><?=ipfmt($i['ipmask']) ?></span></td>
 		<td class="b n2 center"><?=($i['hard'] ? "Yes" : "No") ?></td>

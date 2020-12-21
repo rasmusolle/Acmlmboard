@@ -6,7 +6,7 @@ if ($act == 'Register') {
 	$name = trim($_POST['name']);
 
 	$cname = strtolower(str_replace([' ',"\xC2\xA0"],'',$name));
-	$dupe = $sql->resultp("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", [$cname,$cname]);
+	$dupe = $sql->result("SELECT COUNT(*) FROM users WHERE LOWER(REPLACE(REPLACE(name,' ',''),0xC2A0,''))=? OR LOWER(REPLACE(REPLACE(displayname,' ',''),0xC2A0,''))=?", [$cname,$cname]);
 
 	$gender = (int)$_POST['gender'];
 	if ($gender < 0 || $gender > 2) $gender = 1;
@@ -27,7 +27,7 @@ if ($act == 'Register') {
 
 	if (empty($err)) {
 		$salted_password = md5($pwdsalt2 . $_POST['pass'] . $pwdsalt);
-		$res = $sql->prepare("INSERT INTO users (`name`,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?,?);",
+		$res = $sql->query("INSERT INTO users (`name`,pass,regdate,lastview,ip,gender,timezone,theme) VALUES (?,?,?,?,?,?,?,?);",
 			[$name, $salted_password, time(), time(), $userip, $gender, $timezone, $defaulttheme]);
 		if ($res) {
 			$id = $sql->insertid();
@@ -39,11 +39,11 @@ if ($act == 'Register') {
 			} else {
 				$ugid = $defaultgroup;
 			}
-			$sql->prepare("UPDATE users SET group_id=? WHERE id=?",[$ugid,$id]);
+			$sql->query("UPDATE users SET group_id=? WHERE id=?",[$ugid,$id]);
 
 			// mark existing threads and forums as read
-			$sql->prepare("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", [$id, time()]);
-			$sql->prepare("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", [$id, time()]);
+			$sql->query("INSERT INTO threadsread (uid,tid,time) SELECT ?,id,? FROM threads", [$id, time()]);
+			$sql->query("INSERT INTO forumsread (uid,fid,time) SELECT ?,id,? FROM forums", [$id, time()]);
 
 			setcookie('user', $id, 2147483647);
 			setcookie('pass', packlcookie(md5($pwdsalt2 . $_POST['pass'] . $pwdsalt), implode(".", array_slice(explode(".", $_SERVER['REMOTE_ADDR']), 0, 2)) . ".*"), 2147483647);
@@ -52,7 +52,7 @@ if ($act == 'Register') {
 				<script>window.location = "./"</script>';
 			die();
 		} else {
-			$err = "Registration failed: ".$sql->error();
+			$err = "Registration failed: ";//.$sql->error()
 		}
 	}
 }

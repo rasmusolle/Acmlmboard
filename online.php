@@ -7,7 +7,7 @@ $time = (isset($_GET['time']) ? $_GET['time'] : null);
 
 if (!$time || !is_numeric($time)) $time = 300;
 
-$users = $sql->prepare("SELECT * FROM users WHERE lastview > ?", [(time()-$time)]);
+$users = $sql->query("SELECT * FROM users WHERE lastview > ?", [(time()-$time)]);
 ?>
 <table class="c1" style="width:auto">
 	<tr class="h"><td class="b">Online users during the last <?=str_replace('.', '', timeunits2($time)) ?>:</td></tr>
@@ -22,9 +22,8 @@ $users = $sql->prepare("SELECT * FROM users WHERE lastview > ?", [(time()-$time)
 		<?=(has_perm('view-post-ips') ? '<td class="b h" width="120">IP</td>' : '') ?>
 	</tr>
 <?php
-if_empty_query($users, "There are no users online in the given timespan.", 5);
 
-for ($i = 1; $user = $sql->fetch($users); $i++) {
+for ($i = 1; $user = $users->fetch(); $i++) {
 	$tr = ($i % 2 ? 'n1' : 'n2');
 	?>
 	<tr class="<?=$tr ?> center">
@@ -34,6 +33,9 @@ for ($i = 1; $user = $sql->fetch($users); $i++) {
 		<td class="b left"><?=($user['url'] ? "<a href=$user[url]>" . str_replace(['%20','_'], ' ', $user['url']) . '</a>' : '-') ?></td>
 		<?=(has_perm("view-post-ips") ? '<td class="b">'.$user['ip'].'</td>':'') ?>
 	</tr>
-<?php } ?>
-</table><?php
+<?php }
+if_empty_query($i, "There are no users online in the given timespan.", 5);
+
+echo '</table>';
+
 pagefooter();

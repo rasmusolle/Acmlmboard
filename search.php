@@ -91,14 +91,14 @@ if ($where == 1) {
 		."AND f.id IN ".forums_with_view_perm()
 		."ORDER BY p.id");
 
-	if_empty_query($posts, 'No posts found.', 1, true);
-
-	while ($post = $sql->fetch($posts)) {
+	for ($i = 1; $post = $posts->fetch(); $i++) {
 		$pthread['id'] = $post['tid'];
 		$pthread['title'] = $post['ttitle'];
 		$post['text'] = preg_replace($boldify,"<b>\\0</b>",$post['text']);
 		echo '<br>' . threadpost($post,$pthread);
 	}
+
+	if_empty_query($i, 'No posts found.', 1, true);
 } else {
 	$page = (isset($_GET['page']) ? $_GET['page'] : 1);
 	if ($page < 1) $page = 1;
@@ -109,7 +109,7 @@ if ($where == 1) {
 		."WHERE $string AND f.id IN ".forums_with_view_perm()
 		."ORDER BY t.lastdate DESC "
 		."LIMIT ".(($page-1)*$loguser['tpp']).",".$loguser['tpp']);
-	$threadcount = $sql->resultq("SELECT COUNT(*) "
+	$threadcount = $sql->result("SELECT COUNT(*) "
 		."FROM threads t "
 		."LEFT JOIN forums f ON f.id=t.forum "
 		."WHERE $string AND f.id IN ".forums_with_view_perm());
@@ -119,8 +119,8 @@ if ($where == 1) {
 			<td class="b h" style="min-width:80px">Started by</td>
 			<td class="b h" width="200">Date</td>
 		</tr><?php
-	if_empty_query($threads, "No threads found.", 6);
-	for ($i = 1; $thread = $sql->fetch($threads); $i++) {
+
+	for ($i = 1; $thread = $threads->fetch(); $i++) {
 		if (!$thread['title']) $thread['title'] = '';
 
 		$tr = ($i % 2 ? 'n2' :'n3');
@@ -133,6 +133,7 @@ if ($where == 1) {
 			<td class="b"><?=date($dateformat,$thread['lastdate']) ?></td>
 		</tr><?php
 	}
+	if_empty_query($i, "No threads found.", 6);
 
 	$query = urlencode($query);
 	$fpagelist = pagelist($threadcount, $loguser['tpp'], "search.php?q=$query&action=Search&w=0&f=$forum", $page);
