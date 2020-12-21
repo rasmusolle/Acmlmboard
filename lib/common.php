@@ -80,7 +80,7 @@ if (str_replace($botlist, "x", strtolower($_SERVER['HTTP_USER_AGENT'])) != strto
 
 $sql->prepare("DELETE FROM guests WHERE ip = ? OR date < ?", [$userip, (time() - 300)]);
 if ($log) {
-	$sql->prepare("UPDATE users SET lastview = ?, ip = ?, url = ?, ipbanned = 0 WHERE id = ?",
+	$sql->prepare("UPDATE users SET lastview = ?, ip = ?, url = ? WHERE id = ?",
 		[time(), $userip, addslashes($url), $loguser['id']]);
 } else {
 	$sql->prepare("INSERT INTO guests (date, ip, bot) VALUES (?,?,?)", [time(),$userip,$bot]);
@@ -117,9 +117,6 @@ $sql->prepare("DELETE FROM ipbans WHERE expires < ? AND expires > 0", [time()]);
 
 $r = $sql->prepare("SELECT * FROM ipbans WHERE ? LIKE ipmask", [$userip]);
 if (@$sql->numrows($r) > 0) {
-	if ($loguser) $sql->prepare("UPDATE users SET ipbanned = 1 WHERE id = ?", [$loguser['id']]);
-	else $sql->prepare("UPDATE guests SET ipbanned = 1 WHERE ip = ?", [$_SERVER['REMOTE_ADDR']]);
-
 	$i = $sql->fetch($r);
 	if ($i['hard']) {
 		pageheader('IP banned');
@@ -148,9 +145,9 @@ function pageheader($pagetitle = '', $fid = null) {
 	$theme, $themefile, $meta, $favicon, $count, $bot;
 
 	if ($log) {
-		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [$fid, $loguser['id']]);
+		$sql->prepare("UPDATE users SET lastforum = ? WHERE id = ?", [($fid == null ? 0 : $fid), $loguser['id']]);
 	} else {
-		$sql->prepare("UPDATE guests SET lastforum = ? WHERE ip = ?", [$fid, $_SERVER['REMOTE_ADDR']]);
+		$sql->prepare("UPDATE guests SET lastforum = ? WHERE ip = ?", [($fid == null ? 0 : $fid), $_SERVER['REMOTE_ADDR']]);
 	}
 
 	if ($pagetitle) $pagetitle .= " - ";

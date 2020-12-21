@@ -1,11 +1,6 @@
 <?php
 require('lib/common.php');
 
-/*
-'special' permissions:
- * no-restrictions: cancels out all the 'normal' others
- * banned, staff: seem like useless/unimplemented permissions
-*/
 $permlist = null;
 
 if (!has_perm('edit-permissions')) noticemsg("Error", "You have no permissions to do this!", true);
@@ -31,7 +26,7 @@ if (isset($_GET['gid'])) {
 	if ($id == $loguser['id'] && !has_perm('edit-own-permissions')) {
 		noticemsg("Error", "You have no permissions to do this!", true);
 	}
-	$permowner = $sql->fetchp("SELECT u.id,u.name AS title,u.group_id,g.title AS group_title FROM users u LEFT JOIN groups g ON g.id=u.group_id WHERE u.id=?", [$id]);
+	$permowner = $sql->fetchp("SELECT u.id,u.name title,u.group_id,g.title group_title FROM users u LEFT JOIN groups g ON g.id=u.group_id WHERE u.id=?", [$id]);
 	$type = 'user';
 } else if (isset($_GET['fid'])) {
 	$id = (int)$_GET['fid'];
@@ -172,7 +167,7 @@ function PermSelect($name, $sel) {
 	global $sql, $permlist;
 
 	if (!$permlist) {
-		$perms = $sql->query("SELECT p.id AS permid, p.title AS permtitle FROM perm p ORDER BY p.title ASC");
+		$perms = $sql->query("SELECT p.id permid, p.title permtitle FROM perm p ORDER BY p.title ASC");
 
 		$permlist = [];
 		while ($perm = $sql->fetch($perms)) $permlist[] = $perm;
@@ -202,8 +197,8 @@ function RevokeSelect($name, $sel) {
 
 function PermSet($type, $id) {
 	global $sql;
-	return $sql->prepare("SELECT x.*, p.title AS permtitle, pb.title AS bindtitle
-		FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id LEFT JOIN permbind pb ON pb.id=p.permbind_id
+	return $sql->prepare("SELECT x.*, p.title permtitle
+		FROM x_perm x LEFT JOIN perm p ON p.id=x.perm_id
 		WHERE x.x_type=? AND x.x_id=?", [$type,$id]);
 }
 
@@ -230,7 +225,7 @@ function PermTable($permset) {
 		$ret .= "'".esc($permtitle)."'";
 
 		if ($perm['bindvalue']) {
-			$bindtitle = strtolower($perm['bindtitle']);
+			$bindtitle = strtolower($perm['permbind_id']);
 			if (!$bindtitle) $bindtitle = $perm['permbind_id'];
 			if (!$bindtitle) $bindtitle = 'ID';
 			$ret .= ' for '.esc($bindtitle).' #'.$perm['bindvalue'];

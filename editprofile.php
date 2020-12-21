@@ -39,7 +39,7 @@ if ($act == 'Edit profile') {
 	if ($_POST['pass'] && $_POST['pass2'] && $_POST['pass'] != $_POST['pass2'])
 		$error = "- The passwords you entered don't match.<br>";
 
-	$usepic = 'usepic';
+	$usepic = $user['usepic'];
 	$fname = $_FILES['picture'];
 	if ($fname['size'] > 0) {
 		$ftypes = ['png','jpeg','jpg','gif'];
@@ -132,10 +132,13 @@ if ($act == 'Edit profile') {
 	}
 
 	if (!$error) {
+		$showemail = ($_POST['showemail'] ? 1 : 0);
+		$enablecolor = ($_POST['enablecolor'] ? 1 : 0);
+
 		$sql->prepare("UPDATE users SET gender = ?, ppp = ?, tpp = ?, signsep = ?, rankset = ?, location = ?, email = ?, head = ?, sign = ?, bio = ?,
 			theme = ?, blocklayouts = ?, showemail = ?, timezone = ?, birth = ?, usepic = ?, dateformat = ?, timeformat = ? WHERE id = ?",
 			[$_POST['gender'], $_POST['ppp'], $_POST['tpp'], $_POST['signsep'], $_POST['rankset'], $_POST['location'], $_POST['email'], $_POST['head'], $_POST['sign'],
-			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $_POST['showemail'], $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
+			$_POST['bio'], $_POST['theme'], $_POST['blocklayouts'], $showemail, $_POST['timezone'], $birthday, $usepic, $dateformat, $timeformat, $user['id']]
 		);
 
 		if ($pass)
@@ -143,7 +146,7 @@ if ($act == 'Edit profile') {
 		if (checkcdisplayname($targetuserid))
 			$sql->prepare("UPDATE users SET displayname = ? WHERE id = ?", [$_POST['displayname'], $user['id']]);
 		if (checkcusercolor($targetuserid))
-			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $_POST['enablecolor'], $user['id']]);
+			$sql->prepare("UPDATE users SET nick_color = ?, enablecolor = ? WHERE id = ?", [$_POST['nick_color'], $enablecolor, $user['id']]);
 		if (checkctitle($targetuserid))
 			$sql->prepare("UPDATE users SET title = ? WHERE id = ?", [$_POST['title'], $user['id']]);
 

@@ -116,7 +116,8 @@ if (isset($err)) {
 		</tr>
 	</table></form><?php
 } elseif ($act == 'Submit') {
-	$modclose = ($announce ? "1" : "0");
+	$modclose = ($announce ? '1' : '0');
+	$announce = ($announce ? '1' : '0');
 
 	$sql->prepare("UPDATE users SET posts = posts + 1,threads = threads + 1,lastpost = ? WHERE id = ?", [time(), $loguser['id']]);
 	$sql->prepare("INSERT INTO threads (title,forum,user,lastdate,lastuser,announce,closed) VALUES (?,?,?,?,?,?,?)",
